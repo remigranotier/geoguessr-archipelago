@@ -1,7 +1,7 @@
 import './style.css';
 import { generateChallenge } from './challenge.ts';
 
-import { Gamemode, Map } from './models.ts'
+import { Gamemode, Map } from '../common/models.ts'
 
 let maps: Map[] = [
   { id: "652ba0d9002aa0d36f996153", name: "An Official World", available: true, bestScore: 0 },

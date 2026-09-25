@@ -1,4 +1,4 @@
-import { Gamemode } from './models.ts'
+import { Gamemode } from '../common/models.ts'
 
 export async function generateChallenge(mapId: string, timeLimit: number, gamemode: Gamemode): Promise<string> {
     const response = await fetch(

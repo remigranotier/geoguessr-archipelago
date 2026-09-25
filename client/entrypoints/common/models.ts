@@ -13,3 +13,22 @@ export class Map {
     timer?: number;
     gamemode?: Gamemode;
 }
+
+export enum MessageType {
+    Default
+}
+
+export interface GACMessage {
+    type: MessageType;
+}
+
+export interface GACResponse {
+    success: boolean;
+    data?: any;
+    error?: string;
+}
+
+export type SlotData = {
+    color: string;
+    hard_mode: boolean;
+}
