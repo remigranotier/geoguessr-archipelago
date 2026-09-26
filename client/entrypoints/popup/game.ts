@@ -1,8 +1,8 @@
 import { GACGamemode } from '../common/models.ts'
 
-export async function generateChallenge(mapId: string, timeLimit: number, gamemode: GACGamemode): Promise<string> {
+export async function generateGame(mapId: string, timeLimit: number, gamemode: GACGamemode): Promise<string> {
     const response = await fetch(
-        "https://www.geoguessr.com/api/v3/challenges",
+        "https://www.geoguessr.com/api/v3/games",
         {
             method: "POST",
             body: JSON.stringify({
@@ -11,10 +11,7 @@ export async function generateChallenge(mapId: string, timeLimit: number, gamemo
                 forbidMoving: !(gamemode & GACGamemode.Move),
                 forbidZooming: !(gamemode & GACGamemode.Zoom),
                 forbidRotating: !(gamemode & GACGamemode.Pan),
-                accessLevel: 1,
-                challengeType: 0,
-                roundCount: 5,
-                guessMapType: "roadmap"
+                type: "standard"
             }),
             headers: {
                 "Content-Type": "application/json"
@@ -23,7 +20,7 @@ export async function generateChallenge(mapId: string, timeLimit: number, gamemo
     )
 
     const responseJson = await response.json()
-    const challengeId = responseJson["token"]
+    const gameId = responseJson["token"]
 
-    return challengeId
+    return gameId
 }

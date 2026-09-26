@@ -1,5 +1,5 @@
 import { GACGamemode, GACMap } from "../common/models";
-import { generateChallenge } from './challenge.ts';
+import { generateGame } from './game.ts';
 import { globalGamemode, globalTimerSeconds, maps } from "./main";
 
 export async function renderMaps() {
@@ -27,9 +27,9 @@ export async function renderMap(map: GACMap): Promise<HTMLTableRowElement> {
     if (map.available) {
         mapNameCell.classList.add("activeLink")
         mapNameCell.onclick = async (_: PointerEvent) => {
-            const challengeId = await generateChallenge(map.id, currentTimer, currentGamemode)
+            const gameId = await generateGame(map.id, currentTimer, currentGamemode)
             const newTab = await browser.tabs.create({
-                url: `https://www.geoguessr.com/challenge/${challengeId}`
+                url: `https://www.geoguessr.com/game/${gameId}`
             })
         }
     } else {
