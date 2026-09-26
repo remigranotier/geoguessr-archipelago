@@ -47,8 +47,14 @@ function messageListener(message: GACMessage, sender: Browser.runtime.MessageSen
   }
 }
 
-export default defineBackground(async () => {
+export default defineBackground(() => {
   browser.runtime.onMessage.addListener(messageListener)
+
+  browser.action.onClicked.addListener(() => {
+    browser.tabs.create({
+      url: browser.runtime.getURL("/client-tab.html")
+    });
+  });
 
   client.messages.on("message", (content) => {
     console.log(`AP_CLIENT - ${content}`);
