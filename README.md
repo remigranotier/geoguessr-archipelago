@@ -1,5 +1,11 @@
 # Geoguessr Archipelago Client
 
+## Requirements
+
+To play this, you need access to a Geoguessr Pro subscription (to generate solo games).
+
+Eventually, we plan to add the possibility to submit challenges manually and to retrieve scores of a free account on them to allow playing if you're not the one generating the game.
+
 ## Design
 
 ### Interfacing with the game
