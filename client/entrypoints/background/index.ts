@@ -1,7 +1,8 @@
 import { Client } from "archipelago.js";
-import type { GACMessage, GACResponse, ServerConnectMessage, SlotData } from "../common/models";
+import type { GACMessage, GACResponse, GameFinishedMessage, ServerConnectMessage, SlotData } from "../common/models";
 import { MessageType } from "../common/models";
 import { handleServerConnectMessage } from "./connect";
+import { handleGameFinishedMessage } from "./game-finished";
 
 export const client = new Client();
 
@@ -9,7 +10,7 @@ function messageListener(message: GACMessage, sender: Browser.runtime.MessageSen
   console.debug("Received message:", message)
   switch (message.type) {
     case MessageType.ServerConnect:
-      const serverConnectMessage: ServerConnectMessage = message as ServerConnectMessage;
+      const serverConnectMessage = message as ServerConnectMessage;
       handleServerConnectMessage(serverConnectMessage).then(result => {
         sendResponse({
           success: true,
@@ -22,8 +23,25 @@ function messageListener(message: GACMessage, sender: Browser.runtime.MessageSen
         })
       });
       return true;
+
     case MessageType.ServerDisconnect:
       break;
+
+    case MessageType.GameFinished:
+      const gameFinishedMessage = message as GameFinishedMessage;
+      handleGameFinishedMessage(gameFinishedMessage).then(result => {
+        sendResponse({
+          success: true,
+          data: result
+        })
+      }).catch(error => {
+        sendResponse({
+          success: false,
+          error: error
+        })
+      });
+      return true;
+
     default:
       console.warn("Unknown message type received on service worker")
   }
