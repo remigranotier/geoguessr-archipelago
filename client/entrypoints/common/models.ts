@@ -21,6 +21,8 @@ export enum MessageType {
     Default,
     ServerConnect,
     ServerDisconnect,
+    GameFinished,
+    GeoguessrGameFinished
 }
 
 export class ServerConnectMessage {
@@ -31,6 +33,45 @@ export class ServerConnectMessage {
     constructor(serverUrl: string, slotName: string) {
         this.serverUrl = serverUrl
         this.slotName = slotName
+    }
+}
+
+export class GameFinishedMessage {
+    type: MessageType = MessageType.GameFinished;
+    gameId?: string;
+    mapId?: string;
+    mapName?: string;
+    score: number = 0;
+
+    constructor(gameId: string, mapId: string, mapName: string, score: number) {
+        this.gameId = gameId
+        this.mapId = mapId
+        this.mapName = mapName
+        this.score = score
+    }
+}
+
+export enum GeoguessrGameStatus {
+    STARTED = "started",
+    FINISHED = "finished"
+}
+
+export class GeoguessrGameFinishedMessage {
+    type: MessageType = MessageType.GeoguessrGameFinished
+    token?: string;
+    state?: GeoguessrGameStatus;
+    mapId?: string;
+    mapName?: string;
+    totalScore?: number;
+    playerId?: string;
+
+    constructor(data: any) {
+        this.token = data["token"]
+        this.state = data["state"] as GeoguessrGameStatus
+        this.mapId = data["map"]
+        this.mapName = data["mapName"]
+        this.totalScore = data["player"]["totalScoreInPoints"]
+        this.playerId = data["player"]["id"]
     }
 }
 
