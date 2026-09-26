@@ -38,6 +38,7 @@ When an unlock is triggered, different things can improve your possibilities of 
 - Unlock more time (Progressive time) -> 10s, 20s, 30s, 40s, 50s, 1min, 1min30, 2min, 2min30, 3min, 4min, 5min, 10min, No Time
 
 Additional unlock ideas:
+- Unlock the ability to zoom on map
 - Unlock more movements (Progressive move): 3 clicks, 10 clicks, 50 clicks, unlimited
 - External scripts disabled : Blink mode, No Car, No Compass
 

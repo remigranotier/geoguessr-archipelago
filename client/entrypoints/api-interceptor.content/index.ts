@@ -1,4 +1,4 @@
-import { GeoguessrGameFinishedMessage } from "../common/models";
+import { GeoguessrRoundFinishedMessage } from "../common/models";
 
 export default defineContentScript({
     matches: ['*://*.geoguessr.com/game/*'],
@@ -29,7 +29,7 @@ export default defineContentScript({
             ) {
                 try {
                     const data = await response.clone().json();
-                    const message = new GeoguessrGameFinishedMessage(data)
+                    const message = new GeoguessrRoundFinishedMessage(data)
                     console.debug("Sending message to geoguessr-game:", message)
 
                     window.postMessage(

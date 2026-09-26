@@ -1,5 +1,5 @@
 import { Client } from "archipelago.js";
-import type { GACMessage, GACResponse, GameFinishedMessage, ServerConnectMessage, SlotData } from "../common/models";
+import type { GACMessage, GACResponse, RoundFinishedMessage, ServerConnectMessage, SlotData } from "../common/models";
 import { MessageType } from "../common/models";
 import { handleServerConnectMessage } from "./connect";
 import { handleGameFinishedMessage } from "./game-finished";
@@ -27,8 +27,8 @@ function messageListener(message: GACMessage, sender: Browser.runtime.MessageSen
     case MessageType.ServerDisconnect:
       break;
 
-    case MessageType.GameFinished:
-      const gameFinishedMessage = message as GameFinishedMessage;
+    case MessageType.RoundFinished:
+      const gameFinishedMessage = message as RoundFinishedMessage;
       handleGameFinishedMessage(gameFinishedMessage).then(result => {
         sendResponse({
           success: true,

@@ -21,7 +21,7 @@ export enum MessageType {
     Default,
     ServerConnect,
     ServerDisconnect,
-    GameFinished,
+    RoundFinished,
     GeoguessrGameFinished
 }
 
@@ -36,18 +36,22 @@ export class ServerConnectMessage {
     }
 }
 
-export class GameFinishedMessage {
-    type: MessageType = MessageType.GameFinished;
-    gameId?: string;
-    mapId?: string;
-    mapName?: string;
-    score: number = 0;
+export class RoundFinishedMessage {
+    type: MessageType = MessageType.RoundFinished;
+    gameStatus: GeoguessrGameStatus;
+    gameId: string;
+    mapId: string;
+    mapName: string;
+    roundScore: number;
+    totalScore: number;
 
-    constructor(gameId: string, mapId: string, mapName: string, score: number) {
+    constructor(gameStatus: GeoguessrGameStatus, gameId: string, mapId: string, mapName: string, roundScore: number, totalScore: number) {
+        this.gameStatus = gameStatus
         this.gameId = gameId
         this.mapId = mapId
         this.mapName = mapName
-        this.score = score
+        this.roundScore = roundScore
+        this.totalScore = totalScore
     }
 }
 
@@ -56,12 +60,13 @@ export enum GeoguessrGameStatus {
     FINISHED = "finished"
 }
 
-export class GeoguessrGameFinishedMessage {
+export class GeoguessrRoundFinishedMessage {
     type: MessageType = MessageType.GeoguessrGameFinished
     token?: string;
     state?: GeoguessrGameStatus;
     mapId?: string;
     mapName?: string;
+    roundScore?: number;
     totalScore?: number;
     playerId?: string;
 
@@ -70,6 +75,8 @@ export class GeoguessrGameFinishedMessage {
         this.state = data["state"] as GeoguessrGameStatus
         this.mapId = data["map"]
         this.mapName = data["mapName"]
+        const guesses: any[] = data["player"]["guesses"]
+        this.roundScore = guesses[guesses.length - 1]["roundScoreInPoints"]
         this.totalScore = data["player"]["totalScoreInPoints"]
         this.playerId = data["player"]["id"]
     }
