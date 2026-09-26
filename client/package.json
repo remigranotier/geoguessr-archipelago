@@ -21,6 +21,7 @@
     "wxt": "^0.21.3"
   },
   "dependencies": {
+    "@wxt-dev/storage": "^1.2.9",
     "archipelago.js": "^2.1.0"
   }
 }
