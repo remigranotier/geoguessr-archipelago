@@ -2,7 +2,7 @@ import { Client } from "archipelago.js";
 import { GACGamemode, GenerateGameMessage, type GACMap, type GACMessage, type GACResponse, type RoundFinishedMessage, type ServerConnectMessage } from "../common/models";
 import { MessageType } from "../common/models";
 import { handleServerConnectMessage } from "./connect";
-import { handleGameFinishedMessage, handleGenerateGameMessage } from "./game";
+import { handleGameFinishedMessage, handleGenerateGameMessage, handleRetrieveGameStateMessage } from "./game";
 
 export const client = new Client();
 export let maps: GACMap[] = [
@@ -34,6 +34,20 @@ function messageListener(message: GACMessage, sender: Browser.runtime.MessageSen
 
     case MessageType.ServerDisconnect:
       break;
+
+    case MessageType.RetrieveGameState:
+      handleRetrieveGameStateMessage().then(result => {
+        sendResponse({
+          success: true,
+          data: result
+        })
+      }).catch(error => {
+        sendResponse({
+          success: false,
+          error: error
+        })
+      });
+      return true;
 
     case MessageType.GenerateGame:
       const generateGame = message as GenerateGameMessage;

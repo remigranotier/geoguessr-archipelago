@@ -1,11 +1,10 @@
 import { GACGamemode, GACMap, GenerateGameMessage } from "../common/models";
-import { globalGamemode, globalTimerSeconds, maps } from "./main";
 
 export function renderMaps() {
     const mapTable = document.getElementById('map-table');
     const tbody = mapTable?.querySelector('tbody');
     tbody!.innerHTML = ""
-    for (var map of maps) {
+    for (var map of globalThis.gameState.maps) {
         const row = renderMap(map)
         tbody?.appendChild(row)
     }
@@ -19,8 +18,8 @@ export function renderMap(map: GACMap): HTMLTableRowElement {
     const bestScoreCell: HTMLTableCellElement = document.createElement("td")
     const availableCell: HTMLTableCellElement = document.createElement("td")
 
-    const currentGamemode: GACGamemode = map.gamemode ?? globalGamemode;
-    const currentTimer: number = map.timer ?? globalTimerSeconds;
+    const currentGamemode: GACGamemode = map.gamemode ?? globalThis.gameState.globalGamemode;
+    const currentTimer: number = map.timer ?? globalThis.gameState.globalTimerSeconds;
 
     mapNameCell.textContent = map.name;
     if (map.available) {

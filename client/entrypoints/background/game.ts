@@ -1,4 +1,4 @@
-import { GACGamemode, GACMap, GenerateGameMessage, GeoguessrGameStatus, RoundFinishedMessage } from '../common/models.ts'
+import { GACGamemode, GACGameState, GACMap, GenerateGameMessage, GeoguessrGameStatus, RetrieveGameStateMessage, RoundFinishedMessage } from '../common/models.ts'
 import { globalGamemode, globalTimerSeconds, maps } from './index.ts'
 
 export async function generateGame(mapId: string, timeLimit: number, gamemode: GACGamemode): Promise<string> {
@@ -45,4 +45,13 @@ export async function handleGameFinishedMessage(message: RoundFinishedMessage) {
     if (message.gameStatus == GeoguessrGameStatus.FINISHED) {
         console.log(`Player got ${message.totalScore} pts on map ${message.mapName}`)
     }
+}
+
+export async function handleRetrieveGameStateMessage() {
+    return getCurrentGameState()
+}
+
+export function getCurrentGameState() {
+    const gameState = new GACGameState(maps, globalGamemode, globalTimerSeconds)
+    return gameState
 }

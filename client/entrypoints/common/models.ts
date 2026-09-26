@@ -17,10 +17,23 @@ export class GACMap {
     gamemode?: GACGamemode;
 }
 
+export class GACGameState {
+    maps: GACMap[];
+    globalGamemode: GACGamemode;
+    globalTimerSeconds: number;
+
+    constructor(maps: GACMap[], globalGamemode: GACGamemode, globalTimerSeconds: number) {
+        this.maps = maps
+        this.globalGamemode = globalGamemode
+        this.globalTimerSeconds = globalTimerSeconds
+    }
+}
+
 export enum MessageType {
     Default,
     ServerConnect,
     ServerDisconnect,
+    RetrieveGameState,
     GenerateGame,
     RoundFinished,
     GeoguessrGameFinished
@@ -35,6 +48,12 @@ export class ServerConnectMessage {
         this.serverUrl = serverUrl
         this.slotName = slotName
     }
+}
+
+export class RetrieveGameStateMessage {
+    type: MessageType = MessageType.RetrieveGameState;
+
+    constructor() { }
 }
 
 export class GenerateGameMessage {
