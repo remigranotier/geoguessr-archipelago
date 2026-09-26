@@ -1,6 +1,6 @@
-import { Gamemode } from '../common/models.ts'
+import { GACGamemode } from '../common/models.ts'
 
-export async function generateChallenge(mapId: string, timeLimit: number, gamemode: Gamemode): Promise<string> {
+export async function generateChallenge(mapId: string, timeLimit: number, gamemode: GACGamemode): Promise<string> {
     const response = await fetch(
         "https://www.geoguessr.com/api/v3/challenges",
         {
@@ -8,9 +8,9 @@ export async function generateChallenge(mapId: string, timeLimit: number, gamemo
             body: JSON.stringify({
                 map: mapId,
                 timeLimit: timeLimit,
-                forbidMoving: !(gamemode & Gamemode.Move),
-                forbidZooming: !(gamemode & Gamemode.Zoom),
-                forbidRotating: !(gamemode & Gamemode.Pan),
+                forbidMoving: !(gamemode & GACGamemode.Move),
+                forbidZooming: !(gamemode & GACGamemode.Zoom),
+                forbidRotating: !(gamemode & GACGamemode.Pan),
                 accessLevel: 1,
                 challengeType: 0,
                 roundCount: 5,

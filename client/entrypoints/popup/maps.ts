@@ -1,0 +1,61 @@
+import { GACGamemode, GACMap } from "../common/models";
+import { generateChallenge } from './challenge.ts';
+import { globalGamemode, globalTimerSeconds, maps } from "./main";
+
+export async function renderMaps() {
+    const mapTable = document.getElementById('map-table');
+    const tbody = mapTable?.querySelector('tbody');
+    tbody!.innerHTML = ""
+    for (var map of maps) {
+        const row = await renderMap(map)
+        tbody?.appendChild(row)
+    }
+}
+
+export async function renderMap(map: GACMap): Promise<HTMLTableRowElement> {
+    const row = document.createElement("tr");
+    const mapNameCell: HTMLTableCellElement = document.createElement("td")
+    const gamemodeCell: HTMLTableCellElement = document.createElement("td")
+    const timerCell: HTMLTableCellElement = document.createElement("td")
+    const bestScoreCell: HTMLTableCellElement = document.createElement("td")
+    const availableCell: HTMLTableCellElement = document.createElement("td")
+
+    const currentGamemode: GACGamemode = map.gamemode ?? globalGamemode;
+    const currentTimer: number = map.timer ?? globalTimerSeconds;
+
+    mapNameCell.textContent = map.name;
+    if (map.available) {
+        mapNameCell.classList.add("activeLink")
+        mapNameCell.onclick = async (_: PointerEvent) => {
+            const challengeId = await generateChallenge(map.id, currentTimer, currentGamemode)
+            const newTab = await browser.tabs.create({
+                url: `https://www.geoguessr.com/challenge/${challengeId}`
+            })
+        }
+    } else {
+        mapNameCell.classList.add("inactiveLink")
+    }
+
+
+    gamemodeCell.textContent = `${currentGamemode & GACGamemode.Move ? "" : "No "}Move, ${currentGamemode & GACGamemode.Pan ? "" : "No "}Pan, ${currentGamemode & GACGamemode.Zoom ? "" : "No "}Zoom`
+
+    if (currentTimer == 0) {
+        timerCell.textContent = "No Time"
+    } else {
+        const minutes = Math.floor(currentTimer / 60)
+        const seconds = currentTimer % 60
+        timerCell.textContent = `${minutes > 0 ? minutes + "min" : ""}${seconds > 0 ? seconds + "s" : ""}`
+    }
+
+    bestScoreCell.textContent = map.bestScore.toString()
+
+    availableCell.textContent = map.available ? "yes" : "no"
+
+    row.appendChild(mapNameCell)
+    row.appendChild(gamemodeCell)
+    row.appendChild(timerCell)
+    row.appendChild(bestScoreCell)
+    row.appendChild(availableCell)
+
+    return row
+}
