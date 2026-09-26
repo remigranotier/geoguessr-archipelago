@@ -42,6 +42,18 @@ Additional unlock ideas:
 - Unlock more movements (Progressive move): 3 clicks, 10 clicks, 50 clicks, unlimited
 - External scripts disabled : Blink mode, No Car, No Compass
 
+### Filler items
+
+Malus:
+- Return to spawn
+- Blind
+- Beyblade
+- No zoom on map for N seconds
+- Can't move for N seconds
+
+Bonus:
+- Random tip on the latest map played
+
 ### How to finish
 
 - N countries with platinum
