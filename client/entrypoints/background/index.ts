@@ -1,13 +1,21 @@
 import { Client } from "archipelago.js";
-import type { GACMessage, GACResponse, RoundFinishedMessage, ServerConnectMessage, SlotData } from "../common/models";
+import { GACGamemode, GenerateGameMessage, type GACMap, type GACMessage, type GACResponse, type RoundFinishedMessage, type ServerConnectMessage } from "../common/models";
 import { MessageType } from "../common/models";
 import { handleServerConnectMessage } from "./connect";
-import { handleGameFinishedMessage } from "./game-finished";
+import { handleGameFinishedMessage, handleGenerateGameMessage } from "./game";
 
 export const client = new Client();
+export let maps: GACMap[] = [
+  { id: "652ba0d9002aa0d36f996153", name: "An Official World", available: true, bestScore: 0 },
+  { id: "62a44b22040f04bd36e8a914", name: "A Community World", available: false, bestScore: 0, timer: 400 },
+  { id: "60aaef355f79500001032f71", name: "Intersectionguessr - France", available: true, bestScore: 0, gamemode: GACGamemode.Pan | GACGamemode.Zoom },
+]
+export let globalGamemode: GACGamemode = GACGamemode.None
+export let globalTimerSeconds: number = 120
 
 function messageListener(message: GACMessage, sender: Browser.runtime.MessageSender, sendResponse: (response: GACResponse) => void) {
   console.debug("Received message:", message)
+
   switch (message.type) {
     case MessageType.ServerConnect:
       const serverConnectMessage = message as ServerConnectMessage;
@@ -26,6 +34,21 @@ function messageListener(message: GACMessage, sender: Browser.runtime.MessageSen
 
     case MessageType.ServerDisconnect:
       break;
+
+    case MessageType.GenerateGame:
+      const generateGame = message as GenerateGameMessage;
+      handleGenerateGameMessage(generateGame).then(result => {
+        sendResponse({
+          success: true,
+          data: result
+        })
+      }).catch(error => {
+        sendResponse({
+          success: false,
+          error: error
+        })
+      });
+      return true;
 
     case MessageType.RoundFinished:
       const gameFinishedMessage = message as RoundFinishedMessage;

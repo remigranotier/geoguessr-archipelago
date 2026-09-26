@@ -17,4 +17,4 @@ export let globalTimerSeconds: number = 120
 // Render pop-up
 setNotConnected()
 document.querySelector("#connect-form")!.addEventListener("submit", sendConnectionOptions)
-await renderMaps()
+renderMaps()

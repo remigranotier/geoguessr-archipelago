@@ -21,6 +21,7 @@ export enum MessageType {
     Default,
     ServerConnect,
     ServerDisconnect,
+    GenerateGame,
     RoundFinished,
     GeoguessrGameFinished
 }
@@ -33,6 +34,15 @@ export class ServerConnectMessage {
     constructor(serverUrl: string, slotName: string) {
         this.serverUrl = serverUrl
         this.slotName = slotName
+    }
+}
+
+export class GenerateGameMessage {
+    type: MessageType = MessageType.GenerateGame;
+    mapId: string
+
+    constructor(mapId: string) {
+        this.mapId = mapId
     }
 }
 

@@ -1,18 +1,17 @@
-import { GACGamemode, GACMap } from "../common/models";
-import { generateGame } from './game.ts';
+import { GACGamemode, GACMap, GenerateGameMessage } from "../common/models";
 import { globalGamemode, globalTimerSeconds, maps } from "./main";
 
-export async function renderMaps() {
+export function renderMaps() {
     const mapTable = document.getElementById('map-table');
     const tbody = mapTable?.querySelector('tbody');
     tbody!.innerHTML = ""
     for (var map of maps) {
-        const row = await renderMap(map)
+        const row = renderMap(map)
         tbody?.appendChild(row)
     }
 }
 
-export async function renderMap(map: GACMap): Promise<HTMLTableRowElement> {
+export function renderMap(map: GACMap): HTMLTableRowElement {
     const row = document.createElement("tr");
     const mapNameCell: HTMLTableCellElement = document.createElement("td")
     const gamemodeCell: HTMLTableCellElement = document.createElement("td")
@@ -26,11 +25,11 @@ export async function renderMap(map: GACMap): Promise<HTMLTableRowElement> {
     mapNameCell.textContent = map.name;
     if (map.available) {
         mapNameCell.classList.add("activeLink")
-        mapNameCell.onclick = async (_: PointerEvent) => {
-            const gameId = await generateGame(map.id, currentTimer, currentGamemode)
-            const newTab = await browser.tabs.create({
-                url: `https://www.geoguessr.com/game/${gameId}`
-            })
+        mapNameCell.onclick = (_: PointerEvent) => {
+            const generateGameMessage = new GenerateGameMessage(map.id)
+            browser.runtime.sendMessage(generateGameMessage).catch((error) => {
+                console.error("Error while generating game:", error)
+            });
         }
     } else {
         mapNameCell.classList.add("inactiveLink")
