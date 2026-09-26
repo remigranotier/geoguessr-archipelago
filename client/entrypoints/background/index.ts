@@ -47,14 +47,38 @@ function messageListener(message: GACMessage, sender: Browser.runtime.MessageSen
   }
 }
 
+async function actionListener() {
+  const clientTabUrl = browser.runtime.getURL("/client-tab.html")
+  const tabs = await browser.tabs.query({
+    url: clientTabUrl,
+  });
+
+  const existingTab = tabs[0];
+  console.log(existingTab)
+
+  if (existingTab?.id !== undefined) {
+    await browser.tabs.update(existingTab.id, {
+      active: true,
+    });
+
+    if (existingTab.windowId !== undefined) {
+      await browser.windows.update(existingTab.windowId, {
+        focused: true,
+      });
+    }
+
+    return;
+  }
+
+  browser.tabs.create({
+    url: clientTabUrl
+  });
+}
+
 export default defineBackground(() => {
   browser.runtime.onMessage.addListener(messageListener)
 
-  browser.action.onClicked.addListener(() => {
-    browser.tabs.create({
-      url: browser.runtime.getURL("/client-tab.html")
-    });
-  });
+  browser.action.onClicked.addListener(actionListener);
 
   client.messages.on("message", (content) => {
     console.log(`AP_CLIENT - ${content}`);
