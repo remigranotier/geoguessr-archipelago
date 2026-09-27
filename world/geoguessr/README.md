@@ -25,3 +25,8 @@ ln -s path/to/your/apworld/folder
 ```
 
 Then, you can run any of the scripts located at the root of the Archipelago folder from your work environment (``Generate.py`` for example). This will let you install the necessary Archipelago dependencies.
+
+## Development
+
+I suggest to run the Archipelago launcher (``Archipelago/Launcher.py``). This will load the apworld. Then, you can use "Generate Template Options" to generate a yaml file containing the options for our apworld.
+To generate a game, fill the yaml (you don't need to change anything to test run it), place it in ``Archipelago/Players`` and use the "Generate" option in the launcher to generate a game.
