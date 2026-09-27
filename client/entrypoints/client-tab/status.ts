@@ -1,4 +1,5 @@
 import { GACConnectionStatus, RetrieveConnectionStatusMessage, StatusSpecialMode, type GACResponse } from "../common/models"
+import { renderMaps } from "./maps";
 
 export async function getConnectionStatus() {
     const retrieveConnectionStatusMessage = new RetrieveConnectionStatusMessage()
@@ -36,4 +37,5 @@ export function renderStatusComponent(specialMode?: StatusSpecialMode) {
     } else {
         statusComponent.innerHTML = `❌ Not connected`
     }
+    renderMaps()
 }

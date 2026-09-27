@@ -1,5 +1,4 @@
 import { GACGamemode, GACGameState, GACMap, GenerateGameMessage, GeoguessrGameStatus, RetrieveGameStateMessage, RoundFinishedMessage } from '../common/models.ts'
-import { globalGamemode, globalTimerSeconds, maps } from './index.ts'
 
 export async function generateGame(mapId: string, timeLimit: number, gamemode: GACGamemode): Promise<string> {
     const response = await fetch(
@@ -26,12 +25,12 @@ export async function generateGame(mapId: string, timeLimit: number, gamemode: G
 }
 
 export async function handleGenerateGameMessage(message: GenerateGameMessage) {
-    const map = maps.find((m: GACMap) => m.id === message.mapId)
+    const map = globalThis.gameState.maps.find((m: GACMap) => m.id === message.mapId)
     if (map === undefined) {
         throw new Error(`No map with id ${message.mapId} found`)
     }
 
-    const gameId = await generateGame(map.id, map.timer ?? globalTimerSeconds, map.gamemode ?? globalGamemode)
+    const gameId = await generateGame(map.id, map.timer ?? globalThis.gameState.globalTimerSeconds, map.gamemode ?? globalThis.gameState.globalGamemode)
     const newTab = await browser.tabs.create({
         url: `https://www.geoguessr.com/game/${gameId}`
     })
@@ -48,6 +47,5 @@ export async function handleGameFinishedMessage(message: RoundFinishedMessage) {
 }
 
 export function getCurrentGameState() {
-    const gameState = new GACGameState(maps, globalGamemode, globalTimerSeconds)
-    return gameState
+    return globalThis.gameState
 }

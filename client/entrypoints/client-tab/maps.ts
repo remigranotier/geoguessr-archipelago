@@ -2,6 +2,8 @@ import { GACGamemode, GACMap, GenerateGameMessage } from "../common/models";
 
 export function renderMaps() {
     const mapTable = document.getElementById('map-table');
+    mapTable!.style.display = globalThis.connectionStatus.authenticated ? "block" : "none"
+
     const tbody = mapTable?.querySelector('tbody');
     tbody!.innerHTML = ""
     for (var map of globalThis.gameState.maps) {

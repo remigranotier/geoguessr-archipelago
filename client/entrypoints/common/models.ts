@@ -65,6 +65,12 @@ export class ServerConnectMessage {
     }
 }
 
+export class ServerDisconnectMessage {
+    type: MessageType = MessageType.ServerDisconnect;
+
+    constructor() { }
+}
+
 export class RetrieveConnectionStatusMessage {
     type: MessageType = MessageType.RetrieveConnectionStatus;
 

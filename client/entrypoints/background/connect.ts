@@ -12,3 +12,7 @@ export async function handleServerConnectMessage(message: ServerConnectMessage) 
 export function getServerConnection(): GACConnectionStatus {
     return new GACConnectionStatus(client)
 }
+
+export function handleServerDisconnectMessage() {
+    client.socket.disconnect()
+}

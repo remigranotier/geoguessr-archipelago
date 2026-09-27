@@ -1,17 +1,24 @@
 import { Client } from "archipelago.js";
-import { GACConnectionStatus, GACGamemode, GenerateGameMessage, type GACMap, type GACMessage, type GACResponse, type RoundFinishedMessage, type ServerConnectMessage } from "../common/models";
+import { GACConnectionStatus, GACGamemode, GACGameState, GenerateGameMessage, type GACMap, type GACMessage, type GACResponse, type RoundFinishedMessage, type ServerConnectMessage } from "../common/models";
 import { MessageType } from "../common/models";
-import { getServerConnection, handleServerConnectMessage } from "./connect";
+import { getServerConnection, handleServerConnectMessage, handleServerDisconnectMessage } from "./connect";
 import { getCurrentGameState, handleGameFinishedMessage, handleGenerateGameMessage } from "./game";
 
 export const client = new Client();
-export let maps: GACMap[] = [
-  { id: "652ba0d9002aa0d36f996153", name: "An Official World", available: true, bestScore: 0 },
-  { id: "62a44b22040f04bd36e8a914", name: "A Community World", available: false, bestScore: 0, timer: 400 },
-  { id: "60aaef355f79500001032f71", name: "Intersectionguessr - France", available: true, bestScore: 0, gamemode: GACGamemode.Pan | GACGamemode.Zoom },
-]
-export let globalGamemode: GACGamemode = GACGamemode.None
-export let globalTimerSeconds: number = 120
+declare global {
+  var gameState: GACGameState
+  var connectionStatus: GACConnectionStatus
+}
+
+globalThis.gameState = {
+  maps: [
+    { id: "652ba0d9002aa0d36f996153", name: "An Official World", available: true, bestScore: 0 },
+    { id: "62a44b22040f04bd36e8a914", name: "A Community World", available: false, bestScore: 0, timer: 400 },
+    { id: "60aaef355f79500001032f71", name: "Intersectionguessr - France", available: true, bestScore: 0, gamemode: GACGamemode.Pan | GACGamemode.Zoom },
+  ],
+  globalGamemode: GACGamemode.None,
+  globalTimerSeconds: 0
+}
 
 function messageListener(message: GACMessage, sender: Browser.runtime.MessageSender, sendResponse: (response: GACResponse) => void) {
   console.debug("Received message:", message)
@@ -36,13 +43,17 @@ function messageListener(message: GACMessage, sender: Browser.runtime.MessageSen
       return true;
 
     case MessageType.ServerDisconnect:
-      break;
-
-    case MessageType.RetrieveConnectionStatus:
-      const connectionStatus: GACConnectionStatus = getServerConnection()
+      handleServerDisconnectMessage();
       sendResponse({
         success: true,
-        data: connectionStatus
+        data: getServerConnection()
+      })
+      return false;
+
+    case MessageType.RetrieveConnectionStatus:
+      sendResponse({
+        success: true,
+        data: getServerConnection()
       })
       return false;
 

@@ -1,9 +1,8 @@
-import { DEFAULT_SERVER, DEFAULT_SLOT_NAME, GACConnectionStatus, ServerConnectMessage, StatusSpecialMode, type GACResponse } from "../common/models";
+import { DEFAULT_SERVER, DEFAULT_SLOT_NAME, GACConnectionStatus, ServerConnectMessage, ServerDisconnectMessage, StatusSpecialMode, type GACResponse } from "../common/models";
 import { storage } from '@wxt-dev/storage';
 import { renderStatusComponent } from "./status";
 
 export async function sendConnectionOptions(e: Event) {
-    e.preventDefault();
     var server = document.querySelector<HTMLInputElement>("#server")?.value ?? DEFAULT_SERVER;
     var slotName = document.querySelector<HTMLInputElement>("#slot-name")?.value ?? DEFAULT_SLOT_NAME;
     storage.setItem("sync:connection", {
@@ -23,6 +22,26 @@ export async function sendConnectionOptions(e: Event) {
         renderStatusComponent()
     } else {
         console.error("Error while connecting:", connectionResponse.error)
+        renderStatusComponent(StatusSpecialMode.Failed)
+    }
+}
+
+export async function sendDisonnectCommand(e: Event) {
+    storage.setItem("sync:connection", {
+        server: "",
+        slotName: "",
+    })
+
+    const disconnectMessage: ServerDisconnectMessage = new ServerDisconnectMessage()
+    renderStatusComponent(StatusSpecialMode.Loading)
+    const disconnectResponse: GACResponse = await browser.runtime.sendMessage(disconnectMessage);
+    if (disconnectResponse.success) {
+        let connectionStatus: GACConnectionStatus = disconnectResponse.data
+        console.debug("Connection status received is:", connectionStatus)
+        globalThis.connectionStatus = connectionStatus
+        renderStatusComponent()
+    } else {
+        console.error("Error while disconnecting:", disconnectResponse.error)
         renderStatusComponent(StatusSpecialMode.Failed)
     }
 }
