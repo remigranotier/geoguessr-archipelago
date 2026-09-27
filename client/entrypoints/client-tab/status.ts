@@ -1,4 +1,5 @@
 import { GACConnectionStatus, RetrieveConnectionStatusMessage, StatusSpecialMode, type GACResponse } from "../common/models"
+import { DEFAULT_CONNECTION_STATUS } from "./main";
 import { renderMaps } from "./maps";
 
 export async function getConnectionStatus() {
@@ -19,23 +20,32 @@ export function updateConnectionStatus(connectionStatus: GACConnectionStatus) {
     renderStatusComponent()
 }
 
+export function resetConnectionStatus() {
+    globalThis.connectionStatus = DEFAULT_CONNECTION_STATUS
+}
+
 export function renderStatusComponent(specialMode?: StatusSpecialMode) {
     const statusComponent = document.querySelector("#status")!
     if (specialMode !== undefined) {
         switch (specialMode) {
             case StatusSpecialMode.Loading:
-                statusComponent.innerHTML = `Connecting...`
-                return;
+                statusComponent.innerHTML = `⌛ Connecting...`
+                break;
             case StatusSpecialMode.Failed:
-                statusComponent.innerHTML = `Failed connecting. Press F12 to see details in console.`
-                return;
+                statusComponent.innerHTML = `⚠️ Failed connecting. Press F12 to see details in console.`
+                resetConnectionStatus()
+                break;
+            default:
+                console.error("Unknown special mode while rendering status component")
+                break;
+        }
+    } else {
+        if (globalThis.connectionStatus.authenticated) {
+            statusComponent.innerHTML = `✅ Connected to <strong>${globalThis.connectionStatus.server}</strong> as <strong>${globalThis.connectionStatus.player}</strong>`
+        } else {
+            statusComponent.innerHTML = `❌ Not connected`
         }
     }
 
-    if (globalThis.connectionStatus.authenticated) {
-        statusComponent.innerHTML = `✅ Connected to <strong>${globalThis.connectionStatus.server}</strong> as <strong>${globalThis.connectionStatus.player}</strong>`
-    } else {
-        statusComponent.innerHTML = `❌ Not connected`
-    }
     renderMaps()
 }

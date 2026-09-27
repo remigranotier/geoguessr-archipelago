@@ -6,13 +6,15 @@ import { renderMaps } from './maps.ts';
 import { getConnectionStatus, renderStatusComponent } from './status.ts';
 import { getGameState } from './game-state.ts';
 
+export const DEFAULT_CONNECTION_STATUS = { authenticated: false, player: "", server: "" }
+
 // Initialize global variables
 declare global {
   var gameState: GACGameState
   var connectionStatus: GACConnectionStatus
 }
 globalThis.gameState = { maps: [], globalGamemode: GACGamemode.None, globalTimerSeconds: 0 }
-globalThis.connectionStatus = { authenticated: false, player: "", server: "" }
+globalThis.connectionStatus = DEFAULT_CONNECTION_STATUS
 
 
 // Render pop-up
