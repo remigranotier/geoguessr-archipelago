@@ -2,9 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from BaseClasses import ItemClassification, Location
-
-from . import items
+from BaseClasses import Location
 
 if TYPE_CHECKING:
     from .world import GeoguessrWorld
@@ -66,6 +64,13 @@ def create_all_locations(world: GeoguessrWorld) -> None:
 
 
 def fill_location_name_to_id() -> None:
+    # Add the base World locations
+    for check_index, check_type in enumerate(CHECK_TYPES):
+        loc_name = f"World {check_type}"
+        loc_id = len(CHECK_TYPES) + check_index
+        location_name_to_id[loc_name] = loc_id
+
+    # Add the locations for each region
     add_locations("europe", EUROPE_COUNTRY_NAMES)
     add_locations("asia", ASIA_COUNTRY_NAMES)
     add_locations("africa", AFRICA_COUNTRY_NAMES)

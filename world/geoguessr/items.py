@@ -16,12 +16,15 @@ ITEM_NAME_TO_ID = {
     "Oceania": 6,
     "Monaco": 7,
     "France": 8,
-    "Move (Monaco)": 9,
-    "Pan (Monaco)": 10,
-    "Zoom (Monaco)": 11,
-    "Move (France)": 12,
-    "Pan (France)": 13,
-    "Zoom (France)": 14,
+    "Move (World)": 9,
+    "Pan (World)": 10,
+    "Zoom (World)": 11,
+    "Move (Monaco)": 12,
+    "Pan (Monaco)": 13,
+    "Zoom (Monaco)": 14,
+    "Move (France)": 15,
+    "Pan (France)": 16,
+    "Zoom (France)": 17,
     "Special tip !": 1000,
 }
 
@@ -34,6 +37,9 @@ DEFAULT_ITEM_CLASSIFICATIONS = {
     "Oceania": ItemClassification.progression,
     "Monaco": ItemClassification.progression,
     "France": ItemClassification.progression,
+    "Move (World)": ItemClassification.progression,
+    "Pan (World)": ItemClassification.progression,
+    "Zoom (World)": ItemClassification.useful,
     "Move (Monaco)": ItemClassification.progression,
     "Pan (Monaco)": ItemClassification.progression,
     "Zoom (Monaco)": ItemClassification.useful,
@@ -62,6 +68,7 @@ def create_item_with_correct_classification(
 
 
 def create_all_items(world: GeoguessrWorld) -> None:
+    # TODO : loop this
     itempool: list[Item] = [
         world.create_item("Europe"),
         world.create_item("Asia"),
@@ -71,6 +78,9 @@ def create_all_items(world: GeoguessrWorld) -> None:
         world.create_item("Oceania"),
         world.create_item("Monaco"),
         world.create_item("France"),
+        world.create_item("Move (World)"),
+        world.create_item("Pan (World)"),
+        world.create_item("Zoom (World)"),
         world.create_item("Move (Monaco)"),
         world.create_item("Pan (Monaco)"),
         world.create_item("Zoom (Monaco)"),
