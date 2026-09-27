@@ -19,7 +19,7 @@ def set_all_entrance_rules(world: GeoguessrWorld) -> None:
 
 def set_all_location_rules(world: GeoguessrWorld) -> None:
 
-    for region_name in ["Europe", "Asia", "Africa", "North America", "South America", "Oceania"]:
+    for region_name in ["World", "Europe", "Asia", "Africa", "North America", "South America", "Oceania"]:
         region = world.get_region(region_name)
 
         for location in region.locations:
@@ -52,4 +52,4 @@ def set_all_location_rules(world: GeoguessrWorld) -> None:
 def set_completion_condition(world: GeoguessrWorld) -> None:
     # This means that the Victory event has to be triggered from the client side.
     # It is the client's responsibility to determine when.
-    world.set_completion_rule(Has("Victory"))
+    world.set_completion_rule(Has("Monaco Platinum Medal", world.player) & Has("France Platinum Medal", world.player))

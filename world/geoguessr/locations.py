@@ -85,31 +85,31 @@ def create_regular_locations(world: GeoguessrWorld) -> None:
     oceania_region = world.get_region("Oceania")
 
     world_locations = get_location_names_with_ids(
-        [loc_name for loc_name in location_name_to_id if loc_name.startswith("World")]
+        [loc_name for loc_name, loc_id in location_name_to_id.items() if loc_id < REGION_BASE_IDS["europe"]]
     )
 
     europe_locations = get_location_names_with_ids(
-        [loc_name for loc_id, loc_name in location_name_to_id.items() if loc_id >= REGION_BASE_IDS["europe"] and loc_id < REGION_BASE_IDS["asia"]]
+        [loc_name for loc_name, loc_id in location_name_to_id.items() if loc_id >= REGION_BASE_IDS["europe"] and loc_id < REGION_BASE_IDS["asia"]]
     )
 
     asia_locations = get_location_names_with_ids(
-        [loc_name for loc_id, loc_name in location_name_to_id.items() if loc_id >= REGION_BASE_IDS["asia"] and loc_id < REGION_BASE_IDS["africa"]]
+        [loc_name for loc_name, loc_id in location_name_to_id.items() if loc_id >= REGION_BASE_IDS["asia"] and loc_id < REGION_BASE_IDS["africa"]]
     )
 
     africa_locations = get_location_names_with_ids(
-        [loc_name for loc_id, loc_name in location_name_to_id.items() if loc_id >= REGION_BASE_IDS["africa"] and loc_id < REGION_BASE_IDS["north_america"]]
+        [loc_name for loc_name, loc_id in location_name_to_id.items() if loc_id >= REGION_BASE_IDS["africa"] and loc_id < REGION_BASE_IDS["north_america"]]
     )
 
     north_america_locations = get_location_names_with_ids(
-        [loc_name for loc_id, loc_name in location_name_to_id.items() if loc_id >= REGION_BASE_IDS["north_america"] and loc_id < REGION_BASE_IDS["south_america"]]
+        [loc_name for loc_name, loc_id in location_name_to_id.items() if loc_id >= REGION_BASE_IDS["north_america"] and loc_id < REGION_BASE_IDS["south_america"]]
     )
 
     south_america_locations = get_location_names_with_ids(
-        [loc_name for loc_id, loc_name in location_name_to_id.items() if loc_id >= REGION_BASE_IDS["south_america"] and loc_id < REGION_BASE_IDS["oceania"]]
+        [loc_name for loc_name, loc_id in location_name_to_id.items() if loc_id >= REGION_BASE_IDS["south_america"] and loc_id < REGION_BASE_IDS["oceania"]]
     )
 
     oceania_locations = get_location_names_with_ids(
-        [loc_name for loc_id, loc_name in location_name_to_id.items() if loc_id >= REGION_BASE_IDS["oceania"]]
+        [loc_name for loc_name, loc_id in location_name_to_id.items() if loc_id >= REGION_BASE_IDS["oceania"]]
     )
 
     world_region.add_locations(world_locations, GeoguessrLocation)
