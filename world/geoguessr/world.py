@@ -8,8 +8,8 @@ from . import options as geoguessr_options
 from . import items
 from . import web_world  # rename due to a name conflict with World.options
 
-class GeoguessrWorld(World):
 
+class GeoguessrWorld(World):
     game = "Geoguessr"
 
     web = web_world.GeoguessrWebWorld()
@@ -39,6 +39,4 @@ class GeoguessrWorld(World):
         return items.get_random_filler_item_name(self)
 
     def fill_slot_data(self) -> Mapping[str, Any]:
-        return self.options.as_dict(
-            "victory_condition", "medal_count", "plat_count"
-        )
+        return self.options.as_dict("victory_condition", "medal_count", "plat_count")

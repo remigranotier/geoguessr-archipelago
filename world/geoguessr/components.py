@@ -1,5 +1,6 @@
 from worlds.LauncherComponents import Component, Type, components, launch
 
+
 def run_client(*args: str) -> None:
     # Ideally, you should lazily import your component code so that it doesn't have to be loaded until necessary.
     from .client.launch import launch_ap_quest_client

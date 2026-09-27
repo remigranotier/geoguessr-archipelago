@@ -3,6 +3,7 @@ from worlds.AutoWorld import WebWorld
 
 # This class is used to define how the game option page will be displayed on the website.
 
+
 class GeoguessrWebWorld(WebWorld):
     game = "Geoguessr"
 
