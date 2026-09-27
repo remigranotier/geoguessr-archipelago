@@ -35,9 +35,6 @@ def set_all_location_rules(world: GeoguessrWorld) -> None:
             country_name = location.name.rsplit(" ", 2)[0]
 
             if country_name != "World":
-                print(
-                    f"Adding the rule for {location.name} to require {country_name} to be obtained"
-                )
                 world.set_rule(
                     location,
                     lambda state, country_name=country_name: state.has(
@@ -73,7 +70,4 @@ def set_all_location_rules(world: GeoguessrWorld) -> None:
 def set_completion_condition(world: GeoguessrWorld) -> None:
     # This means that the Victory event has to be triggered from the client side.
     # It is the client's responsibility to determine when.
-    world.set_completion_rule(
-        Has("Monaco Platinum Medal", world.player)
-        & Has("France Platinum Medal", world.player)
-    )
+    world.set_completion_rule(Has("Victory"))

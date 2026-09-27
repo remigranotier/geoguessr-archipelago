@@ -4,6 +4,8 @@ from typing import TYPE_CHECKING
 
 from BaseClasses import Location
 
+from . import items
+
 if TYPE_CHECKING:
     from .world import GeoguessrWorld
 
@@ -30,7 +32,10 @@ REGION_BASE_IDS = {
 EUROPE_COUNTRY_NAMES = [
     "Monaco",
     "France",
+    "Iceland",
+    "Spain",
 ]
+
 ASIA_COUNTRY_NAMES = []
 AFRICA_COUNTRY_NAMES = []
 NORTH_AMERICA_COUNTRY_NAMES = []
@@ -167,4 +172,10 @@ def create_regular_locations(world: GeoguessrWorld) -> None:
 
 
 def create_events(world: GeoguessrWorld) -> None:
-    pass  # No events to create at this time
+    world_region = world.get_region("World")
+    world_region.add_event(
+        "Win condition reached",
+        "Victory",
+        location_type=GeoguessrLocation,
+        item_type=items.GeoguessrItem,
+    )
