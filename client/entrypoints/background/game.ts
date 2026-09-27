@@ -47,10 +47,6 @@ export async function handleGameFinishedMessage(message: RoundFinishedMessage) {
     }
 }
 
-export async function handleRetrieveGameStateMessage() {
-    return getCurrentGameState()
-}
-
 export function getCurrentGameState() {
     const gameState = new GACGameState(maps, globalGamemode, globalTimerSeconds)
     return gameState

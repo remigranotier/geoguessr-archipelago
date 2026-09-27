@@ -1,8 +1,8 @@
 import { Client } from "archipelago.js";
-import { GACGamemode, GenerateGameMessage, type GACMap, type GACMessage, type GACResponse, type RoundFinishedMessage, type ServerConnectMessage } from "../common/models";
+import { GACConnectionStatus, GACGamemode, GenerateGameMessage, type GACMap, type GACMessage, type GACResponse, type RoundFinishedMessage, type ServerConnectMessage } from "../common/models";
 import { MessageType } from "../common/models";
-import { handleServerConnectMessage } from "./connect";
-import { handleGameFinishedMessage, handleGenerateGameMessage, handleRetrieveGameStateMessage } from "./game";
+import { getServerConnection, handleServerConnectMessage } from "./connect";
+import { getCurrentGameState, handleGameFinishedMessage, handleGenerateGameMessage } from "./game";
 
 export const client = new Client();
 export let maps: GACMap[] = [
@@ -22,7 +22,10 @@ function messageListener(message: GACMessage, sender: Browser.runtime.MessageSen
       handleServerConnectMessage(serverConnectMessage).then(result => {
         sendResponse({
           success: true,
-          data: result
+          data: {
+            slotData: result,
+            connectionStatus: new GACConnectionStatus(client)
+          }
         })
       }).catch(error => {
         sendResponse({
@@ -35,19 +38,21 @@ function messageListener(message: GACMessage, sender: Browser.runtime.MessageSen
     case MessageType.ServerDisconnect:
       break;
 
+    case MessageType.RetrieveConnectionStatus:
+      const connectionStatus: GACConnectionStatus = getServerConnection()
+      sendResponse({
+        success: true,
+        data: connectionStatus
+      })
+      return false;
+
     case MessageType.RetrieveGameState:
-      handleRetrieveGameStateMessage().then(result => {
-        sendResponse({
-          success: true,
-          data: result
-        })
-      }).catch(error => {
-        sendResponse({
-          success: false,
-          error: error
-        })
-      });
-      return true;
+      const gameState = getCurrentGameState()
+      sendResponse({
+        success: true,
+        data: gameState
+      })
+      return false;
 
     case MessageType.GenerateGame:
       const generateGame = message as GenerateGameMessage;

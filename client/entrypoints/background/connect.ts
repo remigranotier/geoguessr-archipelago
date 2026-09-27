@@ -1,5 +1,5 @@
 import { client } from ".";
-import type { ServerConnectMessage } from "../common/models";
+import { GACConnectionStatus, type ServerConnectMessage } from "../common/models";
 
 export async function handleServerConnectMessage(message: ServerConnectMessage) {
     console.log(`Connecting to ${message.serverUrl} with slot ${message.slotName}`)
@@ -7,4 +7,8 @@ export async function handleServerConnectMessage(message: ServerConnectMessage) 
     console.debug("Connection success on service worker")
     console.debug("Slot data is :", slotData)
     return slotData
+}
+
+export function getServerConnection(): GACConnectionStatus {
+    return new GACConnectionStatus(client)
 }

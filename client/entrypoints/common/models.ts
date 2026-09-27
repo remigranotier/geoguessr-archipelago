@@ -1,3 +1,5 @@
+import { type Client } from "archipelago.js";
+
 export const DEFAULT_SERVER = "archipelago.gg:XXXXX"
 export const DEFAULT_SLOT_NAME = "playerName"
 
@@ -29,11 +31,24 @@ export class GACGameState {
     }
 }
 
+export class GACConnectionStatus {
+    authenticated: boolean;
+    player: string;
+    server: string;
+
+    constructor(client: Client) {
+        this.authenticated = client.authenticated
+        this.player = client.name
+        this.server = client.socket.url
+    }
+}
+
 export enum MessageType {
     Default,
     ServerConnect,
     ServerDisconnect,
     RetrieveGameState,
+    RetrieveConnectionStatus,
     GenerateGame,
     RoundFinished,
     GeoguessrGameFinished
@@ -48,6 +63,12 @@ export class ServerConnectMessage {
         this.serverUrl = serverUrl
         this.slotName = slotName
     }
+}
+
+export class RetrieveConnectionStatusMessage {
+    type: MessageType = MessageType.RetrieveConnectionStatus;
+
+    constructor() { }
 }
 
 export class RetrieveGameStateMessage {
@@ -123,4 +144,10 @@ export interface GACResponse {
 
 export type SlotData = {
     whatever: string;
+}
+
+export enum StatusSpecialMode {
+    None,
+    Loading,
+    Failed
 }

@@ -1,6 +1,6 @@
-import { DEFAULT_SERVER, DEFAULT_SLOT_NAME, ServerConnectMessage, type GACResponse } from "../common/models";
+import { DEFAULT_SERVER, DEFAULT_SLOT_NAME, GACConnectionStatus, ServerConnectMessage, StatusSpecialMode, type GACResponse } from "../common/models";
 import { storage } from '@wxt-dev/storage';
-import { setConnected, setConnectionFailed, setConnectionInProgress } from "./status";
+import { renderStatusComponent } from "./status";
 
 export async function sendConnectionOptions(e: Event) {
     e.preventDefault();
@@ -12,14 +12,17 @@ export async function sendConnectionOptions(e: Event) {
     })
 
     const connectMessage: ServerConnectMessage = new ServerConnectMessage(server, slotName)
-    setConnectionInProgress()
+    renderStatusComponent(StatusSpecialMode.Loading)
     const connectionResponse: GACResponse = await browser.runtime.sendMessage(connectMessage);
     if (connectionResponse.success) {
         console.log("Connection success")
-        console.debug("Slot data received is:", connectionResponse.data)
-        setConnected()
+        let { slotData, connectionStatus }: { slotData: any, connectionStatus: GACConnectionStatus } = connectionResponse.data
+        console.debug("Slot data received is:", slotData)
+        console.debug("Connection status received is:", connectionStatus)
+        globalThis.connectionStatus = connectionStatus
+        renderStatusComponent()
     } else {
         console.error("Error while connecting:", connectionResponse.error)
-        setConnectionFailed()
+        renderStatusComponent(StatusSpecialMode.Failed)
     }
 }
