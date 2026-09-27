@@ -9,7 +9,13 @@ Archipelago directly takes this folder as an input to generate a game, which mea
 
 ## Prerequisites
 
-This project uses Python 3.13.11. It is recommended to use `direnv` for it.
+This project uses Python 3.13.11. It is recommended to use `direnv` for it. Before installing python with `pyenv install 3.13.11`, ensure to have necessary libs
+
+```
+sudo apt-get install build-essential libbz2-dev
+```
+
+Some other libs might be necessary.
 
 You need to run Archipelago from source, **do not** use the exe client.
 Clone the repo :
