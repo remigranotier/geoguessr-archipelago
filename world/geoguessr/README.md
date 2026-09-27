@@ -24,4 +24,4 @@ From ``Archipelago/worlds`` :
 ln -s path/to/your/apworld/folder
 ```
 
-Then, you can simply run the ``Archipelago/Generate.py`` from your work environment.
+Then, you can run any of the scripts located at the root of the Archipelago folder from your work environment (``Generate.py`` for example). This will let you install the necessary Archipelago dependencies.
