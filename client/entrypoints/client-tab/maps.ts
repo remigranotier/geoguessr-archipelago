@@ -1,4 +1,4 @@
-import { GACGamemode, GACMap, GenerateGameMessage } from "../common/models";
+import { GACGamemode, GACMap, GACMedal, GenerateGameMessage } from "../common/models";
 
 export function renderMaps() {
     const mapTable = document.getElementById('map-table');
@@ -16,12 +16,10 @@ export function renderMap(map: GACMap): HTMLTableRowElement {
     const row = document.createElement("tr");
     const mapNameCell: HTMLTableCellElement = document.createElement("td")
     const gamemodeCell: HTMLTableCellElement = document.createElement("td")
-    const timerCell: HTMLTableCellElement = document.createElement("td")
-    const bestScoreCell: HTMLTableCellElement = document.createElement("td")
-    const availableCell: HTMLTableCellElement = document.createElement("td")
+    const bestMedalCell: HTMLTableCellElement = document.createElement("td")
+    const fivekCell: HTMLTableCellElement = document.createElement("td")
 
-    const currentGamemode: GACGamemode = map.gamemode ?? globalThis.gameState.globalGamemode;
-    const currentTimer: number = map.timer ?? globalThis.gameState.globalTimerSeconds;
+    const currentGamemode: GACGamemode = map.gamemode;
 
     mapNameCell.textContent = map.name;
     if (map.available) {
@@ -39,23 +37,29 @@ export function renderMap(map: GACMap): HTMLTableRowElement {
 
     gamemodeCell.textContent = `${currentGamemode & GACGamemode.Move ? "" : "No "}Move, ${currentGamemode & GACGamemode.Pan ? "" : "No "}Pan, ${currentGamemode & GACGamemode.Zoom ? "" : "No "}Zoom`
 
-    if (currentTimer == 0) {
-        timerCell.textContent = "No Time"
-    } else {
-        const minutes = Math.floor(currentTimer / 60)
-        const seconds = currentTimer % 60
-        timerCell.textContent = `${minutes > 0 ? minutes + "min" : ""}${seconds > 0 ? seconds + "s" : ""}`
-    }
+    bestMedalCell.textContent = getMedalText(map.bestMedal)
 
-    bestScoreCell.textContent = map.bestScore.toString()
-
-    availableCell.textContent = map.available ? "yes" : "no"
+    fivekCell.textContent = map.fivekDone ? "✅" : "❌"
 
     row.appendChild(mapNameCell)
     row.appendChild(gamemodeCell)
-    row.appendChild(timerCell)
-    row.appendChild(bestScoreCell)
-    row.appendChild(availableCell)
+    row.appendChild(bestMedalCell)
+    row.appendChild(fivekCell)
 
     return row
+}
+
+function getMedalText(medal: GACMedal) {
+    switch (medal) {
+        case GACMedal.Bronze:
+            return "🥉"
+        case GACMedal.Silver:
+            return "🥈"
+        case GACMedal.Gold:
+            return "🥇"
+        case GACMedal.Platinum:
+            return "🎯"
+        case GACMedal.None:
+            return "🙈"
+    }
 }

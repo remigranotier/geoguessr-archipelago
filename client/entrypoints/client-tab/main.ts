@@ -13,7 +13,7 @@ declare global {
   var gameState: GACGameState
   var connectionStatus: GACConnectionStatus
 }
-globalThis.gameState = { maps: [], globalGamemode: GACGamemode.None, globalTimerSeconds: 0 }
+globalThis.gameState = { maps: [] }
 globalThis.connectionStatus = DEFAULT_CONNECTION_STATUS
 
 

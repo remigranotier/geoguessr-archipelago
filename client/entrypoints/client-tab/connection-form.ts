@@ -1,6 +1,7 @@
-import { DEFAULT_SERVER, DEFAULT_SLOT_NAME, GACConnectionStatus, ServerConnectMessage, ServerDisconnectMessage, StatusSpecialMode, type GACResponse } from "../common/models";
+import { DEFAULT_SERVER, DEFAULT_SLOT_NAME, GACConnectionStatus, GACGameState, ServerConnectMessage, ServerDisconnectMessage, StatusSpecialMode, type GACResponse } from "../common/models";
 import { storage } from '@wxt-dev/storage';
 import { renderStatusComponent } from "./status";
+import { setInternalGameState } from "./game-state";
 
 export async function sendConnectionOptions(e: Event) {
     var server = document.querySelector<HTMLInputElement>("#server")?.value ?? DEFAULT_SERVER;
@@ -15,10 +16,11 @@ export async function sendConnectionOptions(e: Event) {
     const connectionResponse: GACResponse = await browser.runtime.sendMessage(connectMessage);
     if (connectionResponse.success) {
         console.log("Connection success")
-        let { slotData, connectionStatus }: { slotData: any, connectionStatus: GACConnectionStatus } = connectionResponse.data
+        let { slotData, connectionStatus, gameState }: { slotData: any, connectionStatus: GACConnectionStatus, gameState: GACGameState } = connectionResponse.data
         console.debug("Slot data received is:", slotData)
         console.debug("Connection status received is:", connectionStatus)
         globalThis.connectionStatus = connectionStatus
+        setInternalGameState(gameState)
         renderStatusComponent()
     } else {
         console.error("Error while connecting:", connectionResponse.error)

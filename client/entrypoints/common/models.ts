@@ -10,24 +10,31 @@ export enum GACGamemode {
     Zoom = 1 << 2
 }
 
+export enum GACMedal {
+    None = 0,
+    Bronze = 1,
+    Silver = 2,
+    Gold = 3,
+    Platinum = 4
+}
+
 export class GACMap {
     id: string = "defaultId";
     name: string = "defaultName";
     available: boolean = false;
+    bestMedal: GACMedal = GACMedal.None
+    fivekDone: boolean = false;
+    mapDone: boolean = false;
     bestScore: number = 0;
-    timer?: number;
-    gamemode?: GACGamemode;
+    bestSeed: string = "";
+    gamemode: GACGamemode = GACGamemode.None;
 }
 
 export class GACGameState {
     maps: GACMap[];
-    globalGamemode: GACGamemode;
-    globalTimerSeconds: number;
 
-    constructor(maps: GACMap[], globalGamemode: GACGamemode, globalTimerSeconds: number) {
+    constructor(maps: GACMap[]) {
         this.maps = maps
-        this.globalGamemode = globalGamemode
-        this.globalTimerSeconds = globalTimerSeconds
     }
 }
 
