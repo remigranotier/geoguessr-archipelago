@@ -1,3 +1,1 @@
-from . import components as components
-
-from .world import APQuestWorld as APQuestWorld
+from .world import GeoguessrWorld as GeoguessrWorld

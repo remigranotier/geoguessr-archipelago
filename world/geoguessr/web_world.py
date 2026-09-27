@@ -1,8 +1,6 @@
 from BaseClasses import Tutorial
 from worlds.AutoWorld import WebWorld
 
-from .options import option_groups, option_presets
-
 # This class is used to define how the game option page will be displayed on the website.
 
 class GeoguessrWebWorld(WebWorld):
