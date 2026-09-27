@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from Options import Choice, OptionGroup, PerGameCommonOptions, Range, Toggle
+from Options import Choice, PerGameCommonOptions, Range
 
 
 class VictoryCondition(Choice):
