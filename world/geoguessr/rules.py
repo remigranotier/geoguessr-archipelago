@@ -39,10 +39,7 @@ def set_all_location_rules(world: GeoguessrWorld) -> None:
             # Careful cause that won't work for countries with several words
             country_name = location.name.rsplit(" ", 2)[0]
 
-            loc_rule = True_()
-
-            if country_name != "World":
-                loc_rule &= Has(country_name)
+            loc_rule = Has(country_name)
 
             pan_item = f"Pan ({country_name})"
             move_item = f"Move ({country_name})"
@@ -58,6 +55,7 @@ def set_all_location_rules(world: GeoguessrWorld) -> None:
                 "Gold" in location.name
                 or "Platinum" in location.name
                 or "5k" in location.name
+                or "Map Complete" in location.name
             ):
                 loc_rule &= has_pan_and_move
 

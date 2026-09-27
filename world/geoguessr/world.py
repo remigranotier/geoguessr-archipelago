@@ -18,7 +18,7 @@ class GeoguessrWorld(World):
     options: geoguessr_options.GeoguessrOptions
 
     location_name_to_id = locations.location_name_to_id
-    item_name_to_id = items.ITEM_NAME_TO_ID
+    item_name_to_id = items.item_name_to_id
 
     origin_region_name = "World"
 

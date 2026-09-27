@@ -4,51 +4,17 @@ from typing import TYPE_CHECKING
 
 from BaseClasses import Location
 
-from . import items
+from . import common
 
 if TYPE_CHECKING:
     from .world import GeoguessrWorld
 
-# Every location must have a unique integer ID associated with it, so this means we need to generate unique IDs for each location.
-# Each region will have its range of IDs and we will shift them by 5 for every country to account for the 5 associated types
-CHECK_TYPES = [
-    "Bronze Medal",
-    "Silver Medal",
-    "Gold Medal",
-    "Platinum Medal",
-    "First 5k",
-    "Map Complete",
-]
-
-REGION_BASE_IDS = {
-    "World": 1,
-    "Europe": 1000,
-    "Asia": 2000,
-    "Africa": 3000,
-    "North America": 4000,
-    "South America": 5000,
-    "Oceania": 6000,
-}
-
-EUROPE_COUNTRY_NAMES = [
-    # "Monaco",
-    "France",
-    # "Iceland",
-    # "Spain",
-]
-
-ASIA_COUNTRY_NAMES = []
-AFRICA_COUNTRY_NAMES = []
-NORTH_AMERICA_COUNTRY_NAMES = []
-SOUTH_AMERICA_COUNTRY_NAMES = []
-OCEANIA_COUNTRY_NAMES = []
-
 location_name_to_id = {
-    "World Bronze Medal": 1,
-    "World Silver Medal": 2,
-    "World Gold Medal": 3,
-    "World Platinum Medal": 4,
-    "World First 5k": 5,
+    "World Bronze Medal": 2,
+    "World Silver Medal": 3,
+    "World Gold Medal": 4,
+    "World Platinum Medal": 5,
+    "World First 5k": 6,
 }
 
 
@@ -72,7 +38,7 @@ def create_all_locations(world: GeoguessrWorld) -> None:
 def fill_location_name_to_id() -> None:
 
     # Add the locations for each region
-    add_locations("Europe", EUROPE_COUNTRY_NAMES)
+    add_locations("Europe", common.EUROPE_COUNTRY_NAMES)
     # add_locations("asia", ASIA_COUNTRY_NAMES)
     # add_locations("africa", AFRICA_COUNTRY_NAMES)
     # add_locations("north_america", NORTH_AMERICA_COUNTRY_NAMES)
@@ -81,17 +47,19 @@ def fill_location_name_to_id() -> None:
 
 
 def add_locations(region_name: str, country_names: list[str]) -> None:
-    base_id = REGION_BASE_IDS[region_name]
+    base_id = common.REGION_BASE_IDS[region_name]
 
-    for check_index, check_type in enumerate(CHECK_TYPES):
+    for check_index, check_type in enumerate(common.LOCATION_TYPES):
         loc_name = f"{region_name} {check_type}"
-        loc_id = base_id + len(country_names) * 6 * len(CHECK_TYPES) + check_index
+        loc_id = base_id + check_index
         location_name_to_id[loc_name] = loc_id
 
     for country_index, country_name in enumerate(country_names):
-        for check_index, check_type in enumerate(CHECK_TYPES):
+        for check_index, check_type in enumerate(common.LOCATION_TYPES):
             loc_name = f"{country_name} {check_type}"
-            loc_id = base_id + country_index * len(CHECK_TYPES) + check_index
+            loc_id = (
+                base_id + (country_index + 1) * len(common.LOCATION_TYPES) + check_index
+            )
             location_name_to_id[loc_name] = loc_id
 
 
@@ -108,7 +76,7 @@ def create_regular_locations(world: GeoguessrWorld) -> None:
         [
             loc_name
             for loc_name, loc_id in location_name_to_id.items()
-            if loc_id < REGION_BASE_IDS["Europe"]
+            if loc_id < common.REGION_BASE_IDS["Europe"]
         ]
     )
 
@@ -116,7 +84,8 @@ def create_regular_locations(world: GeoguessrWorld) -> None:
         [
             loc_name
             for loc_name, loc_id in location_name_to_id.items()
-            if loc_id >= REGION_BASE_IDS["Europe"] and loc_id < REGION_BASE_IDS["Asia"]
+            if loc_id >= common.REGION_BASE_IDS["Europe"]
+            and loc_id < common.REGION_BASE_IDS["Asia"]
         ]
     )
 
