@@ -29,8 +29,8 @@ class MedalCount(Range):
     display_name = "Medal Count"
 
     range_start = 1
-    range_end = 6
-    default = 8
+    range_end = 16
+    default = 12
 
 
 class PlatCount(Range):

@@ -40,3 +40,14 @@ class GeoguessrWorld(World):
 
     def fill_slot_data(self) -> Mapping[str, Any]:
         return self.options.as_dict("victory_condition", "medal_count", "plat_count")
+
+    def fill_hook(self, progitempool, usefulitempool, filleritempool, fill_locations):
+        for loc in self.get_locations():
+            if "Map Complete" in loc.name:
+                self.multiworld.get_location(loc.name, self.player).place_locked_item(
+                    next(
+                        item
+                        for item in self.multiworld.get_items()
+                        if item.name == "Platinum medal"
+                    )
+                )

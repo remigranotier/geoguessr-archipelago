@@ -17,23 +17,24 @@ CHECK_TYPES = [
     "Gold Medal",
     "Platinum Medal",
     "First 5k",
+    "Map Complete",
 ]
 
 REGION_BASE_IDS = {
-    "world": 1,
-    "europe": 100,
-    "asia": 200,
-    "africa": 300,
-    "north_america": 400,
-    "south_america": 500,
-    "oceania": 600,
+    "World": 1,
+    "Europe": 1000,
+    "Asia": 2000,
+    "Africa": 3000,
+    "North America": 4000,
+    "South America": 5000,
+    "Oceania": 6000,
 }
 
 EUROPE_COUNTRY_NAMES = [
-    "Monaco",
+    # "Monaco",
     "France",
-    "Iceland",
-    "Spain",
+    # "Iceland",
+    # "Spain",
 ]
 
 ASIA_COUNTRY_NAMES = []
@@ -69,23 +70,23 @@ def create_all_locations(world: GeoguessrWorld) -> None:
 
 
 def fill_location_name_to_id() -> None:
-    # Add the base World locations
-    for check_index, check_type in enumerate(CHECK_TYPES):
-        loc_name = f"World {check_type}"
-        loc_id = len(CHECK_TYPES) + check_index
-        location_name_to_id[loc_name] = loc_id
 
     # Add the locations for each region
-    add_locations("europe", EUROPE_COUNTRY_NAMES)
-    add_locations("asia", ASIA_COUNTRY_NAMES)
-    add_locations("africa", AFRICA_COUNTRY_NAMES)
-    add_locations("north_america", NORTH_AMERICA_COUNTRY_NAMES)
-    add_locations("south_america", SOUTH_AMERICA_COUNTRY_NAMES)
-    add_locations("oceania", OCEANIA_COUNTRY_NAMES)
+    add_locations("Europe", EUROPE_COUNTRY_NAMES)
+    # add_locations("asia", ASIA_COUNTRY_NAMES)
+    # add_locations("africa", AFRICA_COUNTRY_NAMES)
+    # add_locations("north_america", NORTH_AMERICA_COUNTRY_NAMES)
+    # add_locations("south_america", SOUTH_AMERICA_COUNTRY_NAMES)
+    # add_locations("oceania", OCEANIA_COUNTRY_NAMES)
 
 
 def add_locations(region_name: str, country_names: list[str]) -> None:
     base_id = REGION_BASE_IDS[region_name]
+
+    for check_index, check_type in enumerate(CHECK_TYPES):
+        loc_name = f"{region_name} {check_type}"
+        loc_id = base_id + len(country_names) * 6 * len(CHECK_TYPES) + check_index
+        location_name_to_id[loc_name] = loc_id
 
     for country_index, country_name in enumerate(country_names):
         for check_index, check_type in enumerate(CHECK_TYPES):
@@ -97,17 +98,17 @@ def add_locations(region_name: str, country_names: list[str]) -> None:
 def create_regular_locations(world: GeoguessrWorld) -> None:
     world_region = world.get_region("World")
     europe_region = world.get_region("Europe")
-    asia_region = world.get_region("Asia")
-    africa_region = world.get_region("Africa")
-    north_america_region = world.get_region("North America")
-    south_america_region = world.get_region("South America")
-    oceania_region = world.get_region("Oceania")
+    # asia_region = world.get_region("Asia")
+    # africa_region = world.get_region("Africa")
+    # north_america_region = world.get_region("North America")
+    # south_america_region = world.get_region("South America")
+    # oceania_region = world.get_region("Oceania")
 
     world_locations = get_location_names_with_ids(
         [
             loc_name
             for loc_name, loc_id in location_name_to_id.items()
-            if loc_id < REGION_BASE_IDS["europe"]
+            if loc_id < REGION_BASE_IDS["Europe"]
         ]
     )
 
@@ -115,67 +116,68 @@ def create_regular_locations(world: GeoguessrWorld) -> None:
         [
             loc_name
             for loc_name, loc_id in location_name_to_id.items()
-            if loc_id >= REGION_BASE_IDS["europe"] and loc_id < REGION_BASE_IDS["asia"]
+            if loc_id >= REGION_BASE_IDS["Europe"] and loc_id < REGION_BASE_IDS["Asia"]
         ]
     )
 
-    asia_locations = get_location_names_with_ids(
-        [
-            loc_name
-            for loc_name, loc_id in location_name_to_id.items()
-            if loc_id >= REGION_BASE_IDS["asia"] and loc_id < REGION_BASE_IDS["africa"]
-        ]
-    )
+    # asia_locations = get_location_names_with_ids(
+    #     [
+    #         loc_name
+    #         for loc_name, loc_id in location_name_to_id.items()
+    #         if loc_id >= REGION_BASE_IDS["Asia"] and loc_id < REGION_BASE_IDS["Africa"]
+    #     ]
+    # )
 
-    africa_locations = get_location_names_with_ids(
-        [
-            loc_name
-            for loc_name, loc_id in location_name_to_id.items()
-            if loc_id >= REGION_BASE_IDS["africa"]
-            and loc_id < REGION_BASE_IDS["north_america"]
-        ]
-    )
+    # africa_locations = get_location_names_with_ids(
+    #     [
+    #         loc_name
+    #         for loc_name, loc_id in location_name_to_id.items()
+    #         if loc_id >= REGION_BASE_IDS["Africa"]
+    #         and loc_id < REGION_BASE_IDS["North America"]
+    #     ]
+    # )
 
-    north_america_locations = get_location_names_with_ids(
-        [
-            loc_name
-            for loc_name, loc_id in location_name_to_id.items()
-            if loc_id >= REGION_BASE_IDS["north_america"]
-            and loc_id < REGION_BASE_IDS["south_america"]
-        ]
-    )
+    # north_america_locations = get_location_names_with_ids(
+    #     [
+    #         loc_name
+    #         for loc_name, loc_id in location_name_to_id.items()
+    #         if loc_id >= REGION_BASE_IDS["North America"]
+    #         and loc_id < REGION_BASE_IDS["South America"]
+    #     ]
+    # )
 
-    south_america_locations = get_location_names_with_ids(
-        [
-            loc_name
-            for loc_name, loc_id in location_name_to_id.items()
-            if loc_id >= REGION_BASE_IDS["south_america"]
-            and loc_id < REGION_BASE_IDS["oceania"]
-        ]
-    )
+    # south_america_locations = get_location_names_with_ids(
+    #     [
+    #         loc_name
+    #         for loc_name, loc_id in location_name_to_id.items()
+    #         if loc_id >= REGION_BASE_IDS["South America"]
+    #         and loc_id < REGION_BASE_IDS["Oceania"]
+    #     ]
+    # )
 
-    oceania_locations = get_location_names_with_ids(
-        [
-            loc_name
-            for loc_name, loc_id in location_name_to_id.items()
-            if loc_id >= REGION_BASE_IDS["oceania"]
-        ]
-    )
+    # oceania_locations = get_location_names_with_ids(
+    #     [
+    #         loc_name
+    #         for loc_name, loc_id in location_name_to_id.items()
+    #         if loc_id >= REGION_BASE_IDS["Oceania"]
+    #     ]
+    # )
 
     world_region.add_locations(world_locations, GeoguessrLocation)
     europe_region.add_locations(europe_locations, GeoguessrLocation)
-    asia_region.add_locations(asia_locations, GeoguessrLocation)
-    africa_region.add_locations(africa_locations, GeoguessrLocation)
-    north_america_region.add_locations(north_america_locations, GeoguessrLocation)
-    south_america_region.add_locations(south_america_locations, GeoguessrLocation)
-    oceania_region.add_locations(oceania_locations, GeoguessrLocation)
+    # asia_region.add_locations(asia_locations, GeoguessrLocation)
+    # africa_region.add_locations(africa_locations, GeoguessrLocation)
+    # north_america_region.add_locations(north_america_locations, GeoguessrLocation)
+    # south_america_region.add_locations(south_america_locations, GeoguessrLocation)
+    # oceania_region.add_locations(oceania_locations, GeoguessrLocation)
 
 
 def create_events(world: GeoguessrWorld) -> None:
-    world_region = world.get_region("World")
-    world_region.add_event(
-        "Win condition reached",
-        "Victory",
-        location_type=GeoguessrLocation,
-        item_type=items.GeoguessrItem,
-    )
+    # world_region = world.get_region("World")
+    # world_region.add_event(
+    #     "Win condition reached",
+    #     "Victory",
+    #     location_type=GeoguessrLocation,
+    #     item_type=items.GeoguessrItem,
+    # )
+    pass
