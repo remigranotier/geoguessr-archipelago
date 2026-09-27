@@ -122,9 +122,19 @@ def create_all_items(world: GeoguessrWorld) -> None:
         # world.create_item("Move (Iceland)"),
         # world.create_item("Pan (Iceland)"),
         # world.create_item("Zoom (Iceland)"),
-        world.create_item("Platinum medal"),
-        world.create_item("Platinum medal"),
     ]
+
+    for loc in world.get_locations():
+        if "Map Complete" in loc.name:
+            new_plat_medal = GeoguessrItem(
+                "Platinum medal",
+                ItemClassification.progression,
+                ITEM_NAME_TO_ID["Platinum medal"],
+                world.player,
+            )
+            world.multiworld.get_location(loc.name, world.player).place_locked_item(
+                new_plat_medal
+            )
 
     number_of_unfilled_locations = len(
         world.multiworld.get_unfilled_locations(world.player)
