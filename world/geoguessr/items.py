@@ -52,17 +52,15 @@ def create_all_items(world: GeoguessrWorld) -> None:
     itempool += add_map_items(
         world,
         "World",
-        0,
     )
 
     for region in common.REGION_NAMES:
-        itempool += add_map_items(world, region, common.REGION_BASE_IDS[region])
+        itempool += add_map_items(world, region)
 
     for index, country in enumerate(common.EUROPE_COUNTRY_NAMES):
         itempool += add_map_items(
             world,
             country,
-            common.REGION_BASE_IDS["Europe"] + (index + 1) * len(common.LOCATION_TYPES),
         )
 
     for loc in world.get_locations():
@@ -88,16 +86,11 @@ def create_all_items(world: GeoguessrWorld) -> None:
     world.multiworld.itempool += itempool
 
 
-def add_map_items(world, map_name, offset) -> list[Any]:
+def add_map_items(world, map_name) -> list[Any]:
     new_items = []
     pan_item_name = f"Pan ({map_name})"
     move_item_name = f"Move ({map_name})"
     zoom_item_name = f"Zoom ({map_name})"
-
-    item_name_to_id[map_name] = offset
-    item_name_to_id[pan_item_name] = offset + 1
-    item_name_to_id[move_item_name] = offset + 2
-    item_name_to_id[zoom_item_name] = offset + 3
 
     default_item_classifications[map_name] = ItemClassification.progression
     default_item_classifications[pan_item_name] = ItemClassification.progression
@@ -110,3 +103,31 @@ def add_map_items(world, map_name, offset) -> list[Any]:
     new_items.append(world.create_item(move_item_name))
     new_items.append(world.create_item(zoom_item_name))
     return new_items
+
+
+def generate_ids() -> dict[str:int]:
+
+    create_map_ids("World", 0)
+
+    for region in common.REGION_NAMES:
+        create_map_ids(region, common.REGION_BASE_IDS[region])
+
+    for index, country in enumerate(common.EUROPE_COUNTRY_NAMES):
+        create_map_ids(
+            country,
+            common.REGION_BASE_IDS["Europe"] + (index + 1) * len(common.LOCATION_TYPES),
+        )
+
+    return item_name_to_id
+
+
+def create_map_ids(map_name, offset):
+
+    pan_item_name = f"Pan ({map_name})"
+    move_item_name = f"Move ({map_name})"
+    zoom_item_name = f"Zoom ({map_name})"
+
+    item_name_to_id[map_name] = offset
+    item_name_to_id[pan_item_name] = offset + 1
+    item_name_to_id[move_item_name] = offset + 2
+    item_name_to_id[zoom_item_name] = offset + 3

@@ -18,19 +18,21 @@ class GeoguessrWorld(World):
     options: geoguessr_options.GeoguessrOptions
 
     location_name_to_id = locations.location_name_to_id
-    item_name_to_id = items.item_name_to_id
+    item_name_to_id = items.generate_ids()
 
     origin_region_name = "World"
 
     def create_regions(self) -> None:
         regions.create_and_connect_regions(self)
         locations.create_all_locations(self)
+        self.location_name_to_id = locations.location_name_to_id
 
     def set_rules(self) -> None:
         rules.set_all_rules(self)
 
     def create_items(self) -> None:
         items.create_all_items(self)
+        self.item_name_to_id = items.item_name_to_id
 
     def create_item(self, name: str) -> items.GeoguessrItem:
         return items.create_item_with_correct_classification(self, name)
