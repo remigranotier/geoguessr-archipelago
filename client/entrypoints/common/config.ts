@@ -4,12 +4,12 @@ const LOCATIONS_PER_MAP = 6 // Bronze, Silver, Gold, Platinum, 5k, MapComplete
 export const ITEMS_PER_MAP = 4 // Unlock, Pan, Move, Zoom
 
 export enum AreaLocations {
-    Bronze = 1,
-    Silver = 2,
-    Gold = 3,
-    Platinum = 4,
-    FiveK = 5,
-    MapComplete = 6,
+    Bronze = 0,
+    Silver = 1,
+    Gold = 2,
+    Platinum = 3,
+    FiveK = 4,
+    MapComplete = 5,
 }
 
 export enum AreaItems {
@@ -74,7 +74,7 @@ export class AreaMap {
     getBaseLocationId(area: Area): number {
         switch (area.kind) {
             case "world":
-                return 1;
+                return 0;
 
             case "continent":
                 return 1000 * area.continentNumber;
