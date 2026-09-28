@@ -40,3 +40,5 @@ LOCATION_TYPES = [
     "First 5k",
     "Map Complete",
 ]
+
+ITEM_TYPES = ["Unlock", "Pan", "Move", "Zoom"]

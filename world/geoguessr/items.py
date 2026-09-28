@@ -99,7 +99,7 @@ def generate_ids() -> dict[str:int]:
     for index, country in enumerate(common.EUROPE_COUNTRY_NAMES):
         create_map_ids(
             country,
-            common.REGION_BASE_IDS["Europe"] + (index + 1) * len(common.LOCATION_TYPES),
+            common.REGION_BASE_IDS["Europe"] + (index + 1) * len(common.ITEM_TYPES),
         )
 
     return item_name_to_id
