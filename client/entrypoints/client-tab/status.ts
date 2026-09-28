@@ -1,4 +1,9 @@
-import { GACConnectionStatus, RetrieveConnectionStatusMessage, StatusSpecialMode, type GACResponse } from "../common/models"
+import {
+    GACConnectionStatus,
+    RetrieveConnectionStatusMessage,
+    StatusSpecialMode,
+    type GACResponse
+} from "../common/models"
 import { DEFAULT_CONNECTION_STATUS } from "./main";
 import { renderMaps } from "./maps";
 

@@ -1,10 +1,10 @@
 import './style.css';
 
-import { GACConnectionStatus, GACGamemode, GACGameState } from '../common/models.ts'
+import { GACConnectionStatus, GACGamemode, GACGameState, MessageType, SendGameStateMessage, type GACMessage, type GACResponse } from '../common/models.ts'
 import { sendConnectionOptions, sendDisonnectCommand } from './connection-form.ts';
 import { renderMaps } from './maps.ts';
 import { getConnectionStatus, renderStatusComponent } from './status.ts';
-import { getGameState } from './game-state.ts';
+import { getGameState, handleSendGameStateMessage } from './game-state.ts';
 
 export const DEFAULT_CONNECTION_STATUS = { authenticated: false, player: "", server: "" }
 
@@ -16,11 +16,25 @@ declare global {
 globalThis.gameState = { maps: [] }
 globalThis.connectionStatus = DEFAULT_CONNECTION_STATUS
 
+function clientTabMessageListener(message: GACMessage, sender: Browser.runtime.MessageSender, sendResponse: (response: GACResponse) => void) {
+  console.debug("Received message:", message)
 
-// Render pop-up
+  switch (message.type) {
+    case(MessageType.SendGameState):
+      const sendGameStateMessage = message as SendGameStateMessage;
+      handleSendGameStateMessage(sendGameStateMessage)
+      return false;
+		default:
+			console.warn("Unknown message type received on service worker")
+			return
+  }
+}
+
+
+// Render tab
 getGameState()
 renderStatusComponent()
 getConnectionStatus()
 document.querySelector("#connect-button")!.addEventListener("click", sendConnectionOptions)
 document.querySelector("#disconnect-button")!.addEventListener("click", sendDisonnectCommand)
-renderMaps()
+browser.runtime.onMessage.addListener(clientTabMessageListener)

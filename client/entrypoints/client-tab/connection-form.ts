@@ -1,4 +1,13 @@
-import { DEFAULT_SERVER, DEFAULT_SLOT_NAME, GACConnectionStatus, GACGameState, ServerConnectMessage, ServerDisconnectMessage, StatusSpecialMode, type GACResponse } from "../common/models";
+import {
+    DEFAULT_SERVER,
+    DEFAULT_SLOT_NAME,
+    GACConnectionStatus,
+    GACGameState,
+    ServerConnectMessage,
+    ServerDisconnectMessage,
+    StatusSpecialMode,
+    type GACResponse
+} from "../common/models";
 import { storage } from '@wxt-dev/storage';
 import { renderStatusComponent } from "./status";
 import { setInternalGameState } from "./game-state";

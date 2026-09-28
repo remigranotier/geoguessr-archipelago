@@ -1,7 +1,23 @@
-import type { Client } from 'archipelago.js'
-import { GACGamemode, GACMap, GACMedal, GenerateGameMessage, GeoguessrGameStatus, RoundFinishedMessage } from '../common/models.ts'
-import { AreaItems, AreaLocations, AreaMap, mapsConfig, medalThresholds } from '../common/config.ts'
-import { client } from './index.ts'
+import type { Client, Item } from 'archipelago.js'
+import {
+    GACGamemode,
+    GACMap,
+    GACMedal,
+    GenerateGameMessage,
+    GeoguessrGameStatus,
+    RoundFinishedMessage
+} from '../common/models.ts'
+
+import {
+    AreaItems,
+    AreaLocations,
+    AreaMap,
+    mapsConfig,
+    medalThresholds,
+    ITEMS_PER_MAP
+} from '../common/config.ts'
+
+import { apClient } from './index.ts'
 
 export async function generateGame(mapId: string, gamemode: GACGamemode): Promise<string> {
     const response = await fetch(
@@ -41,7 +57,7 @@ export async function handleGenerateGameMessage(message: GenerateGameMessage) {
 
 export function isMapAvailable(areaMap: AreaMap): boolean {
     const baseItemId = areaMap.baseItemId
-    return baseItemId + 1 in client.items.received || areaMap.mapName == "An Official World"
+    return baseItemId + 1 in apClient.items.received || areaMap.mapName == "An Official World"
 }
 
 export async function handleGameFinishedMessage(message: RoundFinishedMessage) {
@@ -55,7 +71,7 @@ export async function handleGameFinishedMessage(message: RoundFinishedMessage) {
     if (message.roundScore == 5000) {
         console.log(`Player got a 5k on map ${message.mapName}`)
         console.debug("Checking location:", areaMap.baseLocationId + AreaLocations.FiveK)
-        // client.check(areaMap.baseLocationId + AreaLocations.FiveK)
+        apClient.check(areaMap.baseLocationId + AreaLocations.FiveK)
     }
 
     if (message.gameStatus == GeoguessrGameStatus.FINISHED) {
@@ -74,7 +90,9 @@ export async function handleGameFinishedMessage(message: RoundFinishedMessage) {
             locationsToCheck.push(areaMap.baseLocationId + AreaLocations.Platinum)
         }
         console.debug("Checking locations:", locationsToCheck)
-        // client.check(...locationsToCheck)
+        apClient.check(...locationsToCheck)
+
+        updateGameState()
     }
 }
 
@@ -82,10 +100,10 @@ export function getCurrentGameState() {
     return globalThis.gameState
 }
 
-export function updateGameState(client: Client) {
-    console.debug("Items unlocked are:", client.items.received)
-    console.debug("Locations available are:", client.room.missingLocations)
-    console.debug("Locations checked are:", client.room.checkedLocations)
+export function updateGameState() {
+    console.debug("Items unlocked are:", apClient.items.received)
+    console.debug("Locations available are:", apClient.room.missingLocations)
+    console.debug("Locations checked are:", apClient.room.checkedLocations)
 
     for (var areaMap of mapsConfig) {
         console.debug(`Updating game state of map ${areaMap.mapName}`)
@@ -109,33 +127,33 @@ export function updateGameState(client: Client) {
         }
 
         mapStatus.bestMedal = GACMedal.None
-        if (baseLocationId + AreaLocations.Bronze in client.room.checkedLocations) {
+        if (baseLocationId + AreaLocations.Bronze in apClient.room.checkedLocations) {
             mapStatus.bestMedal = GACMedal.Bronze
         }
-        if (baseLocationId + AreaLocations.Silver in client.room.checkedLocations) {
+        if (baseLocationId + AreaLocations.Silver in apClient.room.checkedLocations) {
             mapStatus.bestMedal = GACMedal.Silver
         }
-        if (baseLocationId + AreaLocations.Gold in client.room.checkedLocations) {
+        if (baseLocationId + AreaLocations.Gold in apClient.room.checkedLocations) {
             mapStatus.bestMedal = GACMedal.Gold
         }
-        if (baseLocationId + AreaLocations.Platinum in client.room.checkedLocations) {
+        if (baseLocationId + AreaLocations.Platinum in apClient.room.checkedLocations) {
             mapStatus.bestMedal = GACMedal.Platinum
         }
 
-        mapStatus.fivekDone = baseLocationId + AreaLocations.FiveK in client.room.checkedLocations
+        mapStatus.fivekDone = baseLocationId + AreaLocations.FiveK in apClient.room.checkedLocations
 
-        mapStatus.mapDone = baseLocationId + AreaLocations.MapComplete in client.room.checkedLocations
+        mapStatus.mapDone = baseLocationId + AreaLocations.MapComplete in apClient.room.checkedLocations
 
-        mapStatus.available = baseItemId + AreaItems.Unlock in client.items.received || mapStatus.name == "An Official World" // TODO: make An Official World an item in world
+        mapStatus.available = (apClient.items.received.find((item: Item) => item.id == baseItemId + AreaItems.Unlock) != undefined) || mapStatus.name == "An Official World"
 
         mapStatus.gamemode = GACGamemode.None
-        if (baseItemId + AreaItems.Pan in client.items.received) {
+        if (apClient.items.received.find((item: Item) => item.id == baseItemId + AreaItems.Pan) != undefined) {
             mapStatus.gamemode |= GACGamemode.Pan
         }
-        if (baseItemId + AreaItems.Move in client.items.received) {
+        if (apClient.items.received.find((item: Item) => item.id == baseItemId + AreaItems.Move) != undefined) {
             mapStatus.gamemode |= GACGamemode.Move
         }
-        if (baseItemId + AreaItems.Zoom in client.items.received) {
+        if (apClient.items.received.find((item: Item) => item.id == baseItemId + AreaItems.Zoom) != undefined) {
             mapStatus.gamemode |= GACGamemode.Zoom
         }
 

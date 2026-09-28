@@ -58,7 +58,8 @@ export enum MessageType {
     RetrieveConnectionStatus,
     GenerateGame,
     RoundFinished,
-    GeoguessrGameFinished
+    GeoguessrGameFinished,
+    SendGameState
 }
 
 export class ServerConnectMessage {
@@ -88,6 +89,14 @@ export class RetrieveGameStateMessage {
     type: MessageType = MessageType.RetrieveGameState;
 
     constructor() { }
+}
+
+export class SendGameStateMessage {
+    type: MessageType = MessageType.SendGameState;
+
+    constructor(
+        public gameState: GACGameState
+    ) {}
 }
 
 export class GenerateGameMessage {

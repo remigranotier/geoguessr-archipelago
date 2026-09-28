@@ -1,4 +1,4 @@
-import { GACGameState, RetrieveGameStateMessage, type GACResponse } from "../common/models";
+import { GACGameState, RetrieveGameStateMessage, type GACResponse, SendGameStateMessage } from "../common/models";
 import { renderMaps } from "./maps";
 
 export async function getGameState() {
@@ -12,6 +12,10 @@ export async function getGameState() {
     } else {
         console.error("Error while retrieving game state from service worker", response.error)
     }
+}
+
+export function handleSendGameStateMessage(sendGameStateMessage: SendGameStateMessage) {
+    setInternalGameState(sendGameStateMessage.gameState)
 }
 
 export function setInternalGameState(newGameState: GACGameState) {
