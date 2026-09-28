@@ -57,7 +57,7 @@ export async function handleGenerateGameMessage(message: GenerateGameMessage) {
 
 export function isMapAvailable(areaMap: AreaMap): boolean {
     const baseItemId = areaMap.baseItemId
-    return baseItemId + 1 in apClient.items.received || areaMap.mapName == "An Official World"
+    return (apClient.items.received.find((item: Item) => item.id == baseItemId) != undefined) || areaMap.mapName == "An Official World"
 }
 
 export async function handleGameFinishedMessage(message: RoundFinishedMessage) {
