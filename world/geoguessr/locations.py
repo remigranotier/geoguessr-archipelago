@@ -10,11 +10,12 @@ if TYPE_CHECKING:
     from .world import GeoguessrWorld
 
 location_name_to_id = {
-    "World Bronze Medal": 2,
-    "World Silver Medal": 3,
-    "World Gold Medal": 4,
-    "World Platinum Medal": 5,
-    "World First 5k": 6,
+    "World Bronze Medal": 0,
+    "World Silver Medal": 1,
+    "World Gold Medal": 2,
+    "World Platinum Medal": 3,
+    "World First 5k": 4,
+    "World Map Complete": 5,
 }
 
 
@@ -30,37 +31,8 @@ def get_location_names_with_ids(location_names: list[str]) -> dict[str, int | No
 
 
 def create_all_locations(world: GeoguessrWorld) -> None:
-    fill_location_name_to_id()
     create_regular_locations(world)
     create_events(world)
-
-
-def fill_location_name_to_id() -> None:
-
-    # Add the locations for each region
-    add_locations("Europe", common.EUROPE_COUNTRY_NAMES)
-    # add_locations("asia", ASIA_COUNTRY_NAMES)
-    # add_locations("africa", AFRICA_COUNTRY_NAMES)
-    # add_locations("north_america", NORTH_AMERICA_COUNTRY_NAMES)
-    # add_locations("south_america", SOUTH_AMERICA_COUNTRY_NAMES)
-    # add_locations("oceania", OCEANIA_COUNTRY_NAMES)
-
-
-def add_locations(region_name: str, country_names: list[str]) -> None:
-    base_id = common.REGION_BASE_IDS[region_name]
-
-    for check_index, check_type in enumerate(common.LOCATION_TYPES):
-        loc_name = f"{region_name} {check_type}"
-        loc_id = base_id + check_index
-        location_name_to_id[loc_name] = loc_id
-
-    for country_index, country_name in enumerate(country_names):
-        for check_index, check_type in enumerate(common.LOCATION_TYPES):
-            loc_name = f"{country_name} {check_type}"
-            loc_id = (
-                base_id + (country_index + 1) * len(common.LOCATION_TYPES) + check_index
-            )
-            location_name_to_id[loc_name] = loc_id
 
 
 def create_regular_locations(world: GeoguessrWorld) -> None:
@@ -139,6 +111,33 @@ def create_regular_locations(world: GeoguessrWorld) -> None:
     # north_america_region.add_locations(north_america_locations, GeoguessrLocation)
     # south_america_region.add_locations(south_america_locations, GeoguessrLocation)
     # oceania_region.add_locations(oceania_locations, GeoguessrLocation)
+
+
+def generate_locations() -> dict[str:int]:
+    generate_region_locations("Europe", common.EUROPE_COUNTRY_NAMES)
+    # generate_region_locations("asia", ASIA_COUNTRY_NAMES)
+    # generate_region_locations("africa", AFRICA_COUNTRY_NAMES)
+    # generate_region_locations("north_america", NORTH_AMERICA_COUNTRY_NAMES)
+    # generate_region_locations("south_america", SOUTH_AMERICA_COUNTRY_NAMES)
+    # generate_region_locations("oceania", OCEANIA_COUNTRY_NAMES)
+    return location_name_to_id
+
+
+def generate_region_locations(region_name: str, country_names: list[str]) -> None:
+    base_id = common.REGION_BASE_IDS[region_name]
+
+    for check_index, check_type in enumerate(common.LOCATION_TYPES):
+        loc_name = f"{region_name} {check_type}"
+        loc_id = base_id + check_index
+        location_name_to_id[loc_name] = loc_id
+
+    for country_index, country_name in enumerate(country_names):
+        for check_index, check_type in enumerate(common.LOCATION_TYPES):
+            loc_name = f"{country_name} {check_type}"
+            loc_id = (
+                base_id + (country_index + 1) * len(common.LOCATION_TYPES) + check_index
+            )
+            location_name_to_id[loc_name] = loc_id
 
 
 def create_events(world: GeoguessrWorld) -> None:
