@@ -37,7 +37,8 @@ def create_regular_locations(world: GeoguessrWorld) -> None:
             [
                 loc_name
                 for loc_name, loc_id in location_name_to_id.items()
-                if loc_id < common.REGION_BASE_IDS[region_name]
+                if loc_id >= common.REGION_BASE_IDS[region_name]
+                and loc_id < common.REGION_BASE_IDS[region_name] + 1000
             ]
         )
         ap_region.add_locations(region_locations, GeoguessrLocation)
