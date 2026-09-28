@@ -1,4 +1,5 @@
 REGION_NAMES = [
+    "World",
     "Europe",
     # "Asia",
     # "Africa",
