@@ -16,5 +16,6 @@ export function getServerConnection(): GACConnectionStatus {
 }
 
 export function handleServerDisconnectMessage() {
+    console.debug("Received ServerDisconnectMessage, disconnecting.")
     apClient.socket.disconnect()
 }

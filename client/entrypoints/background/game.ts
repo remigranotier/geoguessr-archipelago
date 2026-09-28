@@ -44,6 +44,7 @@ export async function generateGame(mapId: string, gamemode: GACGamemode): Promis
 }
 
 export async function handleGenerateGameMessage(message: GenerateGameMessage) {
+    console.debug("Received GenerateGameMessage:", message)
     const map = globalThis.gameState.maps.find((m: GACMap) => m.id === message.mapId)
     if (map === undefined) {
         throw new Error(`No map with id ${message.mapId} found`)
@@ -57,7 +58,7 @@ export async function handleGenerateGameMessage(message: GenerateGameMessage) {
 
 export function isMapAvailable(areaMap: AreaMap): boolean {
     const baseItemId = areaMap.baseItemId
-    return (apClient.items.received.find((item: Item) => item.id == baseItemId) != undefined) || areaMap.mapName == "An Official World"
+    return (apClient.items.received.find((item: Item) => item.id == baseItemId) !== undefined) // || areaMap.mapName == "An Official World"
 }
 
 export async function handleGameFinishedMessage(message: RoundFinishedMessage) {
@@ -88,16 +89,13 @@ export async function handleGameFinishedMessage(message: RoundFinishedMessage) {
         }
         if (message.totalScore >= medalThresholds[GACMedal.Platinum]) {
             locationsToCheck.push(areaMap.baseLocationId + AreaLocations.Platinum)
+            locationsToCheck.push(areaMap.baseLocationId + AreaLocations.MapComplete)
         }
         console.debug("Checking locations:", locationsToCheck)
         apClient.check(...locationsToCheck)
 
         updateGameState()
     }
-}
-
-export function getCurrentGameState() {
-    return globalThis.gameState
 }
 
 export function updateGameState() {
@@ -127,33 +125,33 @@ export function updateGameState() {
         }
 
         mapStatus.bestMedal = GACMedal.None
-        if (baseLocationId + AreaLocations.Bronze in apClient.room.checkedLocations) {
+        if (apClient.room.checkedLocations.includes(baseLocationId + AreaLocations.Bronze)) {
             mapStatus.bestMedal = GACMedal.Bronze
         }
-        if (baseLocationId + AreaLocations.Silver in apClient.room.checkedLocations) {
+        if (apClient.room.checkedLocations.includes(baseLocationId + AreaLocations.Silver)) {
             mapStatus.bestMedal = GACMedal.Silver
         }
-        if (baseLocationId + AreaLocations.Gold in apClient.room.checkedLocations) {
+        if (apClient.room.checkedLocations.includes(baseLocationId + AreaLocations.Gold)) {
             mapStatus.bestMedal = GACMedal.Gold
         }
-        if (baseLocationId + AreaLocations.Platinum in apClient.room.checkedLocations) {
+        if (apClient.room.checkedLocations.includes(baseLocationId + AreaLocations.Platinum)) {
             mapStatus.bestMedal = GACMedal.Platinum
         }
 
-        mapStatus.fivekDone = baseLocationId + AreaLocations.FiveK in apClient.room.checkedLocations
+        mapStatus.fivekDone = apClient.room.checkedLocations.includes(baseLocationId + AreaLocations.FiveK)
 
-        mapStatus.mapDone = baseLocationId + AreaLocations.MapComplete in apClient.room.checkedLocations
+        mapStatus.mapDone = apClient.room.checkedLocations.includes(baseLocationId + AreaLocations.MapComplete)
 
-        mapStatus.available = (apClient.items.received.find((item: Item) => item.id == baseItemId + AreaItems.Unlock) != undefined) || mapStatus.name == "An Official World"
+        mapStatus.available = (apClient.items.received.find((item: Item) => item.id == (baseItemId + AreaItems.Unlock)) !== undefined) // || mapStatus.name == "An Official World"
 
         mapStatus.gamemode = GACGamemode.None
-        if (apClient.items.received.find((item: Item) => item.id == baseItemId + AreaItems.Pan) != undefined) {
+        if (apClient.items.received.find((item: Item) => item.id == (baseItemId + AreaItems.Pan)) !== undefined) {
             mapStatus.gamemode |= GACGamemode.Pan
         }
-        if (apClient.items.received.find((item: Item) => item.id == baseItemId + AreaItems.Move) != undefined) {
+        if (apClient.items.received.find((item: Item) => item.id == (baseItemId + AreaItems.Move)) !== undefined) {
             mapStatus.gamemode |= GACGamemode.Move
         }
-        if (apClient.items.received.find((item: Item) => item.id == baseItemId + AreaItems.Zoom) != undefined) {
+        if (apClient.items.received.find((item: Item) => item.id == (baseItemId + AreaItems.Zoom)) !== undefined) {
             mapStatus.gamemode |= GACGamemode.Zoom
         }
 

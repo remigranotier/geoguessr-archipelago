@@ -51,15 +51,15 @@ export class GACConnectionStatus {
 }
 
 export enum MessageType {
-    Default,
-    ServerConnect,
-    ServerDisconnect,
-    RetrieveGameState,
-    RetrieveConnectionStatus,
-    GenerateGame,
-    RoundFinished,
-    GeoguessrGameFinished,
-    SendGameState
+    Default = "Default",
+    ServerConnect = "ServerConnect",
+    ServerDisconnect = "ServerDisconnect",
+    RetrieveGameState = "RetrieveGameState",
+    SendGameState = "SendGameState",
+    RetrieveConnectionStatus = "RetrieveConnectionStatus",
+    GenerateGame = "GenerateGame",
+    RoundFinished = "RoundFinished",
+    GeoguessrGameFinished = "GeoguessrGameFinished",
 }
 
 export class ServerConnectMessage {
@@ -96,7 +96,7 @@ export class SendGameStateMessage {
 
     constructor(
         public gameState: GACGameState
-    ) {}
+    ) { }
 }
 
 export class GenerateGameMessage {
@@ -104,7 +104,7 @@ export class GenerateGameMessage {
 
     constructor(
         public mapId: string
-    ) {}
+    ) { }
 }
 
 export class RoundFinishedMessage {
@@ -117,7 +117,7 @@ export class RoundFinishedMessage {
         public mapName: string,
         public roundScore: number,
         public totalScore: number,
-    ) {}
+    ) { }
 }
 
 export enum GeoguessrGameStatus {

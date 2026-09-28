@@ -11,7 +11,7 @@ import {
 } from "../common/models";
 import { MessageType } from "../common/models";
 import { getServerConnection, handleServerConnectMessage, handleServerDisconnectMessage } from "./connect";
-import { getCurrentGameState, handleGameFinishedMessage, handleGenerateGameMessage, updateGameState } from "./game";
+import { handleGameFinishedMessage, handleGenerateGameMessage, updateGameState } from "./game";
 
 export const apClient = new Client();
 declare global {
@@ -22,8 +22,6 @@ declare global {
 globalThis.gameState = { maps: [] }
 
 function messageListener(message: GACMessage, sender: Browser.runtime.MessageSender, sendResponse: (response: GACResponse) => void) {
-  console.debug("Received message:", message)
-
   switch (message.type) {
     case MessageType.ServerConnect:
       const serverConnectMessage = message as ServerConnectMessage;
@@ -53,6 +51,7 @@ function messageListener(message: GACMessage, sender: Browser.runtime.MessageSen
       return false;
 
     case MessageType.RetrieveConnectionStatus:
+      console.debug("Received RetrieveConnectionStatus")
       sendResponse({
         success: true,
         data: getServerConnection()
@@ -60,10 +59,10 @@ function messageListener(message: GACMessage, sender: Browser.runtime.MessageSen
       return false;
 
     case MessageType.RetrieveGameState:
-      const gameState = getCurrentGameState()
+      console.debug("Received RetrieveGameState")
       sendResponse({
         success: true,
-        data: gameState
+        data: globalThis.gameState
       })
       return false;
 
@@ -84,6 +83,7 @@ function messageListener(message: GACMessage, sender: Browser.runtime.MessageSen
 
     case MessageType.RoundFinished:
       const gameFinishedMessage = message as RoundFinishedMessage;
+      console.debug("Received RoundFinishedMessage:", message)
       handleGameFinishedMessage(gameFinishedMessage).then(result => {
         sendResponse({
           success: true,
@@ -139,17 +139,23 @@ export default defineBackground(() => {
     console.log(`AP_CLIENT - ${content}`);
   });
 
-  apClient.items.on("itemsReceived", (items)=>{
+  apClient.items.on("itemsReceived", (items) => {
     for (var item of items) {
-
       if (!item) {
-        console.log("Undefined item received")
+        console.warn("Undefined item received, ignoring")
         continue
       }
       console.log(`New item received : ${item.name}`)
     }
 
     updateGameState()
+    console.debug("Sending message SendGameStateMessage to client tab", globalThis.gameState)
     browser.runtime.sendMessage(new SendGameStateMessage(globalThis.gameState));
-    })
+  })
+
+  apClient.room.on("locationsChecked", (_locations) => {
+    updateGameState()
+    console.debug("Sending message SendGameStateMessage to client tab", globalThis.gameState)
+    browser.runtime.sendMessage(new SendGameStateMessage(globalThis.gameState));
+  })
 });

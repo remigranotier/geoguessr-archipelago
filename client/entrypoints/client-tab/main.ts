@@ -17,16 +17,14 @@ globalThis.gameState = { maps: [] }
 globalThis.connectionStatus = DEFAULT_CONNECTION_STATUS
 
 function clientTabMessageListener(message: GACMessage, sender: Browser.runtime.MessageSender, sendResponse: (response: GACResponse) => void) {
-  console.debug("Received message:", message)
-
   switch (message.type) {
-    case(MessageType.SendGameState):
+    case MessageType.SendGameState:
       const sendGameStateMessage = message as SendGameStateMessage;
       handleSendGameStateMessage(sendGameStateMessage)
       return false;
-		default:
-			console.warn("Unknown message type received on service worker")
-			return
+    default:
+      console.warn("Unknown message type received on client tab")
+      return
   }
 }
 

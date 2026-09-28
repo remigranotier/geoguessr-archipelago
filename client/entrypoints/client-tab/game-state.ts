@@ -15,6 +15,7 @@ export async function getGameState() {
 }
 
 export function handleSendGameStateMessage(sendGameStateMessage: SendGameStateMessage) {
+    console.debug("Received game state:", sendGameStateMessage.gameState)
     setInternalGameState(sendGameStateMessage.gameState)
 }
 
