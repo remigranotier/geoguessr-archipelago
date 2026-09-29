@@ -4,6 +4,8 @@ from typing import TYPE_CHECKING
 
 from rule_builder.rules import Has, True_, HasAllCounts
 
+from . import common
+
 if TYPE_CHECKING:
     from .world import GeoguessrWorld
 
@@ -21,15 +23,7 @@ def set_all_entrance_rules(world: GeoguessrWorld) -> None:
 
 def set_all_location_rules(world: GeoguessrWorld) -> None:
 
-    for region_name in [
-        "World",
-        "Europe",
-        # "Asia",
-        # "Africa",
-        # "North America",
-        # "South America",
-        # "Oceania",
-    ]:
+    for region_name in common.REGION_NAMES:
         region = world.get_region(region_name)
 
         for location in region.locations:
