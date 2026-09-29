@@ -51,14 +51,15 @@ export class GACConnectionStatus {
 }
 
 export enum MessageType {
-    Default,
-    ServerConnect,
-    ServerDisconnect,
-    RetrieveGameState,
-    RetrieveConnectionStatus,
-    GenerateGame,
-    RoundFinished,
-    GeoguessrGameFinished
+    Default = "Default",
+    ServerConnect = "ServerConnect",
+    ServerDisconnect = "ServerDisconnect",
+    RetrieveGameState = "RetrieveGameState",
+    SendGameState = "SendGameState",
+    RetrieveConnectionStatus = "RetrieveConnectionStatus",
+    GenerateGame = "GenerateGame",
+    RoundFinished = "RoundFinished",
+    GeoguessrGameFinished = "GeoguessrGameFinished",
 }
 
 export class ServerConnectMessage {
@@ -90,32 +91,33 @@ export class RetrieveGameStateMessage {
     constructor() { }
 }
 
+export class SendGameStateMessage {
+    type: MessageType = MessageType.SendGameState;
+
+    constructor(
+        public gameState: GACGameState
+    ) { }
+}
+
 export class GenerateGameMessage {
     type: MessageType = MessageType.GenerateGame;
-    mapId: string
 
-    constructor(mapId: string) {
-        this.mapId = mapId
-    }
+    constructor(
+        public mapId: string
+    ) { }
 }
 
 export class RoundFinishedMessage {
     type: MessageType = MessageType.RoundFinished;
-    gameStatus: GeoguessrGameStatus;
-    gameId: string;
-    mapId: string;
-    mapName: string;
-    roundScore: number;
-    totalScore: number;
 
-    constructor(gameStatus: GeoguessrGameStatus, gameId: string, mapId: string, mapName: string, roundScore: number, totalScore: number) {
-        this.gameStatus = gameStatus
-        this.gameId = gameId
-        this.mapId = mapId
-        this.mapName = mapName
-        this.roundScore = roundScore
-        this.totalScore = totalScore
-    }
+    constructor(
+        public gameStatus: GeoguessrGameStatus,
+        public gameId: string,
+        public mapId: string,
+        public mapName: string,
+        public roundScore: number,
+        public totalScore: number,
+    ) { }
 }
 
 export enum GeoguessrGameStatus {

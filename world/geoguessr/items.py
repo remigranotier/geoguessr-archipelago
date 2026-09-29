@@ -8,16 +8,6 @@ from . import common
 if TYPE_CHECKING:
     from .world import GeoguessrWorld
 
-REGION_BASE_IDS = {
-    "World": 1,
-    "Europe": 1000,
-    "Asia": 2000,
-    "Africa": 3000,
-    "North America": 4000,
-    "South America": 5000,
-    "Oceania": 6000,
-}
-
 item_name_to_id = {
     "Special tip !": 10000,
     "Platinum medal": 10001,
@@ -49,10 +39,6 @@ def create_item_with_correct_classification(
 def create_all_items(world: GeoguessrWorld) -> None:
 
     itempool = []
-    itempool += add_map_items(
-        world,
-        "World",
-    )
 
     for region in common.REGION_NAMES:
         itempool += add_map_items(world, region)
@@ -107,15 +93,13 @@ def add_map_items(world, map_name) -> list[Any]:
 
 def generate_ids() -> dict[str:int]:
 
-    create_map_ids("World", 0)
-
     for region in common.REGION_NAMES:
         create_map_ids(region, common.REGION_BASE_IDS[region])
 
     for index, country in enumerate(common.EUROPE_COUNTRY_NAMES):
         create_map_ids(
             country,
-            common.REGION_BASE_IDS["Europe"] + (index + 1) * len(common.LOCATION_TYPES),
+            common.REGION_BASE_IDS["Europe"] + (index + 1) * len(common.ITEM_TYPES),
         )
 
     return item_name_to_id

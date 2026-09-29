@@ -1,4 +1,5 @@
 REGION_NAMES = [
+    "World",
     "Europe",
     # "Asia",
     # "Africa",
@@ -9,7 +10,7 @@ REGION_NAMES = [
 
 # Used to offset IDs based on their region
 REGION_BASE_IDS = {
-    "World": 1,
+    "World": 0,
     "Europe": 1000,
     "Asia": 2000,
     "Africa": 3000,
@@ -39,3 +40,5 @@ LOCATION_TYPES = [
     "First 5k",
     "Map Complete",
 ]
+
+ITEM_TYPES = ["Unlock", "Pan", "Move", "Zoom"]
