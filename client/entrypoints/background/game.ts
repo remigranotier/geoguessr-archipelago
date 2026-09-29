@@ -172,4 +172,22 @@ export function updateAreaMap(areaMap: AreaMap) {
     if (apClient.items.received.some((item: Item) => item.id == (baseItemId + AreaItems.Zoom))) {
         mapStatus.gamemode |= GACGamemode.Zoom
     }
+
+    checkWinCondition()
+}
+
+function checkWinCondition() {
+
+    if (globalThis.gameConfigData === undefined) {
+        return;
+    }
+
+    const platAmount = globalThis.gameState.maps
+        .filter(map => map.bestMedal === GACMedal.Platinum)
+        .length;
+
+    if(platAmount >= (globalThis.gameConfigData.plat_count as number))
+    {
+        apClient.goal()
+    }
 }

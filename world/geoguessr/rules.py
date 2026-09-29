@@ -54,8 +54,6 @@ def set_all_location_rules(world: GeoguessrWorld) -> None:
 
 
 def set_completion_condition(world: GeoguessrWorld) -> None:
-    # This means that the Victory event has to be triggered from the client side.
-    # It is the client's responsibility to determine when.
     world.set_completion_rule(
         HasAllCounts({"Platinum medal": world.options.plat_count.value})
     )
