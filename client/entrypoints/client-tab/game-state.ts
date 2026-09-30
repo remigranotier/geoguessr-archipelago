@@ -1,6 +1,7 @@
 import { RetrieveGameStateMessage, SendGameStateMessage } from "../common/messages";
 import { GACGameState, type GACResponse } from "../common/models";
 import { renderMaps } from "./ui/maps";
+import { playSoundEffect } from "./ui/sound-effect";
 
 export async function getGameState() {
     const retrieveGameStateMessage = new RetrieveGameStateMessage()

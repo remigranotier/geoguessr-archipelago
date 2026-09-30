@@ -1,5 +1,5 @@
 import type { MessageNode } from "archipelago.js";
-import type { GACGameState, GeoguessrGameStatus } from "./models";
+import type { GACGameState, GeoguessrGameStatus, SoundEffectType } from "./models";
 
 export enum MessageType {
     Default = "Default",
@@ -12,7 +12,8 @@ export enum MessageType {
     RoundFinished = "RoundFinished",
     GeoguessrGameFinished = "GeoguessrGameFinished",
     RetrieveLogs = "RetrieveLogs",
-    SendNewLog = "SendNewLog"
+    SendNewLog = "SendNewLog",
+    SendSoundEffect = "SendSoundEffect",
 }
 
 export class ServerConnectMessage {
@@ -110,6 +111,14 @@ export class SendNewLogMessage {
         public htmlContent: string
     ) { }
 }
+export class SendSoundEffectMessage {
+    type: MessageType = MessageType.SendSoundEffect;
+
+    constructor(
+        public soundType: SoundEffectType
+    ) { }
+}
+
 
 export interface GACMessage {
     type: MessageType;

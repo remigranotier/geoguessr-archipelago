@@ -4,6 +4,7 @@ import {
     GACMap,
     GACMedal,
     GeoguessrGameStatus,
+    SoundEffectType,
 } from '../common/models.ts'
 
 import {
@@ -16,7 +17,7 @@ import {
 } from '../common/config.ts'
 
 import { apClient } from './index.ts'
-import type { GenerateGameMessage, RoundFinishedMessage } from '../common/messages.ts'
+import { SendSoundEffectMessage, type GenerateGameMessage, type RoundFinishedMessage } from '../common/messages.ts'
 
 export async function generateGame(mapId: string, gamemode: GACGamemode): Promise<string> {
     const response = await fetch(
@@ -67,14 +68,15 @@ export async function handleGameFinishedMessage(message: RoundFinishedMessage) {
         return
     }
 
+    let locationsToCheck: number[] = []
+
     // Here we know the map is available to check locations
     if (message.roundScore == 5000) {
         console.log(`Player got a 5k on map ${message.mapName}`)
         console.debug("Checking location:", areaMap.baseLocationId + AreaLocations.FiveK)
-        apClient.check(areaMap.baseLocationId + AreaLocations.FiveK)
+        locationsToCheck.push(areaMap.baseLocationId + AreaLocations.FiveK)
     }
 
-    const locationsToCheck: number[] = []
     if (message.totalScore >= medalThresholds[GACMedal.Bronze]) {
         locationsToCheck.push(areaMap.baseLocationId + AreaLocations.Bronze)
     }
@@ -88,8 +90,13 @@ export async function handleGameFinishedMessage(message: RoundFinishedMessage) {
         locationsToCheck.push(areaMap.baseLocationId + AreaLocations.Platinum)
         locationsToCheck.push(areaMap.baseLocationId + AreaLocations.MapComplete)
     }
-    console.debug("Checking locations:", locationsToCheck)
-    apClient.check(...locationsToCheck)
+
+    locationsToCheck = locationsToCheck.filter((location) => !apClient.room.checkedLocations.includes(location))
+    if (locationsToCheck.length > 0) {
+        console.debug("Checking locations:", locationsToCheck)
+        apClient.check(...locationsToCheck)
+        browser.runtime.sendMessage(new SendSoundEffectMessage(SoundEffectType.LocationChecked))
+    }
 
     if (message.gameStatus == GeoguessrGameStatus.FINISHED) {
         console.log(`Player got ${message.totalScore} pts on map ${message.mapName}`)

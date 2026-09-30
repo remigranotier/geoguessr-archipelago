@@ -21,11 +21,10 @@ export async function initLogs() {
     const logResponse: GACResponse = await browser.runtime.sendMessage(logMessage);
 
     if (logResponse.success) {
-        console.debug("LOG RESPONSE IS ", logResponse.data)
-        const messageLog = JSON.parse(logResponse.data)
+        const messageLog = logResponse.data
         console.log("Received log messages:", messageLog)
         clearLogs()
-        messageLog.forEach((message: string) => addLog(message))
+        messageLog.forEach((message: string) => addLog(JSON.parse(message)))
     } else {
         console.error("Error while fetching logs:", logResponse.error)
     }
