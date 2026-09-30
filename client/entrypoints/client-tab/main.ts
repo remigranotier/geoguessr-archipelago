@@ -34,6 +34,7 @@ function clientTabMessageListener(message: GACMessage, sender: Browser.runtime.M
 getGameState()
 renderStatusComponent()
 getConnectionStatus()
+setCredentialsFromLastSend()
 document.querySelector("#connect-button")!.addEventListener("click", sendConnectionOptions)
 document.querySelector("#disconnect-button")!.addEventListener("click", sendDisonnectCommand)
 browser.runtime.onMessage.addListener(clientTabMessageListener)

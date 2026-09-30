@@ -9,15 +9,34 @@ import { renderStatusComponent } from "./status";
 import { setInternalGameState } from "./game-state";
 import { ServerConnectMessage, ServerDisconnectMessage } from "../common/messages";
 
+type ConnectionCredentials = {
+    server: string,
+    slotName: string,
+}
+
+export function setCredentialsFromLastSend() {
+    storage.getItem<ConnectionCredentials>("sync:connection").then((previousCredentials) => {
+        if (previousCredentials === null) {
+            console.debug("No previous credentials, ignoring")
+            return
+        }
+        var serverField = document.querySelector<HTMLInputElement>("#server")!
+        serverField.value = previousCredentials.server
+        var slotNameField = document.querySelector<HTMLInputElement>("#slot-name")!
+        slotNameField.value = previousCredentials.slotName
+    })
+}
+
 export async function sendConnectionOptions(e: Event) {
-    var server = document.querySelector<HTMLInputElement>("#server")?.value ?? DEFAULT_SERVER;
-    var slotName = document.querySelector<HTMLInputElement>("#slot-name")?.value ?? DEFAULT_SLOT_NAME;
+    var server = document.querySelector<HTMLInputElement>("#server")?.value ?? "";
+    var slotName = document.querySelector<HTMLInputElement>("#slot-name")?.value ?? "";
+    var password = document.querySelector<HTMLInputElement>("#password")?.value ?? "";
     storage.setItem("sync:connection", {
         server: server,
         slotName: slotName,
     })
 
-    const connectMessage: ServerConnectMessage = new ServerConnectMessage(server, slotName)
+    const connectMessage: ServerConnectMessage = new ServerConnectMessage(server, slotName, password)
     renderStatusComponent(StatusSpecialMode.Loading)
     const connectionResponse: GACResponse = await browser.runtime.sendMessage(connectMessage);
     if (connectionResponse.success) {
