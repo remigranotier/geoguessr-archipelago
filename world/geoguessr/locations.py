@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING
 
 from BaseClasses import Location
 
-from . import common
+from . import common, items
 
 if TYPE_CHECKING:
     from .world import GeoguessrWorld
@@ -84,5 +84,32 @@ def generate_region_locations(region: common.REGION, country_names: list[str]) -
 
 
 def create_events(world: GeoguessrWorld) -> None:
+    world_region_name = common.REGION.World.value
 
-    pass
+    world_region = world.get_region(world_region_name)
+    world_region.add_event(
+        f"{world_region_name} Platinum Event",
+        f"{world_region_name} Platinum Obtained Event Item",
+        location_type=GeoguessrLocation,
+        item_type=items.GeoguessrItem,
+    )
+
+    for region in common.REGION:
+        if len(common.ALL_COUNTRIES_PER_REGION[region]) == 0:
+            continue
+
+        it_region = world.get_region(region.value)
+        it_region.add_event(
+            f"{region.value} Platinum Event",
+            f"{region.value} Platinum Obtained Event Item",
+            location_type=GeoguessrLocation,
+            item_type=items.GeoguessrItem,
+        )
+
+        for country in common.ALL_COUNTRIES_PER_REGION[region]:
+            it_region.add_event(
+                f"{country} Platinum Event",
+                f"{country} Platinum Obtained Event Item",
+                location_type=GeoguessrLocation,
+                item_type=items.GeoguessrItem,
+            )

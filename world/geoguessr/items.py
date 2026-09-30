@@ -56,18 +56,6 @@ def create_all_items(world: GeoguessrWorld) -> None:
                 country,
             )
 
-    for loc in world.get_locations():
-        if "Map Complete" in loc.name:
-            new_plat_medal = GeoguessrItem(
-                "Platinum medal",
-                ItemClassification.progression,
-                item_name_to_id["Platinum medal"],
-                world.player,
-            )
-            world.multiworld.get_location(loc.name, world.player).place_locked_item(
-                new_plat_medal
-            )
-
     base_world_map = world.create_item("World")
     world.push_precollected(base_world_map)
 

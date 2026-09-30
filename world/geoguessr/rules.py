@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from rule_builder.rules import Has, True_, HasAllCounts
+from rule_builder.rules import Has, True_, HasAllCounts, HasFromList
 
 from . import common
 
@@ -49,7 +49,7 @@ def set_all_location_rules(world: GeoguessrWorld) -> None:
             has_pan_and_move = has_pan & has_move
             has_all_modes = has_pan & has_move & has_zoom
 
-            if "Silver" in location.name:
+            if "Silver Medal" in location.name:
                 loc_rule &= has_pan_or_move
             elif "Gold" in location.name or "5k" in location.name:
                 loc_rule &= has_pan_and_move
@@ -60,6 +60,13 @@ def set_all_location_rules(world: GeoguessrWorld) -> None:
 
 
 def set_completion_condition(world: GeoguessrWorld) -> None:
+
+    items_to_count = [
+        item.name
+        for item in world.multiworld.get_items()
+        if "Platinum Obtained Event Item" in item.name
+    ]
+
     world.set_completion_rule(
-        HasAllCounts({"Platinum medal": world.options.plat_count.value})
+        HasFromList(*items_to_count, count=world.options.plat_count.value)
     )

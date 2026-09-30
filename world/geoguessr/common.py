@@ -41,7 +41,6 @@ LOCATION_TYPES = [
     "Gold Medal",
     "Platinum Medal",
     "First 5k",
-    "Map Complete",
 ]
 
 ITEM_TYPES = ["Unlock", "Pan", "Move", "Zoom"]
