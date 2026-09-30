@@ -5,7 +5,7 @@ import {
     type GACResponse
 } from "../common/models";
 import { storage } from '@wxt-dev/storage';
-import { renderStatusComponent } from "./status";
+import { renderStatusComponent } from "./ui/status";
 import { setInternalGameState } from "./game-state";
 import { ServerConnectMessage, ServerDisconnectMessage } from "../common/messages";
 

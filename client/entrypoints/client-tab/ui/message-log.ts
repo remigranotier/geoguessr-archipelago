@@ -1,6 +1,6 @@
 import type { MessageLog, MessageNode } from "archipelago.js";
-import { RetrieveLogsMessage, SendNewLogMessage } from "../common/messages";
-import type { GACResponse } from "../common/models";
+import { RetrieveLogsMessage, SendNewLogMessage } from "../../common/messages";
+import type { GACResponse } from "../../common/models";
 
 type MessageLogEntry = {
     text: string;

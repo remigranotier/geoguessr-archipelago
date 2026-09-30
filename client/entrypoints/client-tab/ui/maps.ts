@@ -1,6 +1,6 @@
-import { mapsConfig } from "../common/config";
-import { GenerateGameMessage } from "../common/messages";
-import { GACGamemode, GACMap, GACMedal } from "../common/models";
+import { mapsConfig } from "../../common/config";
+import { GenerateGameMessage } from "../../common/messages";
+import { GACGamemode, GACMap, GACMedal } from "../../common/models";
 
 export function renderMaps() {
     const mapTable = document.getElementById('map-table');

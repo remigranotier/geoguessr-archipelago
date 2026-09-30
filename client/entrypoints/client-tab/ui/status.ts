@@ -1,10 +1,10 @@
-import { RetrieveConnectionStatusMessage } from "../common/messages";
+import { RetrieveConnectionStatusMessage } from "../../common/messages";
 import {
     GACConnectionStatus,
     StatusSpecialMode,
     type GACResponse
-} from "../common/models"
-import { DEFAULT_CONNECTION_STATUS } from "./main";
+} from "../../common/models"
+import { DEFAULT_CONNECTION_STATUS } from "../main";
 import { renderMaps } from "./maps";
 
 export async function getConnectionStatus() {
