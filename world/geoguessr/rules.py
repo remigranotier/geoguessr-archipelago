@@ -53,7 +53,7 @@ def set_all_location_rules(world: GeoguessrWorld) -> None:
                 loc_rule &= has_pan_or_move
             elif "Gold" in location.name or "5k" in location.name:
                 loc_rule &= has_pan_and_move
-            elif "Platinum" in location.name or "Map Complete" in location.name:
+            elif "Platinum Medal" in location.name or "Platinum Event" in location.name:
                 loc_rule &= has_all_modes
 
             world.set_rule(location, loc_rule)
