@@ -3,9 +3,7 @@ import {
     GACGamemode,
     GACMap,
     GACMedal,
-    GenerateGameMessage,
     GeoguessrGameStatus,
-    RoundFinishedMessage
 } from '../common/models.ts'
 
 import {
@@ -18,6 +16,7 @@ import {
 } from '../common/config.ts'
 
 import { apClient } from './index.ts'
+import type { GenerateGameMessage, RoundFinishedMessage } from '../common/messages.ts'
 
 export async function generateGame(mapId: string, gamemode: GACGamemode): Promise<string> {
     const response = await fetch(
@@ -75,27 +74,28 @@ export async function handleGameFinishedMessage(message: RoundFinishedMessage) {
         apClient.check(areaMap.baseLocationId + AreaLocations.FiveK)
     }
 
+    const locationsToCheck: number[] = []
+    if (message.totalScore >= medalThresholds[GACMedal.Bronze]) {
+        locationsToCheck.push(areaMap.baseLocationId + AreaLocations.Bronze)
+    }
+    if (message.totalScore >= medalThresholds[GACMedal.Silver]) {
+        locationsToCheck.push(areaMap.baseLocationId + AreaLocations.Silver)
+    }
+    if (message.totalScore >= medalThresholds[GACMedal.Gold]) {
+        locationsToCheck.push(areaMap.baseLocationId + AreaLocations.Gold)
+    }
+    if (message.totalScore >= medalThresholds[GACMedal.Platinum]) {
+        locationsToCheck.push(areaMap.baseLocationId + AreaLocations.Platinum)
+        locationsToCheck.push(areaMap.baseLocationId + AreaLocations.MapComplete)
+    }
+    console.debug("Checking locations:", locationsToCheck)
+    apClient.check(...locationsToCheck)
+
     if (message.gameStatus == GeoguessrGameStatus.FINISHED) {
         console.log(`Player got ${message.totalScore} pts on map ${message.mapName}`)
-        const locationsToCheck: number[] = []
-        if (message.totalScore >= medalThresholds[GACMedal.Bronze]) {
-            locationsToCheck.push(areaMap.baseLocationId + AreaLocations.Bronze)
-        }
-        if (message.totalScore >= medalThresholds[GACMedal.Silver]) {
-            locationsToCheck.push(areaMap.baseLocationId + AreaLocations.Silver)
-        }
-        if (message.totalScore >= medalThresholds[GACMedal.Gold]) {
-            locationsToCheck.push(areaMap.baseLocationId + AreaLocations.Gold)
-        }
-        if (message.totalScore >= medalThresholds[GACMedal.Platinum]) {
-            locationsToCheck.push(areaMap.baseLocationId + AreaLocations.Platinum)
-            locationsToCheck.push(areaMap.baseLocationId + AreaLocations.MapComplete)
-        }
-        console.debug("Checking locations:", locationsToCheck)
-        apClient.check(...locationsToCheck)
-
-        updateGameState()
     }
+
+    updateGameState()
 }
 
 export function updateGameState() {

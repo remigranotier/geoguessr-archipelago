@@ -58,13 +58,15 @@ export type Area =
 
 export class AreaMap {
     area: Area
+    areaName: string
     baseLocationId: number
     baseItemId: number
     mapId: string
     mapName: string
 
-    constructor(area: Area, mapId: string, mapName: string) {
+    constructor(area: Area, areaName: string, mapId: string, mapName: string) {
         this.area = area
+        this.areaName = areaName
         this.baseLocationId = this.getBaseLocationId(this.area)
         this.baseItemId = this.getBaseItemId(this.area)
         this.mapId = mapId
@@ -101,12 +103,12 @@ export class AreaMap {
 let allMaps: AreaMap[] = []
 
 // World Maps
-allMaps.push(new AreaMap({ kind: "world", worldNumber: WorldNumber.World }, "652ba0d9002aa0d36f996153", "An Official World"))
+allMaps.push(new AreaMap({ kind: "world", worldNumber: WorldNumber.World }, "World", "652ba0d9002aa0d36f996153", "An Official World"))
 
 // Continent Maps
-allMaps.push(new AreaMap({ kind: "continent", continentNumber: ContinentNumber.Europe }, "6614fdc6c867062cb1a0a2f4", "Intersectionguessr - Europe"))
+allMaps.push(new AreaMap({ kind: "continent", continentNumber: ContinentNumber.Europe }, "Europe", "6614fdc6c867062cb1a0a2f4", "Intersectionguessr - Europe"))
 
 // Country Maps
-allMaps.push(new AreaMap({ kind: "country", continentNumber: ContinentNumber.Europe, countryNumber: 1 }, "60aaef355f79500001032f71", "Intersectionguessr - France"))
+allMaps.push(new AreaMap({ kind: "country", continentNumber: ContinentNumber.Europe, countryNumber: 1 }, "France", "60aaef355f79500001032f71", "Intersectionguessr - France"))
 
 export const mapsConfig: AreaMap[] = allMaps

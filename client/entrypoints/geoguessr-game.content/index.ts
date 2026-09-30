@@ -1,4 +1,5 @@
-import { RoundFinishedMessage, type GACResponse, type GeoguessrRoundFinishedMessage } from "../common/models";
+import { RoundFinishedMessage, type GeoguessrRoundFinishedMessage } from "../common/messages";
+import { type GACResponse } from "../common/models";
 
 export default defineContentScript({
     matches: ['*://*.geoguessr.com/game/*'],

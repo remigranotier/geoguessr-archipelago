@@ -1,10 +1,11 @@
 import './style.css';
 
-import { GACConnectionStatus, GACGamemode, GACGameState, MessageType, SendGameStateMessage, type GACMessage, type GACResponse } from '../common/models.ts'
-import { sendConnectionOptions, sendDisonnectCommand } from './connection-form.ts';
-import { renderMaps } from './maps.ts';
-import { getConnectionStatus, renderStatusComponent } from './status.ts';
+import { GACConnectionStatus, GACGameState, type GACResponse } from '../common/models.ts'
+import { sendConnectionOptions, sendDisconnectCommand, setCredentialsFromLastSend } from './connection-form.ts';
+import { getConnectionStatus, renderStatusComponent } from './ui/status.ts';
 import { getGameState, handleSendGameStateMessage } from './game-state.ts';
+import { MessageType, SendGameStateMessage, SendNewLogMessage, type GACMessage } from '../common/messages.ts';
+import { handleNewLogMessage, initLogs } from './ui/message-log.ts';
 
 export const DEFAULT_CONNECTION_STATUS = { authenticated: false, player: "", server: "" }
 
@@ -22,6 +23,10 @@ function clientTabMessageListener(message: GACMessage, sender: Browser.runtime.M
       const sendGameStateMessage = message as SendGameStateMessage;
       handleSendGameStateMessage(sendGameStateMessage)
       return false;
+    case MessageType.SendNewLog:
+      const newLogMessage = message as SendNewLogMessage;
+      handleNewLogMessage(newLogMessage)
+      return false;
     default:
       console.warn("Unknown message type received on client tab")
       return
@@ -33,6 +38,8 @@ function clientTabMessageListener(message: GACMessage, sender: Browser.runtime.M
 getGameState()
 renderStatusComponent()
 getConnectionStatus()
+setCredentialsFromLastSend()
+initLogs()
 document.querySelector("#connect-button")!.addEventListener("click", sendConnectionOptions)
-document.querySelector("#disconnect-button")!.addEventListener("click", sendDisonnectCommand)
+document.querySelector("#disconnect-button")!.addEventListener("click", sendDisconnectCommand)
 browser.runtime.onMessage.addListener(clientTabMessageListener)

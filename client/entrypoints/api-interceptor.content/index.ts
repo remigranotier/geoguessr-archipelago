@@ -1,4 +1,4 @@
-import { GeoguessrRoundFinishedMessage } from "../common/models";
+import { GeoguessrRoundFinishedMessage } from "../common/messages";
 
 export default defineContentScript({
     matches: ['*://*.geoguessr.com/game/*'],

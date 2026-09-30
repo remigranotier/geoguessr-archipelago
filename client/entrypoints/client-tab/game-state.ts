@@ -1,5 +1,6 @@
-import { GACGameState, RetrieveGameStateMessage, type GACResponse, SendGameStateMessage } from "../common/models";
-import { renderMaps } from "./maps";
+import { RetrieveGameStateMessage, SendGameStateMessage } from "../common/messages";
+import { GACGameState, type GACResponse } from "../common/models";
+import { renderMaps } from "./ui/maps";
 
 export async function getGameState() {
     const retrieveGameStateMessage = new RetrieveGameStateMessage()
