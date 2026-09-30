@@ -23,10 +23,16 @@ def set_all_entrance_rules(world: GeoguessrWorld) -> None:
 
 def set_all_location_rules(world: GeoguessrWorld) -> None:
 
-    for region_name in common.REGION_NAMES:
-        region = world.get_region(region_name)
+    for region in common.REGION:
+        if (
+            len(common.ALL_COUNTRIES_PER_REGION[region]) == 0
+            and region.value != "World"
+        ):
+            continue
 
-        for location in region.locations:
+        world_region = world.get_region(region.value)
+
+        for location in world_region.locations:
             # Careful cause that won't work for countries with several words
             country_name = location.name.rsplit(" ", 2)[0]
 
