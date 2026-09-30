@@ -53,7 +53,7 @@ export async function sendConnectionOptions(e: Event) {
     }
 }
 
-export async function sendDisonnectCommand(e: Event) {
+export async function sendDisconnectCommand(e: Event) {
     storage.setItem("sync:connection", {
         server: "",
         slotName: "",

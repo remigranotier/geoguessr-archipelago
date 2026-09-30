@@ -1,7 +1,7 @@
 import './style.css';
 
 import { GACConnectionStatus, GACGameState, type GACResponse } from '../common/models.ts'
-import { sendConnectionOptions, sendDisonnectCommand, setCredentialsFromLastSend } from './connection-form.ts';
+import { sendConnectionOptions, sendDisconnectCommand, setCredentialsFromLastSend } from './connection-form.ts';
 import { getConnectionStatus, renderStatusComponent } from './status.ts';
 import { getGameState, handleSendGameStateMessage } from './game-state.ts';
 import { MessageType, SendGameStateMessage, SendNewLogMessage, type GACMessage } from '../common/messages.ts';
@@ -41,5 +41,5 @@ getConnectionStatus()
 setCredentialsFromLastSend()
 initLogs()
 document.querySelector("#connect-button")!.addEventListener("click", sendConnectionOptions)
-document.querySelector("#disconnect-button")!.addEventListener("click", sendDisonnectCommand)
+document.querySelector("#disconnect-button")!.addEventListener("click", sendDisconnectCommand)
 browser.runtime.onMessage.addListener(clientTabMessageListener)
