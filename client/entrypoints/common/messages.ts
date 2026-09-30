@@ -107,8 +107,7 @@ export class SendNewLogMessage {
     type: MessageType = MessageType.SendNewLog;
 
     constructor(
-        public text: string,
-        public nodes: MessageNode[]
+        public htmlContent: string
     ) { }
 }
 
