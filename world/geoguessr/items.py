@@ -81,7 +81,7 @@ def add_map_items(world, map_name) -> list[Any]:
     default_item_classifications[map_name] = ItemClassification.progression
     default_item_classifications[pan_item_name] = ItemClassification.progression
     default_item_classifications[move_item_name] = ItemClassification.progression
-    default_item_classifications[zoom_item_name] = ItemClassification.useful
+    default_item_classifications[zoom_item_name] = ItemClassification.progression
 
     if map_name != "World":
         new_items.append(world.create_item(map_name))
