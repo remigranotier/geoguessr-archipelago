@@ -7,7 +7,7 @@ import {
 import { getServerConnection, handleServerConnectMessage, handleServerDisconnectMessage } from "./connect";
 import { handleGameFinishedMessage, handleGenerateGameMessage, updateGameState } from "./game";
 import { GenerateGameMessage, MessageType, RoundFinishedMessage, SendGameStateMessage, SendNewLogMessage, type GACMessage, type ServerConnectMessage } from "../common/messages";
-import { handleRetrieveLogsMessage } from "./ap-logs";
+import { handleRetrieveLogsMessage, renderNodes } from "./ap-logs";
 
 export const apClient = new Client();
 declare global {
@@ -95,10 +95,10 @@ function messageListener(message: GACMessage, sender: Browser.runtime.MessageSen
 
     case MessageType.RetrieveLogs:
       console.debug("Received RetrieveLogsMessage")
-      const messageLog: MessageLog = handleRetrieveLogsMessage()
+      const messageLogJson: string[] = handleRetrieveLogsMessage()
       sendResponse({
         success: true,
-        data: messageLog
+        data: messageLogJson
       })
       return false;
 
@@ -165,7 +165,6 @@ export default defineBackground(() => {
   })
 
   apClient.messages.on("message", (text, nodes) => {
-    console.debug("Sending message SendNewLog to client tab")
-    browser.runtime.sendMessage(new SendNewLogMessage(text, nodes));
+    browser.runtime.sendMessage(new SendNewLogMessage(renderNodes(nodes)));
   })
 });
