@@ -7,7 +7,7 @@ import {
 import { getServerConnection, handleServerConnectMessage, handleServerDisconnectMessage } from "./connect";
 import { handleGameFinishedMessage, handleGenerateGameMessage, updateGameState } from "./game";
 import { GenerateGameMessage, MessageType, RoundFinishedMessage, SendGameStateMessage, SendNewLogMessage, type GACMessage, type ServerConnectMessage } from "../common/messages";
-import { handleRetrieveLogsMessage } from "./logs";
+import { handleRetrieveLogsMessage } from "./ap-logs";
 
 export const apClient = new Client();
 declare global {
