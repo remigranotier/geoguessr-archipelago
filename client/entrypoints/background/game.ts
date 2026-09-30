@@ -3,9 +3,7 @@ import {
     GACGamemode,
     GACMap,
     GACMedal,
-    GenerateGameMessage,
     GeoguessrGameStatus,
-    RoundFinishedMessage
 } from '../common/models.ts'
 
 import {
@@ -18,6 +16,7 @@ import {
 } from '../common/config.ts'
 
 import { apClient } from './index.ts'
+import type { GenerateGameMessage, RoundFinishedMessage } from '../common/messages.ts'
 
 export async function generateGame(mapId: string, gamemode: GACGamemode): Promise<string> {
     const response = await fetch(

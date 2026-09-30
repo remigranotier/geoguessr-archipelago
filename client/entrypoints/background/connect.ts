@@ -1,6 +1,7 @@
 import { apClient } from ".";
-import { GACConnectionStatus, type ServerConnectMessage } from "../common/models";
+import { GACConnectionStatus } from "../common/models";
 import { updateGameState } from "./game";
+import type { ServerConnectMessage } from "../common/messages";
 
 export async function handleServerConnectMessage(message: ServerConnectMessage) {
     console.log(`Connecting to ${message.serverUrl} with slot ${message.slotName}`)

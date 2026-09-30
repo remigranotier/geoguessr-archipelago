@@ -1,10 +1,11 @@
 import './style.css';
 
-import { GACConnectionStatus, GACGamemode, GACGameState, MessageType, SendGameStateMessage, type GACMessage, type GACResponse } from '../common/models.ts'
-import { sendConnectionOptions, sendDisonnectCommand } from './connection-form.ts';
+import { GACConnectionStatus, GACGameState, type GACResponse } from '../common/models.ts'
+import { sendConnectionOptions, sendDisonnectCommand, setCredentialsFromLastSend } from './connection-form.ts';
 import { renderMaps } from './maps.ts';
 import { getConnectionStatus, renderStatusComponent } from './status.ts';
 import { getGameState, handleSendGameStateMessage } from './game-state.ts';
+import { MessageType, SendGameStateMessage, type GACMessage } from '../common/messages.ts';
 
 export const DEFAULT_CONNECTION_STATUS = { authenticated: false, player: "", server: "" }
 

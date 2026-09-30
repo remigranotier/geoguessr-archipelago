@@ -2,16 +2,11 @@ import { Client } from "archipelago.js";
 import {
   GACConnectionStatus,
   GACGameState,
-  GenerateGameMessage,
-  type GACMessage,
   type GACResponse,
-  type RoundFinishedMessage,
-  type ServerConnectMessage,
-  SendGameStateMessage
 } from "../common/models";
-import { MessageType } from "../common/models";
 import { getServerConnection, handleServerConnectMessage, handleServerDisconnectMessage } from "./connect";
 import { handleGameFinishedMessage, handleGenerateGameMessage, updateGameState } from "./game";
+import { GenerateGameMessage, MessageType, RoundFinishedMessage, SendGameStateMessage, type GACMessage, type ServerConnectMessage } from "../common/messages";
 
 export const apClient = new Client();
 declare global {

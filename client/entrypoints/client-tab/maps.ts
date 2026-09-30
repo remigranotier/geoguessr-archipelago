@@ -1,4 +1,5 @@
-import { GACGamemode, GACMap, GACMedal, GenerateGameMessage } from "../common/models";
+import { GenerateGameMessage } from "../common/messages";
+import { GACGamemode, GACMap, GACMedal } from "../common/models";
 
 export function renderMaps() {
     const mapTable = document.getElementById('map-table');
