@@ -1,6 +1,6 @@
+import { RetrieveConnectionStatusMessage } from "../common/messages";
 import {
     GACConnectionStatus,
-    RetrieveConnectionStatusMessage,
     StatusSpecialMode,
     type GACResponse
 } from "../common/models"

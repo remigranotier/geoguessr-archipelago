@@ -1,3 +1,4 @@
+import type { MessageNode } from "archipelago.js";
 import type { GACGameState, GeoguessrGameStatus } from "./models";
 
 export enum MessageType {
@@ -10,6 +11,8 @@ export enum MessageType {
     GenerateGame = "GenerateGame",
     RoundFinished = "RoundFinished",
     GeoguessrGameFinished = "GeoguessrGameFinished",
+    RetrieveLogs = "RetrieveLogs",
+    SendNewLog = "SendNewLog"
 }
 
 export class ServerConnectMessage {
@@ -92,6 +95,21 @@ export class GeoguessrRoundFinishedMessage {
         this.totalScore = data["player"]["totalScoreInPoints"]
         this.playerId = data["player"]["id"]
     }
+}
+
+export class RetrieveLogsMessage {
+    type: MessageType = MessageType.RetrieveLogs;
+
+    constructor() { }
+}
+
+export class SendNewLogMessage {
+    type: MessageType = MessageType.SendNewLog;
+
+    constructor(
+        public text: string,
+        public nodes: MessageNode[]
+    ) { }
 }
 
 export interface GACMessage {

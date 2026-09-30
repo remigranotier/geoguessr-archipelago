@@ -17,22 +17,30 @@
   <div id="app">
     <h1>Geoguessr Archipelago</h1>
     <hr>
-    <form id="connect-form">
-      <div>
-        <label for="server">Archipelago server</label>
-        <input id="server" type="string" placeholder="archipelago.gg:XXXXX">
+    <div id="connection-section">
+      <form id="connect-form">
+        <div>
+          <label for="server">Archipelago server</label>
+          <input id="server" type="string" placeholder="archipelago.gg:XXXXX">
+        </div>
+        <div>
+          <label for="slot-name">Slot name</label>
+          <input id="slot-name" type="string" placeholder="<your-name>">
+        </div>
+        <div>
+          <label for="password">Password</label>
+          <input id="password" type="password" placeholder="(leave empty if none)">
+        </div>
+        <button id="connect-button" type="button">Connect</button>
+        <button id="disconnect-button" type="button">Disconnect</button>
+      </form>
+      <div id="recent-logs">
+        <details>
+          <summary>Recent logs</summary>
+          <div id="log-container" class="log-container"></div>
+        </details>
       </div>
-      <div>
-        <label for="slot-name">Slot name</label>
-        <input id="slot-name" type="string" placeholder="<your-name>">
-      </div>
-      <div>
-        <label for="password">Password</label>
-        <input id="password" type="password" placeholder="(leave empty if none)">
-      </div>
-      <button id="connect-button" type="button">Connect</button>
-      <button id="disconnect-button" type="button">Disconnect</button>
-    </form>
+    </div>
     <hr>
     <div id="connect"></div>
     <table id="map-table">

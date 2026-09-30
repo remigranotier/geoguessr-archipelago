@@ -24,6 +24,13 @@ h1 {
   line-height: 1;
 }
 
+#connection-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  width: 100%;
+}
+
 table,
 th,
 td {
@@ -69,6 +76,8 @@ th {
 form {
   display: flex;
   flex-direction: row;
+  margin-left: auto;
+  margin-right: auto;
   gap: 2em
 }
 
@@ -97,4 +106,42 @@ form {
   cursor: default;
   color: white;
   text-decoration: line-through;
+}
+
+#recent-logs {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#recent-logs details {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: black;
+}
+
+#recent-logs summary {
+  padding: 10px 14px;
+  cursor: pointer;
+  font-weight: bold;
+  user-select: none;
+  text-align: left;
+}
+
+.log-container {
+  height: 200px;
+  overflow-y: auto;
+  box-sizing: border-box;
+  padding: 10px;
+
+  border-top: 1px solid #ccc;
+  background: black;
+
+  font-family: monospace;
+  font-size: 13px;
+  white-space: pre-wrap;
+}
+
+.log-text {
+  text-align: left;
 }

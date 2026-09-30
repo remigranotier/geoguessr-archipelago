@@ -1,4 +1,4 @@
-import { Client } from "archipelago.js";
+import { Client, type MessageLog } from "archipelago.js";
 import {
   GACConnectionStatus,
   GACGameState,
@@ -6,7 +6,8 @@ import {
 } from "../common/models";
 import { getServerConnection, handleServerConnectMessage, handleServerDisconnectMessage } from "./connect";
 import { handleGameFinishedMessage, handleGenerateGameMessage, updateGameState } from "./game";
-import { GenerateGameMessage, MessageType, RoundFinishedMessage, SendGameStateMessage, type GACMessage, type ServerConnectMessage } from "../common/messages";
+import { GenerateGameMessage, MessageType, RoundFinishedMessage, SendGameStateMessage, SendNewLogMessage, type GACMessage, type ServerConnectMessage } from "../common/messages";
+import { handleRetrieveLogsMessage } from "./logs";
 
 export const apClient = new Client();
 declare global {
@@ -92,6 +93,15 @@ function messageListener(message: GACMessage, sender: Browser.runtime.MessageSen
       });
       return true;
 
+    case MessageType.RetrieveLogs:
+      console.debug("Received RetrieveLogsMessage")
+      const messageLog: MessageLog = handleRetrieveLogsMessage()
+      sendResponse({
+        success: true,
+        data: messageLog
+      })
+      return false;
+
     default:
       console.warn("Unknown message type received on service worker")
   }
@@ -152,5 +162,10 @@ export default defineBackground(() => {
     updateGameState()
     console.debug("Sending message SendGameStateMessage to client tab", globalThis.gameState)
     browser.runtime.sendMessage(new SendGameStateMessage(globalThis.gameState));
+  })
+
+  apClient.messages.on("message", (text, nodes) => {
+    console.debug("Sending message SendNewLog to client tab")
+    browser.runtime.sendMessage(new SendNewLogMessage(text, nodes));
   })
 });

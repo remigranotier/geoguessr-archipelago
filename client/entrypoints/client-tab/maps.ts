@@ -5,6 +5,8 @@ import { GACGamemode, GACMap, GACMedal } from "../common/models";
 export function renderMaps() {
     const mapTable = document.getElementById('map-table');
     mapTable!.style.display = globalThis.connectionStatus.authenticated ? "block" : "none"
+    const recentLogs = document.getElementById('recent-logs');
+    recentLogs!.style.display = globalThis.connectionStatus.authenticated ? "block" : "none"
 
     const tbody = mapTable?.querySelector('tbody');
     tbody!.innerHTML = ""
