@@ -32,6 +32,19 @@ td {
   border-collapse: collapse;
 }
 
+th {
+  padding-bottom: 0;
+  padding-top: 0;
+}
+
+.mode-column {
+  width: 3em;
+}
+
+#map-column {
+  min-width: 200px;
+}
+
 #status-component {
   padding-left: 1em;
   display: flex;

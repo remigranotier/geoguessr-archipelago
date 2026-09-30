@@ -1,3 +1,4 @@
+import { mapsConfig } from "../common/config";
 import { GenerateGameMessage } from "../common/messages";
 import { GACGamemode, GACMap, GACMedal } from "../common/models";
 
@@ -16,13 +17,18 @@ export function renderMaps() {
 export function renderMap(map: GACMap): HTMLTableRowElement {
     const row = document.createElement("tr");
     const mapNameCell: HTMLTableCellElement = document.createElement("td")
-    const gamemodeCell: HTMLTableCellElement = document.createElement("td")
+    const moveCell: HTMLTableCellElement = document.createElement("td")
+    const panCell: HTMLTableCellElement = document.createElement("td")
+    const zoomCell: HTMLTableCellElement = document.createElement("td")
     const bestMedalCell: HTMLTableCellElement = document.createElement("td")
     const fivekCell: HTMLTableCellElement = document.createElement("td")
 
     const currentGamemode: GACGamemode = map.gamemode;
 
-    mapNameCell.textContent = map.name;
+    const currentAreaMap = mapsConfig.find((areaMap) => areaMap.mapId === map.id)
+    const areaName = currentAreaMap?.areaName ?? map.name
+    mapNameCell.textContent = areaName;
+    mapNameCell.title = map.name;
     if (map.available) {
         mapNameCell.classList.add("activeLink")
         mapNameCell.onclick = (_: PointerEvent) => {
@@ -36,14 +42,18 @@ export function renderMap(map: GACMap): HTMLTableRowElement {
     }
 
 
-    gamemodeCell.textContent = `${currentGamemode & GACGamemode.Move ? "" : "No "}Move, ${currentGamemode & GACGamemode.Pan ? "" : "No "}Pan, ${currentGamemode & GACGamemode.Zoom ? "" : "No "}Zoom`
+    moveCell.textContent = currentGamemode & GACGamemode.Move ? "✔️" : "❌"
+    panCell.textContent = currentGamemode & GACGamemode.Pan ? "✔️" : "❌"
+    zoomCell.textContent = currentGamemode & GACGamemode.Zoom ? "✔️" : "❌"
 
     bestMedalCell.textContent = getMedalText(map.bestMedal)
 
-    fivekCell.textContent = map.fivekDone ? "✅" : "❌"
+    fivekCell.textContent = map.fivekDone ? "✔️" : "❌"
 
     row.appendChild(mapNameCell)
-    row.appendChild(gamemodeCell)
+    row.appendChild(moveCell)
+    row.appendChild(panCell)
+    row.appendChild(zoomCell)
     row.appendChild(bestMedalCell)
     row.appendChild(fivekCell)
 
@@ -61,6 +71,6 @@ function getMedalText(medal: GACMedal) {
         case GACMedal.Platinum:
             return "🎯"
         case GACMedal.None:
-            return "🙈"
+            return "❌"
     }
 }
