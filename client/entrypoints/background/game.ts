@@ -1,4 +1,4 @@
-import type { Client, Item } from 'archipelago.js'
+import type { Item } from 'archipelago.js'
 import {
     GACGamemode,
     GACMap,
@@ -163,7 +163,7 @@ export function updateAreaMap(areaMap: AreaMap) {
 
     mapStatus.fivekDone = apClient.room.checkedLocations.includes(baseLocationId + AreaLocations.FiveK)
 
-    mapStatus.available = (apClient.items.received.find((item: Item) => item.id == (baseItemId + AreaItems.Unlock)) !== undefined)
+    mapStatus.available = (apClient.items.received.some((item: Item) => item.id == (baseItemId + AreaItems.Unlock)))
 
     mapStatus.gamemode = GACGamemode.None
     if (apClient.items.received.some((item: Item) => item.id == (baseItemId + AreaItems.Pan))) {

@@ -24,7 +24,7 @@ async function handleGeoguessrGameFinishedMessage(event: MessageEvent<GeoguessrR
             event.data.roundScore!,
             event.data.totalScore!
         )
-        const roundFinishedResponse: GACResponse = await browser.runtime.sendMessage(roundFinishedMessage)
+        const _roundFinishedResponse: GACResponse = await browser.runtime.sendMessage(roundFinishedMessage)
         console.debug("RoundFinishedMessage correctly sent")
     }
 }
