@@ -92,7 +92,6 @@ export function handleGameFinishedMessage(message: RoundFinishedMessage) {
     }
     if (message.totalScore >= medalThresholds[GACMedal.Platinum]) {
         locationsToCheck.push(areaMap.baseLocationId + AreaLocations.Platinum)
-        locationsToCheck.push(areaMap.baseLocationId + AreaLocations.MapComplete)
     }
 
     locationsToCheck = locationsToCheck.filter((location) => !apClient.room.checkedLocations.includes(location))
@@ -157,8 +156,6 @@ export function updateAreaMap(areaMap: AreaMap) {
     }
 
     mapStatus.fivekDone = apClient.room.checkedLocations.includes(baseLocationId + AreaLocations.FiveK)
-
-    mapStatus.mapDone = apClient.room.checkedLocations.includes(baseLocationId + AreaLocations.MapComplete)
 
     mapStatus.available = (apClient.items.received.find((item: Item) => item.id == (baseItemId + AreaItems.Unlock)) !== undefined) // || mapStatus.name == "An Official World"
 
