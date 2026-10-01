@@ -11,8 +11,8 @@ export default defineContentScript({
             const [input, init] = args;
 
             const maybeRequestInput = input instanceof Request
-                        ? input.url
-                        : String(input);
+                ? input.url
+                : String(input);
             const url =
                 typeof input === 'string'
                     ? input
