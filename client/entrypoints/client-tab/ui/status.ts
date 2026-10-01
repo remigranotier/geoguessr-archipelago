@@ -44,12 +44,10 @@ export function renderStatusComponent(specialMode?: StatusSpecialMode) {
                 console.error("Unknown special mode while rendering status component")
                 break;
         }
+    } else if (globalThis.connectionStatus.authenticated) {
+        statusComponent.innerHTML = `✅ Connected to <strong>${globalThis.connectionStatus.server}</strong> as <strong>${globalThis.connectionStatus.player}</strong>`
     } else {
-        if (globalThis.connectionStatus.authenticated) {
-            statusComponent.innerHTML = `✅ Connected to <strong>${globalThis.connectionStatus.server}</strong> as <strong>${globalThis.connectionStatus.player}</strong>`
-        } else {
-            statusComponent.innerHTML = `❌ Not connected`
-        }
+        statusComponent.innerHTML = `❌ Not connected`
     }
 
     renderMaps()

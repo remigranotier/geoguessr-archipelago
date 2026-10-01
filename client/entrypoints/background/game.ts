@@ -65,7 +65,7 @@ export function isMapAvailable(areaMap: AreaMap): boolean {
     return (apClient.items.received.find((item: Item) => item.id == baseItemId) !== undefined) // || areaMap.mapName == "An Official World"
 }
 
-export async function handleGameFinishedMessage(message: RoundFinishedMessage) {
+export function handleGameFinishedMessage(message: RoundFinishedMessage) {
     let areaMap = mapsConfig.find((map) => map.mapId === message.mapId)
     if (areaMap === undefined || !isMapAvailable(areaMap)) {
         console.debug("Received a finished round on a map not available. Ignoring.")
@@ -99,7 +99,7 @@ export async function handleGameFinishedMessage(message: RoundFinishedMessage) {
     if (locationsToCheck.length > 0) {
         console.debug("Checking locations:", locationsToCheck)
         apClient.check(...locationsToCheck)
-        browser.runtime.sendMessage(new SendSoundEffectMessage(SoundEffectType.LocationChecked))
+        void browser.runtime.sendMessage(new SendSoundEffectMessage(SoundEffectType.LocationChecked))
     }
 
     if (message.gameStatus == GeoguessrGameStatus.FINISHED) {
@@ -114,59 +114,62 @@ export function updateGameState() {
     console.debug("Locations available are:", apClient.room.missingLocations)
     console.debug("Locations checked are:", apClient.room.checkedLocations)
 
-    for (var areaMap of mapsConfig) {
-        console.debug(`Updating game state of map ${areaMap.mapName}`)
-        const baseLocationId = areaMap.baseLocationId
-        const baseItemId = areaMap.baseItemId
-        let mapStatus = globalThis.gameState.maps.find((map) => map.id === areaMap.mapId)
-
-        if (mapStatus === undefined) {
-            mapStatus = {
-                available: true,
-                gamemode: GACGamemode.None,
-                bestMedal: GACMedal.None,
-                bestScore: 0,
-                bestSeed: "",
-                fivekDone: false,
-                id: areaMap.mapId,
-                mapDone: false,
-                name: areaMap.mapName
-            }
-            globalThis.gameState.maps.push(mapStatus)
-        }
-
-        mapStatus.bestMedal = GACMedal.None
-        if (apClient.room.checkedLocations.includes(baseLocationId + AreaLocations.Bronze)) {
-            mapStatus.bestMedal = GACMedal.Bronze
-        }
-        if (apClient.room.checkedLocations.includes(baseLocationId + AreaLocations.Silver)) {
-            mapStatus.bestMedal = GACMedal.Silver
-        }
-        if (apClient.room.checkedLocations.includes(baseLocationId + AreaLocations.Gold)) {
-            mapStatus.bestMedal = GACMedal.Gold
-        }
-        if (apClient.room.checkedLocations.includes(baseLocationId + AreaLocations.Platinum)) {
-            mapStatus.bestMedal = GACMedal.Platinum
-        }
-
-        mapStatus.fivekDone = apClient.room.checkedLocations.includes(baseLocationId + AreaLocations.FiveK)
-
-        mapStatus.mapDone = apClient.room.checkedLocations.includes(baseLocationId + AreaLocations.MapComplete)
-
-        mapStatus.available = (apClient.items.received.find((item: Item) => item.id == (baseItemId + AreaItems.Unlock)) !== undefined) // || mapStatus.name == "An Official World"
-
-        mapStatus.gamemode = GACGamemode.None
-        if (apClient.items.received.find((item: Item) => item.id == (baseItemId + AreaItems.Pan)) !== undefined) {
-            mapStatus.gamemode |= GACGamemode.Pan
-        }
-        if (apClient.items.received.find((item: Item) => item.id == (baseItemId + AreaItems.Move)) !== undefined) {
-            mapStatus.gamemode |= GACGamemode.Move
-        }
-        if (apClient.items.received.find((item: Item) => item.id == (baseItemId + AreaItems.Zoom)) !== undefined) {
-            mapStatus.gamemode |= GACGamemode.Zoom
-        }
-
+    for (let areaMap of mapsConfig) {
+        updateAreaMap(areaMap)
     }
 
     console.debug("Game state after update is:", globalThis.gameState)
+}
+
+export function updateAreaMap(areaMap: AreaMap) {
+    console.debug(`Updating game state of map ${areaMap.mapName}`)
+    const baseLocationId = areaMap.baseLocationId
+    const baseItemId = areaMap.baseItemId
+    let mapStatus = globalThis.gameState.maps.find((map) => map.id === areaMap.mapId)
+
+    if (mapStatus === undefined) {
+        mapStatus = {
+            available: true,
+            gamemode: GACGamemode.None,
+            bestMedal: GACMedal.None,
+            bestScore: 0,
+            bestSeed: "",
+            fivekDone: false,
+            id: areaMap.mapId,
+            mapDone: false,
+            name: areaMap.mapName
+        }
+        globalThis.gameState.maps.push(mapStatus)
+    }
+
+    mapStatus.bestMedal = GACMedal.None
+    if (apClient.room.checkedLocations.includes(baseLocationId + AreaLocations.Bronze)) {
+        mapStatus.bestMedal = GACMedal.Bronze
+    }
+    if (apClient.room.checkedLocations.includes(baseLocationId + AreaLocations.Silver)) {
+        mapStatus.bestMedal = GACMedal.Silver
+    }
+    if (apClient.room.checkedLocations.includes(baseLocationId + AreaLocations.Gold)) {
+        mapStatus.bestMedal = GACMedal.Gold
+    }
+    if (apClient.room.checkedLocations.includes(baseLocationId + AreaLocations.Platinum)) {
+        mapStatus.bestMedal = GACMedal.Platinum
+    }
+
+    mapStatus.fivekDone = apClient.room.checkedLocations.includes(baseLocationId + AreaLocations.FiveK)
+
+    mapStatus.mapDone = apClient.room.checkedLocations.includes(baseLocationId + AreaLocations.MapComplete)
+
+    mapStatus.available = (apClient.items.received.find((item: Item) => item.id == (baseItemId + AreaItems.Unlock)) !== undefined) // || mapStatus.name == "An Official World"
+
+    mapStatus.gamemode = GACGamemode.None
+    if (apClient.items.received.some((item: Item) => item.id == (baseItemId + AreaItems.Pan))) {
+        mapStatus.gamemode |= GACGamemode.Pan
+    }
+    if (apClient.items.received.some((item: Item) => item.id == (baseItemId + AreaItems.Move))) {
+        mapStatus.gamemode |= GACGamemode.Move
+    }
+    if (apClient.items.received.some((item: Item) => item.id == (baseItemId + AreaItems.Zoom))) {
+        mapStatus.gamemode |= GACGamemode.Zoom
+    }
 }
