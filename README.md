@@ -24,37 +24,32 @@ Different point thresholds might exist for the same map :
 
 Each tier for each map is a check, and multiple checks might get triggered by the same map (for example, a 25000 score can check all the thresholds at once).
 
-Additional check ideas:
+Additional checks:
 - First 5k
-- A manual check on some species of animals/trees found on streetview
 
 ### Unlocks
 
-You start with only 10 seconds and No Move, No Pan, No Zoom for every map.
+You start with only the World map in No Move, No Pan, No Zoom.
 
 When an unlock is triggered, different things can improve your possibilities of doing unlocks
 - Unlock a new map
-- Unlock a new movement (Move/Pan/Zoom). This can be per-map, configurable in the options.
-- Unlock more time (Progressive time) -> 10s, 20s, 30s, 40s, 50s, 1min, 1min30, 2min, 2min30, 3min, 4min, 5min, 10min, No Time
+- Unlock a new movement for a map (Move/Pan/Zoom)
 
-Additional unlock ideas:
-- Unlock the ability to zoom on map
-- Unlock more movements (Progressive move): 3 clicks, 10 clicks, 50 clicks, unlimited
+Additional unlock ideas: #TODO
 - External scripts disabled : Blink mode, No Car, No Compass
 
 ### Filler items
 
-Malus:
+Malus: #TODO
 - Return to spawn
 - Blind
 - Beyblade
 - No zoom on map for N seconds
 - Can't move for N seconds
 
-Bonus:
+Bonus: #TODO
 - Random tip on the latest map played
 
 ### How to finish
 
-- N countries with platinum
-- N medals
+- N countries with platinum medal, configured on generation
