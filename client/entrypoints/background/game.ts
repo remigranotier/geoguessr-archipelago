@@ -62,7 +62,7 @@ export async function handleGenerateGameMessage(message: GenerateGameMessage) {
 
 export function isMapAvailable(areaMap: AreaMap): boolean {
     const baseItemId = areaMap.baseItemId
-    return (apClient.items.received.find((item: Item) => item.id == baseItemId) !== undefined) // || areaMap.mapName == "An Official World"
+    return (apClient.items.received.some((item: Item) => item.id == baseItemId))
 }
 
 export function handleGameFinishedMessage(message: RoundFinishedMessage) {
@@ -103,6 +103,13 @@ export function handleGameFinishedMessage(message: RoundFinishedMessage) {
 
     if (message.gameStatus == GeoguessrGameStatus.FINISHED) {
         console.log(`Player got ${message.totalScore} pts on map ${message.mapName}`)
+    }
+
+    let map: GACMap | undefined = globalThis.gameState.maps.find((m) => m.id == message.mapId)
+    if (map !== undefined && message.totalScore > map.bestScore) {
+        console.debug("Best score beaten:", message.totalScore, "vs", map.bestScore, "before")
+        map.bestScore = message.totalScore
+        map.bestSeed = message.gameId
     }
 
     updateGameState()
@@ -157,7 +164,7 @@ export function updateAreaMap(areaMap: AreaMap) {
 
     mapStatus.fivekDone = apClient.room.checkedLocations.includes(baseLocationId + AreaLocations.FiveK)
 
-    mapStatus.available = (apClient.items.received.find((item: Item) => item.id == (baseItemId + AreaItems.Unlock)) !== undefined) // || mapStatus.name == "An Official World"
+    mapStatus.available = (apClient.items.received.find((item: Item) => item.id == (baseItemId + AreaItems.Unlock)) !== undefined)
 
     mapStatus.gamemode = GACGamemode.None
     if (apClient.items.received.some((item: Item) => item.id == (baseItemId + AreaItems.Pan))) {
@@ -182,8 +189,7 @@ function checkWinCondition() {
         .filter(map => map.bestMedal === GACMedal.Platinum)
         .length;
 
-    if(platAmount >= (globalThis.gameConfigData.plat_count as number))
-    {
+    if (platAmount >= (globalThis.gameConfigData.plat_count as number)) {
         apClient.goal()
         void browser.runtime.sendMessage(new SendSoundEffectMessage(SoundEffectType.GoalReached))
     }

@@ -50,7 +50,9 @@ export function renderMap(map: GACMap): HTMLTableRowElement {
     panCell.textContent = currentGamemode & GACGamemode.Pan ? "✔️" : "❌"
     zoomCell.textContent = currentGamemode & GACGamemode.Zoom ? "✔️" : "❌"
 
-    bestMedalCell.textContent = getMedalText(map.bestMedal)
+    bestMedalCell.innerHTML = map.bestSeed != "" ?
+        `<a target="_blank" style="text-decoration: none;" href="https://geoguessr.com/game/${map.bestSeed}">${getMedalText(map.bestMedal)}</a>` :
+        getMedalText(map.bestMedal)
 
     fivekCell.textContent = map.fivekDone ? "✔️" : "❌"
 
