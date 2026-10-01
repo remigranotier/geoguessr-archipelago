@@ -67,3 +67,10 @@ export enum StatusSpecialMode {
     Loading,
     Failed
 }
+
+export enum SoundEffectType {
+    None,
+    LocationChecked,
+    ItemReceived,
+    GoalReached
+}

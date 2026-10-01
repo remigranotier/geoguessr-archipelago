@@ -4,8 +4,9 @@ import { GACConnectionStatus, GACGameState, type GACResponse } from '../common/m
 import { sendConnectionOptions, sendDisconnectCommand, setCredentialsFromLastSend } from './connection-form.ts';
 import { getConnectionStatus, renderStatusComponent } from './ui/status.ts';
 import { getGameState, handleSendGameStateMessage } from './game-state.ts';
-import { MessageType, SendGameStateMessage, SendNewLogMessage, type GACMessage } from '../common/messages.ts';
+import { MessageType, SendGameStateMessage, SendNewLogMessage, SendSoundEffectMessage, type GACMessage } from '../common/messages.ts';
 import { handleNewLogMessage, initLogs } from './ui/message-log.ts';
+import { playSoundEffect } from './ui/sound-effect.ts';
 
 export const DEFAULT_CONNECTION_STATUS = { authenticated: false, player: "", server: "" }
 
@@ -26,6 +27,10 @@ function clientTabMessageListener(message: GACMessage, sender: Browser.runtime.M
     case MessageType.SendNewLog:
       const newLogMessage = message as SendNewLogMessage;
       handleNewLogMessage(newLogMessage)
+      return false;
+    case MessageType.SendSoundEffect:
+      const newSoundEffectMessage = message as SendSoundEffectMessage;
+      playSoundEffect(newSoundEffectMessage.soundType)
       return false;
     default:
       console.warn("Unknown message type received on client tab")

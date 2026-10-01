@@ -2,11 +2,12 @@ import { Client, type MessageLog } from "archipelago.js";
 import {
   GACConnectionStatus,
   GACGameState,
+  SoundEffectType,
   type GACResponse,
 } from "../common/models";
 import { getServerConnection, handleServerConnectMessage, handleServerDisconnectMessage } from "./connect";
 import { handleGameFinishedMessage, handleGenerateGameMessage, updateGameState } from "./game";
-import { GenerateGameMessage, MessageType, RoundFinishedMessage, SendGameStateMessage, SendNewLogMessage, type GACMessage, type ServerConnectMessage } from "../common/messages";
+import { GenerateGameMessage, MessageType, RoundFinishedMessage, SendGameStateMessage, SendNewLogMessage, SendSoundEffectMessage, type GACMessage, type ServerConnectMessage } from "../common/messages";
 import { handleRetrieveLogsMessage, renderNodes } from "./ap-logs";
 
 export const apClient = new Client();
@@ -140,10 +141,6 @@ export default defineBackground(() => {
 
   browser.action.onClicked.addListener(actionListener);
 
-  apClient.messages.on("message", (content) => {
-    console.log(`AP_CLIENT - ${content}`);
-  });
-
   apClient.items.on("itemsReceived", (items) => {
     for (var item of items) {
       if (!item) {
@@ -156,6 +153,9 @@ export default defineBackground(() => {
     updateGameState()
     console.debug("Sending message SendGameStateMessage to client tab", globalThis.gameState)
     browser.runtime.sendMessage(new SendGameStateMessage(globalThis.gameState));
+    if (items.some((item) => item.sender.name != apClient.players.self.name)) {
+      browser.runtime.sendMessage(new SendSoundEffectMessage(SoundEffectType.ItemReceived))
+    }
   })
 
   apClient.room.on("locationsChecked", (_locations) => {
@@ -164,7 +164,7 @@ export default defineBackground(() => {
     browser.runtime.sendMessage(new SendGameStateMessage(globalThis.gameState));
   })
 
-  apClient.messages.on("message", (text, nodes) => {
+  apClient.messages.on("message", (_text, nodes) => {
     browser.runtime.sendMessage(new SendNewLogMessage(renderNodes(nodes)));
   })
 });
