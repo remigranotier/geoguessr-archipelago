@@ -5,6 +5,7 @@
 - Colorful text client (#4)
 - Add sound effects on events (#5)
 - Trigger win when goal condition reached (#9)
+- Adapt row background color to logic state (#10)
 
 ## Bugfixes
 - Added error log on game generation failure (#6)
