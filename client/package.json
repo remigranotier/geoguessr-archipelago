@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@wxt-dev/storage": "^1.2.9",
-    "archipelago.js": "^2.1.0"
+    "archipelago.js": "^2.1.0",
+    "linkedom": "^0.18.13"
   }
 }

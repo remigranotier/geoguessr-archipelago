@@ -1,5 +1,6 @@
 import type { MessageNode } from "archipelago.js";
 import { apClient } from ".";
+import { parseHTML } from "linkedom";
 
 export function handleRetrieveLogsMessage(): string[] {
     return apClient.messages.log.map((log) => renderNodes(log.nodes))
@@ -10,7 +11,15 @@ export function renderNodes(nodes: MessageNode[]): string {
 }
 
 export function renderNode(node: MessageNode): string {
-    var nodeElement = document.createElement("span")
+    const { window } = parseHTML(`
+        <html>
+            <body></body>
+        </html>
+    `);
+
+    const { document } = window;
+
+    const nodeElement = document.createElement("span")
     console.debug(node)
     switch (node.type) {
         case "player":
