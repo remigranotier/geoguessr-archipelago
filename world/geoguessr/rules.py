@@ -60,7 +60,6 @@ def set_all_location_rules(world: GeoguessrWorld) -> None:
 
 
 def set_completion_condition(world: GeoguessrWorld) -> None:
-
     items_to_count = [
         item.name
         for item in world.multiworld.get_items()

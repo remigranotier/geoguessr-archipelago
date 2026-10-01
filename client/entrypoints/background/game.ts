@@ -174,7 +174,6 @@ export function updateAreaMap(areaMap: AreaMap) {
 }
 
 function checkWinCondition() {
-
     if (globalThis.gameConfigData === undefined || globalThis.connectionStatus === undefined) {
         return;
     }
