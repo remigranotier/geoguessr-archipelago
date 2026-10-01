@@ -10,7 +10,10 @@ export async function handleServerConnectMessage(message: ServerConnectMessage) 
     const slotData = await apClient.login(message.serverUrl, message.slotName, "Geoguessr", connectionOptions)
     console.debug("Connection success on service worker")
     console.debug("Slot data is :", slotData)
+
+    globalThis.gameConfigData = slotData
     updateGameState()
+
     return slotData
 }
 

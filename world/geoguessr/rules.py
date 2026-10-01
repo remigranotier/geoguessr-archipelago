@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from rule_builder.rules import Has, True_, HasAllCounts
+from rule_builder.rules import Has, True_, HasAllCounts, HasFromList
 
 from . import common
 
@@ -23,10 +23,16 @@ def set_all_entrance_rules(world: GeoguessrWorld) -> None:
 
 def set_all_location_rules(world: GeoguessrWorld) -> None:
 
-    for region_name in common.REGION_NAMES:
-        region = world.get_region(region_name)
+    for region in common.REGION:
+        if (
+            len(common.ALL_COUNTRIES_PER_REGION[region]) == 0
+            and region.value != "World"
+        ):
+            continue
 
-        for location in region.locations:
+        world_region = world.get_region(region.value)
+
+        for location in world_region.locations:
             # Careful cause that won't work for countries with several words
             country_name = location.name.rsplit(" ", 2)[0]
 
@@ -43,19 +49,23 @@ def set_all_location_rules(world: GeoguessrWorld) -> None:
             has_pan_and_move = has_pan & has_move
             has_all_modes = has_pan & has_move & has_zoom
 
-            if "Silver" in location.name:
+            if "Silver Medal" in location.name:
                 loc_rule &= has_pan_or_move
             elif "Gold" in location.name or "5k" in location.name:
                 loc_rule &= has_pan_and_move
-            elif "Platinum" in location.name or "Map Complete" in location.name:
+            elif "Platinum Medal" in location.name or "Platinum Event" in location.name:
                 loc_rule &= has_all_modes
 
             world.set_rule(location, loc_rule)
 
 
 def set_completion_condition(world: GeoguessrWorld) -> None:
-    # This means that the Victory event has to be triggered from the client side.
-    # It is the client's responsibility to determine when.
+    items_to_count = [
+        item.name
+        for item in world.multiworld.get_items()
+        if "Platinum Obtained Event Item" in item.name
+    ]
+
     world.set_completion_rule(
-        HasAllCounts({"Platinum medal": world.options.plat_count.value})
+        HasFromList(*items_to_count, count=world.options.plat_count.value)
     )

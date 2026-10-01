@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING
 
 from BaseClasses import Location
 
-from . import common
+from . import common, items
 
 if TYPE_CHECKING:
     from .world import GeoguessrWorld
@@ -30,15 +30,22 @@ def create_all_locations(world: GeoguessrWorld) -> None:
 
 def create_regular_locations(world: GeoguessrWorld) -> None:
 
-    for region_name in common.REGION_NAMES:
-        ap_region = world.get_region(region_name)
+    for region in common.REGION:
+        # skipping regions that don't have countries
+        if (
+            len(common.ALL_COUNTRIES_PER_REGION[region]) == 0
+            and region.value != "World"
+        ):
+            continue
+
+        ap_region = world.get_region(region.value)
 
         region_locations = get_location_names_with_ids(
             [
                 loc_name
                 for loc_name, loc_id in location_name_to_id.items()
-                if loc_id >= common.REGION_BASE_IDS[region_name]
-                and loc_id < common.REGION_BASE_IDS[region_name] + 1000
+                if loc_id >= common.REGION_BASE_IDS[region]
+                and loc_id < common.REGION_BASE_IDS[region] + 1000
             ]
         )
         ap_region.add_locations(region_locations, GeoguessrLocation)
@@ -46,21 +53,24 @@ def create_regular_locations(world: GeoguessrWorld) -> None:
 
 def generate_locations() -> dict[str:int]:
 
-    generate_region_locations("World", [])
-    generate_region_locations("Europe", common.EUROPE_COUNTRY_NAMES)
-    # generate_region_locations("Asia", ASIA_COUNTRY_NAMES)
-    # generate_region_locations("Africa", AFRICA_COUNTRY_NAMES)
-    # generate_region_locations("North_america", NORTH_AMERICA_COUNTRY_NAMES)
-    # generate_region_locations("South_america", SOUTH_AMERICA_COUNTRY_NAMES)
-    # generate_region_locations("Oceania", OCEANIA_COUNTRY_NAMES)
+    for region in common.REGION:
+        # skipping regions that don't have countries
+        if (
+            len(common.ALL_COUNTRIES_PER_REGION[region]) == 0
+            and region.value != "World"
+        ):
+            continue
+
+        generate_region_locations(region, common.ALL_COUNTRIES_PER_REGION[region])
+
     return location_name_to_id
 
 
-def generate_region_locations(region_name: str, country_names: list[str]) -> None:
-    base_id = common.REGION_BASE_IDS[region_name]
+def generate_region_locations(region: common.REGION, country_names: list[str]) -> None:
+    base_id = common.REGION_BASE_IDS[region]
 
     for check_index, check_type in enumerate(common.LOCATION_TYPES):
-        loc_name = f"{region_name} {check_type}"
+        loc_name = f"{region.value} {check_type}"
         loc_id = base_id + check_index
         location_name_to_id[loc_name] = loc_id
 
@@ -74,4 +84,32 @@ def generate_region_locations(region_name: str, country_names: list[str]) -> Non
 
 
 def create_events(world: GeoguessrWorld) -> None:
-    pass
+    world_region_name = common.REGION.World.value
+
+    world_region = world.get_region(world_region_name)
+    world_region.add_event(
+        f"{world_region_name} Platinum Event",
+        f"{world_region_name} Platinum Obtained Event Item",
+        location_type=GeoguessrLocation,
+        item_type=items.GeoguessrItem,
+    )
+
+    for region in common.REGION:
+        if len(common.ALL_COUNTRIES_PER_REGION[region]) == 0:
+            continue
+
+        it_region = world.get_region(region.value)
+        it_region.add_event(
+            f"{region.value} Platinum Event",
+            f"{region.value} Platinum Obtained Event Item",
+            location_type=GeoguessrLocation,
+            item_type=items.GeoguessrItem,
+        )
+
+        for country in common.ALL_COUNTRIES_PER_REGION[region]:
+            it_region.add_event(
+                f"{country} Platinum Event",
+                f"{country} Platinum Obtained Event Item",
+                location_type=GeoguessrLocation,
+                item_type=items.GeoguessrItem,
+            )

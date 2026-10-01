@@ -1,6 +1,6 @@
 import { GACMedal } from "./models";
 
-const LOCATIONS_PER_MAP = 6 // Bronze, Silver, Gold, Platinum, 5k, MapComplete
+const LOCATIONS_PER_MAP = 5 // Bronze, Silver, Gold, Platinum, 5k
 export const ITEMS_PER_MAP = 4 // Unlock, Pan, Move, Zoom
 
 export enum AreaLocations {
@@ -9,7 +9,6 @@ export enum AreaLocations {
     Gold = 2,
     Platinum = 3,
     FiveK = 4,
-    MapComplete = 5,
 }
 
 export enum AreaItems {

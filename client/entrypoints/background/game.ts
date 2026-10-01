@@ -92,7 +92,6 @@ export function handleGameFinishedMessage(message: RoundFinishedMessage) {
     }
     if (message.totalScore >= medalThresholds[GACMedal.Platinum]) {
         locationsToCheck.push(areaMap.baseLocationId + AreaLocations.Platinum)
-        locationsToCheck.push(areaMap.baseLocationId + AreaLocations.MapComplete)
     }
 
     locationsToCheck = locationsToCheck.filter((location) => !apClient.room.checkedLocations.includes(location))
@@ -158,8 +157,6 @@ export function updateAreaMap(areaMap: AreaMap) {
 
     mapStatus.fivekDone = apClient.room.checkedLocations.includes(baseLocationId + AreaLocations.FiveK)
 
-    mapStatus.mapDone = apClient.room.checkedLocations.includes(baseLocationId + AreaLocations.MapComplete)
-
     mapStatus.available = (apClient.items.received.find((item: Item) => item.id == (baseItemId + AreaItems.Unlock)) !== undefined) // || mapStatus.name == "An Official World"
 
     mapStatus.gamemode = GACGamemode.None
@@ -171,5 +168,23 @@ export function updateAreaMap(areaMap: AreaMap) {
     }
     if (apClient.items.received.some((item: Item) => item.id == (baseItemId + AreaItems.Zoom))) {
         mapStatus.gamemode |= GACGamemode.Zoom
+    }
+
+    checkWinCondition()
+}
+
+function checkWinCondition() {
+    if (globalThis.gameConfigData === undefined || globalThis.connectionStatus === undefined) {
+        return;
+    }
+
+    const platAmount = globalThis.gameState.maps
+        .filter(map => map.bestMedal === GACMedal.Platinum)
+        .length;
+
+    if(platAmount >= (globalThis.gameConfigData.plat_count as number))
+    {
+        apClient.goal()
+        void browser.runtime.sendMessage(new SendSoundEffectMessage(SoundEffectType.GoalReached))
     }
 }

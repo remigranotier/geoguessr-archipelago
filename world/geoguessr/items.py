@@ -40,25 +40,20 @@ def create_all_items(world: GeoguessrWorld) -> None:
 
     itempool = []
 
-    for region in common.REGION_NAMES:
-        itempool += add_map_items(world, region)
+    for region in common.REGION:
+        # skipping regions that don't have countries
+        if (
+            len(common.ALL_COUNTRIES_PER_REGION[region]) == 0
+            and region.value != "World"
+        ):
+            continue
 
-    for index, country in enumerate(common.EUROPE_COUNTRY_NAMES):
-        itempool += add_map_items(
-            world,
-            country,
-        )
+        itempool += add_map_items(world, region.value)
 
-    for loc in world.get_locations():
-        if "Map Complete" in loc.name:
-            new_plat_medal = GeoguessrItem(
-                "Platinum medal",
-                ItemClassification.progression,
-                item_name_to_id["Platinum medal"],
-                world.player,
-            )
-            world.multiworld.get_location(loc.name, world.player).place_locked_item(
-                new_plat_medal
+        for country in common.ALL_COUNTRIES_PER_REGION[region]:
+            itempool += add_map_items(
+                world,
+                country,
             )
 
     base_world_map = world.create_item("World")
@@ -93,14 +88,21 @@ def add_map_items(world, map_name) -> list[Any]:
 
 def generate_ids() -> dict[str:int]:
 
-    for region in common.REGION_NAMES:
-        create_map_ids(region, common.REGION_BASE_IDS[region])
+    for region in common.REGION:
+        # skipping regions that don't have countries
+        if (
+            len(common.ALL_COUNTRIES_PER_REGION[region]) == 0
+            and region.value != "World"
+        ):
+            continue
 
-    for index, country in enumerate(common.EUROPE_COUNTRY_NAMES):
-        create_map_ids(
-            country,
-            common.REGION_BASE_IDS["Europe"] + (index + 1) * len(common.ITEM_TYPES),
-        )
+        create_map_ids(region.value, common.REGION_BASE_IDS[region])
+
+        for index, country in enumerate(common.ALL_COUNTRIES_PER_REGION[region]):
+            create_map_ids(
+                country,
+                common.REGION_BASE_IDS[region] + (index + 1) * len(common.ITEM_TYPES),
+            )
 
     return item_name_to_id
 
