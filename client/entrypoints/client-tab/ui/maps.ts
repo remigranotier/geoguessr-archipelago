@@ -38,7 +38,7 @@ export function renderMap(map: GACMap): HTMLTableRowElement {
     const areaName = currentAreaMap?.areaName ?? map.name
     mapNameCell.textContent = areaName;
     mapNameCell.title = map.name;
-    if (map.available) {
+    if (map.available && map.bestMedal != GACMedal.Platinum) {
         mapNameCell.classList.add("activeLink")
         mapNameCell.onclick = (_: PointerEvent) => {
             const generateGameMessage = new GenerateGameMessage(map.id)
@@ -51,7 +51,6 @@ export function renderMap(map: GACMap): HTMLTableRowElement {
     } else {
         mapNameCell.classList.add("inactiveLink")
     }
-
 
     moveCell.textContent = currentGamemode & GACGamemode.Move ? "✔️" : "❌"
     panCell.textContent = currentGamemode & GACGamemode.Pan ? "✔️" : "❌"

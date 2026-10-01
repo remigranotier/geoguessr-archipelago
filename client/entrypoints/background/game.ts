@@ -13,7 +13,6 @@ import {
     AreaMap,
     mapsConfig,
     medalThresholds,
-    ITEMS_PER_MAP
 } from '../common/config.ts'
 
 import { apClient } from './index.ts'
