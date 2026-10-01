@@ -38,6 +38,10 @@ export async function generateGame(mapId: string, gamemode: GACGamemode): Promis
         }
     )
 
+    if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: "${response.statusText}" (${response.url})`)
+    }
+
     const responseJson = await response.json()
     const gameId = responseJson["token"]
     return gameId
@@ -51,7 +55,7 @@ export async function handleGenerateGameMessage(message: GenerateGameMessage) {
     }
 
     const gameId = await generateGame(map.id, map.gamemode)
-    const newTab = await browser.tabs.create({
+    const _newTab = await browser.tabs.create({
         url: `https://www.geoguessr.com/game/${gameId}`
     })
 }
