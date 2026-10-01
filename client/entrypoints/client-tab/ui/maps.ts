@@ -2,6 +2,13 @@ import { mapsConfig } from "../../common/config";
 import { GenerateGameMessage } from "../../common/messages";
 import { GACGamemode, GACMap, GACMedal } from "../../common/models";
 
+const DEFAULT_COLOR = "rgb(36, 36, 36)"
+const LOGIC_COLOR = "rgba(0, 255, 0, 0.2)"
+const OUT_OF_LOGIC_COLOR = "rgba(255, 255, 0, 0.2)"
+const UNLIKELY_COLOR = "rgba(255, 128, 0, 0.2)"
+const IMPOSSIBLE_COLOR = "rgba(255, 0, 0, 0.2)"
+const DONE_COLOR = "rgba(0, 255, 255, 0.3)"
+
 export function renderMaps() {
     const mapTable = document.getElementById('map-table');
     mapTable!.style.display = globalThis.connectionStatus.authenticated ? "block" : "none"
@@ -63,6 +70,8 @@ export function renderMap(map: GACMap): HTMLTableRowElement {
     row.appendChild(bestMedalCell)
     row.appendChild(fivekCell)
 
+    row.style.backgroundColor = getColorFromDifficulty(map)
+
     return row
 }
 
@@ -79,4 +88,43 @@ function getMedalText(medal: GACMedal) {
         case GACMedal.None:
             return "❌"
     }
+}
+
+function getColorFromDifficulty(map: GACMap): string {
+    if (!map.available) {
+        return DEFAULT_COLOR
+    }
+
+    switch (map.bestMedal) {
+        case GACMedal.None:
+            return LOGIC_COLOR
+        case GACMedal.Bronze:
+            if (map.gamemode & (GACGamemode.Move | GACGamemode.Pan)) {
+                return LOGIC_COLOR
+            } else {
+                return OUT_OF_LOGIC_COLOR
+            }
+        case GACMedal.Silver:
+            if (map.gamemode & (GACGamemode.Move & GACGamemode.Pan)) {
+                return LOGIC_COLOR
+            } else if (map.gamemode & GACGamemode.Move) {
+                return OUT_OF_LOGIC_COLOR
+            } else {
+                return UNLIKELY_COLOR
+            }
+        case GACMedal.Gold:
+            if (map.gamemode & (GACGamemode.Move & GACGamemode.Pan & GACGamemode.Zoom)) {
+                return LOGIC_COLOR
+            } else if (map.gamemode & (GACGamemode.Move & GACGamemode.Pan)) {
+                return OUT_OF_LOGIC_COLOR
+            } else if (map.gamemode & (GACGamemode.Move)) {
+                return UNLIKELY_COLOR
+            } else {
+                return IMPOSSIBLE_COLOR
+            }
+        case GACMedal.Platinum:
+            return DONE_COLOR
+    }
+
+    return DEFAULT_COLOR
 }
