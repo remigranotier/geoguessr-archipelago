@@ -6,3 +6,6 @@
 - Add sound effects on events (#5)
 
 ## Bugfixes
+- Added error log on game generation failure (#6)
+- Fixed logs not working on chrome (#7)
+- Lint code (#8)

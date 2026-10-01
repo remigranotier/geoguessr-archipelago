@@ -10,7 +10,7 @@ export function renderMaps() {
 
     const tbody = mapTable?.querySelector('tbody');
     tbody!.innerHTML = ""
-    for (var map of globalThis.gameState.maps) {
+    for (const map of globalThis.gameState.maps) {
         const row = renderMap(map)
         tbody?.appendChild(row)
     }

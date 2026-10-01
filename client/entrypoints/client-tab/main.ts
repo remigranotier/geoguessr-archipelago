@@ -21,17 +21,17 @@ globalThis.connectionStatus = DEFAULT_CONNECTION_STATUS
 function clientTabMessageListener(message: GACMessage, sender: Browser.runtime.MessageSender, sendResponse: (response: GACResponse) => void) {
   switch (message.type) {
     case MessageType.SendGameState:
-      const sendGameStateMessage = message as SendGameStateMessage;
+      { const sendGameStateMessage = message as SendGameStateMessage;
       handleSendGameStateMessage(sendGameStateMessage)
-      return false;
+      return false; }
     case MessageType.SendNewLog:
-      const newLogMessage = message as SendNewLogMessage;
+      { const newLogMessage = message as SendNewLogMessage;
       handleNewLogMessage(newLogMessage)
-      return false;
+      return false; }
     case MessageType.SendSoundEffect:
-      const newSoundEffectMessage = message as SendSoundEffectMessage;
+      { const newSoundEffectMessage = message as SendSoundEffectMessage;
       playSoundEffect(newSoundEffectMessage.soundType)
-      return false;
+      return false; }
     default:
       console.warn("Unknown message type received on client tab")
       return
@@ -40,11 +40,11 @@ function clientTabMessageListener(message: GACMessage, sender: Browser.runtime.M
 
 
 // Render tab
-getGameState()
+void getGameState()
 renderStatusComponent()
-getConnectionStatus()
+void getConnectionStatus()
 setCredentialsFromLastSend()
-initLogs()
+void initLogs()
 document.querySelector("#connect-button")!.addEventListener("click", sendConnectionOptions)
 document.querySelector("#disconnect-button")!.addEventListener("click", sendDisconnectCommand)
 browser.runtime.onMessage.addListener(clientTabMessageListener)

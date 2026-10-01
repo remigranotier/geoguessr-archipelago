@@ -15,23 +15,23 @@ type ConnectionCredentials = {
 }
 
 export function setCredentialsFromLastSend() {
-    storage.getItem<ConnectionCredentials>("sync:connection").then((previousCredentials) => {
+    void storage.getItem<ConnectionCredentials>("sync:connection").then((previousCredentials) => {
         if (previousCredentials === null) {
             console.debug("No previous credentials, ignoring")
             return
         }
-        var serverField = document.querySelector<HTMLInputElement>("#server")!
+        const serverField = document.querySelector<HTMLInputElement>("#server")!
         serverField.value = previousCredentials.server
-        var slotNameField = document.querySelector<HTMLInputElement>("#slot-name")!
+        const slotNameField = document.querySelector<HTMLInputElement>("#slot-name")!
         slotNameField.value = previousCredentials.slotName
     })
 }
 
 export async function sendConnectionOptions(e: Event) {
-    var server = document.querySelector<HTMLInputElement>("#server")?.value ?? "";
-    var slotName = document.querySelector<HTMLInputElement>("#slot-name")?.value ?? "";
-    var password = document.querySelector<HTMLInputElement>("#password")?.value ?? "";
-    storage.setItem("sync:connection", {
+    const server = document.querySelector<HTMLInputElement>("#server")?.value ?? "";
+    const slotName = document.querySelector<HTMLInputElement>("#slot-name")?.value ?? "";
+    const password = document.querySelector<HTMLInputElement>("#password")?.value ?? "";
+    void storage.setItem("sync:connection", {
         server: server,
         slotName: slotName,
     })
@@ -54,7 +54,7 @@ export async function sendConnectionOptions(e: Event) {
 }
 
 export async function sendDisconnectCommand(e: Event) {
-    storage.setItem("sync:connection", {
+    void storage.setItem("sync:connection", {
         server: "",
         slotName: "",
     })

@@ -1,4 +1,4 @@
-import { Client, type MessageLog } from "archipelago.js";
+import { Client } from "archipelago.js";
 import {
   GACConnectionStatus,
   GACGameState,
@@ -21,7 +21,7 @@ globalThis.gameState = { maps: [] }
 function messageListener(message: GACMessage, sender: Browser.runtime.MessageSender, sendResponse: (response: GACResponse) => void) {
   switch (message.type) {
     case MessageType.ServerConnect:
-      const serverConnectMessage = message as ServerConnectMessage;
+      { const serverConnectMessage = message as ServerConnectMessage;
       handleServerConnectMessage(serverConnectMessage).then(result => {
         sendResponse({
           success: true,
@@ -37,7 +37,7 @@ function messageListener(message: GACMessage, sender: Browser.runtime.MessageSen
           error: error
         })
       });
-      return true;
+      return true; }
 
     case MessageType.ServerDisconnect:
       handleServerDisconnectMessage();
@@ -64,7 +64,7 @@ function messageListener(message: GACMessage, sender: Browser.runtime.MessageSen
       return false;
 
     case MessageType.GenerateGame:
-      const generateGame = message as GenerateGameMessage;
+      { const generateGame = message as GenerateGameMessage;
       handleGenerateGameMessage(generateGame).then(result => {
         sendResponse({
           success: true,
@@ -76,32 +76,26 @@ function messageListener(message: GACMessage, sender: Browser.runtime.MessageSen
           error: error
         })
       });
-      return true;
+      return true; }
 
     case MessageType.RoundFinished:
-      const gameFinishedMessage = message as RoundFinishedMessage;
+      { const gameFinishedMessage = message as RoundFinishedMessage;
       console.debug("Received RoundFinishedMessage:", message)
-      handleGameFinishedMessage(gameFinishedMessage).then(result => {
-        sendResponse({
-          success: true,
-          data: result
-        })
-      }).catch(error => {
-        sendResponse({
-          success: false,
-          error: error
-        })
-      });
-      return true;
+      const result = handleGameFinishedMessage(gameFinishedMessage)
+      sendResponse({
+        success: true,
+        data: result
+      })
+      return false; }
 
     case MessageType.RetrieveLogs:
-      console.debug("Received RetrieveLogsMessage")
+      { console.debug("Received RetrieveLogsMessage")
       const messageLogJson: string[] = handleRetrieveLogsMessage()
       sendResponse({
         success: true,
         data: messageLogJson
       })
-      return false;
+      return false; }
 
     default:
       console.warn("Unknown message type received on service worker")
@@ -131,7 +125,7 @@ async function actionListener() {
     return;
   }
 
-  browser.tabs.create({
+  await browser.tabs.create({
     url: clientTabUrl
   });
 }
@@ -142,7 +136,7 @@ export default defineBackground(() => {
   browser.action.onClicked.addListener(actionListener);
 
   apClient.items.on("itemsReceived", (items) => {
-    for (var item of items) {
+    for (let item of items) {
       if (!item) {
         console.warn("Undefined item received, ignoring")
         continue
@@ -152,19 +146,19 @@ export default defineBackground(() => {
 
     updateGameState()
     console.debug("Sending message SendGameStateMessage to client tab", globalThis.gameState)
-    browser.runtime.sendMessage(new SendGameStateMessage(globalThis.gameState));
+    void browser.runtime.sendMessage(new SendGameStateMessage(globalThis.gameState));
     if (items.some((item) => item.sender.name != apClient.players.self.name)) {
-      browser.runtime.sendMessage(new SendSoundEffectMessage(SoundEffectType.ItemReceived))
+      void browser.runtime.sendMessage(new SendSoundEffectMessage(SoundEffectType.ItemReceived))
     }
   })
 
   apClient.room.on("locationsChecked", (_locations) => {
     updateGameState()
     console.debug("Sending message SendGameStateMessage to client tab", globalThis.gameState)
-    browser.runtime.sendMessage(new SendGameStateMessage(globalThis.gameState));
+    void browser.runtime.sendMessage(new SendGameStateMessage(globalThis.gameState));
   })
 
   apClient.messages.on("message", (_text, nodes) => {
-    browser.runtime.sendMessage(new SendNewLogMessage(renderNodes(nodes)));
+    void browser.runtime.sendMessage(new SendNewLogMessage(renderNodes(nodes)));
   })
 });

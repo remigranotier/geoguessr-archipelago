@@ -24,5 +24,5 @@ export function playSoundEffect(type: SoundEffectType) {
             console.error("Unknown sound effect to play", type)
     }
 
-    sound.play()
+    void sound.play()
 }

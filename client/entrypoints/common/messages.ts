@@ -1,4 +1,3 @@
-import type { MessageNode } from "archipelago.js";
 import type { GACGameState, GeoguessrGameStatus, SoundEffectType } from "./models";
 
 export enum MessageType {
@@ -31,20 +30,14 @@ export class ServerConnectMessage {
 
 export class ServerDisconnectMessage {
     type: MessageType = MessageType.ServerDisconnect;
-
-    constructor() { }
 }
 
 export class RetrieveConnectionStatusMessage {
     type: MessageType = MessageType.RetrieveConnectionStatus;
-
-    constructor() { }
 }
 
 export class RetrieveGameStateMessage {
     type: MessageType = MessageType.RetrieveGameState;
-
-    constructor() { }
 }
 
 export class SendGameStateMessage {
@@ -92,7 +85,7 @@ export class GeoguessrRoundFinishedMessage {
         this.mapId = data["map"]
         this.mapName = data["mapName"]
         const guesses: any[] = data["player"]["guesses"]
-        this.roundScore = guesses[guesses.length - 1]["roundScoreInPoints"]
+        this.roundScore = guesses.at(-1)["roundScoreInPoints"]
         this.totalScore = data["player"]["totalScoreInPoints"]
         this.playerId = data["player"]["id"]
     }
@@ -100,8 +93,6 @@ export class GeoguessrRoundFinishedMessage {
 
 export class RetrieveLogsMessage {
     type: MessageType = MessageType.RetrieveLogs;
-
-    constructor() { }
 }
 
 export class SendNewLogMessage {

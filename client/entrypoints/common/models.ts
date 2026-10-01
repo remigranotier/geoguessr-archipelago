@@ -2,9 +2,9 @@ import { type Client } from "archipelago.js";
 
 export enum GACGamemode {
     None = 0,
-    Move = 1 << 0,
-    Pan = 1 << 1,
-    Zoom = 1 << 2
+    Move = 1,
+    Pan = 2,
+    Zoom = 4
 }
 
 export enum GACMedal {
