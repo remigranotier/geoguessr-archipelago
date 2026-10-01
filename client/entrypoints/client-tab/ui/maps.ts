@@ -35,9 +35,11 @@ export function renderMap(map: GACMap): HTMLTableRowElement {
         mapNameCell.classList.add("activeLink")
         mapNameCell.onclick = (_: PointerEvent) => {
             const generateGameMessage = new GenerateGameMessage(map.id)
-            browser.runtime.sendMessage(generateGameMessage).catch((error) => {
-                console.error("Error while generating game:", error)
-            });
+            void browser.runtime.sendMessage(generateGameMessage).then((response) => {
+                if (!response.success) {
+                    console.error("Error while generating game:", response.error)
+                }
+            })
         }
     } else {
         mapNameCell.classList.add("inactiveLink")
