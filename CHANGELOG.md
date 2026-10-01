@@ -4,6 +4,7 @@
 - Add zoom item for 25k score logic (#3)
 - Colorful text client (#4)
 - Add sound effects on events (#5)
+- Trigger win when goal condition reached (#9)
 
 ## Bugfixes
 - Added error log on game generation failure (#6)
