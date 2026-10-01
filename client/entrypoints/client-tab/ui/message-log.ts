@@ -24,7 +24,7 @@ export async function initLogs() {
         const messageLog = logResponse.data
         console.log("Received log messages:", messageLog)
         clearLogs()
-        messageLog.forEach((message: string) => addLog(JSON.parse(message)))
+        messageLog.forEach((message: string) => addLog(message))
     } else {
         console.error("Error while fetching logs:", logResponse.error)
     }
