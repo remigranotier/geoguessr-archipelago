@@ -22,12 +22,7 @@ REGION_BASE_IDS = {
     REGION.Oceania: 6000,
 }
 
-EUROPE_COUNTRY_NAMES = [
-    # "Monaco",
-    "France",
-    # "Iceland",
-    # "Spain",
-]
+EUROPE_COUNTRY_NAMES = ["France"]
 
 ASIA_COUNTRY_NAMES = []
 AFRICA_COUNTRY_NAMES = []
