@@ -175,7 +175,7 @@ export function updateAreaMap(areaMap: AreaMap) {
 
 function checkWinCondition() {
 
-    if (globalThis.gameConfigData === undefined) {
+    if (globalThis.gameConfigData === undefined || globalThis.connectionStatus === undefined) {
         return;
     }
 
@@ -186,5 +186,6 @@ function checkWinCondition() {
     if(platAmount >= (globalThis.gameConfigData.plat_count as number))
     {
         apClient.goal()
+        void browser.runtime.sendMessage(new SendSoundEffectMessage(SoundEffectType.GoalReached))
     }
 }
