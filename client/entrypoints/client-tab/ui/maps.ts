@@ -3,9 +3,8 @@ import { GenerateGameMessage } from "../../common/messages";
 import { GACGamemode, GACMap, GACMedal } from "../../common/models";
 
 const DEFAULT_COLOR = "rgb(36, 36, 36)"
-const LOGIC_COLOR = "rgba(0, 255, 0, 0.2)"
-const OUT_OF_LOGIC_COLOR = "rgba(255, 255, 0, 0.2)"
-const UNLIKELY_COLOR = "rgba(255, 128, 0, 0.2)"
+const POSSIBLE_COLOR = "rgba(0, 255, 0, 0.2)"
+const TRICKY_COLOR = "rgba(255, 255, 0, 0.2)"
 const IMPOSSIBLE_COLOR = "rgba(255, 0, 0, 0.2)"
 const DONE_COLOR = "rgba(0, 255, 255, 0.3)"
 
@@ -90,40 +89,43 @@ function getMedalText(medal: GACMedal) {
 }
 
 function getColorFromDifficulty(map: GACMap): string {
+    const hasMoveOrPan = map.gamemode & (GACGamemode.Move | GACGamemode.Pan)
+    const hasMove = map.gamemode & GACGamemode.Move
+    const hasPan = map.gamemode & GACGamemode.Pan
+    const hasZoom = map.gamemode & GACGamemode.Zoom
+
     if (!map.available) {
         return DEFAULT_COLOR
     }
 
     switch (map.bestMedal) {
         case GACMedal.None:
-            return LOGIC_COLOR
+            return POSSIBLE_COLOR
         case GACMedal.Bronze:
-            if (map.gamemode & (GACGamemode.Move | GACGamemode.Pan)) {
-                return LOGIC_COLOR
+            if (hasMoveOrPan) {
+                return POSSIBLE_COLOR
             } else {
-                return OUT_OF_LOGIC_COLOR
+                return TRICKY_COLOR
             }
         case GACMedal.Silver:
-            if (map.gamemode & (GACGamemode.Move & GACGamemode.Pan)) {
-                return LOGIC_COLOR
+            if (hasMove && hasPan) {
+                return POSSIBLE_COLOR
             } else if (map.gamemode & GACGamemode.Move) {
-                return OUT_OF_LOGIC_COLOR
+                return TRICKY_COLOR
             } else {
-                return UNLIKELY_COLOR
+                return IMPOSSIBLE_COLOR
             }
         case GACMedal.Gold:
-            if (map.gamemode & (GACGamemode.Move & GACGamemode.Pan & GACGamemode.Zoom)) {
-                return LOGIC_COLOR
-            } else if (map.gamemode & (GACGamemode.Move & GACGamemode.Pan)) {
-                return OUT_OF_LOGIC_COLOR
-            } else if (map.gamemode & (GACGamemode.Move)) {
-                return UNLIKELY_COLOR
+            if (hasMove && hasPan && hasZoom) {
+                return POSSIBLE_COLOR
+            } else if (hasMove && hasPan) {
+                return map.fivekDone ? TRICKY_COLOR : POSSIBLE_COLOR
+            } else if (hasMove) {
+                return map.fivekDone ? IMPOSSIBLE_COLOR : TRICKY_COLOR
             } else {
                 return IMPOSSIBLE_COLOR
             }
         case GACMedal.Platinum:
             return DONE_COLOR
     }
-
-    return DEFAULT_COLOR
 }
