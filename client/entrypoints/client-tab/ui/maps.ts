@@ -9,7 +9,7 @@ const UNLIKELY_COLOR = "rgba(255, 128, 0, 0.2)"
 const IMPOSSIBLE_COLOR = "rgba(255, 0, 0, 0.2)"
 const DONE_COLOR = "rgba(0, 255, 255, 0.3)"
 
-export function renderMaps() {
+export function renderMapTable() {
     const mapTable = document.getElementById('map-table');
     mapTable!.style.display = globalThis.connectionStatus.authenticated ? "block" : "none"
     const recentLogs = document.getElementById('recent-logs');
@@ -18,12 +18,12 @@ export function renderMaps() {
     const tbody = mapTable?.querySelector('tbody');
     tbody!.innerHTML = ""
     for (const map of globalThis.gameState.maps) {
-        const row = renderMap(map)
+        const row = renderMapRow(map)
         tbody?.appendChild(row)
     }
 }
 
-export function renderMap(map: GACMap): HTMLTableRowElement {
+export function renderMapRow(map: GACMap): HTMLTableRowElement {
     const row = document.createElement("tr");
     const mapNameCell: HTMLTableCellElement = document.createElement("td")
     const moveCell: HTMLTableCellElement = document.createElement("td")

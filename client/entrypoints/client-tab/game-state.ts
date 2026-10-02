@@ -1,6 +1,6 @@
 import { RetrieveGameStateMessage, SendGameStateMessage } from "../common/messages";
 import { GACGameState, type GACResponse } from "../common/models";
-import { renderMaps } from "./ui/maps";
+import { renderMapTable } from "./ui/maps";
 
 export async function getGameState() {
     const retrieveGameStateMessage = new RetrieveGameStateMessage()
@@ -22,5 +22,5 @@ export function handleSendGameStateMessage(sendGameStateMessage: SendGameStateMe
 
 export function setInternalGameState(newGameState: GACGameState) {
     globalThis.gameState = newGameState
-    renderMaps()
+    renderMapTable()
 }
