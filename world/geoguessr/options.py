@@ -41,8 +41,8 @@ class PlatCount(Range):
     display_name = "Platinum Medal Count"
 
     range_start = 1
-    range_end = 2
-    default = 2
+    range_end = 3
+    default = 3
 
 
 @dataclass

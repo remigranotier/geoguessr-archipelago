@@ -31,7 +31,9 @@ export enum WorldNumber {
 }
 
 export enum ContinentNumber {
-    Europe = 1
+    Europe = 1,
+    North_America = 4,
+    South_America = 5
 }
 
 export type World = {
@@ -106,8 +108,14 @@ allMaps.push(new AreaMap({ kind: "world", worldNumber: WorldNumber.World }, "Wor
 
 // Continent Maps
 allMaps.push(new AreaMap({ kind: "continent", continentNumber: ContinentNumber.Europe }, "Europe", "6614fdc6c867062cb1a0a2f4", "Intersectionguessr - Europe"))
+allMaps.push(new AreaMap({ kind: "continent", continentNumber: ContinentNumber.North_America }, "North America", "69367baba92b1c6d29fda74f", "Intersectionguessr - North America"))
+allMaps.push(new AreaMap({ kind: "continent", continentNumber: ContinentNumber.South_America }, "South America", "69369c4ea92b1c6d29fe244a", "Intersectionguessr - South America"))
 
 // Country Maps
-allMaps.push(new AreaMap({ kind: "country", continentNumber: ContinentNumber.Europe, countryNumber: 1 }, "France", "60aaef355f79500001032f71", "Intersectionguessr - France"))
+allMaps.push(new AreaMap({ kind: "country", continentNumber: ContinentNumber.Europe, countryNumber: 1 }, "Spain", "6616578eab257b1970742ebb", "Intersectionguessr - France"))
+allMaps.push(new AreaMap({ kind: "country", continentNumber: ContinentNumber.Europe, countryNumber: 2 }, "Switzerland", "66167ce9a81e8da8b719a373", "Intersectionguessr - France"))
+allMaps.push(new AreaMap({ kind: "country", continentNumber: ContinentNumber.North_America, countryNumber: 1 }, "USA", "66153e71ee6a46d2f47df5d9", "Coupe de la Ligue - United States of America"))
+allMaps.push(new AreaMap({ kind: "country", continentNumber: ContinentNumber.North_America, countryNumber: 2 }, "Bermuda", "661539303e6152c402a83848", "Coupe de la Ligue - Bermuda"))
+allMaps.push(new AreaMap({ kind: "country", continentNumber: ContinentNumber.South_America, countryNumber: 1 }, "Chile", "661544e1fe45e9b41eecf738", "Intersectionguessr - France"))
 
 export const mapsConfig: AreaMap[] = allMaps
