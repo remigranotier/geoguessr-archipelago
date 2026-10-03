@@ -6,6 +6,7 @@
 - Add sound effects on events (#5)
 - Trigger win when goal condition reached (#9)
 - Adapt row background color to logic state (#10)
+- Add the questionable tip filler item and add browser notifications for tips (#12)
 
 ## Bugfixes
 - Added error log on game generation failure (#6)
