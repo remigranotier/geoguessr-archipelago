@@ -15,7 +15,6 @@ import { sendQuestionableTip, sendSpecialTip } from "./tips";
 export const apClient = new Client();
 declare global {
   var gameState: GACGameState
-  var connectionStatus: GACConnectionStatus
   var gameConfigData: Record<string, unknown>
 }
 

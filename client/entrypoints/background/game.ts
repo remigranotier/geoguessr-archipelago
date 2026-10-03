@@ -1,4 +1,4 @@
-import type { Item } from 'archipelago.js'
+import { clientStatuses, type ClientStatus, type Item } from 'archipelago.js'
 import {
     GACGamemode,
     GACMap,
@@ -124,6 +124,10 @@ export function updateGameState() {
     }
 
     console.debug("Game state after update is:", globalThis.gameState)
+
+    if (globalThis.gameConfigData !== undefined && apClient.authenticated) {
+        checkWinCondition()
+    }
 }
 
 export function updateAreaMap(areaMap: AreaMap) {
@@ -175,21 +179,25 @@ export function updateAreaMap(areaMap: AreaMap) {
     if (apClient.items.received.some((item: Item) => item.id == (baseItemId + AreaItems.Zoom))) {
         mapStatus.gamemode |= GACGamemode.Zoom
     }
-
-    checkWinCondition()
 }
 
 function checkWinCondition() {
-    if (globalThis.gameConfigData === undefined || globalThis.connectionStatus === undefined) {
-        return;
-    }
-
+    console.debug("Checking win condition")
     const platAmount = globalThis.gameState.maps
         .filter(map => map.bestMedal === GACMedal.Platinum)
         .length;
 
     if (platAmount >= (globalThis.gameConfigData.plat_count as number)) {
-        apClient.goal()
-        void browser.runtime.sendMessage(new SendSoundEffectMessage(SoundEffectType.GoalReached))
+        apClient.players.self.fetchStatus().then((status: ClientStatus) => {
+            if (status != clientStatuses.goal) {
+                apClient.goal()
+                void browser.runtime.sendMessage(new SendSoundEffectMessage(SoundEffectType.GoalReached))
+            } else {
+                console.debug("goal() action triggered after status already being goal, ignoring.")
+            }
+        }).catch((error) => {
+            console.error("Error while fetching player status:", error)
+            apClient.goal()
+        })
     }
 }
