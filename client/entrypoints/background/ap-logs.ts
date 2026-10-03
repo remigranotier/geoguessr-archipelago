@@ -20,7 +20,6 @@ export function renderNode(node: MessageNode): string {
     const { document } = window;
 
     const nodeElement = document.createElement("span")
-    console.debug(node)
     switch (node.type) {
         case "player":
             nodeElement.style.color = "#EE00EE"

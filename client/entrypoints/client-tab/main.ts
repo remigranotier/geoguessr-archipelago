@@ -39,7 +39,7 @@ function clientTabMessageListener(message: GACMessage, sender: Browser.runtime.M
         return false;
       }
     default:
-      console.warn("Unknown message type received on client tab")
+      console.debug("Unknown message type received on client tab, ignoring.")
       return
   }
 }
