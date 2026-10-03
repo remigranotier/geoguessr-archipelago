@@ -1,5 +1,6 @@
 import { Client } from "archipelago.js";
 import {
+  FillerItemId,
   GACConnectionStatus,
   GACGameState,
   SoundEffectType,
@@ -9,6 +10,7 @@ import { getServerConnection, handleServerConnectMessage, handleServerDisconnect
 import { handleGameFinishedMessage, handleGenerateGameMessage, updateGameState } from "./game";
 import { GenerateGameMessage, MessageType, RoundFinishedMessage, SendGameStateMessage, SendNewLogMessage, SendSoundEffectMessage, type GACMessage, type ServerConnectMessage } from "../common/messages";
 import { handleRetrieveLogsMessage, renderNodes } from "./ap-logs";
+import { sendQuestionableTip, sendSpecialTip } from "./tips";
 
 export const apClient = new Client();
 declare global {
@@ -22,23 +24,25 @@ globalThis.gameState = { maps: [] }
 function messageListener(message: GACMessage, sender: Browser.runtime.MessageSender, sendResponse: (response: GACResponse) => void) {
   switch (message.type) {
     case MessageType.ServerConnect:
-      { const serverConnectMessage = message as ServerConnectMessage;
-      handleServerConnectMessage(serverConnectMessage).then(result => {
-        sendResponse({
-          success: true,
-          data: {
-            slotData: result,
-            connectionStatus: new GACConnectionStatus(apClient),
-            gameState: globalThis.gameState
-          }
-        })
-      }).catch(error => {
-        sendResponse({
-          success: false,
-          error: error
-        })
-      });
-      return true; }
+      {
+        const serverConnectMessage = message as ServerConnectMessage;
+        handleServerConnectMessage(serverConnectMessage).then(result => {
+          sendResponse({
+            success: true,
+            data: {
+              slotData: result,
+              connectionStatus: new GACConnectionStatus(apClient),
+              gameState: globalThis.gameState
+            }
+          })
+        }).catch(error => {
+          sendResponse({
+            success: false,
+            error: error
+          })
+        });
+        return true;
+      }
 
     case MessageType.ServerDisconnect:
       handleServerDisconnectMessage();
@@ -65,38 +69,44 @@ function messageListener(message: GACMessage, sender: Browser.runtime.MessageSen
       return false;
 
     case MessageType.GenerateGame:
-      { const generateGame = message as GenerateGameMessage;
-      handleGenerateGameMessage(generateGame).then(result => {
+      {
+        const generateGame = message as GenerateGameMessage;
+        handleGenerateGameMessage(generateGame).then(result => {
+          sendResponse({
+            success: true,
+            data: result
+          })
+        }).catch(error => {
+          sendResponse({
+            success: false,
+            error: error
+          })
+        });
+        return true;
+      }
+
+    case MessageType.RoundFinished:
+      {
+        const gameFinishedMessage = message as RoundFinishedMessage;
+        console.debug("Received RoundFinishedMessage:", message)
+        const result = handleGameFinishedMessage(gameFinishedMessage)
         sendResponse({
           success: true,
           data: result
         })
-      }).catch(error => {
-        sendResponse({
-          success: false,
-          error: error
-        })
-      });
-      return true; }
-
-    case MessageType.RoundFinished:
-      { const gameFinishedMessage = message as RoundFinishedMessage;
-      console.debug("Received RoundFinishedMessage:", message)
-      const result = handleGameFinishedMessage(gameFinishedMessage)
-      sendResponse({
-        success: true,
-        data: result
-      })
-      return false; }
+        return false;
+      }
 
     case MessageType.RetrieveLogs:
-      { console.debug("Received RetrieveLogsMessage")
-      const messageLogJson: string[] = handleRetrieveLogsMessage()
-      sendResponse({
-        success: true,
-        data: messageLogJson
-      })
-      return false; }
+      {
+        console.debug("Received RetrieveLogsMessage")
+        const messageLogJson: string[] = handleRetrieveLogsMessage()
+        sendResponse({
+          success: true,
+          data: messageLogJson
+        })
+        return false;
+      }
 
     default:
       console.warn("Unknown message type received on service worker")
@@ -110,7 +120,6 @@ async function actionListener() {
   });
 
   const existingTab = tabs[0];
-  console.log(existingTab)
 
   if (existingTab?.id !== undefined) {
     await browser.tabs.update(existingTab.id, {
@@ -143,6 +152,12 @@ export default defineBackground(() => {
         continue
       }
       console.log(`New item received : ${item.name}`)
+      if (item.id == FillerItemId.SpecialTip) {
+        sendSpecialTip()
+      }
+      if (item.id == FillerItemId.QuestionableTip) {
+        sendQuestionableTip()
+      }
     }
 
     updateGameState()
