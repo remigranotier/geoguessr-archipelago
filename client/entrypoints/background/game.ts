@@ -183,11 +183,32 @@ export function updateAreaMap(areaMap: AreaMap) {
 
 function checkWinCondition() {
     console.debug("Checking win condition")
-    const platAmount = globalThis.gameState.maps
-        .filter(map => map.bestMedal === GACMedal.Platinum)
-        .length;
 
-    if (platAmount >= (globalThis.gameConfigData.plat_count as number)) {
+    let hasWon = false
+
+    switch(globalThis.gameConfigData.victory_condition) {
+        case 0: //medal count
+            { const medalCount = globalThis.gameState.maps.reduce(
+                (count, map) => count + map.bestMedal,
+                0
+            );
+            hasWon = medalCount >= (globalThis.gameConfigData.medal_count as number)
+            console.debug("medal count : ", medalCount)
+            break }
+
+        case 1: //platinum count
+            { const platAmount = globalThis.gameState.maps
+                .filter(map => map.bestMedal === GACMedal.Platinum)
+                .length;
+            hasWon = platAmount >= (globalThis.gameConfigData.plat_count as number)
+            console.debug("plat amount : ", platAmount)
+            break }
+
+        default:
+            console.warn("Unknown victory condition:", globalThis.gameConfigData.victory_condition)
+    }
+
+    if (hasWon) {
         apClient.players.self.fetchStatus().then((status: ClientStatus) => {
             if (status != clientStatuses.goal) {
                 apClient.goal()
