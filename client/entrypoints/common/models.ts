@@ -17,7 +17,7 @@ export enum GACMedal {
 
 export enum FillerItemId {
     SpecialTip = 10000,
-    QuestionableTip = 10002,
+    QuestionableTip = 10001,
 }
 
 export class GACMap {

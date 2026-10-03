@@ -10,12 +10,12 @@ if TYPE_CHECKING:
 
 item_name_to_id = {
     "Special tip !": 10000,
-    "Platinum medal": 10001,
+    "Questionable tip !": 10001,
 }
 
 default_item_classifications = {
     "Special tip !": ItemClassification.filler,
-    "Platinum medal": ItemClassification.progression,
+    "Questionable tip !": ItemClassification.filler,
 }
 
 
@@ -23,9 +23,12 @@ class GeoguessrItem(Item):
     game = "Geoguessr"
 
 
-# This function might return a trap item too !
 def get_random_filler_item_name(world: GeoguessrWorld) -> str:
-    return "Special tip !"
+    random = world.random.randint(0, 1)
+    if random == 0:
+        return "Special tip !"
+    else:
+        return "Questionable tip !"
 
 
 def create_item_with_correct_classification(
