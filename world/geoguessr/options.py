@@ -2,6 +2,17 @@ from dataclasses import dataclass
 
 from Options import Choice, PerGameCommonOptions, Range
 
+from . import common
+
+
+def get_map_amount() -> int:
+    count = 0
+
+    for countries in common.ALL_COUNTRIES_PER_REGION.values():
+        count += len(countries) + 1
+
+    return count
+
 
 class VictoryCondition(Choice):
     """
@@ -29,8 +40,8 @@ class MedalCount(Range):
     display_name = "Medal Count"
 
     range_start = 1
-    range_end = 16
-    default = 12
+    range_end = get_map_amount() * 4
+    default = get_map_amount() * 3
 
 
 class PlatCount(Range):
@@ -41,8 +52,8 @@ class PlatCount(Range):
     display_name = "Platinum Medal Count"
 
     range_start = 1
-    range_end = 2
-    default = 2
+    range_end = get_map_amount()
+    default = get_map_amount() // 2
 
 
 @dataclass
