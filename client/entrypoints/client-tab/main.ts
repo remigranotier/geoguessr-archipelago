@@ -55,3 +55,8 @@ void Notification.requestPermission()
 document.querySelector("#connect-button")!.addEventListener("click", sendConnectionOptions)
 document.querySelector("#disconnect-button")!.addEventListener("click", sendDisconnectCommand)
 browser.runtime.onMessage.addListener(clientTabMessageListener)
+
+// Keep service worker alive as long as client-tab is open
+setInterval(() => {
+  void getConnectionStatus()
+}, 20000)
