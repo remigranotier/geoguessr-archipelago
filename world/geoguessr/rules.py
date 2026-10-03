@@ -34,7 +34,7 @@ def set_all_location_rules(world: GeoguessrWorld) -> None:
 
         for location in world_region.locations:
             # Careful cause that won't work for countries with several words
-            country_name = location.name.rsplit(" ", 2)[0]
+            country_name = location.name.split("-")[0].strip()
 
             loc_rule = Has(country_name)
 
