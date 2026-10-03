@@ -75,7 +75,7 @@ export class AreaMap {
     getBaseLocationId(area: Area): number {
         switch (area.kind) {
             case "world":
-                return 0;
+                return 1;
 
             case "continent":
                 return 1000 * area.continentNumber;
@@ -88,7 +88,7 @@ export class AreaMap {
     getBaseItemId(area: Area): number {
         switch (area.kind) {
             case "world":
-                return 0;
+                return 1;
 
             case "continent":
                 return 1000 * area.continentNumber;

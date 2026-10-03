@@ -13,7 +13,7 @@ class REGION(Enum):
 
 # Used to offset IDs based on their region
 REGION_BASE_IDS = {
-    REGION.World: 0,
+    REGION.World: 1,
     REGION.Europe: 1000,
     REGION.Asia: 2000,
     REGION.Africa: 3000,
