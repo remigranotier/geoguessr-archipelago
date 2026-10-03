@@ -85,32 +85,36 @@ def generate_region_locations(region: common.REGION, country_names: list[str]) -
 
 
 def create_events(world: GeoguessrWorld) -> None:
-    world_region_name = common.REGION.World.value
 
+    world_region_name = common.REGION.World.value
     world_region = world.get_region(world_region_name)
-    world_region.add_event(
-        f"{world_region_name} Platinum Event",
-        f"{world_region_name} Platinum Obtained Event Item",
-        location_type=GeoguessrLocation,
-        item_type=items.GeoguessrItem,
-    )
+    add_map_events(world_region_name, world_region)
 
     for region in common.REGION:
         if len(common.ALL_COUNTRIES_PER_REGION[region]) == 0:
             continue
 
         it_region = world.get_region(region.value)
-        it_region.add_event(
-            f"{region.value} Platinum Event",
-            f"{region.value} Platinum Obtained Event Item",
-            location_type=GeoguessrLocation,
-            item_type=items.GeoguessrItem,
-        )
+        add_map_events(region.value, it_region)
 
         for country in common.ALL_COUNTRIES_PER_REGION[region]:
-            it_region.add_event(
-                f"{country} Platinum Event",
-                f"{country} Platinum Obtained Event Item",
+            add_map_events(country, it_region)
+
+
+def add_map_events(map_name, region):
+    region.add_event(
+        f"{map_name} Platinum Event",
+        f"{map_name} Platinum Obtained Event Item",
+        location_type=GeoguessrLocation,
+        item_type=items.GeoguessrItem,
+    )
+
+    for check_type in common.LOCATION_TYPES:
+        if "Medal" in check_type:
+            print(f"event {map_name} {check_type} in region {region.name}")
+            region.add_event(
+                f"{map_name} {check_type} Event",
+                f"{map_name} {check_type} Obtained Event Item",
                 location_type=GeoguessrLocation,
                 item_type=items.GeoguessrItem,
             )
