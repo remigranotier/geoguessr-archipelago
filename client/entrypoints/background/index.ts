@@ -145,25 +145,29 @@ export default defineBackground(() => {
 
   browser.action.onClicked.addListener(actionListener);
 
-  apClient.items.on("itemsReceived", (items) => {
-    for (let item of items) {
-      if (!item) {
-        console.warn("Undefined item received, ignoring")
-        continue
-      }
-      console.log(`New item received : ${item.name}`)
-      if (item.id == FillerItemId.SpecialTip) {
-        sendSpecialTip()
-      }
-      if (item.id == FillerItemId.QuestionableTip) {
-        sendQuestionableTip()
+  apClient.items.on("itemsReceived", (items, startingIndex) => {
+    console.debug("Starting item index is", startingIndex)
+
+    // If startingIndex is 0 it means that it's a new connection and the server sends the whole inventory
+    if (startingIndex > 0) {
+      for (let item of items) {
+        console.debug(`New item received : ${item.name}`)
+        if (item.id == FillerItemId.SpecialTip) {
+          sendSpecialTip()
+        }
+        if (item.id == FillerItemId.QuestionableTip) {
+          sendQuestionableTip()
+        }
       }
     }
 
     updateGameState()
     console.debug("Sending message SendGameStateMessage to client tab", globalThis.gameState)
     void browser.runtime.sendMessage(new SendGameStateMessage(globalThis.gameState));
-    if (items.some((item) => item.sender.name != apClient.players.self.name)) {
+
+    // Send a sound effect only on an item coming from another player and not on connection
+    if (items.some((item) => item.sender.name != apClient.players.self.name) && startingIndex > 0) {
+      console.debug("Sending message SendSoundEffectMessage to client tab with type ItemReceived")
       void browser.runtime.sendMessage(new SendSoundEffectMessage(SoundEffectType.ItemReceived))
     }
   })
