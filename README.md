@@ -1,4 +1,4 @@
-# Geoguessr Archipelago Client
+# Geoguessr Archipelago
 
 ## Presentation
 
@@ -18,6 +18,8 @@ For information on Archipelago, you may visit [their official website](https://a
         - [Generate the Archipelago session](#generate-the-archipelago-session)
         - [Host the Archipelago session](#host-the-archipelago-session)
     - [Generating a YAML file](#generating-a-yaml-file)
+- [Troubleshooting](#troubleshooting)
+    - [Connexion isn't working after a while on the same server](#connexion-isnt-working-after-a-while-on-the-same-server)
 - [Design](#design)
     - [Interfacing with the game](#interfacing-with-the-game)
     - [Checks](#checks)
@@ -102,6 +104,11 @@ You can either:
 
 We tried to put default settings as fun as we could, but some tweaking can be done on your side depending on your level and how you felt playing your last games of Archipelago on Geoguessr.
 
+## Troubleshooting
+
+### Connexion isn't working after a while on the same server
+
+Sometimes the port of your game changes. Go back to the archipelago server URL to fetch the new one and connect using the new port!
 
 # Design
 

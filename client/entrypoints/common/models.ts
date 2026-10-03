@@ -15,6 +15,11 @@ export enum GACMedal {
     Platinum = 4
 }
 
+export enum FillerItemId {
+    SpecialTip = 10000,
+    QuestionableTip = 10001,
+}
+
 export class GACMap {
     id: string = "defaultId";
     name: string = "defaultName";

@@ -6,7 +6,8 @@ export default defineConfig({
     manifest: {
         permissions: [
             "storage",
-            "tabs"
+            "tabs",
+            "notifications"
         ],
         browser_specific_settings: {
             gecko: {
