@@ -8,6 +8,7 @@
 - Adapt row background color to logic state (#10)
 - Added installation steps in README (#11)
 - Add the questionable tip filler item and add browser notifications for tips (#12)
+- Made the medal count goal possible to use (#15)
 
 ## Bugfixes
 - Added error log on game generation failure (#6)
