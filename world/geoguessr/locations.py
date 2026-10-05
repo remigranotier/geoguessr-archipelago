@@ -47,7 +47,6 @@ def create_regular_locations(world: GeoguessrWorld) -> None:
                 and loc_id < (common.REGION_BASE_IDS[region] // 1000 + 1) * 1000
             ]
         )
-        print(region_locations)
         ap_region.add_locations(region_locations, GeoguessrLocation)
 
 
@@ -71,7 +70,6 @@ def generate_region_locations(region: common.REGION, country_names: list[str]) -
     for check_index, check_type in enumerate(common.LOCATION_TYPES):
         loc_name = f"{region.value} {check_type}"
         loc_id = base_id + check_index
-        print(f"Adding {loc_id} - {loc_name}")
         location_name_to_id[loc_name] = loc_id
 
     for country_index, country_name in enumerate(country_names):
@@ -80,7 +78,6 @@ def generate_region_locations(region: common.REGION, country_names: list[str]) -
             loc_id = (
                 base_id + (country_index + 1) * len(common.LOCATION_TYPES) + check_index
             )
-            print(f"Adding {loc_id} - {loc_name}")
             location_name_to_id[loc_name] = loc_id
 
 

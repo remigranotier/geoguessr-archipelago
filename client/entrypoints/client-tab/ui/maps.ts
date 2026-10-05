@@ -18,11 +18,18 @@ export function renderMapTable() {
     tbody!.innerHTML = ""
     for (const map of globalThis.gameState.maps) {
         const row = renderMapRow(map)
-        tbody?.appendChild(row)
+        if (row !== null) {
+            tbody?.appendChild(row)
+        }
     }
 }
 
-export function renderMapRow(map: GACMap): HTMLTableRowElement {
+export function renderMapRow(map: GACMap): HTMLTableRowElement | null {
+    // If nothing has been unlocked for this map yet
+    if (!map.available && map.gamemode == GACGamemode.None) {
+        return null
+    }
+
     const row = document.createElement("tr");
     const mapNameCell: HTMLTableCellElement = document.createElement("td")
     const moveCell: HTMLTableCellElement = document.createElement("td")
