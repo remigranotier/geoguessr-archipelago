@@ -8,6 +8,7 @@
 - Adapt row background color to logic state (#10)
 - Added installation steps in README (#11)
 - Add the questionable tip filler item and add browser notifications for tips (#12)
+- Only display maps if something is unlocked (#18)
 
 ## Bugfixes
 - Added error log on game generation failure (#6)
