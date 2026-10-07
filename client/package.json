@@ -1,6 +1,6 @@
 {
   "name": "Geoguessr Archipelago Client",
-  "description": "manifest.json description",
+  "description": "A web extension allowing to connect to Archipelago servers and play on Geoguessr.",
   "private": true,
   "version": "0.0.0",
   "type": "module",
