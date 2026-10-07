@@ -282,6 +282,31 @@ LOCATION_TYPES = [
 
 ITEM_TYPES = ["Unlock", "Pan", "Move", "Zoom"]
 
+MICRO_COVERAGE_COUNTRIES = {
+    COUNTRY.American_Samoa,
+    COUNTRY.Andorra,
+    COUNTRY.Christmas_Island,
+    COUNTRY.Curacao,
+    COUNTRY.Dominican_Republic,
+    COUNTRY.Faroe_Islands,
+    COUNTRY.Gibraltar,
+    COUNTRY.Guam,
+    COUNTRY.Hong_Kong,
+    COUNTRY.Isle_of_Man,
+    COUNTRY.Jersey,
+    COUNTRY.Laos,
+    COUNTRY.Liechtenstein,
+    COUNTRY.Macao,
+    COUNTRY.Malta,
+    COUNTRY.Monaco,
+    COUNTRY.Northern_Mariana_Islands,
+    COUNTRY.San_Marino,
+    COUNTRY.Sao_Tome_and_Principe,
+    COUNTRY.Singapore,
+    COUNTRY.Uganda,
+    COUNTRY.United_States_Virgin_Islands,
+}
+
 ALL_COUNTRIES_PER_REGION = {
     REGION.World: [],
     REGION.Europe: EUROPE_COUNTRY_NAMES,
