@@ -10,6 +10,8 @@
 - Add the questionable tip filler item and add browser notifications for tips (#12)
 - Made the medal count goal possible to use (#15)
 - Add i18n labels (#16)
+- Only display maps if something is unlocked (#18)
+- Add all countries maps (#19)
 
 ## Bugfixes
 - Added error log on game generation failure (#6)
