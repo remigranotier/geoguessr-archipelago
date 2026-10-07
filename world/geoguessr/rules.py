@@ -34,7 +34,7 @@ def set_all_location_rules(world: GeoguessrWorld) -> None:
 
         for location in world_region.locations:
             # Careful cause that won't work for countries with several words
-            country_name = location.name.rsplit(" ", 2)[0]
+            country_name = location.name.split("-")[0].strip()
 
             loc_rule = Has(country_name)
 
@@ -51,7 +51,7 @@ def set_all_location_rules(world: GeoguessrWorld) -> None:
 
             if "Silver Medal" in location.name:
                 loc_rule &= has_pan_or_move
-            elif "Gold" in location.name or "5k" in location.name:
+            elif "Gold Medal" in location.name or "5k" in location.name:
                 loc_rule &= has_pan_and_move
             elif "Platinum Medal" in location.name or "Platinum Event" in location.name:
                 loc_rule &= has_all_modes
@@ -60,12 +60,25 @@ def set_all_location_rules(world: GeoguessrWorld) -> None:
 
 
 def set_completion_condition(world: GeoguessrWorld) -> None:
-    items_to_count = [
-        item.name
-        for item in world.multiworld.get_items()
-        if "Platinum Obtained Event Item" in item.name
-    ]
+    match world.options.victory_condition.value:
+        case 0:
+            items_to_count = [
+                item.name
+                for item in world.multiworld.get_items()
+                if "Medal Obtained Event Item" in item.name
+            ]
 
-    world.set_completion_rule(
-        HasFromList(*items_to_count, count=world.options.plat_count.value)
-    )
+            world.set_completion_rule(
+                HasFromList(*items_to_count, count=world.options.medal_count.value)
+            )
+
+        case 1:
+            items_to_count = [
+                item.name
+                for item in world.multiworld.get_items()
+                if "Platinum Obtained Event Item" in item.name
+            ]
+
+            world.set_completion_rule(
+                HasFromList(*items_to_count, count=world.options.plat_count.value)
+            )
