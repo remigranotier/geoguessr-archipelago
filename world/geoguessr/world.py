@@ -3,10 +3,14 @@ from typing import Any
 
 from worlds.AutoWorld import World
 
-from . import locations, regions, rules
+from . import (
+    items,
+    locations,
+    regions,
+    rules,
+    web_world,  # rename due to a name conflict with World.options
+)
 from . import options as geoguessr_options
-from . import items
-from . import web_world  # rename due to a name conflict with World.options
 
 
 class GeoguessrWorld(World):
