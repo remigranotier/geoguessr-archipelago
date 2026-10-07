@@ -1,0 +1,87 @@
+{
+    "extName": {
+        "message": "Geoguessr Archipelago Client"
+    },
+    "extDescription": {
+        "message": "A web extension allowing to connect to Archipelago servers and play on Geoguessr."
+    },
+    "connectingStatus": {
+        "message": "Connecting"
+    },
+    "notConnectedStatus": {
+        "message": "Not connected"
+    },
+    "failedConnectionStatus": {
+        "message": "Failed connecting. Press F12 to see details in console."
+    },
+    "connectedStatus": {
+        "message": "Connected to <strong>$SERVER$</strong> as <strong>$PLAYER$</strong>",
+        "placeholders": {
+            "server": {
+                "content": "$1",
+                "example": "wss://archipelago.gg:33333"
+            },
+            "player": {
+                "content": "$2",
+                "example": "playerName"
+            }
+        }
+    },
+    "status": {
+        "message": "Status"
+    },
+    "pageTitle": {
+        "message": "Geoguessr Archipelago"
+    },
+    "apServer": {
+        "message": "Archipelago server"
+    },
+    "slotName": {
+        "message": "Slot name"
+    },
+    "slotNamePlaceholder": {
+        "message": "<your-name>"
+    },
+    "password": {
+        "message": "Password"
+    },
+    "passwordPlaceholder": {
+        "message": "(leave empty if none)"
+    },
+    "connectButton": {
+        "message": "Connect"
+    },
+    "disconnectButton": {
+        "message": "Disconnect"
+    },
+    "recentMessages": {
+        "message": "Recent messages"
+    },
+    "mapColumn": {
+        "message": "Map"
+    },
+    "gamemodesColumn": {
+        "message": "Gamemodes"
+    },
+    "bestMedalColumn": {
+        "message": "Best medal"
+    },
+    "fivekDoneColumn": {
+        "message": "5k done"
+    },
+    "gamemodeMove": {
+        "message": "Move"
+    },
+    "gamemodePan": {
+        "message": "Pan"
+    },
+    "gamemodeZoom": {
+        "message": "Zoom"
+    },
+    "howToPlay": {
+        "message": "How to play"
+    },
+    "howToPlayTitle": {
+        "message": "How to play Archipelago on Geoguessr"
+    }
+}
