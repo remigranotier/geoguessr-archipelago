@@ -31,36 +31,31 @@ def create_all_locations(world: GeoguessrWorld) -> None:
 def create_regular_locations(world: GeoguessrWorld) -> None:
     for region in common.REGION:
         # skipping regions that don't have countries
-        if (
-            len(common.ALL_COUNTRIES_PER_REGION[region]) == 0
-            and region.value != "World"
-        ):
+        region_countries = [country for country in world.drawn_countries if country.region == region]
+        if region != common.REGION.World and len(region_countries) == 0:
             continue
 
         ap_region = world.get_region(region.value)
 
-        region_locations = get_location_names_with_ids(
-            [
-                loc_name
-                for loc_name, loc_id in location_name_to_id.items()
-                if loc_id >= common.REGION_BASE_IDS[region]
-                and loc_id < (common.REGION_BASE_IDS[region] // 1000 + 1) * 1000
-            ]
-        )
-        print(region_locations)
+        location_ids = []
+        location_ids += [loc_name for loc_name, loc_id in location_name_to_id.items() if loc_name.startswith(region.value)]
+        for country in region_countries:
+            location_ids += [loc_name for loc_name, loc_id in location_name_to_id.items() if loc_name.startswith(country.name)]
+
+        region_locations = get_location_names_with_ids(location_ids)
+
+        print("region locations:", region_locations)
         ap_region.add_locations(region_locations, GeoguessrLocation)
 
 
 def generate_locations() -> dict[str:int]:
     for region in common.REGION:
         # skipping regions that don't have countries
-        if (
-            len(common.ALL_COUNTRIES_PER_REGION[region]) == 0
-            and region.value != "World"
-        ):
+        region_country_names = [country.name for country in common.COUNTRIES.values() if country.region == region]
+        if region != common.REGION.World and len(region_country_names) == 0:
             continue
 
-        generate_region_locations(region, common.ALL_COUNTRIES_PER_REGION[region])
+        generate_region_locations(region, region_country_names)
 
     return location_name_to_id
 
@@ -85,26 +80,26 @@ def generate_region_locations(region: common.REGION, country_names: list[str]) -
 
 
 def create_events(world: GeoguessrWorld) -> None:
-
     world_region_name = common.REGION.World.value
     world_region = world.get_region(world_region_name)
     add_map_events(world_region_name, world_region)
 
     for region in common.REGION:
-        if len(common.ALL_COUNTRIES_PER_REGION[region]) == 0:
+        region_country_names = [country.name for country in world.drawn_countries if country.region == region]
+        if len(region_country_names) == 0:
             continue
 
         it_region = world.get_region(region.value)
         add_map_events(region.value, it_region)
 
-        for country in common.ALL_COUNTRIES_PER_REGION[region]:
+        for country in region_country_names:
             add_map_events(country, it_region)
 
 
 def add_map_events(map_name, region):
     region.add_event(
-        f"{map_name} Platinum Event",
-        f"{map_name} Platinum Obtained Event Item",
+        f"{map_name} - Platinum Event",
+        f"{map_name} - Platinum Obtained Event Item",
         location_type=GeoguessrLocation,
         item_type=items.GeoguessrItem,
     )
@@ -113,8 +108,8 @@ def add_map_events(map_name, region):
         if "Medal" in check_type:
             print(f"event {map_name} {check_type} in region {region.name}")
             region.add_event(
-                f"{map_name} {check_type} Event",
-                f"{map_name} {check_type} Obtained Event Item",
+                f"{map_name} - {check_type} Event",
+                f"{map_name} - {check_type} Obtained Event Item",
                 location_type=GeoguessrLocation,
                 item_type=items.GeoguessrItem,
             )
