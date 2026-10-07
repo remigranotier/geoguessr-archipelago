@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from rule_builder.rules import Has, True_, HasAllCounts, HasFromList
+from rule_builder.rules import Has, HasFromList
 
 from . import common
 
@@ -22,11 +22,11 @@ def set_all_entrance_rules(world: GeoguessrWorld) -> None:
 
 
 def set_all_location_rules(world: GeoguessrWorld) -> None:
-
     for region in common.REGION:
+        region_country_names = [country.name for country in world.drawn_countries if country.region == region]
         if (
-            len(common.ALL_COUNTRIES_PER_REGION[region]) == 0
-            and region.value != "World"
+            len(region_country_names) == 0
+            and region != common.REGION.World
         ):
             continue
 
