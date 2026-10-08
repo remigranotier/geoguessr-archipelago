@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from collections import defaultdict
 from typing import TYPE_CHECKING, Any
 
 from BaseClasses import Item, ItemClassification
@@ -46,24 +47,15 @@ def create_item_with_correct_classification(
 def create_all_items(world: GeoguessrWorld) -> None:
     itempool = []
 
-    for region in common.REGION:
-        region_country_names = [country.name for country in world.drawn_countries if country.region == region]
-        # skipping regions that don't have countries
-        if (
-            len(region_country_names) == 0
-            and region != common.REGION.World
-        ):
-            continue
+    itempool += add_map_items(world, common.WORLD_REGION.World.value)
+    created_regions = set()
+    for country in world.drawn_countries:
+        if country.region not in created_regions:
+            itempool += add_map_items(world, country.region.value)
+            created_regions.add(country.region)
+        itempool += add_map_items(world, country.name)
 
-        itempool += add_map_items(world, region.value)
-
-        for country in region_country_names:
-            itempool += add_map_items(
-                world,
-                country,
-            )
-
-    base_world_map = world.create_item(common.REGION.World.value)
+    base_world_map = world.create_item(common.WORLD_REGION.World.value)
     world.push_precollected(base_world_map)
 
     number_of_unfilled_locations = len(
@@ -86,7 +78,7 @@ def add_map_items(world, map_name) -> list[Any]:
     default_item_classifications[move_item_name] = ItemClassification.progression
     default_item_classifications[zoom_item_name] = ItemClassification.progression
 
-    if map_name != common.REGION.World.value:
+    if map_name != common.WORLD_REGION.World.value:
         new_items.append(world.create_item(map_name))
     new_items.append(world.create_item(pan_item_name))
     new_items.append(world.create_item(move_item_name))
@@ -95,19 +87,14 @@ def add_map_items(world, map_name) -> list[Any]:
 
 
 def generate_ids() -> dict[str:int]:
-    for region in common.REGION:
-        # skipping regions that don't have countries
-        region_country_names = [country.name for country in common.COUNTRIES.values() if country.region == region]
-        if region != common.REGION.World and len(region_country_names) == 0:
-            continue
-
-        create_map_ids(region.value, common.REGION_BASE_IDS[region])
-
-        for index, country in enumerate(region_country_names):
-            create_map_ids(
-                country,
-                common.REGION_BASE_IDS[region] + (index + 1) * len(common.ITEM_TYPES),
-            )
+    create_map_ids(common.WORLD_REGION.World.value, common.REGION_BASE_IDS[common.WORLD_REGION.World])
+    region_counts = defaultdict(int)
+    for country in common.COUNTRIES.values():
+        if country.region not in region_counts:
+            create_map_ids(country.region.value, common.REGION_BASE_IDS[country.region])
+            region_counts[country.region] += 1
+        create_map_ids(country.name, common.REGION_BASE_IDS[country.region] + (region_counts[country.region]) * len(common.ITEM_TYPES))
+        region_counts[country.region] += 1
 
     return item_name_to_id
 
