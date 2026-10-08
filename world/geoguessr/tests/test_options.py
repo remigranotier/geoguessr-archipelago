@@ -3,9 +3,6 @@ from worlds.geoguessr.tests.bases import GeoguessrTestBase
 
 
 class TestMoreCountries(GeoguessrTestBase):
-    number_of_maps = len(common.WORLD_REGION) + len(common.REGION) + len(common.COUNTRIES)
-    number_of_countries = len(common.COUNTRIES)
-    number_of_micro_countries = len([country for country in common.COUNTRIES.values() if country.is_micro])
     options = {  # noqa: RUF012
         "victory_condition": 1,
         "plat_count": 10,
