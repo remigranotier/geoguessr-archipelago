@@ -40,7 +40,7 @@ def create_item_with_correct_classification(
     world: GeoguessrWorld, name: str
 ) -> GeoguessrItem:
     return GeoguessrItem(
-        name, default_item_classifications[name], item_name_to_id[name], world.player
+        name, default_item_classifications.get(name, ItemClassification.progression), item_name_to_id[name], world.player
     )
 
 

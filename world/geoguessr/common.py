@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class WORLD_REGION(Enum):
     World = "World"
 
