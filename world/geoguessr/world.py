@@ -23,7 +23,7 @@ class GeoguessrWorld(World):
     location_name_to_id = locations.generate_locations()
     item_name_to_id = items.generate_ids()
 
-    origin_region_name = common.REGION.World.value
+    origin_region_name = common.WORLD_REGION.World.value
 
     options_dataclass = geoguessr_options.GeoguessrOptions
     options: geoguessr_options.GeoguessrOptions
@@ -58,7 +58,6 @@ class GeoguessrWorld(World):
 
     def create_items(self) -> None:
         items.create_all_items(self)
-        self.item_name_to_id = items.item_name_to_id
 
     def create_item(self, name: str) -> items.GeoguessrItem:
         return items.create_item_with_correct_classification(self, name)
