@@ -34,10 +34,10 @@ export function renderStatusComponent(specialMode?: StatusSpecialMode) {
     if (specialMode !== undefined) {
         switch (specialMode) {
             case StatusSpecialMode.Loading:
-                statusComponent.innerHTML = `⌛ Connecting...`
+                statusComponent.innerHTML = `⌛ ${browser.i18n.getMessage("connectingStatus")}...`
                 break;
             case StatusSpecialMode.Failed:
-                statusComponent.innerHTML = `⚠️ Failed connecting. Press F12 to see details in console.`
+                statusComponent.innerHTML = `⚠️ ${browser.i18n.getMessage("failedConnectionStatus")}`
                 resetConnectionStatus()
                 break;
             default:
@@ -45,9 +45,9 @@ export function renderStatusComponent(specialMode?: StatusSpecialMode) {
                 break;
         }
     } else if (globalThis.connectionStatus.authenticated) {
-        statusComponent.innerHTML = `✅ Connected to <strong>${globalThis.connectionStatus.server}</strong> as <strong>${globalThis.connectionStatus.player}</strong>`
+        statusComponent.innerHTML = `✅ ${browser.i18n.getMessage("connectedStatus", [globalThis.connectionStatus.server, globalThis.connectionStatus.player])}`
     } else {
-        statusComponent.innerHTML = `❌ Not connected`
+        statusComponent.innerHTML = `❌ ${browser.i18n.getMessage("notConnectedStatus")}`
     }
 
     renderMapTable()

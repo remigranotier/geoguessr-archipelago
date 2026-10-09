@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from BaseClasses import Region
+
 from . import common
 
 if TYPE_CHECKING:
@@ -16,13 +17,11 @@ def create_and_connect_regions(world: GeoguessrWorld) -> None:
 
 def create_all_regions(world: GeoguessrWorld) -> None:
     regions = []
+    regions.append(Region(common.WORLD_REGION.World.value, world.player, world.multiworld))
 
     for region in common.REGION:
         # skipping regions that don't have countries
-        if (
-            len(common.ALL_COUNTRIES_PER_REGION[region]) == 0
-            and region.value != "World"
-        ):
+        if not any(country for country in world.drawn_countries if country.region == region):
             continue
 
         regions.append(Region(region.value, world.player, world.multiworld))
@@ -31,17 +30,17 @@ def create_all_regions(world: GeoguessrWorld) -> None:
 
 
 def connect_regions(world: GeoguessrWorld) -> None:
-    world_region = world.get_region("World")
+    world_region = world.get_region(common.WORLD_REGION.World.value)
 
     for region in common.REGION:
-        if region.value == "World" or len(common.ALL_COUNTRIES_PER_REGION[region]) == 0:
+        if not any(country for country in world.drawn_countries if country.region == region):
             continue
 
         region_to_connect = world.get_region(region.value)
 
         world_region.connect(
             region_to_connect,
-            f"World to {region.value}",
+            f"{common.WORLD_REGION.World.value} to {region.value}",
             lambda state, region_name=region.value: state.has(
                 region_name, world.player
             ),

@@ -9,6 +9,10 @@
 - Added installation steps in README (#11)
 - Add the questionable tip filler item and add browser notifications for tips (#12)
 - Made the medal count goal possible to use (#15)
+- Add i18n labels (#16)
+- Only display maps if something is unlocked (#18)
+- Add all countries maps (#19)
+- Add a volume bar (#20)
 
 ## Bugfixes
 - Added error log on game generation failure (#6)
@@ -16,3 +20,4 @@
 - Lint code (#8)
 - Fixed extra logs and sounds when connecting or re-connecting (#13)
 - Fixed item 0 having no name (#14)
+- Fixed service worker going off after a while (#17)
