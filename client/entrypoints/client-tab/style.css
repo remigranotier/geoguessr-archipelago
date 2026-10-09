@@ -58,13 +58,25 @@ th {
 }
 
 #status-component {
-  padding-left: 1em;
+  padding-left: 0.5em;
+  padding-top: 0.5em;
   display: flex;
   flex-direction: row;
   gap: 1em;
   position: absolute;
-  x: 0;
-  y: 0;
+  left: 0;
+  top: 0;
+}
+
+#volume-component {
+  display:flex;
+  flex-direction: row;
+  gap: 0.5em;
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding-right: 0.5em;
+  padding-top: 0.5em;
 }
 
 #app {
