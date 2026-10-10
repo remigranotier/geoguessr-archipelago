@@ -6,7 +6,7 @@ from . import common
 
 
 def get_map_amount() -> int:
-    return len(common.WORLD_REGION) + len(common.REGION) + len(common.COUNTRIES)
+    return 1 + len(common.REGION) + len(common.COUNTRIES)
 
 
 class VictoryCondition(Choice):

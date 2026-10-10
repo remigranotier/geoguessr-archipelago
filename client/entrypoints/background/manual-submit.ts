@@ -4,7 +4,7 @@ import { gamemodeFromData } from "../common/utils";
 import { handleRoundFinishedMessage } from "./game";
 
 export async function handleSubmitManualId(message: SubmitManualIdMessage) {
-    const idRegex = new RegExp('^[a-zA-Z0-9]{16}$')
+    const idRegex = /^[a-zA-Z0-9]{16}$/
     if (!idRegex.test(message.id)) {
         throw new Error(`Input error: ID received has invalid format`)
     }

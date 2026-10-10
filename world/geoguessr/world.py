@@ -24,7 +24,7 @@ class GeoguessrWorld(World):
     location_name_to_id = locations.generate_locations()
     item_name_to_id = items.generate_ids()
 
-    origin_region_name = common.WORLD_REGION.World.value
+    origin_region_name = common.WORLD_REGION
 
     options_dataclass = geoguessr_options.GeoguessrOptions
     options: geoguessr_options.GeoguessrOptions
@@ -44,8 +44,7 @@ class GeoguessrWorld(World):
 
 
     def draw_countries(self):
-        # TODO: filter countries based on presets/difficulty etc
-        all_countries = [country for country in common.COUNTRIES.values()]
+        all_countries = list(common.COUNTRIES.values())
         self.random.shuffle(all_countries)
         drawn_countries = set()
         micro_countries_drawn = 0
