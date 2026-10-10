@@ -1,6 +1,6 @@
 import { mapsConfig } from "../../common/config";
 import { GenerateGameMessage } from "../../common/messages";
-import { GACGamemode, GACMap, GACMedal } from "../../common/models";
+import { GACGamemode, GACGameType, GACMap, GACMedal } from "../../common/models";
 
 const DEFAULT_COLOR = "rgb(36, 36, 36)"
 const POSSIBLE_COLOR = "rgba(0, 255, 0, 0.2)"
@@ -8,7 +8,13 @@ const TRICKY_COLOR = "rgba(255, 255, 0, 0.2)"
 const IMPOSSIBLE_COLOR = "rgba(255, 0, 0, 0.2)"
 const DONE_COLOR = "rgba(0, 255, 255, 0.3)"
 
-export function renderMapTable() {
+export function renderGameSection() {
+    const manualSubmitSection = document.getElementById("manual-game-submit-section");
+    manualSubmitSection!.style.display = globalThis.connectionStatus.authenticated ? "flex" : "none"
+    renderMapsTable()
+}
+
+export function renderMapsTable() {
     const mapTable = document.getElementById('map-table');
     mapTable!.style.display = globalThis.connectionStatus.authenticated ? "block" : "none"
     const recentLogs = document.getElementById('recent-logs');
@@ -62,8 +68,9 @@ export function renderMapRow(map: GACMap): HTMLTableRowElement | null {
     panCell.textContent = currentGamemode & GACGamemode.Pan ? "✔️" : "❌"
     zoomCell.textContent = currentGamemode & GACGamemode.Zoom ? "✔️" : "❌"
 
+    const gameTypeInLink = map.gameType == GACGameType.Challenge ? "results" : "game"
     bestMedalCell.innerHTML = map.bestSeed != "" ?
-        `<a target="_blank" style="text-decoration: none;" href="https://geoguessr.com/game/${map.bestSeed}">${getMedalText(map.bestMedal)}</a>` :
+        `<a target="_blank" style="text-decoration: none;" href="https://geoguessr.com/${gameTypeInLink}/${map.bestSeed}">${getMedalText(map.bestMedal)}</a>` :
         getMedalText(map.bestMedal)
 
     fivekCell.textContent = map.fivekDone ? "✔️" : "❌"

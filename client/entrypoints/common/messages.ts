@@ -1,4 +1,4 @@
-import type { GACGameState, GeoguessrGameStatus, SoundEffectType } from "./models";
+import type { GACGameState, GACGameType, GeoguessrGameStatus, SoundEffectType } from "./models";
 
 export enum MessageType {
     Default = "Default",
@@ -13,6 +13,7 @@ export enum MessageType {
     RetrieveLogs = "RetrieveLogs",
     SendNewLog = "SendNewLog",
     SendSoundEffect = "SendSoundEffect",
+    SubmitManualId = "SubmitManualId",
 }
 
 export class ServerConnectMessage {
@@ -62,6 +63,7 @@ export class RoundFinishedMessage {
     constructor(
         public gameStatus: GeoguessrGameStatus,
         public gameId: string,
+        public gameType: GACGameType,
         public mapId: string,
         public mapName: string,
         public roundScore: number,
@@ -108,6 +110,12 @@ export class SendSoundEffectMessage {
     constructor(
         public soundType: SoundEffectType
     ) { }
+}
+
+export class SubmitManualIdMessage {
+    type: MessageType = MessageType.SubmitManualId;
+
+    constructor(public id: string) {}
 }
 
 

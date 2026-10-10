@@ -1,6 +1,7 @@
 import { clientStatuses, type ClientStatus, type Item } from 'archipelago.js'
 import {
     GACGamemode,
+    GACGameType,
     GACMap,
     GACMedal,
     GeoguessrGameStatus,
@@ -67,8 +68,8 @@ export function isMapAvailable(areaMap: AreaMap): boolean {
 export function handleGameFinishedMessage(message: RoundFinishedMessage) {
     let areaMap = mapsConfig.find((map) => map.mapId === message.mapId)
     if (areaMap === undefined || !isMapAvailable(areaMap)) {
-        console.debug("Received a finished round on a map not available. Ignoring.")
-        return
+        console.debug("Received a finished round on a map not available")
+        throw new Error("Map not available")
     }
 
     let locationsToCheck: number[] = []
@@ -109,6 +110,7 @@ export function handleGameFinishedMessage(message: RoundFinishedMessage) {
         console.debug("Best score beaten:", message.totalScore, "vs", map.bestScore, "before")
         map.bestScore = message.totalScore
         map.bestSeed = message.gameId
+        map.gameType = message.gameType
     }
 
     updateGameState()
@@ -139,6 +141,7 @@ export function updateAreaMap(areaMap: AreaMap) {
     if (mapStatus === undefined) {
         mapStatus = {
             available: true,
+            gameType: GACGameType.Game,
             gamemode: GACGamemode.None,
             bestMedal: GACMedal.None,
             bestScore: 0,

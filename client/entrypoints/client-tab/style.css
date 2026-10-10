@@ -91,6 +91,46 @@ th {
   min-width: 320px;
 }
 
+#game-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+#manual-game-submit-section {
+  display: flex;
+  flex-direction: column;
+}
+
+fieldset {
+  border-color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  width: auto;
+}
+
+#game-id-submit-section-title {
+  text-align: left;
+  font-weight: bold;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+#manual-game-submit-form-line {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+}
+
+#submit-id-button {
+  margin-left: 1em;
+}
+
+#submit-id-status {
+  text-align: left;
+}
+
 form {
   display: flex;
   flex-direction: row;
