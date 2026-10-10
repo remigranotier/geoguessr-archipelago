@@ -1,5 +1,5 @@
 import { RoundFinishedMessage, type GeoguessrRoundFinishedMessage } from "../common/messages";
-import { GACGameType, type GACResponse } from "../common/models";
+import { GACGamemode, GACGameType, type GACResponse } from "../common/models";
 
 export default defineContentScript({
     matches: ['*://*.geoguessr.com/game/*'],
@@ -20,6 +20,7 @@ async function handleGeoguessrGameFinishedMessage(event: MessageEvent<GeoguessrR
             event.data.state!,
             event.data.token!,
             GACGameType.Game,
+            event.data.gamemode!,
             event.data.mapId!,
             event.data.mapName!,
             event.data.roundScore!,
