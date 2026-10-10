@@ -14,6 +14,9 @@ export default defineConfig({
                 id: "{057c1530-0caf-4f22-8d70-f651697364e9}"
             }
         },
-        action: {}
+        action: {},
+        default_locale: "en",
+        name: "__MSG_extName__",
+        description: "__MSG_extDescription__"
     }
 });

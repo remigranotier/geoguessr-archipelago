@@ -35,7 +35,7 @@ export default defineContentScript({
 
                     window.postMessage(
                         message,
-                        '*',
+                        "https://www.geoguessr.com",
                     );
 
                 } catch (e) {

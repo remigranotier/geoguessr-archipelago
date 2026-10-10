@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from rule_builder.rules import Has, True_, HasAllCounts, HasFromList
+from rule_builder.rules import Has, HasFromList
 
 from . import common
 
@@ -22,41 +22,38 @@ def set_all_entrance_rules(world: GeoguessrWorld) -> None:
 
 
 def set_all_location_rules(world: GeoguessrWorld) -> None:
-
+    locations = []
+    locations += world.get_region(common.WORLD_REGION).locations
     for region in common.REGION:
-        if (
-            len(common.ALL_COUNTRIES_PER_REGION[region]) == 0
-            and region.value != "World"
-        ):
+        if not any(country.name for country in world.drawn_countries if country.region == region):
             continue
+        locations += world.get_region(region.value).locations
 
-        world_region = world.get_region(region.value)
+    for location in locations:
+        location_name = location.name.split("-")[0].strip()
+        is_region_location = location_name == common.WORLD_REGION or location_name in common.REGION
 
-        for location in world_region.locations:
-            # Careful cause that won't work for countries with several words
-            country_name = location.name.split("-")[0].strip()
+        loc_rule = Has(location_name)
 
-            loc_rule = Has(country_name)
+        pan_item = f"Pan ({location_name})"
+        move_item = f"Move ({location_name})"
+        zoom_item = f"Zoom ({location_name})"
 
-            pan_item = f"Pan ({country_name})"
-            move_item = f"Move ({country_name})"
-            zoom_item = f"Zoom ({country_name})"
+        has_pan = Has(pan_item)
+        has_move = Has(move_item)
+        has_zoom = Has(zoom_item)
+        has_pan_or_move = has_pan | has_move
+        has_pan_and_move = has_pan & has_move
+        has_all_modes = has_pan & has_move & has_zoom
 
-            has_pan = Has(pan_item)
-            has_move = Has(move_item)
-            has_zoom = Has(zoom_item)
-            has_pan_or_move = has_pan | has_move
-            has_pan_and_move = has_pan & has_move
-            has_all_modes = has_pan & has_move & has_zoom
+        if "Silver Medal" in location.name and not is_region_location:
+            loc_rule &= has_pan_or_move
+        elif "Gold Medal" in location.name or "5k" in location.name:
+            loc_rule &= has_pan_and_move
+        elif "Platinum Medal" in location.name or "Platinum Event" in location.name:
+            loc_rule &= has_all_modes
 
-            if "Silver Medal" in location.name:
-                loc_rule &= has_pan_or_move
-            elif "Gold Medal" in location.name or "5k" in location.name:
-                loc_rule &= has_pan_and_move
-            elif "Platinum Medal" in location.name or "Platinum Event" in location.name:
-                loc_rule &= has_all_modes
-
-            world.set_rule(location, loc_rule)
+        world.set_rule(location, loc_rule)
 
 
 def set_completion_condition(world: GeoguessrWorld) -> None:
@@ -78,7 +75,6 @@ def set_completion_condition(world: GeoguessrWorld) -> None:
                 for item in world.multiworld.get_items()
                 if "Platinum Obtained Event Item" in item.name
             ]
-
             world.set_completion_rule(
                 HasFromList(*items_to_count, count=world.options.plat_count.value)
             )

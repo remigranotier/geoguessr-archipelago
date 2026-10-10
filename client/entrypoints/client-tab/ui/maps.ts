@@ -1,6 +1,6 @@
 import { mapsConfig } from "../../common/config";
 import { GenerateGameMessage } from "../../common/messages";
-import { GACGamemode, GACMap, GACMedal } from "../../common/models";
+import { GACGamemode, GACGameType, GACMap, GACMedal } from "../../common/models";
 
 const DEFAULT_COLOR = "rgb(36, 36, 36)"
 const POSSIBLE_COLOR = "rgba(0, 255, 0, 0.2)"
@@ -8,7 +8,13 @@ const TRICKY_COLOR = "rgba(255, 255, 0, 0.2)"
 const IMPOSSIBLE_COLOR = "rgba(255, 0, 0, 0.2)"
 const DONE_COLOR = "rgba(0, 255, 255, 0.3)"
 
-export function renderMapTable() {
+export function renderGameSection() {
+    const manualSubmitSection = document.getElementById("manual-game-submit-section");
+    manualSubmitSection!.style.display = globalThis.connectionStatus.authenticated ? "flex" : "none"
+    renderMapsTable()
+}
+
+export function renderMapsTable() {
     const mapTable = document.getElementById('map-table');
     mapTable!.style.display = globalThis.connectionStatus.authenticated ? "block" : "none"
     const recentLogs = document.getElementById('recent-logs');
@@ -18,11 +24,18 @@ export function renderMapTable() {
     tbody!.innerHTML = ""
     for (const map of globalThis.gameState.maps) {
         const row = renderMapRow(map)
-        tbody?.appendChild(row)
+        if (row !== null) {
+            tbody?.appendChild(row)
+        }
     }
 }
 
-export function renderMapRow(map: GACMap): HTMLTableRowElement {
+export function renderMapRow(map: GACMap): HTMLTableRowElement | null {
+    // If nothing has been unlocked for this map yet
+    if (!map.available && map.gamemode == GACGamemode.None) {
+        return null
+    }
+
     const row = document.createElement("tr");
     const mapNameCell: HTMLTableCellElement = document.createElement("td")
     const moveCell: HTMLTableCellElement = document.createElement("td")
@@ -55,8 +68,9 @@ export function renderMapRow(map: GACMap): HTMLTableRowElement {
     panCell.textContent = currentGamemode & GACGamemode.Pan ? "✔️" : "❌"
     zoomCell.textContent = currentGamemode & GACGamemode.Zoom ? "✔️" : "❌"
 
+    const gameTypeInLink = map.gameType == GACGameType.Challenge ? "results" : "game"
     bestMedalCell.innerHTML = map.bestSeed != "" ?
-        `<a target="_blank" style="text-decoration: none;" href="https://geoguessr.com/game/${map.bestSeed}">${getMedalText(map.bestMedal)}</a>` :
+        `<a target="_blank" style="text-decoration: none;" href="https://geoguessr.com/${gameTypeInLink}/${map.bestSeed}">${getMedalText(map.bestMedal)}</a>` :
         getMedalText(map.bestMedal)
 
     fivekCell.textContent = map.fivekDone ? "✔️" : "❌"
@@ -89,7 +103,6 @@ function getMedalText(medal: GACMedal) {
 }
 
 function getColorFromDifficulty(map: GACMap): string {
-    const hasMoveOrPan = map.gamemode & (GACGamemode.Move | GACGamemode.Pan)
     const hasMove = map.gamemode & GACGamemode.Move
     const hasPan = map.gamemode & GACGamemode.Pan
     const hasZoom = map.gamemode & GACGamemode.Zoom
@@ -102,7 +115,7 @@ function getColorFromDifficulty(map: GACMap): string {
         case GACMedal.None:
             return POSSIBLE_COLOR
         case GACMedal.Bronze:
-            if (hasMoveOrPan) {
+            if (hasMove || hasPan) {
                 return POSSIBLE_COLOR
             } else {
                 return TRICKY_COLOR
@@ -110,7 +123,7 @@ function getColorFromDifficulty(map: GACMap): string {
         case GACMedal.Silver:
             if (hasMove && hasPan) {
                 return POSSIBLE_COLOR
-            } else if (map.gamemode & GACGamemode.Move) {
+            } else if (hasMove) {
                 return TRICKY_COLOR
             } else {
                 return IMPOSSIBLE_COLOR

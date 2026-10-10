@@ -1,6 +1,7 @@
 import { clientStatuses, type ClientStatus, type Item } from 'archipelago.js'
 import {
     GACGamemode,
+    GACGameType,
     GACMap,
     GACMedal,
     GeoguessrGameStatus,
@@ -64,11 +65,33 @@ export function isMapAvailable(areaMap: AreaMap): boolean {
     return (apClient.items.received.some((item: Item) => item.id == baseItemId))
 }
 
-export function handleGameFinishedMessage(message: RoundFinishedMessage) {
+export function hasForbiddenGamemode(areaMap: AreaMap, message: RoundFinishedMessage) {
+    if (message.gamemode & GACGamemode.Pan) {
+        if (!apClient.items.received.some((item: Item) => item.id == areaMap.baseItemId + AreaItems.Pan)) {
+            return true;
+        }
+    }
+    if (message.gamemode & GACGamemode.Move) {
+        if (!apClient.items.received.some((item: Item) => item.id == areaMap.baseItemId + AreaItems.Move)) {
+            return true;
+        }
+    }
+    if (message.gamemode & GACGamemode.Zoom) {
+        if (!apClient.items.received.some((item: Item) => item.id == areaMap.baseItemId + AreaItems.Zoom)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+export function handleRoundFinishedMessage(message: RoundFinishedMessage) {
     let areaMap = mapsConfig.find((map) => map.mapId === message.mapId)
     if (areaMap === undefined || !isMapAvailable(areaMap)) {
-        console.debug("Received a finished round on a map not available. Ignoring.")
-        return
+        throw new Error("Map not available")
+    }
+
+    if (hasForbiddenGamemode(areaMap, message)) {
+        throw new Error("Forbidden gamemode in received game")
     }
 
     let locationsToCheck: number[] = []
@@ -109,6 +132,7 @@ export function handleGameFinishedMessage(message: RoundFinishedMessage) {
         console.debug("Best score beaten:", message.totalScore, "vs", map.bestScore, "before")
         map.bestScore = message.totalScore
         map.bestSeed = message.gameId
+        map.gameType = message.gameType
     }
 
     updateGameState()
@@ -139,6 +163,7 @@ export function updateAreaMap(areaMap: AreaMap) {
     if (mapStatus === undefined) {
         mapStatus = {
             available: true,
+            gameType: GACGameType.Game,
             gamemode: GACGamemode.None,
             bestMedal: GACMedal.None,
             bestScore: 0,

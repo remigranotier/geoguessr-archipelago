@@ -5,64 +5,82 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/png" href="/icon/128.png" />
-  <title>Geoguessr Archipelago Client</title>
+  <title data-i18n="extName">Geoguessr Archipelago Client</title>
 </head>
 
 <body>
   <div id="status-component">
-    <strong>Status: </strong>
+    <strong><span data-i18n="status">Status</span>: </strong>
     <div id="status">
     </div>
   </div>
+  <div id="volume-component">
+    <label for="volume-bar" id="volume-bar-icon">
+      🔊
+    </label>
+    <input type="range" id="volume-bar">
+  </div>
   <div id="app">
-    <h1>Geoguessr Archipelago</h1>
+    <h1 data-i18n="pageTitle">Geoguessr Archipelago</h1>
     <hr>
     <div id="connection-section">
       <form id="connect-form">
         <div>
-          <label for="server">Archipelago server</label>
+          <label for="server" data-i18n="apServer">Archipelago server</label>
           <input id="server" type="string" placeholder="archipelago.gg:XXXXX">
         </div>
         <div>
-          <label for="slot-name">Slot name</label>
-          <input id="slot-name" type="string" placeholder="<your-name>">
+          <label for="slot-name" data-i18n="slotName">Slot name</label>
+          <input id="slot-name" type="string" data-i18n-placeholder="slotNamePlaceholder">
         </div>
         <div>
-          <label for="password">Password</label>
-          <input id="password" type="password" placeholder="(leave empty if none)">
+          <label for="password" data-i18n="password">Password</label>
+          <input id="password" type="password" data-i18n-placeholder="passwordPlaceholder">
         </div>
-        <button id="connect-button" type="button">Connect</button>
-        <button id="disconnect-button" type="button">Disconnect</button>
+        <button id="connect-button" type="button" data-i18n="connectButton">Connect</button>
+        <button id="disconnect-button" type="button" data-i18n="disconnectButton">Disconnect</button>
       </form>
       <div id="recent-logs">
         <details>
-          <summary>Recent logs</summary>
+          <summary data-i18n="recentMessages">Recent messages</summary>
           <div id="log-container" class="log-container"></div>
         </details>
       </div>
     </div>
     <hr>
-    <div id="connect"></div>
-    <table id="map-table">
-      <thead>
-        <tr>
-          <th id="map-column" rowspan="2">Map</th>
-          <th colspan="3">Gamemodes</th>
-          <th rowspan="2">Best medal</th>
-          <th rowspan="2">5k done</th>
-        </tr>
-        <tr>
-          <th class="mode-column">Move</th>
-          <th class="mode-column">Pan</th>
-          <th class="mode-column">Zoom</th>
-        </tr>
-      </thead>
-      <tbody>
-      </tbody>
-    </table>
+    <div id="game-section">
+      <div id="manual-game-submit-section">
+        <fieldset>
+          <legend id="game-id-submit-section-title" data-i18n="gameIdSubmitSectionTitle">Manually submit a game or challenge ID</legend>
+          <div id="manual-game-submit-form-line">
+            <label for="game-id" data-i18n="gameId">Game/Challenge ID</label>
+            <input id="game-id" type="string" data-i18n-placeholder="gameIdPlaceholder">
+            <button id="submit-id-button" type="button" data-i18n="submitId">Submit ID</button>
+          </div>
+          <span id="submit-id-status"></span>
+        </fieldset>
+      </div>
+      <table id="map-table">
+        <thead>
+          <tr>
+            <th id="map-column" rowspan="2" data-i18n="mapColumn">Map</th>
+            <th colspan="3" data-i18n="gamemodesColumn">Gamemodes</th>
+            <th rowspan="2" data-i18n="bestMedalColumn">Best medal</th>
+            <th rowspan="2" data-i18n="fivekDoneColumn">5k done</th>
+          </tr>
+          <tr>
+            <th id="move-header" class="mode-column" data-i18n="gamemodeMove">Move</th>
+            <th id="pan-header" class="mode-column" data-i18n="gamemodePan">Pan</th>
+            <th id="zoom-header" class="mode-column" data-i18n="gamemodeZoom">Zoom</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
   </div>
   <footer>
-    <a href="../tutorial-tab.html">How to play</a>
+    <a href="../tutorial-tab.html" data-i18n="howToPlay" target="_blank">How to play</a>
   </footer>
   <script type="module" src="./main.ts"></script>
 </body>

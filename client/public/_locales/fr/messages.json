@@ -1,0 +1,108 @@
+{
+    "extName": {
+        "message": "Geoguessr Archipelago Client"
+    },
+    "extDescription": {
+        "message": "Une extension web qui permet de se connecter à des serveurs Archipelago et de jouer des sessions sur Geoguessr"
+    },
+    "connectingStatus": {
+        "message": "Connexion en cours"
+    },
+    "notConnectedStatus": {
+        "message": "Non connecté"
+    },
+    "failedConnectionStatus": {
+        "message": "La connexion a échoué. Appuyez sur F12 puis regardez la console pour plus de détails."
+    },
+    "connectedStatus": {
+        "message": "Connecté à <strong>$SERVER$</strong> en tant que <strong>$PLAYER$</strong>",
+        "placeholders": {
+            "server": {
+                "content": "$1",
+                "example": "wss://archipelago.gg:33333"
+            },
+            "player": {
+                "content": "$2",
+                "example": "nomDuJoueur"
+            }
+        }
+    },
+    "status": {
+        "message": "Statut"
+    },
+    "pageTitle": {
+        "message": "Geoguessr Archipelago"
+    },
+    "apServer": {
+        "message": "Serveur Archipelago"
+    },
+    "slotName": {
+        "message": "Nom du slot"
+    },
+    "slotNamePlaceholder": {
+        "message": "<votre-nom>"
+    },
+    "password": {
+        "message": "Mot de passe"
+    },
+    "passwordPlaceholder": {
+        "message": "(laisser vide si aucun)"
+    },
+    "connectButton": {
+        "message": "Connexion"
+    },
+    "disconnectButton": {
+        "message": "Déconnexion"
+    },
+    "recentMessages": {
+        "message": "Messages récents"
+    },
+    "mapColumn": {
+        "message": "Carte"
+    },
+    "gamemodesColumn": {
+        "message": "Modes de jeu"
+    },
+    "bestMedalColumn": {
+        "message": "Meilleure médaille"
+    },
+    "fivekDoneColumn": {
+        "message": "5k fait"
+    },
+    "gamemodeMove": {
+        "message": "Move"
+    },
+    "gamemodePan": {
+        "message": "Pan"
+    },
+    "gamemodeZoom": {
+        "message": "Zoom"
+    },
+    "howToPlay": {
+        "message": "Comment jouer"
+    },
+    "howToPlayTitle": {
+        "message": "Comment jouer une session Archipelago sur Geoguessr"
+    },
+    "gameId": {
+        "message": "ID de game/challenge"
+    },
+    "gameIdPlaceholder": {
+        "message": "ex: GRxoIRlMOE89o2np"
+    },
+    "submitId": {
+        "message": "Envoyer l'ID"
+    },
+    "gameIdSubmitSectionTitle": {
+        "message": "Envoyer manuellement un ID de game/challenge"
+    },
+    "invalidIdFormat": {
+        "message": "Format d'ID invalide"
+    },
+    "idAccepted": {
+        "message": "ID accepté"
+    },
+    "errorManualSubmit": {
+        "message": "Erreur pendant l'envoi manuel"
+    }
+}
