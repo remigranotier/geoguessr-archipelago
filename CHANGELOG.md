@@ -12,6 +12,7 @@
 - Add i18n labels (#16)
 - Only display maps if something is unlocked (#18)
 - Add all countries maps (#19)
+- Add a volume bar (#20)
 
 ## Bugfixes
 - Added error log on game generation failure (#6)
