@@ -17,3 +17,4 @@
 - Lint code (#8)
 - Fixed extra logs and sounds when connecting or re-connecting (#13)
 - Fixed item 0 having no name (#14)
+- Fixed service worker going off after a while (#17)
