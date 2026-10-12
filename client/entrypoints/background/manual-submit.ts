@@ -1,6 +1,7 @@
 import { RoundFinishedMessage, type SubmitManualIdMessage } from "../common/messages";
 import { GACGameType, GeoguessrGameStatus } from "../common/models";
-import { handleGameFinishedMessage } from "./game";
+import { gamemodeFromData } from "../common/utils";
+import { handleRoundFinishedMessage } from "./game";
 
 export async function handleSubmitManualId(message: SubmitManualIdMessage) {
     const idRegex = new RegExp('^[a-zA-Z0-9]{16}$')
@@ -19,8 +20,17 @@ export async function handleSubmitManualId(message: SubmitManualIdMessage) {
         const totalScoreInPoints = data["player"]["totalScoreInPoints"]
         const guesses: any[] = data["player"]["guesses"]
         const isFiveK = guesses.some((guess) => (guess["roundScoreInPoints"] as number) == 5000)
-        const roundFinishedMessage = new RoundFinishedMessage(GeoguessrGameStatus.FINISHED, message.id, GACGameType.Game, data["map"], data["mapName"], isFiveK ? 5000 : 0, totalScoreInPoints)
-        handleGameFinishedMessage(roundFinishedMessage)
+        const roundFinishedMessage = new RoundFinishedMessage(
+            GeoguessrGameStatus.FINISHED, 
+            message.id, 
+            GACGameType.Game, 
+            gamemodeFromData(data), 
+            data["map"], 
+            data["mapName"], 
+            isFiveK ? 5000 : 0, 
+            totalScoreInPoints
+        )
+        handleRoundFinishedMessage(roundFinishedMessage)
         return
     }
 
@@ -37,8 +47,17 @@ export async function handleSubmitManualId(message: SubmitManualIdMessage) {
         const totalScoreInPoints = game["player"]["totalScoreInPoints"]
         const guesses: any[] = game["player"]["guesses"]
         const isFiveK = guesses.some((guess) => (guess["roundScoreInPoints"] as number) == 5000)
-        const roundFinishedMessage = new RoundFinishedMessage(GeoguessrGameStatus.FINISHED, message.id, GACGameType.Challenge, game["map"], game["mapName"], isFiveK ? 5000 : 0, totalScoreInPoints)
-        handleGameFinishedMessage(roundFinishedMessage)
+        const roundFinishedMessage = new RoundFinishedMessage(
+            GeoguessrGameStatus.FINISHED, 
+            message.id, 
+            GACGameType.Challenge, 
+            gamemodeFromData(game), 
+            game["map"], 
+            game["mapName"], 
+            isFiveK ? 5000 : 0, 
+            totalScoreInPoints
+        )
+        handleRoundFinishedMessage(roundFinishedMessage)
         return
     }
 

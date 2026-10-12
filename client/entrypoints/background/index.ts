@@ -7,7 +7,7 @@ import {
   type GACResponse,
 } from "../common/models";
 import { getServerConnection, handleServerConnectMessage, handleServerDisconnectMessage } from "./connect";
-import { handleGameFinishedMessage, handleGenerateGameMessage, updateGameState } from "./game";
+import { handleRoundFinishedMessage, handleGenerateGameMessage, updateGameState } from "./game";
 import { GenerateGameMessage, MessageType, RoundFinishedMessage, SendGameStateMessage, SendNewLogMessage, SendSoundEffectMessage, SubmitManualIdMessage, type GACMessage, type ServerConnectMessage } from "../common/messages";
 import { handleRetrieveLogsMessage, renderNodes } from "./ap-logs";
 import { sendQuestionableTip, sendSpecialTip } from "./tips";
@@ -87,10 +87,10 @@ function messageListener(message: GACMessage, sender: Browser.runtime.MessageSen
 
     case MessageType.RoundFinished:
       {
-        const gameFinishedMessage = message as RoundFinishedMessage;
+        const roundFinishedMessage = message as RoundFinishedMessage;
         console.debug("Received RoundFinishedMessage:", message)
         try {
-          const result = handleGameFinishedMessage(gameFinishedMessage)
+          const result = handleRoundFinishedMessage(roundFinishedMessage)
           sendResponse({
             success: true,
             data: result

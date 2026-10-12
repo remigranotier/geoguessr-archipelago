@@ -1,4 +1,5 @@
-import type { GACGameState, GACGameType, GeoguessrGameStatus, SoundEffectType } from "./models";
+import { GACGamemode, type GACGameState, type GACGameType, type GeoguessrGameStatus, type SoundEffectType } from "./models";
+import { gamemodeFromData } from "./utils";
 
 export enum MessageType {
     Default = "Default",
@@ -64,6 +65,7 @@ export class RoundFinishedMessage {
         public gameStatus: GeoguessrGameStatus,
         public gameId: string,
         public gameType: GACGameType,
+        public gamemode: GACGamemode,
         public mapId: string,
         public mapName: string,
         public roundScore: number,
@@ -80,6 +82,7 @@ export class GeoguessrRoundFinishedMessage {
     roundScore?: number;
     totalScore?: number;
     playerId?: string;
+    gamemode?: GACGamemode;
 
     constructor(data: any) {
         this.token = data["token"]
@@ -90,6 +93,7 @@ export class GeoguessrRoundFinishedMessage {
         this.roundScore = guesses.at(-1)["roundScoreInPoints"]
         this.totalScore = data["player"]["totalScoreInPoints"]
         this.playerId = data["player"]["id"]
+        this.gamemode = gamemodeFromData(data)
     }
 }
 
