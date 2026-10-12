@@ -21,7 +21,9 @@ def create_all_regions(world: GeoguessrWorld) -> None:
 
     for region in common.REGION:
         # skipping regions that don't have countries
-        if not any(country for country in world.drawn_countries if country.region == region):
+        if not any(
+            country for country in world.drawn_countries if country.region == region
+        ):
             continue
 
         regions.append(Region(region.value, world.player, world.multiworld))
@@ -33,7 +35,9 @@ def connect_regions(world: GeoguessrWorld) -> None:
     WORLDREGION = world.get_region(common.WORLD_REGION)
 
     for region in common.REGION:
-        if not any(country for country in world.drawn_countries if country.region == region):
+        if not any(
+            country for country in world.drawn_countries if country.region == region
+        ):
             continue
 
         region_to_connect = world.get_region(region.value)

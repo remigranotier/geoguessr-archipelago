@@ -40,7 +40,10 @@ def create_item_with_correct_classification(
     world: GeoguessrWorld, name: str
 ) -> GeoguessrItem:
     return GeoguessrItem(
-        name, default_item_classifications.get(name, ItemClassification.progression), item_name_to_id[name], world.player
+        name,
+        default_item_classifications.get(name, ItemClassification.progression),
+        item_name_to_id[name],
+        world.player,
     )
 
 
@@ -80,11 +83,13 @@ def add_map_items(world, map_name) -> list[Any]:
 
     if map_name != common.WORLD_REGION:
         new_items.append(world.create_item(map_name))
-    new_items.extend([
-        world.create_item(pan_item_name), 
-        world.create_item(move_item_name), 
-        world.create_item(zoom_item_name)
-    ])
+    new_items.extend(
+        [
+            world.create_item(pan_item_name),
+            world.create_item(move_item_name),
+            world.create_item(zoom_item_name),
+        ]
+    )
     return new_items
 
 
@@ -95,7 +100,11 @@ def generate_ids() -> dict[str:int]:
         if country.region not in region_counts:
             create_map_ids(country.region.value, common.REGION_BASE_IDS[country.region])
             region_counts[country.region] += 1
-        create_map_ids(country.name, common.REGION_BASE_IDS[country.region] + (region_counts[country.region]) * len(common.ITEM_TYPES))
+        create_map_ids(
+            country.name,
+            common.REGION_BASE_IDS[country.region]
+            + (region_counts[country.region]) * len(common.ITEM_TYPES),
+        )
         region_counts[country.region] += 1
 
     return item_name_to_id

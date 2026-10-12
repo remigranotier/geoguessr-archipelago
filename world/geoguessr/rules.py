@@ -25,13 +25,19 @@ def set_all_location_rules(world: GeoguessrWorld) -> None:
     locations = []
     locations += world.get_region(common.WORLD_REGION).locations
     for region in common.REGION:
-        if not any(country.name for country in world.drawn_countries if country.region == region):
+        if not any(
+            country.name
+            for country in world.drawn_countries
+            if country.region == region
+        ):
             continue
         locations += world.get_region(region.value).locations
 
     for location in locations:
         location_name = location.name.split("-")[0].strip()
-        is_region_location = location_name == common.WORLD_REGION or location_name in common.REGION
+        is_region_location = (
+            location_name == common.WORLD_REGION or location_name in common.REGION
+        )
 
         loc_rule = Has(location_name)
 
