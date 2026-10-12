@@ -1,5 +1,7 @@
 # Geoguessr Archipelago
 
+## THIS REPOSITORY IS STILL WIP, NOTHING OF USE FOR NOW
+
 ## Presentation
 
 This is the repository for an Archipelago Client & APWorld for Geoguessr. 

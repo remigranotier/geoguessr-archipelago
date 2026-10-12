@@ -6,12 +6,7 @@ from . import common
 
 
 def get_map_amount() -> int:
-    count = 0
-
-    for countries in common.ALL_COUNTRIES_PER_REGION.values():
-        count += len(countries) + 1
-
-    return count
+    return len(common.WORLD_REGION) + len(common.REGION) + len(common.COUNTRIES)
 
 
 class VictoryCondition(Choice):
@@ -29,7 +24,7 @@ class VictoryCondition(Choice):
     )
 
     # Choice options must define an explicit default value.
-    default = option_medals_count
+    default = option_plat_count
 
 
 class MedalCount(Range):
@@ -53,7 +48,30 @@ class PlatCount(Range):
 
     range_start = 1
     range_end = get_map_amount()
-    default = get_map_amount() // 2
+    default = 5
+
+class AccessibleCountriesCount(Range):
+    """
+    The number of randomly drawn country maps the player can unlock, on all continents combined.
+    """
+
+    display_name = "Number of accessible countries"
+
+    range_start = 1
+    range_end = len(common.COUNTRIES)
+    default = 10
+
+class MaxMicroCountriesCount(Range):
+    """
+    The maximum number of randomly drawn countries that can be micro-countries or countries with minimal coverage.
+    This option does not force the number of micro-countries, only limits them if they happen to be drawn too much.
+    """
+
+    display_name = "Max number of micro-states or countries with minimal coverage"
+
+    range_start = 0
+    range_end = len([country for country in common.COUNTRIES.values() if country.is_micro])
+    default = 3
 
 
 @dataclass
@@ -61,3 +79,5 @@ class GeoguessrOptions(PerGameCommonOptions):
     victory_condition: VictoryCondition
     medal_count: MedalCount
     plat_count: PlatCount
+    accessible_countries_count: AccessibleCountriesCount
+    max_micro_countries_count: MaxMicroCountriesCount
