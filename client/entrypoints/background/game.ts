@@ -1,7 +1,6 @@
 import { clientStatuses, type ClientStatus, type Item } from 'archipelago.js'
 import {
     GACGamemode,
-    GACGameType,
     GACMap,
     GACMedal,
     GeoguessrGameStatus,
@@ -18,6 +17,7 @@ import { apClient } from './index.ts'
 import { SendSoundEffectMessage, type GenerateGameMessage, type RoundFinishedMessage } from '../common/messages.ts'
 import { mapsConfig } from '../common/config/maps.ts'
 import { medalThresholds } from '../common/config/medals.ts'
+import type { Continent, Country } from '../common/config/countries.ts'
 
 export async function generateGame(mapId: string, gamemode: GACGamemode): Promise<string> {
     const response = await fetch(
@@ -156,8 +156,6 @@ export function updateGameState() {
 
 function updateAreaMap(areaMap: AreaMap) {
     console.debug(`Updating game state of map ${areaMap.mapName}`)
-    const baseLocationId = areaMap.baseLocationId
-    const baseItemId = areaMap.baseItemId
     let mapStatus = globalThis.gameState.maps.find((map) => map.id === areaMap.mapId)
 
     if (mapStatus === undefined) {
@@ -165,34 +163,85 @@ function updateAreaMap(areaMap: AreaMap) {
         globalThis.gameState.maps.push(mapStatus)
     }
 
-    mapStatus.bestMedal = GACMedal.None
-    if (apClient.room.checkedLocations.includes(baseLocationId + AreaLocations.Bronze)) {
-        mapStatus.bestMedal = GACMedal.Bronze
-    }
-    if (apClient.room.checkedLocations.includes(baseLocationId + AreaLocations.Silver)) {
-        mapStatus.bestMedal = GACMedal.Silver
-    }
-    if (apClient.room.checkedLocations.includes(baseLocationId + AreaLocations.Gold)) {
-        mapStatus.bestMedal = GACMedal.Gold
-    }
-    if (apClient.room.checkedLocations.includes(baseLocationId + AreaLocations.Platinum)) {
-        mapStatus.bestMedal = GACMedal.Platinum
-    }
+    const bestMedal = getBestMedal(areaMap)
+    mapStatus.bestMedal = bestMedal
 
-    mapStatus.fivekDone = apClient.room.checkedLocations.includes(baseLocationId + AreaLocations.FiveK)
+    mapStatus.fivekDone = apClient.room.checkedLocations.includes(areaMap.baseLocationId + AreaLocations.FiveK)
 
-    mapStatus.available = (apClient.items.received.some((item: Item) => item.id == (baseItemId + AreaItems.Unlock)))
+    const isUnlocked: boolean = isMapUnlocked(areaMap)
+    mapStatus.unlocked = isUnlocked
 
-    mapStatus.gamemode = GACGamemode.None
-    if (apClient.items.received.some((item: Item) => item.id == (baseItemId + AreaItems.Pan))) {
-        mapStatus.gamemode |= GACGamemode.Pan
+    const mapGamemode: GACGamemode = getGamemode(areaMap)
+    mapStatus.gamemode = mapGamemode
+
+    const isSomethingUnlocked = isUnlocked || mapGamemode != GACGamemode.None
+
+    mapStatus.visible = isMapVisible(areaMap, isSomethingUnlocked)
+
+    mapStatus.playable = isMapPlayable(areaMap, isUnlocked, bestMedal)
+}
+
+function isContinentMapUnlocked(area: Country) {
+    const continentNumber = area.continentNumber
+    const continentAreaMap = mapsConfig.find((map: AreaMap) => map.area.kind == "continent" && map.area.continentNumber == continentNumber)!
+    return isMapUnlocked(continentAreaMap)
+}
+
+function isSomeCountryMapVisible(area: Continent) {
+    const continentNumber = area.continentNumber
+    const childrenCountryMaps = mapsConfig.filter((map: AreaMap) => map.area.kind == "country" && map.area.continentNumber == continentNumber)!
+    return childrenCountryMaps.some((countryMap: AreaMap) => isMapUnlocked(countryMap) || getGamemode(countryMap) != GACGamemode.None)
+}
+
+function isMapVisible(areaMap: AreaMap, isSomethingUnlocked?: boolean) {
+    let result = isSomethingUnlocked ?? (isMapUnlocked(areaMap) || getGamemode(areaMap) != GACGamemode.None)
+    if (areaMap.area.kind == "continent") {
+        result ||= isSomeCountryMapVisible(areaMap.area)
     }
-    if (apClient.items.received.some((item: Item) => item.id == (baseItemId + AreaItems.Move))) {
-        mapStatus.gamemode |= GACGamemode.Move
+    return result
+}
+
+function isMapPlayable(areaMap: AreaMap, isUnlocked?: boolean, bestMedal?: GACMedal) {
+    let result = (isUnlocked ?? isMapUnlocked(areaMap))
+    if (areaMap.area.kind == "country") {
+        result &&= isContinentMapUnlocked(areaMap.area)
     }
-    if (apClient.items.received.some((item: Item) => item.id == (baseItemId + AreaItems.Zoom))) {
-        mapStatus.gamemode |= GACGamemode.Zoom
+    return result
+}
+
+function isMapUnlocked(areaMap: AreaMap) {
+    return apClient.items.received.some((item: Item) => item.id == (areaMap.baseItemId + AreaItems.Unlock))
+}
+
+function getGamemode(areaMap: AreaMap) {
+    let result = GACGamemode.None
+    if (apClient.items.received.some((item: Item) => item.id == (areaMap.baseItemId + AreaItems.Pan))) {
+        result |= GACGamemode.Pan
     }
+    if (apClient.items.received.some((item: Item) => item.id == (areaMap.baseItemId + AreaItems.Move))) {
+        result |= GACGamemode.Move
+    }
+    if (apClient.items.received.some((item: Item) => item.id == (areaMap.baseItemId + AreaItems.Zoom))) {
+        result |= GACGamemode.Zoom
+    }
+    return result
+}
+
+function getBestMedal(areaMap: AreaMap) {
+    let result = GACMedal.None
+    if (apClient.room.checkedLocations.includes(areaMap.baseLocationId + AreaLocations.Bronze)) {
+        result = GACMedal.Bronze
+    }
+    if (apClient.room.checkedLocations.includes(areaMap.baseLocationId + AreaLocations.Silver)) {
+        result = GACMedal.Silver
+    }
+    if (apClient.room.checkedLocations.includes(areaMap.baseLocationId + AreaLocations.Gold)) {
+        result = GACMedal.Gold
+    }
+    if (apClient.room.checkedLocations.includes(areaMap.baseLocationId + AreaLocations.Platinum)) {
+        result = GACMedal.Platinum
+    }
+    return result
 }
 
 function checkWinCondition() {
