@@ -6,7 +6,7 @@ import { getConnectionStatus, renderStatusComponent } from './ui/status.ts';
 import { getGameState, handleSendGameStateMessage } from './game-state.ts';
 import { MessageType, SendGameStateMessage, SendNewLogMessage, SendSoundEffectMessage, type GACMessage } from '../common/messages.ts';
 import { handleNewLogMessage, initLogs } from './ui/message-log.ts';
-import { playSoundEffect } from './ui/sound-effect.ts';
+import { initVolumeBar, playSoundEffect } from './ui/sound-effect.ts';
 import { resolveI18n } from '../common/i18n.ts';
 
 export const DEFAULT_CONNECTION_STATUS = { authenticated: false, player: "", server: "" }
@@ -52,6 +52,7 @@ renderStatusComponent()
 void getConnectionStatus()
 setCredentialsFromLastSend()
 void initLogs()
+initVolumeBar()
 void Notification.requestPermission()
 document.querySelector("#connect-button")!.addEventListener("click", sendConnectionOptions)
 document.querySelector("#disconnect-button")!.addEventListener("click", sendDisconnectCommand)
