@@ -12,12 +12,12 @@ import {
     AreaItems,
     AreaLocations,
     AreaMap,
-    mapsConfig,
-    medalThresholds,
-} from '../common/config.ts'
+} from '../common/config/area-map.ts'
 
 import { apClient } from './index.ts'
 import { SendSoundEffectMessage, type GenerateGameMessage, type RoundFinishedMessage } from '../common/messages.ts'
+import { mapsConfig } from '../common/config/maps.ts'
+import { medalThresholds } from '../common/config/medals.ts'
 
 export async function generateGame(mapId: string, gamemode: GACGamemode): Promise<string> {
     const response = await fetch(
@@ -211,23 +211,27 @@ function checkWinCondition() {
 
     let hasWon = false
 
-    switch(globalThis.gameConfigData.victory_condition) {
+    switch (globalThis.gameConfigData.victory_condition) {
         case 0: //medal count
-            { const medalCount = globalThis.gameState.maps.reduce(
-                (count, map) => count + map.bestMedal,
-                0
-            );
-            hasWon = medalCount >= (globalThis.gameConfigData.medal_count as number)
-            console.debug("medal count : ", medalCount)
-            break }
+            {
+                const medalCount = globalThis.gameState.maps.reduce(
+                    (count, map) => count + map.bestMedal,
+                    0
+                );
+                hasWon = medalCount >= (globalThis.gameConfigData.medal_count as number)
+                console.debug("medal count : ", medalCount)
+                break
+            }
 
         case 1: //platinum count
-            { const platAmount = globalThis.gameState.maps
-                .filter(map => map.bestMedal === GACMedal.Platinum)
-                .length;
-            hasWon = platAmount >= (globalThis.gameConfigData.plat_count as number)
-            console.debug("plat amount : ", platAmount)
-            break }
+            {
+                const platAmount = globalThis.gameState.maps
+                    .filter(map => map.bestMedal === GACMedal.Platinum)
+                    .length;
+                hasWon = platAmount >= (globalThis.gameConfigData.plat_count as number)
+                console.debug("plat amount : ", platAmount)
+                break
+            }
 
         default:
             console.warn("Unknown victory condition:", globalThis.gameConfigData.victory_condition)

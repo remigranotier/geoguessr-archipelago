@@ -1,4 +1,4 @@
-import { mapsConfig } from "../../common/config";
+import { mapsConfig } from "../../common/config/maps";
 import { GenerateGameMessage } from "../../common/messages";
 import { GACGamemode, GACGameType, GACMap, GACMedal } from "../../common/models";
 

@@ -1,238 +1,5 @@
-import { GACMedal } from "./models";
-
-const LOCATIONS_PER_MAP = 5 // Bronze, Silver, Gold, Platinum, 5k
-export const ITEMS_PER_MAP = 4 // Unlock, Pan, Move, Zoom
-
-export enum AreaLocations {
-    Bronze = 0,
-    Silver = 1,
-    Gold = 2,
-    Platinum = 3,
-    FiveK = 4,
-}
-
-export enum AreaItems {
-    Unlock = 0,
-    Pan = 1,
-    Move = 2,
-    Zoom = 3
-}
-
-export const medalThresholds: Record<GACMedal, number> = {
-    [GACMedal.None]: 0,
-    [GACMedal.Bronze]: 7500,
-    [GACMedal.Silver]: 15000,
-    [GACMedal.Gold]: 22500,
-    [GACMedal.Platinum]: 25000,
-}
-
-enum WorldNumber {
-    World = 1
-}
-
-enum ContinentNumber {
-    Europe = 1,
-    Asia,
-    Africa,
-    North_America,
-    South_America,
-    Oceania
-}
-
-enum EuropeCountryNumber {
-    Albania = 1,
-    Andorra,
-    Austria,
-    Belgium,
-    Bosnia_and_Herzegovina,
-    Bulgaria,
-    Croatia,
-    Czech_Republic,
-    Denmark,
-    Estonia,
-    Faroe_Islands,
-    Finland,
-    France,
-    Germany,
-    Gibraltar,
-    Greece,
-    Hungary,
-    Iceland,
-    Ireland,
-    Isle_of_Man,
-    Italy,
-    Jersey,
-    Latvia,
-    Liechtenstein,
-    Lithuania,
-    Luxembourg,
-    Malta,
-    Monaco,
-    Montenegro,
-    Netherlands,
-    North_Macedonia,
-    Norway,
-    Poland,
-    Portugal,
-    Romania,
-    San_Marino,
-    Serbia,
-    Slovakia,
-    Slovenia,
-    Spain,
-    Sweden,
-    Switzerland,
-    Turkiye,
-    Ukraine,
-    United_Kingdom,
-}
-
-enum AsiaCountryNumber {
-    Bangladesh = 1,
-    Bhutan,
-    Cambodia,
-    Christmas_Island,
-    Cyprus,
-    Georgia,
-    Hong_Kong,
-    India,
-    Indonesia,
-    Israel,
-    Japan,
-    Jordan,
-    Kazakhstan,
-    Kyrgyzstan,
-    Laos,
-    Macao,
-    Malaysia,
-    Mongolia,
-    Nepal,
-    Oman,
-    Philippines,
-    Qatar,
-    Russia,
-    Singapore,
-    South_Korea,
-    Sri_Lanka,
-    Taiwan,
-    Thailand,
-    United_Arab_Emirates,
-    Vietnam,
-}
-
-enum AfricaCountryNumber {
-    Botswana = 1,
-    Eswatini,
-    Ghana,
-    Kenya,
-    Lesotho,
-    Namibia,
-    Nigeria,
-    Rwanda,
-    Sao_Tome_and_Principe, 
-    Senegal,
-    South_Africa,
-    Tunisia,
-    Uganda,
-}
-
-enum NorthAmericaCountryNumber {
-    Canada = 1,
-    Costa_Rica,
-    Curacao,
-    Dominican_Republic,
-    Guatemala,
-    Mexico,
-    Panama,
-    Puerto_Rico,
-    United_States,
-    United_States_Virgin_Islands,
-}
-
-enum SouthAmericaCountryNumber {
-    Argentina = 1,
-    Bolivia,
-    Brazil,
-    Chile,
-    Colombia,
-    Ecuador,
-    Paraguay,
-    Peru,
-    Uruguay,
-}
-
-enum OceaniaCountryNumber {
-    American_Samoa = 1,
-    Australia,
-    Guam,
-    New_Zealand,
-    Northern_Mariana_Islands,
-}
-
-type World = {
-    kind: "world";
-    worldNumber: WorldNumber;
-};
-
-type Continent = {
-    kind: "continent";
-    continentNumber: ContinentNumber;
-};
-
-type Country<C extends ContinentNumber = ContinentNumber> = {
-    kind: "country";
-    continentNumber: C;
-    countryNumber: number;
-}
-
-type Area =
-    | World
-    | Continent
-    | Country;
-
-export class AreaMap {
-    area: Area
-    areaName: string
-    baseLocationId: number
-    baseItemId: number
-    mapId: string
-    mapName: string
-
-    constructor(area: Area, areaName: string, mapId: string, mapName: string) {
-        this.area = area
-        this.areaName = areaName
-        this.baseLocationId = this.getBaseLocationId(this.area)
-        this.baseItemId = this.getBaseItemId(this.area)
-        this.mapId = mapId
-        this.mapName = mapName
-    }
-
-    getBaseLocationId(area: Area): number {
-        switch (area.kind) {
-            case "world":
-                return 1;
-
-            case "continent":
-                return 1000 * area.continentNumber;
-
-            case "country":
-                return 1000 * area.continentNumber + LOCATIONS_PER_MAP * area.countryNumber;
-        }
-    }
-
-    getBaseItemId(area: Area): number {
-        switch (area.kind) {
-            case "world":
-                return 1;
-
-            case "continent":
-                return 1000 * area.continentNumber;
-
-            case "country":
-                return 1000 * area.continentNumber + ITEMS_PER_MAP * area.countryNumber;
-        }
-    }
-}
+import { AreaMap } from "./area-map"
+import { AfricaCountryNumber, AsiaCountryNumber, ContinentNumber, EuropeCountryNumber, NorthAmericaCountryNumber, OceaniaCountryNumber, SouthAmericaCountryNumber, WorldNumber } from "./countries"
 
 let allMaps: AreaMap[] = []
 
@@ -242,13 +9,13 @@ allMaps.push(
     new AreaMap({ kind: "world", worldNumber: WorldNumber.World }, "World", "652ba0d9002aa0d36f996153", "An Official World"),
 
     // Continent Maps
-    new AreaMap({ kind: "continent", continentNumber: ContinentNumber.Europe }, "Europe", "6932d6719534d4b56d600fa1", "Coupe de la Ligue - Europe"), 
-    new AreaMap({ kind: "continent", continentNumber: ContinentNumber.Asia }, "Asia", "6932ba0e481c655f4f6c6a56", "Coupe de la Ligue - Asia"), 
-    new AreaMap({ kind: "continent", continentNumber: ContinentNumber.Africa }, "Africa", "6932ad9b1b23225b2c22e420", "Coupe de la Ligue - Africa"), 
-    new AreaMap({ kind: "continent", continentNumber: ContinentNumber.North_America }, "North America", "69367baba92b1c6d29fda74f", "Coupe de la Ligue - North America"), 
-    new AreaMap({ kind: "continent", continentNumber: ContinentNumber.South_America }, "South America", "69369c4ea92b1c6d29fe244a", "Coupe de la Ligue - South America"), 
+    new AreaMap({ kind: "continent", continentNumber: ContinentNumber.Europe }, "Europe", "6932d6719534d4b56d600fa1", "Coupe de la Ligue - Europe"),
+    new AreaMap({ kind: "continent", continentNumber: ContinentNumber.Asia }, "Asia", "6932ba0e481c655f4f6c6a56", "Coupe de la Ligue - Asia"),
+    new AreaMap({ kind: "continent", continentNumber: ContinentNumber.Africa }, "Africa", "6932ad9b1b23225b2c22e420", "Coupe de la Ligue - Africa"),
+    new AreaMap({ kind: "continent", continentNumber: ContinentNumber.North_America }, "North America", "69367baba92b1c6d29fda74f", "Coupe de la Ligue - North America"),
+    new AreaMap({ kind: "continent", continentNumber: ContinentNumber.South_America }, "South America", "69369c4ea92b1c6d29fe244a", "Coupe de la Ligue - South America"),
     new AreaMap({ kind: "continent", continentNumber: ContinentNumber.Oceania }, "Oceania", "693040234d42b055fcaf1781", "Coupe de la Ligue - Oceania"),
-    
+
     // Europe Maps
     new AreaMap({ kind: "country", continentNumber: ContinentNumber.Europe, countryNumber: EuropeCountryNumber.Albania }, "Albania", "6616429cd61e067ae0969a69", "Coupe de la Ligue - Albania"),
     new AreaMap({ kind: "country", continentNumber: ContinentNumber.Europe, countryNumber: EuropeCountryNumber.Andorra }, "Andorra", "6616534acf3ea74960e46aef", "Coupe de la Ligue - Andorra"),
@@ -295,7 +62,7 @@ allMaps.push(
     new AreaMap({ kind: "country", continentNumber: ContinentNumber.Europe, countryNumber: EuropeCountryNumber.Turkiye }, "Türkiye", "661641a0ed5d1147573f3aa2", "Coupe de la Ligue - Turkiye"),
     new AreaMap({ kind: "country", continentNumber: ContinentNumber.Europe, countryNumber: EuropeCountryNumber.Ukraine }, "Ukraine", "66167f194e2a0b9d8db9f8a5", "Coupe de la Ligue - Ukraine"),
     new AreaMap({ kind: "country", continentNumber: ContinentNumber.Europe, countryNumber: EuropeCountryNumber.United_Kingdom }, "United Kingdom", "6616779de248f096ec9bb2af", "Coupe de la Ligue - United Kingdom"),
-    
+
     // Asia Maps
     new AreaMap({ kind: "country", continentNumber: ContinentNumber.Asia, countryNumber: AsiaCountryNumber.Bangladesh }, "Bangladesh", "66163019ed5d1147573f2256", "Coupe de la Ligue - Bangladesh"),
     new AreaMap({ kind: "country", continentNumber: ContinentNumber.Asia, countryNumber: AsiaCountryNumber.Bhutan }, "Bhutan", "6616308b9d295bf4901bbc3e", "Coupe de la Ligue - Bhutan"),
@@ -327,7 +94,7 @@ allMaps.push(
     new AreaMap({ kind: "country", continentNumber: ContinentNumber.Asia, countryNumber: AsiaCountryNumber.Thailand }, "Thailand", "661640d3962c0880ae037502", "Coupe de la Ligue - Thailand"),
     new AreaMap({ kind: "country", continentNumber: ContinentNumber.Asia, countryNumber: AsiaCountryNumber.United_Arab_Emirates }, "United Arab Emirates", "661632719d295bf4901bbe20", "Coupe de la Ligue - United Arab Emirates"),
     new AreaMap({ kind: "country", continentNumber: ContinentNumber.Asia, countryNumber: AsiaCountryNumber.Vietnam }, "Vietnam", "6909de20410b82f85dbcc221", "Coupe de la Ligue - Vietnam"),
-    
+
     // Africa maps
     new AreaMap({ kind: "country", continentNumber: ContinentNumber.Africa, countryNumber: AfricaCountryNumber.Botswana }, "Botswana", "661533b6cb7a74b2aeed417e", "Coupe de la Ligue - Botswana"),
     new AreaMap({ kind: "country", continentNumber: ContinentNumber.Africa, countryNumber: AfricaCountryNumber.Eswatini }, "Eswatini", "66153434071c5a707f146ff8", "Coupe de la Ligue - Eswatini"),
@@ -342,7 +109,7 @@ allMaps.push(
     new AreaMap({ kind: "country", continentNumber: ContinentNumber.Africa, countryNumber: AfricaCountryNumber.South_Africa }, "South Africa", "661530dd0f380279cbea2f36", "Coupe de la Ligue - South Africa"),
     new AreaMap({ kind: "country", continentNumber: ContinentNumber.Africa, countryNumber: AfricaCountryNumber.Tunisia }, "Tunisia", "661538432a498536938801b6", "Coupe de la Ligue - Tunisia"),
     new AreaMap({ kind: "country", continentNumber: ContinentNumber.Africa, countryNumber: AfricaCountryNumber.Uganda }, "Uganda", "6615373f86035ff82acf36a4", "Coupe de la Ligue - Uganda"),
-    
+
     // North America maps
     new AreaMap({ kind: "country", continentNumber: ContinentNumber.North_America, countryNumber: NorthAmericaCountryNumber.Canada }, "Canada", "66153975b615e1179ac2c953", "Coupe de la Ligue - Canada"),
     new AreaMap({ kind: "country", continentNumber: ContinentNumber.North_America, countryNumber: NorthAmericaCountryNumber.Costa_Rica }, "Costa Rica", "690c54193a5a909e429c4920", "Coupe de la Ligue - Costa Rica"),
@@ -354,7 +121,7 @@ allMaps.push(
     new AreaMap({ kind: "country", continentNumber: ContinentNumber.North_America, countryNumber: NorthAmericaCountryNumber.Puerto_Rico }, "Puerto Rico", "66153dd7f727ae23d55002b9", "Coupe de la Ligue - Puerto Rico"),
     new AreaMap({ kind: "country", continentNumber: ContinentNumber.North_America, countryNumber: NorthAmericaCountryNumber.United_States }, "USA", "66153e71ee6a46d2f47df5d9", "Coupe de la Ligue - United States of America"),
     new AreaMap({ kind: "country", continentNumber: ContinentNumber.North_America, countryNumber: NorthAmericaCountryNumber.United_States_Virgin_Islands }, "US Virgin Islands", "66153c2ab63d5c03c1edb4ba", "Coupe de la Ligue - US Virgin Islands"),
-    
+
     // South America maps
     new AreaMap({ kind: "country", continentNumber: ContinentNumber.South_America, countryNumber: SouthAmericaCountryNumber.Argentina }, "Argentina", "66154110d6168e5311f5f757", "Coupe de la Ligue - Argentina"),
     new AreaMap({ kind: "country", continentNumber: ContinentNumber.South_America, countryNumber: SouthAmericaCountryNumber.Bolivia }, "Bolivia", "661542d21319bdc2faef8393", "Coupe de la Ligue - Bolivia"),
@@ -365,7 +132,7 @@ allMaps.push(
     new AreaMap({ kind: "country", continentNumber: ContinentNumber.South_America, countryNumber: SouthAmericaCountryNumber.Paraguay }, "Paraguay", "69255b0d4678bf1c66c0e542", "Coupe de la Ligue - Paraguay"),
     new AreaMap({ kind: "country", continentNumber: ContinentNumber.South_America, countryNumber: SouthAmericaCountryNumber.Peru }, "Peru", "661547f35d4f8d1b4a97d8db", "Coupe de la Ligue - Peru"),
     new AreaMap({ kind: "country", continentNumber: ContinentNumber.South_America, countryNumber: SouthAmericaCountryNumber.Uruguay }, "Uruguay", "661549021319bdc2faef8d05", "Coupe de la Ligue - Uruguay"),
-    
+
     // Oceania maps
     new AreaMap({ kind: "country", continentNumber: ContinentNumber.Oceania, countryNumber: OceaniaCountryNumber.American_Samoa }, "American Samoa", "6616835cf31375669b01f01d", "Coupe de la Ligue - American Samoa"),
     new AreaMap({ kind: "country", continentNumber: ContinentNumber.Oceania, countryNumber: OceaniaCountryNumber.Australia }, "Australia", "661680bd962c0880ae03ebe7", "Coupe de la Ligue - Australia"),
