@@ -83,9 +83,11 @@ class GeoguessrWorld(World):
         print(f"Drawn countries are: {[country.name for country in drawn_countries]}")
         self.drawn_countries = drawn_countries
 
-    def create_regions(self) -> None:
+    def generate_early(self) -> None:
         self.draw_countries()
         self.check_options()
+
+    def create_regions(self) -> None:
         regions.create_and_connect_regions(self)
         locations.create_all_locations(self)
 
