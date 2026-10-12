@@ -18,4 +18,4 @@ class GeoguessrWebWorld(WebWorld):
         ["Evandar", "LeRemiii"],
     )
 
-    tutorials = [setup_en]
+    tutorials = [setup_en]  # noqa: RUF012

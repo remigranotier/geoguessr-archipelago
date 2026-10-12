@@ -5,7 +5,7 @@ import {
     type GACResponse
 } from "../../common/models"
 import { DEFAULT_CONNECTION_STATUS } from "../main";
-import { renderMapTable } from "./maps";
+import { renderGameSection } from "./maps";
 
 export async function getConnectionStatus() {
     const retrieveConnectionStatusMessage = new RetrieveConnectionStatusMessage()
@@ -20,12 +20,12 @@ export async function getConnectionStatus() {
     }
 }
 
-export function updateConnectionStatus(connectionStatus: GACConnectionStatus) {
+function updateConnectionStatus(connectionStatus: GACConnectionStatus) {
     globalThis.connectionStatus = connectionStatus
     renderStatusComponent()
 }
 
-export function resetConnectionStatus() {
+function resetConnectionStatus() {
     globalThis.connectionStatus = DEFAULT_CONNECTION_STATUS
 }
 
@@ -50,5 +50,5 @@ export function renderStatusComponent(specialMode?: StatusSpecialMode) {
         statusComponent.innerHTML = `❌ ${browser.i18n.getMessage("notConnectedStatus")}`
     }
 
-    renderMapTable()
+    renderGameSection()
 }

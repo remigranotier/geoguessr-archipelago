@@ -6,7 +6,7 @@ from . import common
 
 
 def get_map_amount() -> int:
-    return len(common.WORLD_REGION) + len(common.REGION) + len(common.COUNTRIES)
+    return 1 + len(common.REGION) + len(common.COUNTRIES)
 
 
 class VictoryCondition(Choice):
@@ -50,6 +50,7 @@ class PlatCount(Range):
     range_end = get_map_amount()
     default = 5
 
+
 class AccessibleCountriesCount(Range):
     """
     The number of randomly drawn country maps the player can unlock, on all continents combined.
@@ -61,6 +62,7 @@ class AccessibleCountriesCount(Range):
     range_end = len(common.COUNTRIES)
     default = 10
 
+
 class MaxMicroCountriesCount(Range):
     """
     The maximum number of randomly drawn countries that can be micro-countries or countries with minimal coverage.
@@ -70,7 +72,9 @@ class MaxMicroCountriesCount(Range):
     display_name = "Max number of micro-states or countries with minimal coverage"
 
     range_start = 0
-    range_end = len([country for country in common.COUNTRIES.values() if country.is_micro])
+    range_end = len(
+        [country for country in common.COUNTRIES.values() if country.is_micro]
+    )
     default = 3
 
 

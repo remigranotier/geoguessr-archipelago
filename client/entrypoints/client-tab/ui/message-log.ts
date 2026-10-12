@@ -1,12 +1,12 @@
 import { RetrieveLogsMessage, SendNewLogMessage } from "../../common/messages";
 import type { GACResponse } from "../../common/models";
 
-export function clearLogs() {
+function clearLogs() {
     const logs = document.getElementById("log-container")!;
     logs.innerHTML = ""
 }
 
-export function addLog(htmlContent: string) {
+function addLog(htmlContent: string) {
     const logs = document.getElementById("log-container")!;
     const entry = document.createElement("div");
     entry.classList.add("log-text")

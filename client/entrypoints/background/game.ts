@@ -1,6 +1,7 @@
 import { clientStatuses, type ClientStatus, type Item } from 'archipelago.js'
 import {
     GACGamemode,
+    GACGameType,
     GACMap,
     GACMedal,
     GeoguessrGameStatus,
@@ -11,12 +12,12 @@ import {
     AreaItems,
     AreaLocations,
     AreaMap,
-    mapsConfig,
-    medalThresholds,
-} from '../common/config.ts'
+} from '../common/config/area-map.ts'
 
 import { apClient } from './index.ts'
 import { SendSoundEffectMessage, type GenerateGameMessage, type RoundFinishedMessage } from '../common/messages.ts'
+import { mapsConfig } from '../common/config/maps.ts'
+import { medalThresholds } from '../common/config/medals.ts'
 
 export async function generateGame(mapId: string, gamemode: GACGamemode): Promise<string> {
     const response = await fetch(
@@ -59,16 +60,38 @@ export async function handleGenerateGameMessage(message: GenerateGameMessage) {
     })
 }
 
-export function isMapAvailable(areaMap: AreaMap): boolean {
+function isMapAvailable(areaMap: AreaMap): boolean {
     const baseItemId = areaMap.baseItemId
     return (apClient.items.received.some((item: Item) => item.id == baseItemId))
 }
 
-export function handleGameFinishedMessage(message: RoundFinishedMessage) {
+function hasForbiddenGamemode(areaMap: AreaMap, message: RoundFinishedMessage) {
+    if (message.gamemode & GACGamemode.Pan) {
+        if (!apClient.items.received.some((item: Item) => item.id == areaMap.baseItemId + AreaItems.Pan)) {
+            return true;
+        }
+    }
+    if (message.gamemode & GACGamemode.Move) {
+        if (!apClient.items.received.some((item: Item) => item.id == areaMap.baseItemId + AreaItems.Move)) {
+            return true;
+        }
+    }
+    if (message.gamemode & GACGamemode.Zoom) {
+        if (!apClient.items.received.some((item: Item) => item.id == areaMap.baseItemId + AreaItems.Zoom)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+export function handleRoundFinishedMessage(message: RoundFinishedMessage) {
     let areaMap = mapsConfig.find((map) => map.mapId === message.mapId)
     if (areaMap === undefined || !isMapAvailable(areaMap)) {
-        console.debug("Received a finished round on a map not available. Ignoring.")
-        return
+        throw new Error("Map not available")
+    }
+
+    if (hasForbiddenGamemode(areaMap, message)) {
+        throw new Error("Forbidden gamemode in received game")
     }
 
     let locationsToCheck: number[] = []
@@ -109,6 +132,7 @@ export function handleGameFinishedMessage(message: RoundFinishedMessage) {
         console.debug("Best score beaten:", message.totalScore, "vs", map.bestScore, "before")
         map.bestScore = message.totalScore
         map.bestSeed = message.gameId
+        map.gameType = message.gameType
     }
 
     updateGameState()
@@ -130,7 +154,7 @@ export function updateGameState() {
     }
 }
 
-export function updateAreaMap(areaMap: AreaMap) {
+function updateAreaMap(areaMap: AreaMap) {
     console.debug(`Updating game state of map ${areaMap.mapName}`)
     const baseLocationId = areaMap.baseLocationId
     const baseItemId = areaMap.baseItemId
@@ -139,6 +163,7 @@ export function updateAreaMap(areaMap: AreaMap) {
     if (mapStatus === undefined) {
         mapStatus = {
             available: true,
+            gameType: GACGameType.Game,
             gamemode: GACGamemode.None,
             bestMedal: GACMedal.None,
             bestScore: 0,
@@ -186,23 +211,27 @@ function checkWinCondition() {
 
     let hasWon = false
 
-    switch(globalThis.gameConfigData.victory_condition) {
+    switch (globalThis.gameConfigData.victory_condition) {
         case 0: //medal count
-            { const medalCount = globalThis.gameState.maps.reduce(
-                (count, map) => count + map.bestMedal,
-                0
-            );
-            hasWon = medalCount >= (globalThis.gameConfigData.medal_count as number)
-            console.debug("medal count : ", medalCount)
-            break }
+            {
+                const medalCount = globalThis.gameState.maps.reduce(
+                    (count, map) => count + map.bestMedal,
+                    0
+                );
+                hasWon = medalCount >= (globalThis.gameConfigData.medal_count as number)
+                console.debug("medal count : ", medalCount)
+                break
+            }
 
         case 1: //platinum count
-            { const platAmount = globalThis.gameState.maps
-                .filter(map => map.bestMedal === GACMedal.Platinum)
-                .length;
-            hasWon = platAmount >= (globalThis.gameConfigData.plat_count as number)
-            console.debug("plat amount : ", platAmount)
-            break }
+            {
+                const platAmount = globalThis.gameState.maps
+                    .filter(map => map.bestMedal === GACMedal.Platinum)
+                    .length;
+                hasWon = platAmount >= (globalThis.gameConfigData.plat_count as number)
+                console.debug("plat amount : ", platAmount)
+                break
+            }
 
         default:
             console.warn("Unknown victory condition:", globalThis.gameConfigData.victory_condition)

@@ -7,10 +7,11 @@ import {
   type GACResponse,
 } from "../common/models";
 import { getServerConnection, handleServerConnectMessage, handleServerDisconnectMessage } from "./connect";
-import { handleGameFinishedMessage, handleGenerateGameMessage, updateGameState } from "./game";
-import { GenerateGameMessage, MessageType, RoundFinishedMessage, SendGameStateMessage, SendNewLogMessage, SendSoundEffectMessage, type GACMessage, type ServerConnectMessage } from "../common/messages";
+import { handleRoundFinishedMessage, handleGenerateGameMessage, updateGameState } from "./game";
+import { GenerateGameMessage, MessageType, RoundFinishedMessage, SendGameStateMessage, SendNewLogMessage, SendSoundEffectMessage, SubmitManualIdMessage, type GACMessage, type ServerConnectMessage } from "../common/messages";
 import { handleRetrieveLogsMessage, renderNodes } from "./ap-logs";
 import { sendQuestionableTip, sendSpecialTip } from "./tips";
+import { handleSubmitManualId } from "./manual-submit";
 
 export const apClient = new Client();
 declare global {
@@ -86,13 +87,20 @@ function messageListener(message: GACMessage, sender: Browser.runtime.MessageSen
 
     case MessageType.RoundFinished:
       {
-        const gameFinishedMessage = message as RoundFinishedMessage;
+        const roundFinishedMessage = message as RoundFinishedMessage;
         console.debug("Received RoundFinishedMessage:", message)
-        const result = handleGameFinishedMessage(gameFinishedMessage)
-        sendResponse({
-          success: true,
-          data: result
-        })
+        try {
+          const result = handleRoundFinishedMessage(roundFinishedMessage)
+          sendResponse({
+            success: true,
+            data: result
+          })
+        } catch (e) {
+          sendResponse({
+            success: false,
+            error: (e as Error).message
+          })
+        }
         return false;
       }
 
@@ -105,6 +113,23 @@ function messageListener(message: GACMessage, sender: Browser.runtime.MessageSen
           data: messageLogJson
         })
         return false;
+      }
+
+    case MessageType.SubmitManualId:
+      {
+        const submitManualId = message as SubmitManualIdMessage;
+        handleSubmitManualId(submitManualId).then(result => {
+          sendResponse({
+            success: true,
+            data: result
+          })
+        }).catch(error => {
+          sendResponse({
+            success: false,
+            error: error
+          })
+        });
+        return true;
       }
 
     default:
