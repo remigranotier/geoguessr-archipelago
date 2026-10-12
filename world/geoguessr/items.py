@@ -41,7 +41,7 @@ def create_item_with_correct_classification(
 ) -> GeoguessrItem:
     return GeoguessrItem(
         name,
-        default_item_classifications.get(name, ItemClassification.progression),
+        default_item_classifications[name],
         item_name_to_id[name],
         world.player,
     )
@@ -76,11 +76,6 @@ def add_map_items(world, map_name) -> list[Any]:
     move_item_name = f"Move ({map_name})"
     zoom_item_name = f"Zoom ({map_name})"
 
-    default_item_classifications[map_name] = ItemClassification.progression
-    default_item_classifications[pan_item_name] = ItemClassification.progression
-    default_item_classifications[move_item_name] = ItemClassification.progression
-    default_item_classifications[zoom_item_name] = ItemClassification.progression
-
     if map_name != common.WORLD_REGION:
         new_items.append(world.create_item(map_name))
     new_items.extend(
@@ -114,6 +109,11 @@ def create_map_ids(map_name, offset):
     pan_item_name = f"Pan ({map_name})"
     move_item_name = f"Move ({map_name})"
     zoom_item_name = f"Zoom ({map_name})"
+
+    default_item_classifications[map_name] = ItemClassification.progression
+    default_item_classifications[pan_item_name] = ItemClassification.progression
+    default_item_classifications[move_item_name] = ItemClassification.progression
+    default_item_classifications[zoom_item_name] = ItemClassification.progression
 
     item_name_to_id[map_name] = offset
     item_name_to_id[pan_item_name] = offset + 1
