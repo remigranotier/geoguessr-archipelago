@@ -79,15 +79,26 @@ function hasForbiddenGamemode(areaMap: AreaMap, message: RoundFinishedMessage) {
     return false;
 }
 
-export function handleRoundFinishedMessage(message: RoundFinishedMessage) {
-    let areaMap = mapsConfig.find((map) => map.mapId === message.mapId)
-    if (areaMap === undefined || !isMapPlayable(areaMap)) {
-        throw new Error("Map not available")
+function checkRoundFinishedMessage(message: RoundFinishedMessage, areaMap: AreaMap) {
+    if (!isMapPlayable(areaMap)) {
+        throw new Error("Map not yet available for play")
     }
 
     if (hasForbiddenGamemode(areaMap, message)) {
         throw new Error("Forbidden gamemode in received game")
     }
+
+    if (message.roundCount != 5) {
+        throw new Error("Game does not have 5 rounds exactly")
+    }
+}
+
+export function handleRoundFinishedMessage(message: RoundFinishedMessage) {
+    let areaMap = mapsConfig.find((map) => map.mapId === message.mapId)
+    if (areaMap === undefined) {
+        throw new Error("Map does not exist in Geoguessr Archipelago")
+    }
+    checkRoundFinishedMessage(message, areaMap)
 
     let locationsToCheck: number[] = []
 

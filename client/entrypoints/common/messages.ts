@@ -69,6 +69,7 @@ export class RoundFinishedMessage {
         public mapId: string,
         public mapName: string,
         public roundScore: number,
+        public roundCount: number,
         public totalScore: number,
     ) { }
 }
@@ -80,6 +81,7 @@ export class GeoguessrRoundFinishedMessage {
     mapId?: string;
     mapName?: string;
     roundScore?: number;
+    roundCount?: number;
     totalScore?: number;
     playerId?: string;
     gamemode?: GACGamemode;
@@ -91,6 +93,7 @@ export class GeoguessrRoundFinishedMessage {
         this.mapName = data["mapName"]
         const guesses: any[] = data["player"]["guesses"]
         this.roundScore = guesses.at(-1)["roundScoreInPoints"]
+        this.roundCount = data["roundCount"]
         this.totalScore = data["player"]["totalScoreInPoints"]
         this.playerId = data["player"]["id"]
         this.gamemode = gamemodeFromData(data)
@@ -119,7 +122,7 @@ export class SendSoundEffectMessage {
 export class SubmitManualIdMessage {
     type: MessageType = MessageType.SubmitManualId;
 
-    constructor(public id: string) {}
+    constructor(public id: string) { }
 }
 
 
