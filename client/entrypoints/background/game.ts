@@ -60,11 +60,6 @@ export async function handleGenerateGameMessage(message: GenerateGameMessage) {
     })
 }
 
-function isMapAvailable(areaMap: AreaMap): boolean {
-    const baseItemId = areaMap.baseItemId
-    return (apClient.items.received.some((item: Item) => item.id == baseItemId))
-}
-
 function hasForbiddenGamemode(areaMap: AreaMap, message: RoundFinishedMessage) {
     if (message.gamemode & GACGamemode.Pan) {
         if (!apClient.items.received.some((item: Item) => item.id == areaMap.baseItemId + AreaItems.Pan)) {
@@ -86,7 +81,7 @@ function hasForbiddenGamemode(areaMap: AreaMap, message: RoundFinishedMessage) {
 
 export function handleRoundFinishedMessage(message: RoundFinishedMessage) {
     let areaMap = mapsConfig.find((map) => map.mapId === message.mapId)
-    if (areaMap === undefined || !isMapAvailable(areaMap)) {
+    if (areaMap === undefined || !isMapPlayable(areaMap)) {
         throw new Error("Map not available")
     }
 
