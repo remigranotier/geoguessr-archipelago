@@ -26,16 +26,20 @@ export enum FillerItemId {
 }
 
 export class GACMap {
-    id: string = "defaultId";
-    gameType: GACGameType = GACGameType.Game
-    name: string = "defaultName";
-    available: boolean = false;
-    bestMedal: GACMedal = GACMedal.None
-    fivekDone: boolean = false;
-    mapDone: boolean = false;
-    bestScore: number = 0;
-    bestSeed: string = "";
-    gamemode: GACGamemode = GACGamemode.None;
+    constructor(
+        public id: string = "defaultId",
+        public name: string = "defaultName",
+        public gameType: GACGameType = GACGameType.Game,
+        public unlocked: boolean = false,
+        public visible: boolean = false,
+        public playable: boolean = false,
+        public bestMedal: GACMedal = GACMedal.None,
+        public fivekDone: boolean = false,
+        public mapDone: boolean = false,
+        public bestScore: number = 0,
+        public bestSeed: string = "",
+        public gamemode: GACGamemode = GACGamemode.None,
+    ) { }
 }
 
 export class GACGameState {

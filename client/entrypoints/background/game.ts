@@ -161,18 +161,7 @@ function updateAreaMap(areaMap: AreaMap) {
     let mapStatus = globalThis.gameState.maps.find((map) => map.id === areaMap.mapId)
 
     if (mapStatus === undefined) {
-        mapStatus = {
-            available: true,
-            gameType: GACGameType.Game,
-            gamemode: GACGamemode.None,
-            bestMedal: GACMedal.None,
-            bestScore: 0,
-            bestSeed: "",
-            fivekDone: false,
-            id: areaMap.mapId,
-            mapDone: false,
-            name: areaMap.mapName
-        }
+        mapStatus = new GACMap(areaMap.mapId, areaMap.mapName)
         globalThis.gameState.maps.push(mapStatus)
     }
 
