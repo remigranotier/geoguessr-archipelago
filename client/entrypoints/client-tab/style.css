@@ -9,9 +9,6 @@
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
 }
 
 body {
@@ -70,7 +67,7 @@ th {
 }
 
 #volume-component {
-  display:flex;
+  display: flex;
   flex-direction: row;
   gap: 0.5em;
   position: absolute;
@@ -137,21 +134,6 @@ form {
   margin-left: auto;
   margin-right: auto;
   gap: 2em
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-
-  a:hover {
-    color: #747bff;
-  }
-
-  button {
-    background-color: #f9f9f9;
-  }
 }
 
 .activeLink {
