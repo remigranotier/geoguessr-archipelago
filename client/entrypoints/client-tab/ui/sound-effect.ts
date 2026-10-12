@@ -14,7 +14,7 @@ export function initVolumeBar() {
     })
 }
 
-export function volumeIconClickHandler(e: Event) {
+function volumeIconClickHandler(e: Event) {
     let volumeBar = document.getElementById('volume-bar') as HTMLInputElement;
     if (volumeBar.valueAsNumber > 0) {
         volumeBar.setAttribute("previousValueNotZero", volumeBar.value)
@@ -25,7 +25,7 @@ export function volumeIconClickHandler(e: Event) {
     chooseVolumeIcon()
 }
 
-export function chooseVolumeIcon() {
+function chooseVolumeIcon() {
     let volumeIcon = document.getElementById('volume-bar-icon') as HTMLLabelElement;
     let volumeBar = document.getElementById('volume-bar') as HTMLInputElement;
 

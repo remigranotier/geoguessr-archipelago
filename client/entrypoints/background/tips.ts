@@ -13,11 +13,11 @@ const SPECIAL_TIPS: string[] = [
     "The northern third of Chile is covered by the Atacama desert, the driest place on Earth.",
 ]
 
-export function getRandomQuestionableTip(): string {
+function getRandomQuestionableTip(): string {
     return QUESTIONABLE_TIPS[Math.floor(Math.random() * QUESTIONABLE_TIPS.length)]!
 }
 
-export function getRandomSpecialTip(): string {
+function getRandomSpecialTip(): string {
     return SPECIAL_TIPS[Math.floor(Math.random() * SPECIAL_TIPS.length)]!
 }
 
@@ -33,7 +33,7 @@ export function sendQuestionableTip() {
     void browser.runtime.sendMessage(new SendNewLogMessage(`<span style="color:red">New questionable tip received</span>: <span style="color:white">${questionableTip}</span>`))
 }
 
-export function sendNotification(title: string, message: string) {
+function sendNotification(title: string, message: string) {
     console.debug(Notification.permission)
     if (browser.notifications == undefined) {
         console.warn("This browser does not support desktop notifications")

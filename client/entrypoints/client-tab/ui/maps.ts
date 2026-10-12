@@ -14,7 +14,7 @@ export function renderGameSection() {
     renderMapsTable()
 }
 
-export function renderMapsTable() {
+function renderMapsTable() {
     const mapTable = document.getElementById('map-table');
     mapTable!.style.display = globalThis.connectionStatus.authenticated ? "block" : "none"
     const recentLogs = document.getElementById('recent-logs');
@@ -30,7 +30,7 @@ export function renderMapsTable() {
     }
 }
 
-export function renderMapRow(map: GACMap): HTMLTableRowElement | null {
+function renderMapRow(map: GACMap): HTMLTableRowElement | null {
     // If nothing has been unlocked for this map yet
     if (!map.available && map.gamemode == GACGamemode.None) {
         return null

@@ -26,11 +26,11 @@ export const medalThresholds: Record<GACMedal, number> = {
     [GACMedal.Platinum]: 25000,
 }
 
-export enum WorldNumber {
+enum WorldNumber {
     World = 1
 }
 
-export enum ContinentNumber {
+enum ContinentNumber {
     Europe = 1,
     Asia,
     Africa,
@@ -39,7 +39,7 @@ export enum ContinentNumber {
     Oceania
 }
 
-export enum EuropeCountryNumber {
+enum EuropeCountryNumber {
     Albania = 1,
     Andorra,
     Austria,
@@ -87,7 +87,7 @@ export enum EuropeCountryNumber {
     United_Kingdom,
 }
 
-export enum AsiaCountryNumber {
+enum AsiaCountryNumber {
     Bangladesh = 1,
     Bhutan,
     Cambodia,
@@ -120,7 +120,7 @@ export enum AsiaCountryNumber {
     Vietnam,
 }
 
-export enum AfricaCountryNumber {
+enum AfricaCountryNumber {
     Botswana = 1,
     Eswatini,
     Ghana,
@@ -136,7 +136,7 @@ export enum AfricaCountryNumber {
     Uganda,
 }
 
-export enum NorthAmericaCountryNumber {
+enum NorthAmericaCountryNumber {
     Canada = 1,
     Costa_Rica,
     Curacao,
@@ -149,7 +149,7 @@ export enum NorthAmericaCountryNumber {
     United_States_Virgin_Islands,
 }
 
-export enum SouthAmericaCountryNumber {
+enum SouthAmericaCountryNumber {
     Argentina = 1,
     Bolivia,
     Brazil,
@@ -161,7 +161,7 @@ export enum SouthAmericaCountryNumber {
     Uruguay,
 }
 
-export enum OceaniaCountryNumber {
+enum OceaniaCountryNumber {
     American_Samoa = 1,
     Australia,
     Guam,
@@ -169,23 +169,23 @@ export enum OceaniaCountryNumber {
     Northern_Mariana_Islands,
 }
 
-export type World = {
+type World = {
     kind: "world";
     worldNumber: WorldNumber;
 };
 
-export type Continent = {
+type Continent = {
     kind: "continent";
     continentNumber: ContinentNumber;
 };
 
-export type Country<C extends ContinentNumber = ContinentNumber> = {
+type Country<C extends ContinentNumber = ContinentNumber> = {
     kind: "country";
     continentNumber: C;
     countryNumber: number;
 }
 
-export type Area =
+type Area =
     | World
     | Continent
     | Country;

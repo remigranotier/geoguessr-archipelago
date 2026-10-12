@@ -20,12 +20,12 @@ export async function getConnectionStatus() {
     }
 }
 
-export function updateConnectionStatus(connectionStatus: GACConnectionStatus) {
+function updateConnectionStatus(connectionStatus: GACConnectionStatus) {
     globalThis.connectionStatus = connectionStatus
     renderStatusComponent()
 }
 
-export function resetConnectionStatus() {
+function resetConnectionStatus() {
     globalThis.connectionStatus = DEFAULT_CONNECTION_STATUS
 }
 

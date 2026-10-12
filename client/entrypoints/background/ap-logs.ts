@@ -10,7 +10,7 @@ export function renderNodes(nodes: MessageNode[]): string {
     return nodes.map((node) => renderNode(node)).join("")
 }
 
-export function renderNode(node: MessageNode): string {
+function renderNode(node: MessageNode): string {
     const { window } = parseHTML(`
         <html>
             <body></body>

@@ -6,7 +6,7 @@ export function initManualSubmitSection() {
     document.querySelector("#game-id")!.addEventListener("input", resetStatusSpan)
 }
 
-export async function submitManualGame(e: Event) {
+async function submitManualGame(e: Event) {
     const gameId = document.querySelector<HTMLInputElement>("#game-id")?.value ?? "";
     const gameIdSubmitStatusSpan = document.querySelector<HTMLSpanElement>("#submit-id-status")!
     const idRegex = /^[a-zA-Z0-9]{16}$/
@@ -28,7 +28,7 @@ export async function submitManualGame(e: Event) {
     }
 }
 
-export function resetStatusSpan() {
+function resetStatusSpan() {
     const gameIdSubmitStatusSpan = document.querySelector<HTMLSpanElement>("#submit-id-status")!
     gameIdSubmitStatusSpan.style.color = "white"
     gameIdSubmitStatusSpan.textContent = ``

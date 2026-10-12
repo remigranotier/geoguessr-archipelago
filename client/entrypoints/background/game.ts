@@ -60,12 +60,12 @@ export async function handleGenerateGameMessage(message: GenerateGameMessage) {
     })
 }
 
-export function isMapAvailable(areaMap: AreaMap): boolean {
+function isMapAvailable(areaMap: AreaMap): boolean {
     const baseItemId = areaMap.baseItemId
     return (apClient.items.received.some((item: Item) => item.id == baseItemId))
 }
 
-export function hasForbiddenGamemode(areaMap: AreaMap, message: RoundFinishedMessage) {
+function hasForbiddenGamemode(areaMap: AreaMap, message: RoundFinishedMessage) {
     if (message.gamemode & GACGamemode.Pan) {
         if (!apClient.items.received.some((item: Item) => item.id == areaMap.baseItemId + AreaItems.Pan)) {
             return true;
@@ -154,7 +154,7 @@ export function updateGameState() {
     }
 }
 
-export function updateAreaMap(areaMap: AreaMap) {
+function updateAreaMap(areaMap: AreaMap) {
     console.debug(`Updating game state of map ${areaMap.mapName}`)
     const baseLocationId = areaMap.baseLocationId
     const baseItemId = areaMap.baseItemId
