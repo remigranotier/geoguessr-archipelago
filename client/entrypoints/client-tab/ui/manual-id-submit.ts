@@ -9,7 +9,7 @@ export function initManualSubmitSection() {
 export async function submitManualGame(e: Event) {
     const gameId = document.querySelector<HTMLInputElement>("#game-id")?.value ?? "";
     const gameIdSubmitStatusSpan = document.querySelector<HTMLSpanElement>("#submit-id-status")!
-    const idRegex = new RegExp('^[a-zA-Z0-9]{16}$')
+    const idRegex = /^[a-zA-Z0-9]{16}$/
     if (!idRegex.test(gameId)) {
         gameIdSubmitStatusSpan.style.color = "orange"
         gameIdSubmitStatusSpan.textContent = `⚠️ ${browser.i18n.getMessage("invalidIdFormat")}`

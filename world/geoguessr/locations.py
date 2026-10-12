@@ -32,12 +32,17 @@ def create_all_locations(world: GeoguessrWorld) -> None:
 def create_regular_locations(world: GeoguessrWorld) -> None:
     region_location_ids = defaultdict(list)
 
-    region_location_ids[common.WORLD_REGION.World] += [loc_name for loc_name, loc_id in location_name_to_id.items() if loc_name.startswith(f"{common.WORLD_REGION.World.value} -")]
     for country in world.drawn_countries:
         if country.region not in region_location_ids:
             region_location_ids[country.region] += [loc_name for loc_name, loc_id in location_name_to_id.items() if loc_name.startswith(f"{country.region.value} -")]
         region_location_ids[country.region] += [loc_name for loc_name, loc_id in location_name_to_id.items() if loc_name.startswith(f"{country.name} -")]
     
+
+    world_region = world.get_region(common.WORLD_REGION)
+    world_locations = get_location_names_with_ids([loc_name for loc_name, loc_id in location_name_to_id.items() if loc_name.startswith(f"{common.WORLD_REGION} -")])
+    print("World locations:", world_locations)
+    world_region.add_locations(world_locations, GeoguessrLocation)
+
     for region, location_ids in region_location_ids.items():
         ap_region = world.get_region(region.value)
         region_locations = get_location_names_with_ids(location_ids)
@@ -48,8 +53,8 @@ def create_regular_locations(world: GeoguessrWorld) -> None:
 def generate_locations() -> dict[str:int]:
     # Generate World locations
     for check_index, check_type in enumerate(common.LOCATION_TYPES):
-        loc_name = f"{common.WORLD_REGION.World.value} - {check_type}"
-        loc_id = common.REGION_BASE_IDS[common.WORLD_REGION.World] + check_index
+        loc_name = f"{common.WORLD_REGION} - {check_type}"
+        loc_id = common.REGION_BASE_IDS[common.WORLD_REGION] + check_index
         location_name_to_id[loc_name] = loc_id
     
     # Generate country + region locations
@@ -73,7 +78,7 @@ def generate_locations() -> dict[str:int]:
 
 
 def create_events(world: GeoguessrWorld) -> None:
-    world_region_name = common.WORLD_REGION.World.value
+    world_region_name = common.WORLD_REGION
     world_region = world.get_region(world_region_name)
     add_map_events(world_region_name, world_region)
 

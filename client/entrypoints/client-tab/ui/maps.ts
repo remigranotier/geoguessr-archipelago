@@ -103,7 +103,6 @@ function getMedalText(medal: GACMedal) {
 }
 
 function getColorFromDifficulty(map: GACMap): string {
-    const hasMoveOrPan = map.gamemode & (GACGamemode.Move | GACGamemode.Pan)
     const hasMove = map.gamemode & GACGamemode.Move
     const hasPan = map.gamemode & GACGamemode.Pan
     const hasZoom = map.gamemode & GACGamemode.Zoom
@@ -116,7 +115,7 @@ function getColorFromDifficulty(map: GACMap): string {
         case GACMedal.None:
             return POSSIBLE_COLOR
         case GACMedal.Bronze:
-            if (hasMoveOrPan) {
+            if (hasMove || hasPan) {
                 return POSSIBLE_COLOR
             } else {
                 return TRICKY_COLOR
@@ -124,7 +123,7 @@ function getColorFromDifficulty(map: GACMap): string {
         case GACMedal.Silver:
             if (hasMove && hasPan) {
                 return POSSIBLE_COLOR
-            } else if (map.gamemode & GACGamemode.Move) {
+            } else if (hasMove) {
                 return TRICKY_COLOR
             } else {
                 return IMPOSSIBLE_COLOR

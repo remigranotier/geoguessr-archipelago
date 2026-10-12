@@ -1,8 +1,6 @@
 from enum import Enum
 
-
-class WORLD_REGION(Enum):
-    World = "World"
+WORLD_REGION = "World"
 
 class REGION(Enum):
     Europe = "Europe"
@@ -15,7 +13,7 @@ class REGION(Enum):
 
 # Used to offset IDs based on their region
 REGION_BASE_IDS = {
-    WORLD_REGION.World: 1,
+    WORLD_REGION: 1,
     REGION.Europe: 1000,
     REGION.Asia: 2000,
     REGION.Africa: 3000,
@@ -25,7 +23,7 @@ REGION_BASE_IDS = {
 }
 
 
-class FORBIDDEN_COUNTRIES(Enum):
+class FORBIDDENCOUNTRIES(Enum):
     Madagascar = "Madagascar"
     Greenland = "Greenland"
     Lebanon = "Lebanon"
