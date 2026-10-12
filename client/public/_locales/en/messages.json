@@ -83,5 +83,26 @@
     },
     "howToPlayTitle": {
         "message": "How to play Archipelago on Geoguessr"
+    },
+    "gameId": {
+        "message": "Game/Challenge ID"
+    },
+    "gameIdPlaceholder": {
+        "message": "e.g. GRxoIRlMOE89o2np"
+    },
+    "submitId": {
+        "message": "Submit ID"
+    },
+    "gameIdSubmitSectionTitle": {
+        "message": "Manually submit a game or challenge ID"
+    },
+    "invalidIdFormat": {
+        "message": "Invalid ID format"
+    },
+    "idAccepted": {
+        "message": "ID accepted"
+    },
+    "errorManualSubmit": {
+        "message": "Error during manual submit"
     }
 }

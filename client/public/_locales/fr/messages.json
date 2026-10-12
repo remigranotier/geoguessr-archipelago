@@ -83,5 +83,26 @@
     },
     "howToPlayTitle": {
         "message": "Comment jouer une session Archipelago sur Geoguessr"
+    },
+    "gameId": {
+        "message": "ID de game/challenge"
+    },
+    "gameIdPlaceholder": {
+        "message": "ex: GRxoIRlMOE89o2np"
+    },
+    "submitId": {
+        "message": "Envoyer l'ID"
+    },
+    "gameIdSubmitSectionTitle": {
+        "message": "Envoyer manuellement un ID de game/challenge"
+    },
+    "invalidIdFormat": {
+        "message": "Format d'ID invalide"
+    },
+    "idAccepted": {
+        "message": "ID accepté"
+    },
+    "errorManualSubmit": {
+        "message": "Erreur pendant l'envoi manuel"
     }
 }

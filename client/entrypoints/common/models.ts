@@ -7,6 +7,11 @@ export enum GACGamemode {
     Zoom = 4
 }
 
+export enum GACGameType {
+    Game = 0,
+    Challenge = 1,
+}
+
 export enum GACMedal {
     None = 0,
     Bronze = 1,
@@ -22,6 +27,7 @@ export enum FillerItemId {
 
 export class GACMap {
     id: string = "defaultId";
+    gameType: GACGameType = GACGameType.Game
     name: string = "defaultName";
     available: boolean = false;
     bestMedal: GACMedal = GACMedal.None

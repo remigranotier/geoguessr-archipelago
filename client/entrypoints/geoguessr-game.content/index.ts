@@ -1,5 +1,5 @@
 import { RoundFinishedMessage, type GeoguessrRoundFinishedMessage } from "../common/messages";
-import { type GACResponse } from "../common/models";
+import { GACGameType, type GACResponse } from "../common/models";
 
 export default defineContentScript({
     matches: ['*://*.geoguessr.com/game/*'],
@@ -19,12 +19,16 @@ async function handleGeoguessrGameFinishedMessage(event: MessageEvent<GeoguessrR
         const roundFinishedMessage = new RoundFinishedMessage(
             event.data.state!,
             event.data.token!,
+            GACGameType.Game,
             event.data.mapId!,
             event.data.mapName!,
             event.data.roundScore!,
             event.data.totalScore!
         )
-        const _roundFinishedResponse: GACResponse = await browser.runtime.sendMessage(roundFinishedMessage)
+        const roundFinishedResponse: GACResponse = await browser.runtime.sendMessage(roundFinishedMessage)
         console.debug("RoundFinishedMessage correctly sent")
+        if (!roundFinishedResponse.success) {
+            console.error("Error while sending RoundFinishedMessage:", roundFinishedResponse.error)
+        }
     }
 }
