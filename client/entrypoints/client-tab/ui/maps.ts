@@ -32,7 +32,7 @@ function renderMapsTable() {
 
 function renderMapRow(map: GACMap): HTMLTableRowElement | null {
     // If nothing has been unlocked for this map yet
-    if (!map.available && map.gamemode == GACGamemode.None) {
+    if (!map.visible) {
         return null
     }
 
@@ -50,7 +50,7 @@ function renderMapRow(map: GACMap): HTMLTableRowElement | null {
     const areaName = currentAreaMap?.areaName ?? map.name
     mapNameCell.textContent = areaName;
     mapNameCell.title = map.name;
-    if (map.available && map.bestMedal != GACMedal.Platinum) {
+    if (map.playable && map.bestMedal != GACMedal.Platinum) {
         mapNameCell.classList.add("activeLink")
         mapNameCell.onclick = (_: PointerEvent) => {
             const generateGameMessage = new GenerateGameMessage(map.id)
@@ -107,7 +107,7 @@ function getColorFromDifficulty(map: GACMap): string {
     const hasPan = map.gamemode & GACGamemode.Pan
     const hasZoom = map.gamemode & GACGamemode.Zoom
 
-    if (!map.available) {
+    if (!map.unlocked) {
         return DEFAULT_COLOR
     }
 

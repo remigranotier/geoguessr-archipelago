@@ -17,18 +17,18 @@ export async function handleSubmitManualId(message: SubmitManualIdMessage) {
 
     if (gamesResponse.ok) {
         const data = await gamesResponse.json()
-        const totalScoreInPoints = data["player"]["totalScoreInPoints"]
         const guesses: any[] = data["player"]["guesses"]
         const isFiveK = guesses.some((guess) => (guess["roundScoreInPoints"] as number) == 5000)
         const roundFinishedMessage = new RoundFinishedMessage(
-            GeoguessrGameStatus.FINISHED, 
-            message.id, 
-            GACGameType.Game, 
-            gamemodeFromData(data), 
-            data["map"], 
-            data["mapName"], 
-            isFiveK ? 5000 : 0, 
-            totalScoreInPoints
+            GeoguessrGameStatus.FINISHED,
+            message.id,
+            GACGameType.Game,
+            gamemodeFromData(data),
+            data["map"],
+            data["mapName"],
+            isFiveK ? 5000 : 0,
+            data["roundCount"],
+            data["player"]["totalScoreInPoints"]
         )
         handleRoundFinishedMessage(roundFinishedMessage)
         return
@@ -43,19 +43,18 @@ export async function handleSubmitManualId(message: SubmitManualIdMessage) {
     if (challengesResponse.ok) {
         const data = await challengesResponse.json()
         const game = data["items"][0]["game"]
-        console.debug("GAME", game)
-        const totalScoreInPoints = game["player"]["totalScoreInPoints"]
         const guesses: any[] = game["player"]["guesses"]
         const isFiveK = guesses.some((guess) => (guess["roundScoreInPoints"] as number) == 5000)
         const roundFinishedMessage = new RoundFinishedMessage(
-            GeoguessrGameStatus.FINISHED, 
-            message.id, 
-            GACGameType.Challenge, 
-            gamemodeFromData(game), 
-            game["map"], 
-            game["mapName"], 
-            isFiveK ? 5000 : 0, 
-            totalScoreInPoints
+            GeoguessrGameStatus.FINISHED,
+            message.id,
+            GACGameType.Challenge,
+            gamemodeFromData(game),
+            game["map"],
+            game["mapName"],
+            isFiveK ? 5000 : 0,
+            game["roundCount"],
+            game["player"]["totalScoreInPoints"]
         )
         handleRoundFinishedMessage(roundFinishedMessage)
         return
