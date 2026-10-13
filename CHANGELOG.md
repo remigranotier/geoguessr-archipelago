@@ -24,3 +24,4 @@
 - Fixed item 0 having no name (#14)
 - Fixed service worker going off after a while (#17)
 - Fixed HTML placeholders still present on client tab (#23)
+- Fixed light mode by removing it (#24)
