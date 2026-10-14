@@ -16,12 +16,11 @@ class VictoryCondition(Choice):
 
     display_name = "Victory Condition"
 
-    option_medals_count = (
-        0  # Reach a certain amount of medals in the game, chosen with another option
-    )
-    option_plat_count = (
-        1  # Reach a set amount of platinum medals, chosen with another option
-    )
+    # Reach a certain amount of medals in the game, chosen with another option
+    option_medals_count = 0
+
+    # Reach a set amount of platinum medals, chosen with another option
+    option_plat_count = 1
 
     # Choice options must define an explicit default value.
     default = option_plat_count
@@ -73,9 +72,27 @@ class MaxMicroCountriesCount(Range):
 
     range_start = 0
     range_end = len(
-        [country for country in common.COUNTRIES.values() if country.is_micro]
+        [
+            country
+            for country in common.COUNTRIES.values()
+            if country.difficulty == common.Difficulty.MicroCountry
+        ]
     )
     default = 3
+
+
+class CountriesDifficultyLevel(Choice):
+    """
+    A setting determining the maximum difficulty a drawn country can have
+    """
+
+    display_name = "Countries Difficulty Level"
+
+    option_easy = 0
+    option_medium = 1
+    option_hard = 2
+
+    default = option_hard
 
 
 @dataclass
@@ -85,3 +102,4 @@ class GeoguessrOptions(PerGameCommonOptions):
     plat_count: PlatCount
     accessible_countries_count: AccessibleCountriesCount
     max_micro_countries_count: MaxMicroCountriesCount
+    countries_max_difficulty: CountriesDifficultyLevel

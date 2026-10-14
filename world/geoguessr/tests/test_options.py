@@ -7,16 +7,23 @@ class TestMoreCountries(GeoguessrTestBase):
         "victory_condition": 1,
         "plat_count": 10,
         "accessible_countries_count": 50,
-        "max_micro_countries_count": 5
+        "max_micro_countries_count": 5,
     }
+
 
 class TestAllCountriesPlatinum(GeoguessrTestBase):
     number_of_maps = 1 + len(common.REGION) + len(common.COUNTRIES)
     number_of_countries = len(common.COUNTRIES)
-    number_of_micro_countries = len([country for country in common.COUNTRIES.values() if country.is_micro])
+    number_of_micro_countries = len(
+        [
+            country
+            for country in common.COUNTRIES.values()
+            if country.difficulty == common.Difficulty.MicroCountry
+        ]
+    )
     options = {  # noqa: RUF012
         "victory_condition": 1,
         "plat_count": number_of_maps,
         "accessible_countries_count": number_of_countries,
-        "max_micro_countries_count": number_of_micro_countries
+        "max_micro_countries_count": number_of_micro_countries,
     }

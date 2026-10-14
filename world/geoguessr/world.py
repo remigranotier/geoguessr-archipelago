@@ -29,11 +29,14 @@ class GeoguessrWorld(World):
     options: geoguessr_options.GeoguessrOptions
 
     def check_options(self):
-        number_of_countries = len(self.drawn_countries)
+
+        number_of_draw_countries = len(self.drawn_countries)
         number_of_continents_created = len(
             {country.region for country in self.drawn_countries}
         )
-        number_of_maps = number_of_countries + number_of_continents_created + 1
+        number_of_seed_maps = (
+            number_of_draw_countries + number_of_continents_created + 1
+        )
 
         match self.options.victory_condition:
             case 0:  # Medals count
@@ -45,15 +48,15 @@ class GeoguessrWorld(World):
                             if "Medal" in location.value
                         ]
                     )
-                    * number_of_maps
+                    * number_of_seed_maps
                 ):
                     raise OptionError(
-                        f"Medal count objective is too high for number of maps playable in game ({number_of_maps})"
+                        f"Medal count objective is too high for number of maps playable in game ({number_of_seed_maps})"
                     )
             case 1:  # Platinum count
-                if self.options.plat_count > number_of_maps:
+                if self.options.plat_count > number_of_seed_maps:
                     raise OptionError(
-                        f"Platinum count objective is too high for number of maps playable in game ({number_of_maps})"
+                        f"Platinum count objective is too high for number of maps playable in game ({number_of_seed_maps})"
                     )
 
     def draw_countries(self):
@@ -61,15 +64,26 @@ class GeoguessrWorld(World):
         self.random.shuffle(all_countries)
         drawn_countries = set()
         micro_countries_drawn = 0
+
         while (
             len(drawn_countries) < self.options.accessible_countries_count.value
             and len(all_countries) > 0
         ):
             new_country = all_countries.pop()
-            if new_country.is_micro:
+
+            # Check for micro country count limit
+            if new_country.difficulty == common.Difficulty.MicroCountry:
                 if micro_countries_drawn >= self.options.max_micro_countries_count:
                     continue
                 micro_countries_drawn += 1
+
+            # Check for difficulty level limit
+            if (
+                new_country.difficulty.value
+                > self.options.countries_max_difficulty.value
+            ):
+                continue
+
             drawn_countries.add(new_country)
 
         if (
