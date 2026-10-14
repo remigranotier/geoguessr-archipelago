@@ -1,4 +1,6 @@
 import { type Client } from "archipelago.js";
+import type { AreaLocations } from "./config/area-map";
+import { defaultMedalThresholds, GACMedal } from "./config/medals";
 
 export enum GACGamemode {
     None = 0,
@@ -12,34 +14,54 @@ export enum GACGameType {
     Challenge = 1,
 }
 
-export enum GACMedal {
-    None = 0,
-    Bronze = 1,
-    Silver = 2,
-    Gold = 3,
-    Platinum = 4
-}
-
 export enum FillerItemId {
     SpecialTip = 10000,
     QuestionableTip = 10001,
+}
+
+export class GACProgression {
+    constructor(
+        public gameType: GACGameType = GACGameType.Game,
+        public bestScore: number = 0,
+        public bestSeed: string = "",
+        public fivekDone: boolean = false,
+    ) { }
 }
 
 export class GACMap {
     constructor(
         public id: string = "defaultId",
         public name: string = "defaultName",
-        public gameType: GACGameType = GACGameType.Game,
+        public progression: GACProgression = new GACProgression(),
         public unlocked: boolean = false,
+        public gamemode: GACGamemode = GACGamemode.None,
         public visible: boolean = false,
         public playable: boolean = false,
-        public bestMedal: GACMedal = GACMedal.None,
-        public fivekDone: boolean = false,
-        public mapDone: boolean = false,
-        public bestScore: number = 0,
-        public bestSeed: string = "",
-        public gamemode: GACGamemode = GACGamemode.None,
+        public locationsMissing: Set<AreaLocations> = new Set(),
+        public medalThresholds: Record<GACMedal, number> = defaultMedalThresholds
     ) { }
+
+    public getMedalAmount() {
+        return Object.entries(this.medalThresholds)
+            .filter(([medal, threshold]) => medal != GACMedal.None.toString() && this.progression.bestScore >= threshold)
+            .length
+    }
+
+    public getBestMedal() {
+        const score = this.progression.bestScore
+        switch (true) {
+            case score < this.medalThresholds[GACMedal.Bronze]:
+                return GACMedal.None
+            case score < this.medalThresholds[GACMedal.Silver]:
+                return GACMedal.Bronze
+            case score < this.medalThresholds[GACMedal.Gold]:
+                return GACMedal.Silver
+            case score < this.medalThresholds[GACMedal.Platinum]:
+                return GACMedal.Gold
+            default:
+                return GACMedal.Platinum
+        }
+    }
 }
 
 export class GACGameState {

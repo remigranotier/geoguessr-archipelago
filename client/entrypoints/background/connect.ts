@@ -1,8 +1,8 @@
 import type { ConnectionOptions } from "archipelago.js";
 import { apClient } from ".";
 import { GACConnectionStatus } from "../common/models";
-import { updateGameState } from "./game";
 import type { ServerConnectMessage } from "../common/messages";
+import { updateGameState } from "./state";
 
 export async function handleServerConnectMessage(message: ServerConnectMessage) {
     console.log(`Connecting to ${message.serverUrl} with slot ${message.slotName}`)

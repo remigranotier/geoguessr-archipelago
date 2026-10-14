@@ -63,11 +63,11 @@
     "gamemodesColumn": {
         "message": "Gamemodes"
     },
-    "bestMedalColumn": {
-        "message": "Best medal"
+    "progressionColumn": {
+        "message": "Progression"
     },
-    "fivekDoneColumn": {
-        "message": "5k done"
+    "locationsRemainingColumn": {
+        "message": "Locations remaining"
     },
     "gamemodeMove": {
         "message": "Move"

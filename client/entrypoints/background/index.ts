@@ -3,15 +3,18 @@ import {
   FillerItemId,
   GACConnectionStatus,
   GACGameState,
+  GACMap,
   SoundEffectType,
   type GACResponse,
 } from "../common/models";
 import { getServerConnection, handleServerConnectMessage, handleServerDisconnectMessage } from "./connect";
-import { handleRoundFinishedMessage, handleGenerateGameMessage, updateGameState } from "./game";
-import { GenerateGameMessage, MessageType, RoundFinishedMessage, SendGameStateMessage, SendNewLogMessage, SendSoundEffectMessage, SubmitManualIdMessage, type GACMessage, type ServerConnectMessage } from "../common/messages";
+import { handleRoundFinishedMessage, handleGenerateGameMessage } from "./game";
+import { GenerateGameMessage, MessageType, RoundFinishedMessage, SendNewLogMessage, SendSoundEffectMessage, SubmitManualIdMessage, type GACMessage, type ServerConnectMessage } from "../common/messages";
 import { handleRetrieveLogsMessage, renderNodes } from "./ap-logs";
 import { sendQuestionableTip, sendSpecialTip } from "./tips";
 import { handleSubmitManualId } from "./manual-submit";
+import { updateGameState } from "./state";
+import { mapsConfig } from "../common/config/maps";
 
 export const apClient = new Client();
 declare global {
@@ -19,7 +22,7 @@ declare global {
   var gameConfigData: Record<string, unknown>
 }
 
-globalThis.gameState = { maps: [] }
+globalThis.gameState = { maps: mapsConfig.map((areaMap) => new GACMap(areaMap.mapId, areaMap.mapName)) }
 
 function messageListener(message: GACMessage, sender: Browser.runtime.MessageSender, sendResponse: (response: GACResponse) => void) {
   switch (message.type) {
@@ -186,8 +189,6 @@ export default defineBackground(() => {
     }
 
     updateGameState()
-    console.debug("Sending message SendGameStateMessage to client tab", globalThis.gameState)
-    void browser.runtime.sendMessage(new SendGameStateMessage(globalThis.gameState));
 
     // Send a sound effect only on an item coming from another player and not on connection
     if (items.some((item) => item.sender.name != apClient.players.self.name) && startingIndex > 0) {
@@ -198,8 +199,6 @@ export default defineBackground(() => {
 
   apClient.room.on("locationsChecked", (_locations) => {
     updateGameState()
-    console.debug("Sending message SendGameStateMessage to client tab", globalThis.gameState)
-    void browser.runtime.sendMessage(new SendGameStateMessage(globalThis.gameState));
   })
 
   apClient.messages.on("message", (_text, nodes) => {

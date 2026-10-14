@@ -63,11 +63,11 @@
     "gamemodesColumn": {
         "message": "Modes de jeu"
     },
-    "bestMedalColumn": {
-        "message": "Meilleure médaille"
+    "progressionColumn": {
+        "message": "Progression"
     },
-    "fivekDoneColumn": {
-        "message": "5k fait"
+    "locationsRemainingColumn": {
+        "message": "Envois restants"
     },
     "gamemodeMove": {
         "message": "Move"
