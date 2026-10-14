@@ -1,0 +1,178 @@
+import { clientStatuses, Item, type ClientStatus } from "archipelago.js"
+import { apClient } from "."
+import { RoundFinishedMessage, SendGameStateMessage, SendSoundEffectMessage } from "../common/messages"
+import { GACGamemode, GACMap, SoundEffectType } from "../common/models"
+import { AreaItems, AreaLocations, AreaMap, PERFECT_SCORE } from "../common/config/area-map"
+import { mapsConfig } from "../common/config/maps"
+import type { Continent, Country } from "../common/config/countries"
+import { GACMedal } from "../common/config/medals"
+
+export function updateGameState() {
+    console.debug("Items unlocked are:", apClient.items.received)
+    console.debug("Locations available are:", apClient.room.missingLocations)
+    console.debug("Locations checked are:", apClient.room.checkedLocations)
+
+    for (let areaMap of mapsConfig) {
+        updateMapState(areaMap)
+    }
+
+    console.debug("Game state after update is:", globalThis.gameState)
+
+    checkWinCondition()
+
+    console.debug("Sending message SendGameStateMessage to client tab", globalThis.gameState)
+    void browser.runtime.sendMessage(new SendGameStateMessage(globalThis.gameState));
+}
+
+function updateMapState(areaMap: AreaMap) {
+    let mapStatus = globalThis.gameState.maps.find((map) => map.id === areaMap.mapId)!
+
+    mapStatus.locationsMissing = getLocationsMissing(areaMap)
+    mapStatus.medalThresholds = areaMap.medalThresholds
+
+    const isUnlocked: boolean = isMapUnlocked(areaMap)
+    mapStatus.unlocked = isUnlocked
+
+    const mapGamemode: GACGamemode = getGamemode(areaMap)
+    mapStatus.gamemode = mapGamemode
+
+    const isSomethingUnlocked = isUnlocked || mapGamemode != GACGamemode.None
+
+    mapStatus.visible = isMapVisible(areaMap, isSomethingUnlocked)
+
+    mapStatus.playable = isMapPlayable(areaMap, isUnlocked)
+}
+
+function isContinentMapUnlocked(area: Country) {
+    const continentNumber = area.continentNumber
+    const continentAreaMap = mapsConfig.find((map: AreaMap) => map.area.kind == "continent" && map.area.continentNumber == continentNumber)!
+    return isMapUnlocked(continentAreaMap)
+}
+
+function isSomeCountryMapVisible(area: Continent) {
+    const continentNumber = area.continentNumber
+    const childrenCountryMaps = mapsConfig.filter((map: AreaMap) => map.area.kind == "country" && map.area.continentNumber == continentNumber)!
+    return childrenCountryMaps.some((countryMap: AreaMap) => isMapUnlocked(countryMap) || getGamemode(countryMap) != GACGamemode.None)
+}
+
+function isMapVisible(areaMap: AreaMap, isSomethingUnlocked?: boolean) {
+    let result = isSomethingUnlocked ?? (isMapUnlocked(areaMap) || getGamemode(areaMap) != GACGamemode.None)
+    if (areaMap.area.kind == "continent") {
+        result ||= isSomeCountryMapVisible(areaMap.area)
+    }
+    return result
+}
+
+export function isMapPlayable(areaMap: AreaMap, isUnlocked?: boolean) {
+    let result = (isUnlocked ?? isMapUnlocked(areaMap))
+    if (areaMap.area.kind == "country") {
+        result &&= isContinentMapUnlocked(areaMap.area)
+    }
+    return result
+}
+
+function isMapUnlocked(areaMap: AreaMap) {
+    return apClient.items.received.some((item: Item) => item.id == (areaMap.baseItemId + AreaItems.Unlock))
+}
+
+function getGamemode(areaMap: AreaMap) {
+    let result = GACGamemode.None
+    if (apClient.items.received.some((item: Item) => item.id == (areaMap.baseItemId + AreaItems.Pan))) {
+        result |= GACGamemode.Pan
+    }
+    if (apClient.items.received.some((item: Item) => item.id == (areaMap.baseItemId + AreaItems.Move))) {
+        result |= GACGamemode.Move
+    }
+    if (apClient.items.received.some((item: Item) => item.id == (areaMap.baseItemId + AreaItems.Zoom))) {
+        result |= GACGamemode.Zoom
+    }
+    return result
+}
+
+function getLocationsMissing(areaMap: AreaMap): Set<AreaLocations> {
+    const resultSet = new Set([
+        AreaLocations.Bronze,
+        AreaLocations.Silver,
+        AreaLocations.Gold,
+        AreaLocations.Platinum,
+        AreaLocations.FiveK,
+    ]);
+    if (apClient.room.checkedLocations.includes(areaMap.baseLocationId + AreaLocations.Bronze)) {
+        resultSet.delete(AreaLocations.Bronze)
+    }
+    if (apClient.room.checkedLocations.includes(areaMap.baseLocationId + AreaLocations.Silver)) {
+        resultSet.delete(AreaLocations.Silver)
+    }
+    if (apClient.room.checkedLocations.includes(areaMap.baseLocationId + AreaLocations.Gold)) {
+        resultSet.delete(AreaLocations.Gold)
+    }
+    if (apClient.room.checkedLocations.includes(areaMap.baseLocationId + AreaLocations.Platinum)) {
+        resultSet.delete(AreaLocations.Platinum)
+    }
+    if (apClient.room.checkedLocations.includes(areaMap.baseLocationId + AreaLocations.FiveK)) {
+        resultSet.delete(AreaLocations.FiveK)
+    }
+    return resultSet
+}
+
+function checkWinCondition() {
+    console.debug("Checking win condition")
+
+    let hasWon = false
+
+    switch (globalThis.gameConfigData.victory_condition) {
+        case 0: //medal count
+            {
+                const medalCount = globalThis.gameState.maps.reduce(
+                    (count, map) => count + map.getMedalAmount(),
+                    0
+                );
+                hasWon = medalCount >= (globalThis.gameConfigData.medal_count as number)
+                console.debug("medal count : ", medalCount)
+                break
+            }
+
+        case 1: //platinum count
+            {
+                const platAmount = globalThis.gameState.maps
+                    .filter(map => map.progression.bestScore >= map.medalThresholds[GACMedal.Platinum])
+                    .length;
+                hasWon = platAmount >= (globalThis.gameConfigData.plat_count as number)
+                console.debug("plat amount : ", platAmount)
+                break
+            }
+
+        default:
+            console.warn("Unknown victory condition:", globalThis.gameConfigData.victory_condition)
+    }
+
+    if (hasWon) {
+        apClient.players.self.fetchStatus().then((status: ClientStatus) => {
+            if (status != clientStatuses.goal) {
+                apClient.goal()
+                void browser.runtime.sendMessage(new SendSoundEffectMessage(SoundEffectType.GoalReached))
+            } else {
+                console.debug("goal() action triggered after status already being goal, ignoring.")
+            }
+        }).catch((error) => {
+            console.error("Error while fetching player status:", error)
+            apClient.goal()
+        })
+    }
+}
+
+export function updateMapProgression(message: RoundFinishedMessage) {
+    let map: GACMap = globalThis.gameState.maps.find((m) => m.id == message.mapId)!
+    if (message.totalScore > map.progression.bestScore) {
+        console.debug("Best score beaten:", message.totalScore, "vs", map.progression.bestScore, "before")
+        map.progression.bestScore = message.totalScore
+        map.progression.bestSeed = message.gameId
+        map.progression.gameType = message.gameType
+    }
+
+    if (message.roundScore == PERFECT_SCORE && !map.progression.fivekDone) {
+        console.debug("New 5k done")
+        map.progression.fivekDone = true
+    }
+
+}
