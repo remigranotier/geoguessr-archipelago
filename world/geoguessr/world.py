@@ -1,10 +1,9 @@
+import math
 from collections.abc import Mapping
 from typing import Any
 
 from Options import OptionError
 from worlds.AutoWorld import World
-
-import math
 
 from . import (
     common,
