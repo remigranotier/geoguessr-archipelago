@@ -99,7 +99,7 @@ class GeoguessrWorld(World):
             # Check for difficulty level limit
             if (
                 new_country.difficulty.value
-                > self.options.countries_max_difficulty.value
+                > self.options.countries_max_difficulty.value + 1
             ):
                 continue
 
