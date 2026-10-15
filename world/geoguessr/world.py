@@ -4,6 +4,8 @@ from typing import Any
 from Options import OptionError
 from worlds.AutoWorld import World
 
+import math
+
 from . import (
     common,
     items,
@@ -30,13 +32,11 @@ class GeoguessrWorld(World):
 
     def check_options(self):
 
-        number_of_draw_countries = len(self.drawn_countries)
-        number_of_continents_created = len(
-            {country.region for country in self.drawn_countries}
-        )
-        number_of_seed_maps = (
-            number_of_draw_countries + number_of_continents_created + 1
-        )
+        number_of_drawn_countries = self.options.accessible_countries_count.value
+        max_map_amount = number_of_drawn_countries + len(common.REGION) + 1
+
+        if number_of_drawn_countries < len(common.REGION):
+            max_map_amount = number_of_drawn_countries * 2 + 1
 
         match self.options.victory_condition:
             case 0:  # Medals count
@@ -48,15 +48,15 @@ class GeoguessrWorld(World):
                             if "Medal" in location.value
                         ]
                     )
-                    * number_of_seed_maps
+                    * max_map_amount
                 ):
                     raise OptionError(
-                        f"Medal count objective is too high for number of maps playable in game ({number_of_seed_maps})"
+                        f"Medal count objective is too high for number of maps playable in game (max {max_map_amount})"
                     )
             case 1:  # Platinum count
-                if self.options.plat_count > number_of_seed_maps:
+                if self.options.plat_count > max_map_amount:
                     raise OptionError(
-                        f"Platinum count objective is too high for number of maps playable in game ({number_of_seed_maps})"
+                        f"Platinum count objective is too high for number of maps playable in game (max {max_map_amount})"
                     )
 
     def draw_countries(self):
@@ -64,6 +64,26 @@ class GeoguessrWorld(World):
         self.random.shuffle(all_countries)
         drawn_countries = set()
         micro_countries_drawn = 0
+        drawn_regions = []
+
+        necessary_region_amount = 1
+
+        match self.options.victory_condition.value:
+            case 0:  # medal count
+                min_accessible_medals = (
+                    self.options.accessible_countries_count.value * 4 + 8
+                )
+                if self.options.medal_count.value > min_accessible_medals:
+                    necessary_region_amount = math.ceil(
+                        (self.options.medal_count.value - min_accessible_medals) / 4
+                    )
+
+            case 1:  # plat count
+                min_accessible_plat = self.options.accessible_countries_count.value + 2
+                if self.options.plat_count.value > min_accessible_plat:
+                    necessary_region_amount = (
+                        self.options.plat_count.value - min_accessible_plat + 1
+                    )
 
         while (
             len(drawn_countries) < self.options.accessible_countries_count.value
@@ -84,6 +104,19 @@ class GeoguessrWorld(World):
             ):
                 continue
 
+            # check if the amount of drawn regions allows for the medal/platinum goal to be reached
+            if new_country.region not in drawn_regions:
+                drawn_regions.append(new_country.region)
+                necessary_region_amount -= 1
+            elif (
+                necessary_region_amount > 0
+                and (
+                    self.options.accessible_countries_count.value - len(drawn_countries)
+                )
+                == necessary_region_amount
+            ):
+                continue
+
             drawn_countries.add(new_country)
 
         if (
@@ -98,8 +131,8 @@ class GeoguessrWorld(World):
         self.drawn_countries = drawn_countries
 
     def generate_early(self) -> None:
-        self.draw_countries()
         self.check_options()
+        self.draw_countries()
 
     def create_regions(self) -> None:
         regions.create_and_connect_regions(self)
