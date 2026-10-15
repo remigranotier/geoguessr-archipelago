@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from Options import Choice, OptionError, PerGameCommonOptions, Range
+from Options import Choice, OptionError, PerGameCommonOptions, Range, Toggle
 
 from . import common
 
@@ -95,6 +95,14 @@ class CountriesDifficultyLevel(Choice):
     default = option_hard
 
 
+class IncludesPlatinums(Toggle):
+    """
+    A setting to allow the player to remove platinum medals locations
+    """
+
+    default = 1
+
+
 @dataclass
 class GeoguessrOptions(PerGameCommonOptions):
     victory_condition: VictoryCondition
@@ -103,9 +111,18 @@ class GeoguessrOptions(PerGameCommonOptions):
     accessible_countries_count: AccessibleCountriesCount
     max_micro_countries_count: MaxMicroCountriesCount
     countries_max_difficulty: CountriesDifficultyLevel
+    include_platinums: IncludesPlatinums
 
 
 def check_options(world):
+
+    if (
+        not world.options.include_platinums.value
+        and world.options.victory_condition.value == 1
+    ):
+        raise OptionError(
+            "Options specify platinum count as victory condition but also removes platinum medals from locations"
+        )
 
     number_of_drawn_countries = world.options.accessible_countries_count.value
     max_map_amount = number_of_drawn_countries + len(common.REGION) + 1
@@ -137,16 +154,18 @@ def check_options(world):
 
     match world.options.victory_condition:
         case 0:  # Medals count
-            if world.options.medal_count > (
+            medal_amount = (
                 len(
                     [
                         location
                         for location in common.LOCATION_TYPES
-                        if "Medal" in location.value
+                        if "Medal" in location
                     ]
                 )
-                * max_map_amount
-            ):
+                - int(not world.options.include_platinums.value)
+            ) * max_map_amount
+
+            if world.options.medal_count > medal_amount:
                 raise OptionError(
                     f"Medal count objective is too high for number of maps playable in game (max {max_map_amount})"
                 )
