@@ -15,6 +15,7 @@
 - Add a volume bar (#20)
 - Add a manual submission of game/challenge form (#21)
 - Add checks for continent unlock before unlocking a map (#22)
+- Add a difficulty option affecting country drawing (#25)
 
 ## Bugfixes
 - Added error log on game generation failure (#6)
