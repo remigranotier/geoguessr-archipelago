@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from Options import Choice, PerGameCommonOptions, Range
+from Options import Choice, OptionError, PerGameCommonOptions, Range
 
 from . import common
 
@@ -103,3 +103,55 @@ class GeoguessrOptions(PerGameCommonOptions):
     accessible_countries_count: AccessibleCountriesCount
     max_micro_countries_count: MaxMicroCountriesCount
     countries_max_difficulty: CountriesDifficultyLevel
+
+
+def check_options(world):
+
+    number_of_drawn_countries = world.options.accessible_countries_count.value
+    max_map_amount = number_of_drawn_countries + len(common.REGION) + 1
+
+    amount_of_microcountries = len(
+        [
+            country
+            for country in common.COUNTRIES.values()
+            if country.difficulty == common.Difficulty.MicroCountry
+        ]
+    )
+
+    amount_of_possible_countries = len(
+        [
+            country
+            for country in common.COUNTRIES.values()
+            if country.difficulty.value
+            <= world.options.countries_max_difficulty.value + 1
+        ]
+    ) - (amount_of_microcountries - world.options.max_micro_countries_count)
+
+    if amount_of_possible_countries < world.options.accessible_countries_count.value:
+        raise OptionError(
+            f"Difficulty and micro country count options too restrictive for accessible country count value ({amount_of_possible_countries} < {world.options.accessible_countries_count.value})"
+        )
+
+    if number_of_drawn_countries < len(common.REGION):
+        max_map_amount = number_of_drawn_countries * 2 + 1
+
+    match world.options.victory_condition:
+        case 0:  # Medals count
+            if world.options.medal_count > (
+                len(
+                    [
+                        location
+                        for location in common.LOCATION_TYPES
+                        if "Medal" in location.value
+                    ]
+                )
+                * max_map_amount
+            ):
+                raise OptionError(
+                    f"Medal count objective is too high for number of maps playable in game (max {max_map_amount})"
+                )
+        case 1:  # Platinum count
+            if world.options.plat_count > max_map_amount:
+                raise OptionError(
+                    f"Platinum count objective is too high for number of maps playable in game (max {max_map_amount})"
+                )
