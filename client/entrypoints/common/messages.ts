@@ -5,8 +5,6 @@ export enum MessageType {
     Default = "Default",
     ServerConnect = "ServerConnect",
     ServerDisconnect = "ServerDisconnect",
-    RetrieveGameState = "RetrieveGameState",
-    SendGameState = "SendGameState",
     RetrieveConnectionStatus = "RetrieveConnectionStatus",
     GenerateGame = "GenerateGame",
     RoundFinished = "RoundFinished",
@@ -36,18 +34,6 @@ export class ServerDisconnectMessage {
 
 export class RetrieveConnectionStatusMessage {
     type: MessageType = MessageType.RetrieveConnectionStatus;
-}
-
-export class RetrieveGameStateMessage {
-    type: MessageType = MessageType.RetrieveGameState;
-}
-
-export class SendGameStateMessage {
-    type: MessageType = MessageType.SendGameState;
-
-    constructor(
-        public gameState: GACGameState
-    ) { }
 }
 
 export class GenerateGameMessage {

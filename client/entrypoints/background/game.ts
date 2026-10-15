@@ -15,7 +15,7 @@ import {
 import { apClient } from './index.ts'
 import { SendSoundEffectMessage, type GenerateGameMessage, type RoundFinishedMessage } from '../common/messages.ts'
 import { mapsConfig } from '../common/config/maps.ts'
-import { isMapPlayable, updateGameState, updateMapProgression } from './state.ts'
+import { getGameState, isMapPlayable, updateGameState } from './state.ts'
 import type { Item } from 'archipelago.js'
 import { GACMedal } from '../common/config/medals.ts'
 
@@ -49,7 +49,8 @@ export async function generateGame(mapId: string, gamemode: GACGamemode): Promis
 
 export async function handleGenerateGameMessage(message: GenerateGameMessage) {
     console.debug("Received GenerateGameMessage:", message)
-    const map = globalThis.gameState.maps.find((m: GACMap) => m.id === message.mapId)
+    const gameState = await getGameState()
+    const map = gameState.maps.find((m: GACMap) => m.id === message.mapId)
     if (map === undefined) {
         throw new Error(`No map with id ${message.mapId} found`)
     }
@@ -129,7 +130,5 @@ export function handleRoundFinishedMessage(message: RoundFinishedMessage) {
         void browser.runtime.sendMessage(new SendSoundEffectMessage(SoundEffectType.LocationChecked))
     }
 
-    updateMapProgression(message)
-
-    updateGameState()
+    void updateGameState(message)
 }

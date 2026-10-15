@@ -1,9 +1,11 @@
 import { RetrieveConnectionStatusMessage } from "../../common/messages";
 import {
     GACConnectionStatus,
+    GACGameState,
     StatusSpecialMode,
     type GACResponse
 } from "../../common/models"
+import { getGameState } from "../game-state";
 import { DEFAULT_CONNECTION_STATUS } from "../main";
 import { renderGameSection } from "./maps";
 
@@ -14,19 +16,42 @@ export async function getConnectionStatus() {
     if (response.success) {
         const connectionStatus: GACConnectionStatus = response.data
         console.debug("Retrieved connection status successfully:", connectionStatus)
-        updateConnectionStatus(connectionStatus)
+        void updateConnectionStatus(connectionStatus)
     } else {
         console.error("Error while retrieving connection status from service worker", response.error)
     }
 }
 
-function updateConnectionStatus(connectionStatus: GACConnectionStatus) {
+export async function updateConnectionStatus(connectionStatus: GACConnectionStatus) {
+    storage.unwatch()
     globalThis.connectionStatus = connectionStatus
+
+    let gameState = await storage.getItem<GACGameState>(`local:${connectionStatus.seed}-${connectionStatus.player}`)
+    if (gameState !== null && gameState.url != connectionStatus.server) {
+        let usePreviousData = confirm(browser.i18n.getMessage("usePreviousDataPopupMessage", gameState.url))
+        if (usePreviousData) {
+            console.debug("Updating url of previous game data")
+            gameState.url = connectionStatus.server
+        } else {
+            console.debug("Reinitializing game data")
+            gameState = new GACGameState([])
+        }
+        await storage.setItem<GACGameState>(`local:${connectionStatus.seed}-${connectionStatus.player}`, gameState)
+    }
+
+    if (connectionStatus.authenticated) {
+        storage.watch<GACGameState>(`local:${connectionStatus.seed}-${connectionStatus.player}`, (newGameState, _oldGameState) => {
+            globalThis.gameState = newGameState ?? new GACGameState([])
+            renderGameSection()
+        })
+        globalThis.gameState = await getGameState()
+    }
     renderStatusComponent()
 }
 
 function resetConnectionStatus() {
     globalThis.connectionStatus = DEFAULT_CONNECTION_STATUS
+    storage.unwatch()
 }
 
 export function renderStatusComponent(specialMode?: StatusSpecialMode) {

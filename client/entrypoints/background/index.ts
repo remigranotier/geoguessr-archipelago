@@ -2,8 +2,6 @@ import { Client } from "archipelago.js";
 import {
   FillerItemId,
   GACConnectionStatus,
-  GACGameState,
-  GACMap,
   SoundEffectType,
   type GACResponse,
 } from "../common/models";
@@ -14,15 +12,11 @@ import { handleRetrieveLogsMessage, renderNodes } from "./ap-logs";
 import { sendQuestionableTip, sendSpecialTip } from "./tips";
 import { handleSubmitManualId } from "./manual-submit";
 import { updateGameState } from "./state";
-import { mapsConfig } from "../common/config/maps";
 
 export const apClient = new Client();
 declare global {
-  var gameState: GACGameState
   var gameConfigData: Record<string, unknown>
 }
-
-globalThis.gameState = { maps: mapsConfig.map((areaMap) => new GACMap(areaMap.mapId, areaMap.mapName)) }
 
 function messageListener(message: GACMessage, sender: Browser.runtime.MessageSender, sendResponse: (response: GACResponse) => void) {
   switch (message.type) {
@@ -34,8 +28,7 @@ function messageListener(message: GACMessage, sender: Browser.runtime.MessageSen
             success: true,
             data: {
               slotData: result,
-              connectionStatus: new GACConnectionStatus(apClient),
-              gameState: globalThis.gameState
+              connectionStatus: new GACConnectionStatus(),
             }
           })
         }).catch(error => {
@@ -60,14 +53,6 @@ function messageListener(message: GACMessage, sender: Browser.runtime.MessageSen
       sendResponse({
         success: true,
         data: getServerConnection()
-      })
-      return false;
-
-    case MessageType.RetrieveGameState:
-      console.debug("Received RetrieveGameState")
-      sendResponse({
-        success: true,
-        data: globalThis.gameState
       })
       return false;
 
@@ -188,7 +173,7 @@ export default defineBackground(() => {
       }
     }
 
-    updateGameState()
+    void updateGameState()
 
     // Send a sound effect only on an item coming from another player and not on connection
     if (items.some((item) => item.sender.name != apClient.players.self.name) && startingIndex > 0) {
@@ -198,7 +183,7 @@ export default defineBackground(() => {
   })
 
   apClient.room.on("locationsChecked", (_locations) => {
-    updateGameState()
+    void updateGameState()
   })
 
   apClient.messages.on("message", (_text, nodes) => {

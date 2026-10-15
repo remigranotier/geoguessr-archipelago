@@ -12,17 +12,16 @@ export async function handleServerConnectMessage(message: ServerConnectMessage) 
     console.debug("Slot data is :", slotData)
 
     globalThis.gameConfigData = slotData
-    updateGameState()
+    void updateGameState()
 
     return slotData
 }
 
 export function getServerConnection(): GACConnectionStatus {
-    return new GACConnectionStatus(apClient)
+    return new GACConnectionStatus()
 }
 
 export function handleServerDisconnectMessage() {
     console.debug("Received ServerDisconnectMessage, disconnecting.")
     apClient.socket.disconnect()
-    globalThis.gameState.maps = []
 }

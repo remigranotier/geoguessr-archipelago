@@ -1,31 +1,33 @@
 import { clientStatuses, Item, type ClientStatus } from "archipelago.js"
 import { apClient } from "."
-import { RoundFinishedMessage, SendGameStateMessage, SendSoundEffectMessage } from "../common/messages"
-import { GACGamemode, GACMap, SoundEffectType } from "../common/models"
+import { RoundFinishedMessage, SendSoundEffectMessage } from "../common/messages"
+import { GACGamemode, GACGameState, GACMap, SoundEffectType } from "../common/models"
 import { AreaItems, AreaLocations, AreaMap, PERFECT_SCORE } from "../common/config/area-map"
 import { mapsConfig } from "../common/config/maps"
 import type { Continent, Country } from "../common/config/countries"
 import { GACMedal } from "../common/config/medals"
 
-export function updateGameState() {
+export async function updateGameState(roundFinishedMessage?: RoundFinishedMessage) {
     console.debug("Items unlocked are:", apClient.items.received)
     console.debug("Locations available are:", apClient.room.missingLocations)
     console.debug("Locations checked are:", apClient.room.checkedLocations)
+    let gameState = await getGameState()
 
-    for (let areaMap of mapsConfig) {
-        updateMapState(areaMap)
+    if (roundFinishedMessage !== undefined) {
+        updateMapProgression(roundFinishedMessage, gameState)
     }
 
-    console.debug("Game state after update is:", globalThis.gameState)
+    for (let areaMap of mapsConfig) {
+        updateMapState(areaMap, gameState)
+    }
 
-    checkWinCondition()
+    checkWinCondition(gameState)
 
-    console.debug("Sending message SendGameStateMessage to client tab", globalThis.gameState)
-    void browser.runtime.sendMessage(new SendGameStateMessage(globalThis.gameState));
+    await setGameState(gameState)
 }
 
-function updateMapState(areaMap: AreaMap) {
-    let mapStatus = globalThis.gameState.maps.find((map) => map.id === areaMap.mapId)!
+function updateMapState(areaMap: AreaMap, gameState: GACGameState) {
+    let mapStatus = gameState.maps.find((map) => map.id === areaMap.mapId)!
 
     mapStatus.locationsMissing = getLocationsMissing(areaMap)
     mapStatus.medalThresholds = areaMap.medalThresholds
@@ -115,7 +117,7 @@ function getLocationsMissing(areaMap: AreaMap): Set<AreaLocations> {
     return resultSet
 }
 
-function checkWinCondition() {
+function checkWinCondition(gameState: GACGameState) {
     console.debug("Checking win condition")
 
     let hasWon = false
@@ -123,7 +125,7 @@ function checkWinCondition() {
     switch (globalThis.gameConfigData.victory_condition) {
         case 0: //medal count
             {
-                const medalCount = globalThis.gameState.maps.reduce(
+                const medalCount = gameState.maps.reduce(
                     (count, map) => count + map.getMedalAmount(),
                     0
                 );
@@ -134,7 +136,7 @@ function checkWinCondition() {
 
         case 1: //platinum count
             {
-                const platAmount = globalThis.gameState.maps
+                const platAmount = gameState.maps
                     .filter(map => map.progression.bestScore >= map.medalThresholds[GACMedal.Platinum])
                     .length;
                 hasWon = platAmount >= (globalThis.gameConfigData.plat_count as number)
@@ -158,11 +160,13 @@ function checkWinCondition() {
             console.error("Error while fetching player status:", error)
             apClient.goal()
         })
+
+        gameState.game_finished = true
     }
 }
 
-export function updateMapProgression(message: RoundFinishedMessage) {
-    let map: GACMap = globalThis.gameState.maps.find((m) => m.id == message.mapId)!
+export function updateMapProgression(message: RoundFinishedMessage, gameState: GACGameState) {
+    let map: GACMap = gameState.maps.find((m) => m.id == message.mapId)!
     if (message.totalScore > map.progression.bestScore) {
         console.debug("Best score beaten:", message.totalScore, "vs", map.progression.bestScore, "before")
         map.progression.bestScore = message.totalScore
@@ -174,5 +178,17 @@ export function updateMapProgression(message: RoundFinishedMessage) {
         console.debug("New 5k done")
         map.progression.fivekDone = true
     }
+}
 
+export async function getGameState(): Promise<GACGameState> {
+    const maybeGameState = await storage.getItem<GACGameState>(`local:${apClient.room.seedName}-${apClient.name}`)
+    if (maybeGameState === null) {
+        console.debug(`No game state in storage for key local:${apClient.room.seedName}-${apClient.name}. initializing`)
+        return new GACGameState(mapsConfig.map((areaMap) => new GACMap(areaMap.mapId, areaMap.mapName)))
+    }
+    return maybeGameState
+}
+
+export async function setGameState(gameState: GACGameState) {
+    await storage.setItem(`local:${apClient.room.seedName}-${apClient.name}`, gameState)
 }

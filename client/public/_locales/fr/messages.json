@@ -104,5 +104,14 @@
     },
     "errorManualSubmit": {
         "message": "Erreur pendant l'envoi manuel"
+    },
+    "usePreviousDataPopupMessage": {
+        "message": "Une sauvegarde a été trouvée depuis la même game Archipelago mais sur un serveur différent ($PREVIOUS_URL$). Utiliser cette ancienne sauvegarde maintenant ?",
+        "placeholders": {
+            "previous_url": {
+                "content": "$1",
+                "example": "wss://archipelago.gg:33333"
+            }
+        }
     }
 }

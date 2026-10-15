@@ -1,6 +1,6 @@
-import { type Client } from "archipelago.js";
 import type { AreaLocations } from "./config/area-map";
 import { defaultMedalThresholds, GACMedal } from "./config/medals";
+import { apClient } from "../background";
 
 export enum GACGamemode {
     None = 0,
@@ -66,9 +66,13 @@ export class GACMap {
 
 export class GACGameState {
     maps: GACMap[];
+    url: string;
+    game_finished: boolean;
 
     constructor(maps: GACMap[]) {
         this.maps = maps
+        this.url = apClient.socket.url
+        this.game_finished = false;
     }
 }
 
@@ -76,11 +80,13 @@ export class GACConnectionStatus {
     authenticated: boolean;
     player: string;
     server: string;
+    seed: string;
 
-    constructor(client: Client) {
-        this.authenticated = client.authenticated
-        this.player = client.name
-        this.server = client.socket.url
+    constructor() {
+        this.authenticated = apClient.authenticated
+        this.player = apClient.name
+        this.server = apClient.socket.url
+        this.seed = apClient.room.seedName
     }
 }
 
