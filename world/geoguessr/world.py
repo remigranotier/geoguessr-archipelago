@@ -34,6 +34,28 @@ class GeoguessrWorld(World):
         number_of_drawn_countries = self.options.accessible_countries_count.value
         max_map_amount = number_of_drawn_countries + len(common.REGION) + 1
 
+        amount_of_microcountries = len(
+            [
+                country
+                for country in common.COUNTRIES
+                if country.difficulty == common.Difficulty.MicroCountry
+            ]
+        )
+
+        amount_of_possible_countries = len(
+            [
+                country
+                for country in common.COUNTRIES
+                if country.difficulty.value
+                <= self.options.countries_max_difficulty.value
+            ]
+        ) - (amount_of_microcountries - self.options.max_micro_countries_count)
+
+        if amount_of_possible_countries < self.options.accessible_countries_count.value:
+            raise OptionError(
+                f"Difficulty and micro country count options too restrictive for accessible country count value ({amount_of_possible_countries} < {self.options.accessible_countries_count.value})"
+            )
+
         if number_of_drawn_countries < len(common.REGION):
             max_map_amount = number_of_drawn_countries * 2 + 1
 
