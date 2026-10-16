@@ -31,14 +31,14 @@ export async function updateConnectionStatus(connectionStatus: GACConnectionStat
             globalThis.gameState = newGameState ?? new GACGameState([])
             renderGameSection()
         })
-        globalThis.gameState = await getGameState()
+        const gameState = await getGameState()
+        globalThis.gameState = gameState
+        if (gameState.url != connectionStatus.server) {
+            let usePreviousData = gameState.gameFinished ? false : confirm(browser.i18n.getMessage("usePreviousDataPopupMessage", gameState.url))
+            void browser.runtime.sendMessage(new DataConflictMessage(usePreviousData))
+        }
     }
 
-    let gameState = await storage.getItem<GACGameState>(`local:${connectionStatus.seed}-${connectionStatus.player}`)
-    if (gameState !== null && gameState.url != connectionStatus.server) {
-        let usePreviousData = gameState.gameFinished ? false : confirm(browser.i18n.getMessage("usePreviousDataPopupMessage", gameState.url))
-        void browser.runtime.sendMessage(new DataConflictMessage(usePreviousData))
-    }
 
     renderStatusComponent()
 }

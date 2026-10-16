@@ -1,7 +1,7 @@
 import { clientStatuses, Item, type ClientStatus } from "archipelago.js"
 import { apClient } from "."
-import { RoundFinishedMessage, SendSoundEffectMessage } from "../common/messages"
-import { GACGamemode, GACGameState, GACMap, SoundEffectType } from "../common/models"
+import { DataConflictMessage, RoundFinishedMessage, SendSoundEffectMessage } from "../common/messages"
+import { GACConnectionStatus, GACGamemode, GACGameState, GACMap, SoundEffectType } from "../common/models"
 import { AreaItems, AreaLocations, AreaMap, PERFECT_SCORE } from "../common/config/area-map"
 import { mapsConfig } from "../common/config/maps"
 import type { Continent, Country } from "../common/config/countries"
@@ -28,6 +28,11 @@ export async function updateGameState(roundFinishedMessage?: RoundFinishedMessag
 
 function updateMapState(areaMap: AreaMap, gameState: GACGameState) {
     let mapStatus = gameState.maps.find((map) => map.id === areaMap.mapId)!
+
+    if (mapStatus === undefined) {
+        mapStatus = new GACMap(areaMap.mapId, areaMap.mapName)
+        gameState.maps.push(mapStatus)
+    }
 
     mapStatus.locationsMissing = getLocationsMissing(areaMap)
     mapStatus.medalThresholds = areaMap.medalThresholds
@@ -110,7 +115,7 @@ function getLocationsMissing(areaMap: AreaMap): Set<AreaLocations> {
     if (apClient.room.checkedLocations.includes(areaMap.baseLocationId + AreaLocations.Gold)) {
         resultSet.delete(AreaLocations.Gold)
     }
-    if (apClient.room.checkedLocations.includes(areaMap.baseLocationId + AreaLocations.Platinum)) {
+    if (apClient.room.checkedLocations.includes(areaMap.baseLocationId + AreaLocations.Platinum) || removePlatinums) {
         resultSet.delete(AreaLocations.Platinum)
     }
     if (apClient.room.checkedLocations.includes(areaMap.baseLocationId + AreaLocations.FiveK)) {
@@ -163,7 +168,7 @@ function checkWinCondition(gameState: GACGameState) {
             apClient.goal()
         })
 
-        gameState.game_finished = true
+        gameState.gameFinished = true
     }
 }
 
