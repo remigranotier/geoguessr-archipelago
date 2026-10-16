@@ -2,6 +2,8 @@ import type { Continent, Country, World } from "./countries";
 
 export const LOCATIONS_PER_MAP = 5 // Bronze, Silver, Gold, Platinum, 5k
 export const ITEMS_PER_MAP = 4 // Unlock, Pan, Move, Zoom
+export const NUMBER_OF_ROUNDS = 5
+export const PERFECT_SCORE = 5000
 
 export enum AreaLocations {
     Bronze = 0,

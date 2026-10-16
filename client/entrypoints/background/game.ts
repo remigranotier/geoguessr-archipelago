@@ -11,6 +11,8 @@ import {
     AreaItems,
     AreaLocations,
     AreaMap,
+    NUMBER_OF_ROUNDS,
+    PERFECT_SCORE,
 } from '../common/config/area-map.ts'
 
 import { apClient } from './index.ts'
@@ -88,8 +90,8 @@ function checkRoundFinishedMessage(message: RoundFinishedMessage, areaMap: AreaM
         throw new Error("Forbidden gamemode in received game")
     }
 
-    if (message.roundCount != 5) {
-        throw new Error("Game does not have 5 rounds exactly")
+    if (message.roundCount != NUMBER_OF_ROUNDS) {
+        throw new Error(`Game does not have ${NUMBER_OF_ROUNDS} rounds exactly`)
     }
 }
 
@@ -103,7 +105,7 @@ export function handleRoundFinishedMessage(message: RoundFinishedMessage) {
     let locationsToCheck: number[] = []
 
     // Here we know the map is available to check locations
-    if (message.roundScore == 5000) {
+    if (message.roundScore == PERFECT_SCORE) {
         console.log(`Player got a 5k on map ${message.mapName}`)
         console.debug("Checking location:", areaMap.baseLocationId + AreaLocations.FiveK)
         locationsToCheck.push(areaMap.baseLocationId + AreaLocations.FiveK)
