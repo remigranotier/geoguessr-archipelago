@@ -1,4 +1,4 @@
-import { RetrieveConnectionStatusMessage } from "../../common/messages";
+import { DataConflictMessage, RetrieveConnectionStatusMessage } from "../../common/messages";
 import {
     GACConnectionStatus,
     GACGameState,
@@ -26,19 +26,6 @@ export async function updateConnectionStatus(connectionStatus: GACConnectionStat
     storage.unwatch()
     globalThis.connectionStatus = connectionStatus
 
-    let gameState = await storage.getItem<GACGameState>(`local:${connectionStatus.seed}-${connectionStatus.player}`)
-    if (gameState !== null && gameState.url != connectionStatus.server) {
-        let usePreviousData = confirm(browser.i18n.getMessage("usePreviousDataPopupMessage", gameState.url))
-        if (usePreviousData) {
-            console.debug("Updating url of previous game data")
-            gameState.url = connectionStatus.server
-        } else {
-            console.debug("Reinitializing game data")
-            gameState = new GACGameState([])
-        }
-        await storage.setItem<GACGameState>(`local:${connectionStatus.seed}-${connectionStatus.player}`, gameState)
-    }
-
     if (connectionStatus.authenticated) {
         storage.watch<GACGameState>(`local:${connectionStatus.seed}-${connectionStatus.player}`, (newGameState, _oldGameState) => {
             globalThis.gameState = newGameState ?? new GACGameState([])
@@ -46,6 +33,13 @@ export async function updateConnectionStatus(connectionStatus: GACConnectionStat
         })
         globalThis.gameState = await getGameState()
     }
+
+    let gameState = await storage.getItem<GACGameState>(`local:${connectionStatus.seed}-${connectionStatus.player}`)
+    if (gameState !== null && gameState.url != connectionStatus.server) {
+        let usePreviousData = gameState.gameFinished ? false : confirm(browser.i18n.getMessage("usePreviousDataPopupMessage", gameState.url))
+        void browser.runtime.sendMessage(new DataConflictMessage(usePreviousData))
+    }
+
     renderStatusComponent()
 }
 

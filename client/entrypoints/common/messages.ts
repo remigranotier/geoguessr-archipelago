@@ -13,6 +13,7 @@ export enum MessageType {
     SendNewLog = "SendNewLog",
     SendSoundEffect = "SendSoundEffect",
     SubmitManualId = "SubmitManualId",
+    DataConflict = "DataConflict"
 }
 
 export class ServerConnectMessage {
@@ -110,6 +111,13 @@ export class SubmitManualIdMessage {
 
     constructor(public id: string) { }
 }
+
+export class DataConflictMessage {
+    type: MessageType = MessageType.DataConflict
+
+    constructor(public usePreviousData: boolean) { }
+}
+
 export class KeepAliveMessage {
     type: MessageType = MessageType.KeepAlive
 }

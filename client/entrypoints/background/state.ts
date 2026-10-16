@@ -192,3 +192,20 @@ export async function getGameState(): Promise<GACGameState> {
 export async function setGameState(gameState: GACGameState) {
     await storage.setItem(`local:${apClient.room.seedName}-${apClient.name}`, gameState)
 }
+
+export async function handleDataConflict(message: DataConflictMessage) {
+    let gameState = await getGameState()
+
+    let serverConnection = new GACConnectionStatus()
+
+    console.debug("Replacing URL with new server")
+    if (message.usePreviousData) {
+        gameState.url = serverConnection.server
+    } else {
+        console.debug("Resetting maps content")
+        gameState = new GACGameState(mapsConfig.map((areaMap) => new GACMap(areaMap.mapId, areaMap.mapName)))
+    }
+
+    await setGameState(gameState)
+    void updateGameState()
+}

@@ -11,7 +11,7 @@ import { DataConflictMessage, GenerateGameMessage, MessageType, RoundFinishedMes
 import { handleRetrieveLogsMessage, renderNodes } from "./ap-logs";
 import { sendQuestionableTip, sendSpecialTip } from "./tips";
 import { handleSubmitManualId } from "./manual-submit";
-import { updateGameState } from "./state";
+import { handleDataConflict, updateGameState } from "./state";
 
 export const apClient = new Client();
 declare global {
@@ -126,6 +126,17 @@ function messageListener(message: GACMessage, sender: Browser.runtime.MessageSen
           })
         });
         return true;
+      }
+
+    case MessageType.DataConflict:
+      {
+        const dataConflictMessage = message as DataConflictMessage;
+        void handleDataConflict(dataConflictMessage)
+        sendResponse({
+          success: true,
+          data: {}
+        })
+        return false;
       }
 
     default:
