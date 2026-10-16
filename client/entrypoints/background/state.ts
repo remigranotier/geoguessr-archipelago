@@ -99,6 +99,8 @@ function getLocationsMissing(areaMap: AreaMap): Set<AreaLocations> {
         AreaLocations.Platinum,
         AreaLocations.FiveK,
     ]);
+
+    const removePlatinums = globalThis.gameConfigData ? !globalThis.gameConfigData.include_platinums : false
     if (apClient.room.checkedLocations.includes(areaMap.baseLocationId + AreaLocations.Bronze)) {
         resultSet.delete(AreaLocations.Bronze)
     }
@@ -126,7 +128,7 @@ function checkWinCondition(gameState: GACGameState) {
         case 0: //medal count
             {
                 const medalCount = gameState.maps.reduce(
-                    (count, map) => count + map.getMedalAmount(),
+                    (count, map) => count + getMedalAmount(map),
                     0
                 );
                 hasWon = medalCount >= (globalThis.gameConfigData.medal_count as number)
@@ -163,6 +165,12 @@ function checkWinCondition(gameState: GACGameState) {
 
         gameState.game_finished = true
     }
+}
+
+function getMedalAmount(map: GACMap) {
+    return Object.entries(map.medalThresholds)
+        .filter(([medal, threshold]) => medal != GACMedal.None.toString() && map.progression.bestScore >= threshold)
+        .length
 }
 
 export function updateMapProgression(message: RoundFinishedMessage, gameState: GACGameState) {

@@ -52,7 +52,7 @@ function renderMapRow(map: GACMap): HTMLTableRowElement | null {
     const areaName = currentAreaMap?.areaName ?? map.name
     mapNameCell.textContent = areaName + ((map.unlocked && !map.playable) ? " (continent locked)" : "");
     mapNameCell.title = map.name;
-    if (map.playable && map.progression.bestScore < map.medalThresholds[GACMedal.Platinum]) {
+    if (map.playable && !isMapFinished(map)) {
         mapNameCell.classList.add("activeLink")
         mapNameCell.onclick = (_: PointerEvent) => {
             const generateGameMessage = new GenerateGameMessage(map.id)
@@ -189,5 +189,13 @@ function getColorFromDifficulty(map: GACMap): string {
             }
         default:
             return DONE_COLOR
+    }
+}
+
+function isMapFinished(map: GACMap) {
+    if (globalThis.gameState.configData.include_platinums) {
+        return map.progression.bestScore >= map.medalThresholds[GACMedal.Platinum] && map.progression.fivekDone
+    } else {
+        return map.progression.bestScore >= map.medalThresholds[GACMedal.Gold] && map.progression.fivekDone
     }
 }

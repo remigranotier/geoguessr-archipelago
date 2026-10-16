@@ -40,39 +40,19 @@ export class GACMap {
         public locationsMissing: Set<AreaLocations> = new Set(),
         public medalThresholds: Record<GACMedal, number> = defaultMedalThresholds
     ) { }
-
-    public getMedalAmount() {
-        return Object.entries(this.medalThresholds)
-            .filter(([medal, threshold]) => medal != GACMedal.None.toString() && this.progression.bestScore >= threshold)
-            .length
-    }
-
-    public getBestMedal() {
-        const score = this.progression.bestScore
-        switch (true) {
-            case score < this.medalThresholds[GACMedal.Bronze]:
-                return GACMedal.None
-            case score < this.medalThresholds[GACMedal.Silver]:
-                return GACMedal.Bronze
-            case score < this.medalThresholds[GACMedal.Gold]:
-                return GACMedal.Silver
-            case score < this.medalThresholds[GACMedal.Platinum]:
-                return GACMedal.Gold
-            default:
-                return GACMedal.Platinum
-        }
-    }
 }
 
 export class GACGameState {
     maps: GACMap[];
     url: string;
-    game_finished: boolean;
+    gameFinished: boolean;
+    configData: Record<string, unknown>;
 
     constructor(maps: GACMap[]) {
         this.maps = maps
         this.url = apClient.socket.url
-        this.game_finished = false;
+        this.gameFinished = false;
+        this.configData = globalThis.gameConfigData
     }
 }
 
