@@ -3,7 +3,7 @@ import './style.css';
 import { GACConnectionStatus, GACGameState, type GACResponse } from '../common/models.ts'
 import { sendConnectionOptions, sendDisconnectCommand, setCredentialsFromLastSend } from './connection-form.ts';
 import { getConnectionStatus, renderStatusComponent } from './ui/status.ts';
-import { MessageType, SendNewLogMessage, SendSoundEffectMessage, type GACMessage } from '../common/messages.ts';
+import { KeepAliveMessage, MessageType, SendNewLogMessage, SendSoundEffectMessage, type GACMessage } from '../common/messages.ts';
 import { handleNewLogMessage, initLogs } from './ui/message-log.ts';
 import { initVolumeBar, playSoundEffect } from './ui/sound-effect.ts';
 import { resolveI18n } from '../common/i18n.ts';
@@ -55,5 +55,5 @@ document.addEventListener("DOMContentLoaded", resolveI18n);
 
 // Keep service worker alive as long as client-tab is open
 setInterval(() => {
-  void getConnectionStatus()
+  void browser.runtime.sendMessage(new KeepAliveMessage())
 }, 20000)

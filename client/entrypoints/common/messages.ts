@@ -1,8 +1,8 @@
-import { GACGamemode, type GACGameState, type GACGameType, type GeoguessrGameStatus, type SoundEffectType } from "./models";
+import { GACGamemode, type GACGameType, type GeoguessrGameStatus, type SoundEffectType } from "./models";
 import { gamemodeFromData } from "./utils";
 
 export enum MessageType {
-    Default = "Default",
+    KeepAlive = "KeepAlive",
     ServerConnect = "ServerConnect",
     ServerDisconnect = "ServerDisconnect",
     RetrieveConnectionStatus = "RetrieveConnectionStatus",
@@ -109,6 +109,9 @@ export class SubmitManualIdMessage {
     type: MessageType = MessageType.SubmitManualId;
 
     constructor(public id: string) { }
+}
+export class KeepAliveMessage {
+    type: MessageType = MessageType.KeepAlive
 }
 
 

@@ -7,7 +7,7 @@ import {
 } from "../common/models";
 import { getServerConnection, handleServerConnectMessage, handleServerDisconnectMessage } from "./connect";
 import { handleRoundFinishedMessage, handleGenerateGameMessage } from "./game";
-import { GenerateGameMessage, MessageType, RoundFinishedMessage, SendNewLogMessage, SendSoundEffectMessage, SubmitManualIdMessage, type GACMessage, type ServerConnectMessage } from "../common/messages";
+import { DataConflictMessage, GenerateGameMessage, MessageType, RoundFinishedMessage, SendNewLogMessage, SendSoundEffectMessage, SubmitManualIdMessage, type GACMessage, type ServerConnectMessage } from "../common/messages";
 import { handleRetrieveLogsMessage, renderNodes } from "./ap-logs";
 import { sendQuestionableTip, sendSpecialTip } from "./tips";
 import { handleSubmitManualId } from "./manual-submit";
@@ -20,6 +20,14 @@ declare global {
 
 function messageListener(message: GACMessage, sender: Browser.runtime.MessageSender, sendResponse: (response: GACResponse) => void) {
   switch (message.type) {
+    case MessageType.KeepAlive:
+      {
+        sendResponse({
+          success: true,
+          data: {}
+        })
+        return false;
+      }
     case MessageType.ServerConnect:
       {
         const serverConnectMessage = message as ServerConnectMessage;
