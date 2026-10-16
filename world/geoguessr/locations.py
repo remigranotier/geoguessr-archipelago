@@ -38,11 +38,19 @@ def create_regular_locations(world: GeoguessrWorld) -> None:
                 loc_name
                 for loc_name, loc_id in location_name_to_id.items()
                 if loc_name.startswith(f"{country.region.value} -")
+                and (
+                    bool(world.options.include_platinums.value)
+                    or "Platinum Medal" not in loc_name
+                )
             ]
         region_location_ids[country.region] += [
             loc_name
             for loc_name, loc_id in location_name_to_id.items()
             if loc_name.startswith(f"{country.name} -")
+            and (
+                bool(world.options.include_platinums.value)
+                or "Platinum Medal" not in loc_name
+            )
         ]
 
     world_region = world.get_region(common.WORLD_REGION)
@@ -51,6 +59,10 @@ def create_regular_locations(world: GeoguessrWorld) -> None:
             loc_name
             for loc_name, loc_id in location_name_to_id.items()
             if loc_name.startswith(f"{common.WORLD_REGION} -")
+            and (
+                bool(world.options.include_platinums.value)
+                or "Platinum Medal" not in loc_name
+            )
         ]
     )
     print("World locations:", world_locations)
@@ -72,13 +84,16 @@ def generate_locations() -> dict[str:int]:
 
     # Generate country + region locations
     region_country_names = {}
+
     for country in common.COUNTRIES.values():
         if country.region not in region_country_names:
             for check_index, check_type in enumerate(common.LOCATION_TYPES):
                 loc_name = f"{country.region.value} - {check_type}"
                 loc_id = common.REGION_BASE_IDS[country.region] + check_index
                 location_name_to_id[loc_name] = loc_id
+
             region_country_names[country.region] = []
+
         for check_index, check_type in enumerate(common.LOCATION_TYPES):
             loc_name = f"{country.name} - {check_type}"
             loc_id = (
@@ -96,7 +111,7 @@ def generate_locations() -> dict[str:int]:
 def create_events(world: GeoguessrWorld) -> None:
     world_region_name = common.WORLD_REGION
     world_region = world.get_region(world_region_name)
-    add_map_events(world_region_name, world_region)
+    add_map_events(world, world_region_name, world_region)
 
     for region in common.REGION:
         region_country_names = [
@@ -108,13 +123,13 @@ def create_events(world: GeoguessrWorld) -> None:
             continue
 
         it_region = world.get_region(region.value)
-        add_map_events(region.value, it_region)
+        add_map_events(world, region.value, it_region)
 
         for country in region_country_names:
-            add_map_events(country, it_region)
+            add_map_events(world, country, it_region)
 
 
-def add_map_events(map_name, region):
+def add_map_events(world, map_name, region):
     region.add_event(
         f"{map_name} - Platinum Event",
         f"{map_name} - Platinum Obtained Event Item",
@@ -123,6 +138,9 @@ def add_map_events(map_name, region):
     )
 
     for check_type in common.LOCATION_TYPES:
+        if not world.options.include_platinums.value and "Platinum" in check_type:
+            continue
+
         if "Medal" in check_type:
             region.add_event(
                 f"{map_name} - {check_type} Event",

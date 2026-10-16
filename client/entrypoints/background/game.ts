@@ -118,7 +118,7 @@ export function handleRoundFinishedMessage(message: RoundFinishedMessage) {
     if (message.totalScore >= medalThresholds[GACMedal.Gold]) {
         locationsToCheck.push(areaMap.baseLocationId + AreaLocations.Gold)
     }
-    if (message.totalScore >= medalThresholds[GACMedal.Platinum]) {
+    if (message.totalScore >= medalThresholds[GACMedal.Platinum] && globalThis.gameConfigData.include_platinums) {
         locationsToCheck.push(areaMap.baseLocationId + AreaLocations.Platinum)
     }
 
