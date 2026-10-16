@@ -66,7 +66,7 @@ function renderMapRow(map: GACMap): HTMLTableRowElement | null {
     const moveCell: HTMLTableCellElement = document.createElement("td")
     const panCell: HTMLTableCellElement = document.createElement("td")
     const zoomCell: HTMLTableCellElement = document.createElement("td")
-    const achievementsCell: HTMLTableCellElement = document.createElement("td")
+    const progressionCell: HTMLTableCellElement = document.createElement("td")
     const locationsRemainingCell: HTMLTableCellElement = document.createElement("td")
 
     const currentGamemode: GACGamemode = map.gamemode;
@@ -97,9 +97,9 @@ function renderMapRow(map: GACMap): HTMLTableRowElement | null {
     zoomCell.style.cursor = "default"
 
     const gameTypeInLink = map.progression.gameType == GACGameType.Challenge ? "results" : "game"
-    achievementsCell.innerHTML = map.progression.bestSeed != "" ?
-        `<a target="_blank" style="text-decoration: none;" href="https://geoguessr.com/${gameTypeInLink}/${map.progression.bestSeed}">${getAchievementsText(map)}</a>` :
-        `<span style="cursor: default">${getAchievementsText(map)}</span>`
+    progressionCell.innerHTML = map.progression.bestSeed != "" ?
+        `<a target="_blank" style="text-decoration: none;" href="https://geoguessr.com/${gameTypeInLink}/${map.progression.bestSeed}">${getProgressionText(map)}</a>` :
+        `<span style="cursor: default">${getProgressionText(map)}</span>`
 
     locationsRemainingCell.innerHTML = getRemainingLocations(map)
 
@@ -107,7 +107,7 @@ function renderMapRow(map: GACMap): HTMLTableRowElement | null {
     row.appendChild(moveCell)
     row.appendChild(panCell)
     row.appendChild(zoomCell)
-    row.appendChild(achievementsCell)
+    row.appendChild(progressionCell)
     row.appendChild(locationsRemainingCell)
 
     row.style.backgroundColor = getColorFromDifficulty(map)
@@ -158,7 +158,7 @@ function getAreaLocationThreshold(map: GACMap, currentLocation: AreaLocations) {
     }
 }
 
-function getAchievementsText(map: GACMap) {
+function getProgressionText(map: GACMap) {
     const score = map.progression.bestScore
     const scorePart = score > 0 ? `(${score})` : ""
     const fivekPart = map.progression.fivekDone ? ` [5k]` : ""
