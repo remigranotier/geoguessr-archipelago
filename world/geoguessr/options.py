@@ -124,22 +124,18 @@ def check_options(world):
             "Options specify platinum count as victory condition but also removes platinum medals from locations"
         )
 
-    amount_of_microcountries = len(
-        [
-            country
-            for country in common.COUNTRIES.values()
-            if country.difficulty == common.Difficulty.MicroCountry
-        ]
+    amount_of_possible_countries = (
+        len(
+            [
+                country
+                for country in common.COUNTRIES.values()
+                if country.difficulty.value
+                <= world.options.countries_max_difficulty.value + 1
+                and country.difficulty.value > common.Difficulty.MicroCountry
+            ]
+        )
+        + world.options.max_micro_countries_count
     )
-
-    amount_of_possible_countries = len(
-        [
-            country
-            for country in common.COUNTRIES.values()
-            if country.difficulty.value
-            <= world.options.countries_max_difficulty.value + 1
-        ]
-    ) - (amount_of_microcountries - world.options.max_micro_countries_count)
 
     if amount_of_possible_countries < world.options.accessible_countries_count.value:
         raise OptionError(

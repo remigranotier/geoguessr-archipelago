@@ -37,7 +37,9 @@ def draw_countries(world):
                 )
 
         case 1:  # plat count
-            min_accessible_plat = world.options.accessible_countries_count.value + 2
+            # minimal amount of platinums is one per country + world + at least one region
+            min_accessible_plat = world.options.accessible_countries_count.value + 1 + 1
+
             if world.options.plat_count.value > min_accessible_plat:
                 necessary_region_amount = (
                     world.options.plat_count.value - min_accessible_plat + 1
