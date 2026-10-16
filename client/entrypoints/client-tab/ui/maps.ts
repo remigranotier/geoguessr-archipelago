@@ -129,7 +129,7 @@ function getBestMedal(map: GACMap) {
             return GACMedal.Bronze
         case score < map.medalThresholds[GACMedal.Gold]:
             return GACMedal.Silver
-        case score < map.medalThresholds[GACMedal.Platinum]:
+        case !globalThis.gameState.configData.include_platinums || score < map.medalThresholds[GACMedal.Platinum]:
             return GACMedal.Gold
         default:
             return GACMedal.Platinum
