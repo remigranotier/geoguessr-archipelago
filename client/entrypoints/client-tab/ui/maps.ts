@@ -1,6 +1,8 @@
+import { GACMedal } from "../../common/config/medals";
 import { mapsConfig } from "../../common/config/maps";
 import { GenerateGameMessage } from "../../common/messages";
-import { GACGamemode, GACGameType, GACMap, GACMedal } from "../../common/models";
+import { GACGamemode, GACGameType, GACMap } from "../../common/models";
+import { AreaLocations } from "@/entrypoints/common/config/area-map";
 
 const DEFAULT_COLOR = "rgb(36, 36, 36)"
 const POSSIBLE_COLOR = "rgba(0, 255, 0, 0.2)"
@@ -41,16 +43,16 @@ function renderMapRow(map: GACMap): HTMLTableRowElement | null {
     const moveCell: HTMLTableCellElement = document.createElement("td")
     const panCell: HTMLTableCellElement = document.createElement("td")
     const zoomCell: HTMLTableCellElement = document.createElement("td")
-    const bestMedalCell: HTMLTableCellElement = document.createElement("td")
-    const fivekCell: HTMLTableCellElement = document.createElement("td")
+    const achievementsCell: HTMLTableCellElement = document.createElement("td")
+    const locationsRemainingCell: HTMLTableCellElement = document.createElement("td")
 
     const currentGamemode: GACGamemode = map.gamemode;
 
     const currentAreaMap = mapsConfig.find((areaMap) => areaMap.mapId === map.id)
     const areaName = currentAreaMap?.areaName ?? map.name
-    mapNameCell.textContent = areaName;
+    mapNameCell.textContent = areaName + ((map.unlocked && !map.playable) ? " (continent locked)" : "");
     mapNameCell.title = map.name;
-    if (map.playable && map.bestMedal != GACMedal.Platinum) {
+    if (map.playable && !isMapFinished(map)) {
         mapNameCell.classList.add("activeLink")
         mapNameCell.onclick = (_: PointerEvent) => {
             const generateGameMessage = new GenerateGameMessage(map.id)
@@ -60,7 +62,7 @@ function renderMapRow(map: GACMap): HTMLTableRowElement | null {
                 }
             })
         }
-    } else {
+    } else if (!map.unlocked) {
         mapNameCell.classList.add("inactiveLink")
     }
 
@@ -68,27 +70,76 @@ function renderMapRow(map: GACMap): HTMLTableRowElement | null {
     panCell.textContent = currentGamemode & GACGamemode.Pan ? "✔️" : "❌"
     zoomCell.textContent = currentGamemode & GACGamemode.Zoom ? "✔️" : "❌"
 
-    const gameTypeInLink = map.gameType == GACGameType.Challenge ? "results" : "game"
-    bestMedalCell.innerHTML = map.bestSeed != "" ?
-        `<a target="_blank" style="text-decoration: none;" href="https://geoguessr.com/${gameTypeInLink}/${map.bestSeed}">${getMedalText(map.bestMedal)}</a>` :
-        getMedalText(map.bestMedal)
+    const gameTypeInLink = map.progression.gameType == GACGameType.Challenge ? "results" : "game"
+    achievementsCell.innerHTML = map.progression.bestSeed != "" ?
+        `<a target="_blank" style="text-decoration: none;" href="https://geoguessr.com/${gameTypeInLink}/${map.progression.bestSeed}">${getAchievementsText(map)}</a>` :
+        getAchievementsText(map)
 
-    fivekCell.textContent = map.fivekDone ? "✔️" : "❌"
+    locationsRemainingCell.innerHTML = getRemainingLocations(map)
 
     row.appendChild(mapNameCell)
     row.appendChild(moveCell)
     row.appendChild(panCell)
     row.appendChild(zoomCell)
-    row.appendChild(bestMedalCell)
-    row.appendChild(fivekCell)
+    row.appendChild(achievementsCell)
+    row.appendChild(locationsRemainingCell)
 
     row.style.backgroundColor = getColorFromDifficulty(map)
 
     return row
 }
 
+function getRemainingLocations(map: GACMap): string {
+    let result = ""
+    for (const location of map.locationsMissing) {
+        result += getAreaLocationString(location)
+    }
+    return result
+}
+
+function getAreaLocationString(location: AreaLocations) {
+    switch (location) {
+        case AreaLocations.Bronze:
+            return "🥉"
+        case AreaLocations.Silver:
+            return "🥈"
+        case AreaLocations.Gold:
+            return "🥇"
+        case AreaLocations.Platinum:
+            return "🎯"
+        case AreaLocations.FiveK:
+            return "[5k]"
+    }
+}
+
+function getAchievementsText(map: GACMap) {
+    const score = map.progression.bestScore
+    const scorePart = score > 0 ? `(${score})` : ""
+    const fivekPart = map.progression.fivekDone ? ` [5k]` : ""
+    const bestMedal = getBestMedal(map)
+    return `${getMedalText(bestMedal)}${scorePart}${fivekPart}`
+}
+
+function getBestMedal(map: GACMap) {
+    const score = map.progression.bestScore
+    switch (true) {
+        case score < map.medalThresholds[GACMedal.Bronze]:
+            return GACMedal.None
+        case score < map.medalThresholds[GACMedal.Silver]:
+            return GACMedal.Bronze
+        case score < map.medalThresholds[GACMedal.Gold]:
+            return GACMedal.Silver
+        case score < map.medalThresholds[GACMedal.Platinum]:
+            return GACMedal.Gold
+        default:
+            return GACMedal.Platinum
+    }
+}
+
 function getMedalText(medal: GACMedal) {
     switch (medal) {
+        case GACMedal.None:
+            return "❌"
         case GACMedal.Bronze:
             return "🥉"
         case GACMedal.Silver:
@@ -97,8 +148,6 @@ function getMedalText(medal: GACMedal) {
             return "🥇"
         case GACMedal.Platinum:
             return "🎯"
-        case GACMedal.None:
-            return "❌"
     }
 }
 
@@ -107,20 +156,20 @@ function getColorFromDifficulty(map: GACMap): string {
     const hasPan = map.gamemode & GACGamemode.Pan
     const hasZoom = map.gamemode & GACGamemode.Zoom
 
-    if (!map.unlocked) {
+    if (!map.playable) {
         return DEFAULT_COLOR
     }
 
-    switch (map.bestMedal) {
-        case GACMedal.None:
+    switch (true) {
+        case map.progression.bestScore < map.medalThresholds[GACMedal.Bronze]:
             return POSSIBLE_COLOR
-        case GACMedal.Bronze:
+        case map.progression.bestScore < map.medalThresholds[GACMedal.Silver]:
             if (hasMove || hasPan) {
                 return POSSIBLE_COLOR
             } else {
                 return TRICKY_COLOR
             }
-        case GACMedal.Silver:
+        case map.progression.bestScore < map.medalThresholds[GACMedal.Gold]:
             if (hasMove && hasPan) {
                 return POSSIBLE_COLOR
             } else if (hasMove) {
@@ -128,17 +177,25 @@ function getColorFromDifficulty(map: GACMap): string {
             } else {
                 return IMPOSSIBLE_COLOR
             }
-        case GACMedal.Gold:
+        case map.progression.bestScore < map.medalThresholds[GACMedal.Platinum]:
             if (hasMove && hasPan && hasZoom) {
                 return POSSIBLE_COLOR
             } else if (hasMove && hasPan) {
-                return map.fivekDone ? TRICKY_COLOR : POSSIBLE_COLOR
+                return map.progression.fivekDone ? TRICKY_COLOR : POSSIBLE_COLOR
             } else if (hasMove) {
-                return map.fivekDone ? IMPOSSIBLE_COLOR : TRICKY_COLOR
+                return map.progression.fivekDone ? IMPOSSIBLE_COLOR : TRICKY_COLOR
             } else {
                 return IMPOSSIBLE_COLOR
             }
-        case GACMedal.Platinum:
+        default:
             return DONE_COLOR
+    }
+}
+
+function isMapFinished(map: GACMap) {
+    if (globalThis.gameState.configData.include_platinums) {
+        return map.progression.bestScore >= map.medalThresholds[GACMedal.Platinum] && map.progression.fivekDone
+    } else {
+        return map.progression.bestScore >= map.medalThresholds[GACMedal.Gold] && map.progression.fivekDone
     }
 }
