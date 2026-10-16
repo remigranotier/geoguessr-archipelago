@@ -56,4 +56,5 @@ class GeoguessrWorld(World):
             "plat_count",
             "accessible_countries_count",
             "max_micro_countries_count",
+            "include_platinums",
         )
