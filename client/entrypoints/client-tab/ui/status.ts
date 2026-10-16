@@ -34,8 +34,8 @@ export async function updateConnectionStatus(connectionStatus: GACConnectionStat
         const gameState = await getGameState()
         globalThis.gameState = gameState
         if (gameState.url != connectionStatus.server) {
-            let usePreviousData = gameState.gameFinished ? false : confirm(browser.i18n.getMessage("usePreviousDataPopupMessage", gameState.url))
-            void browser.runtime.sendMessage(new DataConflictMessage(usePreviousData))
+            let clearPreviousData = gameState.gameFinished ? false : confirm(browser.i18n.getMessage("clearPreviousDataPopupMessage", gameState.url))
+            void browser.runtime.sendMessage(new DataConflictMessage(clearPreviousData))
         }
     }
 

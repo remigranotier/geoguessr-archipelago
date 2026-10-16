@@ -212,11 +212,11 @@ export async function handleDataConflict(message: DataConflictMessage) {
     let serverConnection = new GACConnectionStatus()
 
     console.debug("Replacing URL with new server")
-    if (message.usePreviousData) {
-        gameState.url = serverConnection.server
-    } else {
+    if (message.clearPreviousData) {
         console.debug("Resetting maps content")
         gameState = new GACGameState(mapsConfig.map((areaMap) => new GACMap(areaMap.mapId, areaMap.mapName)))
+    } else {
+        gameState.url = serverConnection.server
     }
 
     await setGameState(gameState)

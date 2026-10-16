@@ -115,7 +115,7 @@ export class SubmitManualIdMessage {
 export class DataConflictMessage {
     type: MessageType = MessageType.DataConflict
 
-    constructor(public usePreviousData: boolean) { }
+    constructor(public clearPreviousData: boolean) { }
 }
 
 export class KeepAliveMessage {

@@ -105,8 +105,8 @@
     "errorManualSubmit": {
         "message": "Error during manual submit"
     },
-    "usePreviousDataPopupMessage": {
-        "message": "Game save has been found with the same Archipelago seed and player, but with a different server url ($PREVIOUS_URL$). Use this previous save data now?",
+    "clearPreviousDataPopupMessage": {
+        "message": "Game save has been found with the same Archipelago seed and player, but with a different server url ($PREVIOUS_URL$). Clear this previous save data?",
         "placeholders": {
             "previous_url": {
                 "content": "$1",
