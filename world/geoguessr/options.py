@@ -86,7 +86,7 @@ class CountriesDifficultyLevel(Choice):
     A setting determining the maximum difficulty a drawn country can have
     """
 
-    display_name = "Countries Difficulty Level"
+    display_name = "Countries max difficulty level"
 
     option_easy = 0
     option_medium = 1
@@ -124,9 +124,6 @@ def check_options(world):
             "Options specify platinum count as victory condition but also removes platinum medals from locations"
         )
 
-    number_of_drawn_countries = world.options.accessible_countries_count.value
-    max_map_amount = number_of_drawn_countries + len(common.REGION) + 1
-
     amount_of_microcountries = len(
         [
             country
@@ -149,8 +146,12 @@ def check_options(world):
             f"Difficulty and micro country count options too restrictive for accessible country count value ({amount_of_possible_countries} < {world.options.accessible_countries_count.value})"
         )
 
+    number_of_drawn_countries = world.options.accessible_countries_count.value
+
     if number_of_drawn_countries < len(common.REGION):
         max_map_amount = number_of_drawn_countries * 2 + 1
+    else:
+        max_map_amount = number_of_drawn_countries + len(common.REGION) + 1
 
     match world.options.victory_condition:
         case 0:  # Medals count
@@ -160,9 +161,12 @@ def check_options(world):
                         location
                         for location in common.LOCATION_TYPES
                         if "Medal" in location
+                        and (
+                            world.options.include_platinums.value
+                            or "Platinum" not in location
+                        )
                     ]
                 )
-                - int(not world.options.include_platinums.value)
             ) * max_map_amount
 
             if world.options.medal_count > medal_amount:

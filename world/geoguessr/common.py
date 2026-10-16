@@ -144,7 +144,7 @@ class COUNTRIES(Enum):
     Eswatini = Country("Eswatini", REGION.Africa, Difficulty.Easy)
     Ghana = Country("Ghana", REGION.Africa, Difficulty.Easy)
     Kenya = Country("Kenya", REGION.Africa, Difficulty.Hard)
-    Lesotho = Country("Lesotho", REGION.Africa, Difficulty.Easy)
+    Lesotho = Country("Lesotho", REGION.Africa, Difficulty.Medium)
     Namibia = Country("Namibia", REGION.Africa, Difficulty.Hard)
     Nigeria = Country("Nigeria", REGION.Africa, Difficulty.Medium)
     Rwanda = Country("Rwanda", REGION.Africa, Difficulty.Medium)
