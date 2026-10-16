@@ -156,8 +156,6 @@ form {
 }
 
 .inactiveLink {
-  pointer-events: none;
-  cursor: default;
   color: white;
   text-decoration: line-through;
 }
