@@ -131,7 +131,7 @@ def check_options(world):
                 for country in common.COUNTRIES.values()
                 if country.difficulty.value
                 <= world.options.countries_max_difficulty.value + 1
-                and country.difficulty.value > common.Difficulty.MicroCountry
+                and country.difficulty.value > common.Difficulty.MicroCountry.value
             ]
         )
         + world.options.max_micro_countries_count
