@@ -1,12 +1,10 @@
-import { GACGamemode, type GACGameState, type GACGameType, type GeoguessrGameStatus, type SoundEffectType } from "./models";
+import { GACGamemode, type GACGameType, type GeoguessrGameStatus, type SoundEffectType } from "./models";
 import { gamemodeFromData } from "./utils";
 
 export enum MessageType {
-    Default = "Default",
+    KeepAlive = "KeepAlive",
     ServerConnect = "ServerConnect",
     ServerDisconnect = "ServerDisconnect",
-    RetrieveGameState = "RetrieveGameState",
-    SendGameState = "SendGameState",
     RetrieveConnectionStatus = "RetrieveConnectionStatus",
     GenerateGame = "GenerateGame",
     RoundFinished = "RoundFinished",
@@ -15,6 +13,7 @@ export enum MessageType {
     SendNewLog = "SendNewLog",
     SendSoundEffect = "SendSoundEffect",
     SubmitManualId = "SubmitManualId",
+    DataConflict = "DataConflict"
 }
 
 export class ServerConnectMessage {
@@ -36,18 +35,6 @@ export class ServerDisconnectMessage {
 
 export class RetrieveConnectionStatusMessage {
     type: MessageType = MessageType.RetrieveConnectionStatus;
-}
-
-export class RetrieveGameStateMessage {
-    type: MessageType = MessageType.RetrieveGameState;
-}
-
-export class SendGameStateMessage {
-    type: MessageType = MessageType.SendGameState;
-
-    constructor(
-        public gameState: GACGameState
-    ) { }
 }
 
 export class GenerateGameMessage {
@@ -123,6 +110,16 @@ export class SubmitManualIdMessage {
     type: MessageType = MessageType.SubmitManualId;
 
     constructor(public id: string) { }
+}
+
+export class DataConflictMessage {
+    type: MessageType = MessageType.DataConflict
+
+    constructor(public clearPreviousData: boolean) { }
+}
+
+export class KeepAliveMessage {
+    type: MessageType = MessageType.KeepAlive
 }
 
 

@@ -1,3 +1,4 @@
+import { PERFECT_SCORE } from "../common/config/area-map";
 import { RoundFinishedMessage, type SubmitManualIdMessage } from "../common/messages";
 import { GACGameType, GeoguessrGameStatus } from "../common/models";
 import { gamemodeFromData } from "../common/utils";
@@ -18,7 +19,7 @@ export async function handleSubmitManualId(message: SubmitManualIdMessage) {
     if (gamesResponse.ok) {
         const data = await gamesResponse.json()
         const guesses: any[] = data["player"]["guesses"]
-        const isFiveK = guesses.some((guess) => (guess["roundScoreInPoints"] as number) == 5000)
+        const isFiveK = guesses.some((guess) => (guess["roundScoreInPoints"] as number) == PERFECT_SCORE)
         const roundFinishedMessage = new RoundFinishedMessage(
             GeoguessrGameStatus.FINISHED,
             message.id,
@@ -26,7 +27,7 @@ export async function handleSubmitManualId(message: SubmitManualIdMessage) {
             gamemodeFromData(data),
             data["map"],
             data["mapName"],
-            isFiveK ? 5000 : 0,
+            isFiveK ? PERFECT_SCORE : 0,
             data["roundCount"],
             data["player"]["totalScoreInPoints"]
         )
@@ -44,7 +45,7 @@ export async function handleSubmitManualId(message: SubmitManualIdMessage) {
         const data = await challengesResponse.json()
         const game = data["items"][0]["game"]
         const guesses: any[] = game["player"]["guesses"]
-        const isFiveK = guesses.some((guess) => (guess["roundScoreInPoints"] as number) == 5000)
+        const isFiveK = guesses.some((guess) => (guess["roundScoreInPoints"] as number) == PERFECT_SCORE)
         const roundFinishedMessage = new RoundFinishedMessage(
             GeoguessrGameStatus.FINISHED,
             message.id,
@@ -52,7 +53,7 @@ export async function handleSubmitManualId(message: SubmitManualIdMessage) {
             gamemodeFromData(game),
             game["map"],
             game["mapName"],
-            isFiveK ? 5000 : 0,
+            isFiveK ? PERFECT_SCORE : 0,
             game["roundCount"],
             game["player"]["totalScoreInPoints"]
         )
