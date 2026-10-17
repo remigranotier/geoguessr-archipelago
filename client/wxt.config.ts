@@ -7,7 +7,8 @@ export default defineConfig({
         permissions: [
             "storage",
             "tabs",
-            "notifications"
+            "notifications",
+            "unlimitedStorage"
         ],
         browser_specific_settings: {
             gecko: {

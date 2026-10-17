@@ -1,12 +1,10 @@
 import {
     GACConnectionStatus,
-    GACGameState,
     StatusSpecialMode,
     type GACResponse
 } from "../common/models";
 import { storage } from '@wxt-dev/storage';
-import { renderStatusComponent } from "./ui/status";
-import { setInternalGameState } from "./game-state";
+import { renderStatusComponent, updateConnectionStatus } from "./ui/status";
 import { ServerConnectMessage, ServerDisconnectMessage } from "../common/messages";
 
 type ConnectionCredentials = {
@@ -41,12 +39,10 @@ export async function sendConnectionOptions(e: Event) {
     const connectionResponse: GACResponse = await browser.runtime.sendMessage(connectMessage);
     if (connectionResponse.success) {
         console.log("Connection success")
-        let { slotData, connectionStatus, gameState }: { slotData: any, connectionStatus: GACConnectionStatus, gameState: GACGameState } = connectionResponse.data
+        let { slotData, connectionStatus }: { slotData: any, connectionStatus: GACConnectionStatus } = connectionResponse.data
         console.debug("Slot data received is:", slotData)
         console.debug("Connection status received is:", connectionStatus)
-        globalThis.connectionStatus = connectionStatus
-        setInternalGameState(gameState)
-        renderStatusComponent()
+        void updateConnectionStatus(connectionStatus)
     } else {
         console.error("Error while connecting:", connectionResponse.error)
         renderStatusComponent(StatusSpecialMode.Failed)

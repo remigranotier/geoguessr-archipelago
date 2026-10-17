@@ -63,11 +63,11 @@
     "gamemodesColumn": {
         "message": "Modes de jeu"
     },
-    "bestMedalColumn": {
-        "message": "Meilleure médaille"
+    "progressionColumn": {
+        "message": "Progression"
     },
-    "fivekDoneColumn": {
-        "message": "5k fait"
+    "locationsRemainingColumn": {
+        "message": "Envois restants"
     },
     "gamemodeMove": {
         "message": "Move"
@@ -104,5 +104,20 @@
     },
     "errorManualSubmit": {
         "message": "Erreur pendant l'envoi manuel"
+    },
+    "clearPreviousDataPopupMessage": {
+        "message": "Une sauvegarde a été trouvée depuis la même game Archipelago mais sur un serveur différent ($PREVIOUS_URL$). Supprimer cette ancienne sauvegarde maintenant ?",
+        "placeholders": {
+            "previous_url": {
+                "content": "$1",
+                "example": "wss://archipelago.gg:33333"
+            }
+        }
+    },
+    "goalTrackerLabel": {
+        "message": "Objectif:"
+    },
+    "goalStatusWin": {
+        "message": "VICTOIRE 🎉🎉🎉"
     }
 }
