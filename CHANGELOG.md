@@ -18,6 +18,8 @@
 - Add a difficulty option affecting country drawing (#25)
 - Store game state in local storage and unsync locations/scores (#26)
 - Add a small goal tracker (#27)
+- Add debug buttons (#28)
+- Add missing docs for tests (#29)
 
 ## Bugfixes
 - Added error log on game generation failure (#6)
