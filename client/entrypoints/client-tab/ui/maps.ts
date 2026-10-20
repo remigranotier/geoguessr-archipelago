@@ -115,7 +115,12 @@ function renderMapRow(map: GACMap): HTMLTableRowElement | null {
 function getRemainingLocations(map: GACMap): string {
     let result = ""
     for (const location of map.locationsMissing) {
-        result += getAreaLocationString(location)
+        const newSpan = document.createElement("span")
+        const areaLocationString = getAreaLocationString(location)
+        newSpan.textContent = areaLocationString
+        newSpan.title = getAreaLocationThreshold(map, location).toString()
+        newSpan.style.cursor = "default"
+        result += newSpan.outerHTML
     }
     return result
 }
@@ -132,6 +137,21 @@ function getAreaLocationString(location: AreaLocations) {
             return "🎯"
         case AreaLocations.FiveK:
             return "[5k]"
+    }
+}
+
+function getAreaLocationThreshold(map: GACMap, currentLocation: AreaLocations) {
+    switch (currentLocation) {
+        case AreaLocations.FiveK:
+            return PERFECT_SCORE
+        case AreaLocations.Bronze:
+            return map.medalThresholds[GACMedal.Bronze]
+        case AreaLocations.Silver:
+            return map.medalThresholds[GACMedal.Silver]
+        case AreaLocations.Gold:
+            return map.medalThresholds[GACMedal.Gold]
+        case AreaLocations.Platinum:
+            return map.medalThresholds[GACMedal.Platinum]
     }
 }
 
