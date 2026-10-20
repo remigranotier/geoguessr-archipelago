@@ -23,7 +23,10 @@ def draw_countries(world):
                 world.options.accessible_countries_count.value
                 * (
                     NUMBER_OF_MEDALS_PER_MAP
-                    - int(not world.options.include_platinums.value)
+                    - int(
+                        world.options.include_platinums.value == 0
+                        or world.options.no_move_mode.value == 1
+                    )
                 )
                 + MIN_REGIONS_MEDALS
             )
@@ -32,7 +35,10 @@ def draw_countries(world):
                     (world.options.medal_count.value - min_accessible_medals)
                     / (
                         NUMBER_OF_MEDALS_PER_MAP
-                        - int(not world.options.include_platinums.value)
+                        - int(
+                            world.options.include_platinums.value == 0
+                            or world.options.no_move_mode.value == 1
+                        )
                     )
                 )
 

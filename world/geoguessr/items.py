@@ -78,13 +78,11 @@ def add_map_items(world, map_name) -> list[Any]:
 
     if map_name != common.WORLD_REGION:
         new_items.append(world.create_item(map_name))
-    new_items.extend(
-        [
-            world.create_item(pan_item_name),
-            world.create_item(move_item_name),
-            world.create_item(zoom_item_name),
-        ]
-    )
+    new_items.append(world.create_item(pan_item_name))
+    if world.options.no_move_mode.value == 0:
+        new_items.append(world.create_item(move_item_name))
+    new_items.append(world.create_item(zoom_item_name))
+
     return new_items
 
 

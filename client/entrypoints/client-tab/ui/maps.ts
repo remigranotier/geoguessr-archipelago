@@ -5,6 +5,7 @@ import { GACGamemode, GACGameType, GACMap } from "../../common/models";
 import { AreaLocations, PERFECT_SCORE } from "@/entrypoints/common/config/area-map";
 import { WinCondition } from "@/entrypoints/common/config/win-condition";
 import { renderDebugOptions } from "./debug";
+import { isPlatinumMedalEnabled } from "@/entrypoints/common/utils";
 
 const DEFAULT_COLOR = "rgb(36, 36, 36)"
 const POSSIBLE_COLOR = "rgba(0, 255, 0, 0.2)"
@@ -210,7 +211,7 @@ function getBestMedal(map: GACMap) {
             return GACMedal.Bronze
         case score < map.medalThresholds[GACMedal.Gold]:
             return GACMedal.Silver
-        case !globalThis.gameState.configData.include_platinums || score < map.medalThresholds[GACMedal.Platinum]:
+        case !isPlatinumMedalEnabled(globalThis.gameConfigData) || score < map.medalThresholds[GACMedal.Platinum]:
             return GACMedal.Gold
         default:
             return GACMedal.Platinum
@@ -274,7 +275,9 @@ function getColorFromDifficulty(map: GACMap): string {
 }
 
 function isMapFinished(map: GACMap) {
-    if (globalThis.gameState.configData.include_platinums) {
+    if (globalThis.gameState.configData.no_move_mode) {
+        return map.progression.bestScore >= map.medalThresholds[GACMedal.Gold]
+    } else if (globalThis.gameState.configData.include_platinums) {
         return map.progression.bestScore >= map.medalThresholds[GACMedal.Platinum] && map.progression.fivekDone
     } else {
         return map.progression.bestScore >= map.medalThresholds[GACMedal.Gold] && map.progression.fivekDone

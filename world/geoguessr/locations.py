@@ -39,8 +39,14 @@ def create_regular_locations(world: GeoguessrWorld) -> None:
                 for loc_name, loc_id in location_name_to_id.items()
                 if loc_name.startswith(f"{country.region.value} -")
                 and (
-                    bool(world.options.include_platinums.value)
+                    bool(
+                        world.options.include_platinums.value == 1
+                        and world.options.no_move_mode.value == 0
+                    )
                     or "Platinum Medal" not in loc_name
+                )
+                and (
+                    bool(world.options.no_move_mode.value == 0) or "5k" not in loc_name
                 )
             ]
         region_location_ids[country.region] += [
@@ -48,9 +54,13 @@ def create_regular_locations(world: GeoguessrWorld) -> None:
             for loc_name, loc_id in location_name_to_id.items()
             if loc_name.startswith(f"{country.name} -")
             and (
-                bool(world.options.include_platinums.value)
+                bool(
+                    world.options.include_platinums.value == 1
+                    and world.options.no_move_mode.value == 0
+                )
                 or "Platinum Medal" not in loc_name
             )
+            and (bool(world.options.no_move_mode.value == 0) or "5k" not in loc_name)
         ]
 
     world_region = world.get_region(common.WORLD_REGION)
@@ -60,9 +70,13 @@ def create_regular_locations(world: GeoguessrWorld) -> None:
             for loc_name, loc_id in location_name_to_id.items()
             if loc_name.startswith(f"{common.WORLD_REGION} -")
             and (
-                bool(world.options.include_platinums.value)
+                bool(
+                    world.options.include_platinums.value == 1
+                    and world.options.no_move_mode.value == 0
+                )
                 or "Platinum Medal" not in loc_name
             )
+            and (bool(world.options.no_move_mode.value == 0) or "5k" not in loc_name)
         ]
     )
     print("World locations:", world_locations)
@@ -138,7 +152,10 @@ def add_map_events(world, map_name, region):
     )
 
     for check_type in common.LOCATION_TYPES:
-        if not world.options.include_platinums.value and "Platinum" in check_type:
+        if (
+            world.options.include_platinums.value == 0
+            or world.options.no_move_mode.value == 1
+        ) and "Platinum" in check_type:
             continue
 
         if "Medal" in check_type:

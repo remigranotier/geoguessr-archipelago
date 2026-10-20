@@ -7,6 +7,7 @@ import { mapsConfig } from "../common/config/maps"
 import type { Continent, Country } from "../common/config/countries"
 import { GACMedal } from "../common/config/medals"
 import { WinCondition } from "../common/config/win-condition"
+import { isPlatinumMedalEnabled } from "../common/utils"
 
 export async function updateGameState(roundFinishedMessage?: RoundFinishedMessage, checkWinCon = false) {
     console.debug("Items unlocked are:", apClient.items.received)
@@ -127,7 +128,7 @@ function getLocationsMissing(areaMap: AreaMap): AreaLocations[] {
         AreaLocations.FiveK,
     ]);
 
-    const removePlatinums = globalThis.gameConfigData ? !globalThis.gameConfigData.include_platinums : false
+    const removePlatinums = globalThis.gameConfigData ? !isPlatinumMedalEnabled(globalThis.gameConfigData) : false
     if (apClient.room.checkedLocations.includes(areaMap.baseLocationId + AreaLocations.Bronze)) {
         resultSet.delete(AreaLocations.Bronze)
     }

@@ -18,6 +18,7 @@ import { mapsConfig } from '../common/config/maps.ts'
 import { getGameState, isMapPlayable, updateGameState } from './state.ts'
 import type { Item } from 'archipelago.js'
 import { GACMedal } from '../common/config/medals.ts'
+import { isPlatinumMedalEnabled } from '../common/utils.ts'
 
 export async function generateGame(mapId: string, gamemode: GACGamemode): Promise<string> {
     const response = await fetch(
@@ -119,7 +120,7 @@ export function handleRoundFinishedMessage(message: RoundFinishedMessage) {
     if (message.totalScore >= areaMap.medalThresholds[GACMedal.Gold]) {
         locationsToCheck.push(areaMap.baseLocationId + AreaLocations.Gold)
     }
-    if (message.totalScore >= areaMap.medalThresholds[GACMedal.Platinum] && globalThis.gameConfigData.include_platinums) {
+    if (message.totalScore >= areaMap.medalThresholds[GACMedal.Platinum] && isPlatinumMedalEnabled(globalThis.gameConfigData)) {
         locationsToCheck.push(areaMap.baseLocationId + AreaLocations.Platinum)
     }
 

@@ -103,6 +103,14 @@ class IncludesPlatinums(Toggle):
     default = 1
 
 
+class NoMoveMode(Toggle):
+    """
+    Disables Platinum medals and 5k location, and the unlock of Move items. takes priority over includes_platinum if toggled.
+    """
+
+    default = 0
+
+
 @dataclass
 class GeoguessrOptions(PerGameCommonOptions):
     victory_condition: VictoryCondition
@@ -112,14 +120,14 @@ class GeoguessrOptions(PerGameCommonOptions):
     max_micro_countries_count: MaxMicroCountriesCount
     countries_max_difficulty: CountriesDifficultyLevel
     include_platinums: IncludesPlatinums
+    no_move_mode: NoMoveMode
 
 
 def check_options(world):
-
     if (
-        not world.options.include_platinums.value
-        and world.options.victory_condition.value == 1
-    ):
+        world.options.include_platinums.value == 0
+        or world.options.no_move_mode.value == 1
+    ) and world.options.victory_condition.value == 1:
         raise OptionError(
             "Options specify platinum count as victory condition but also removes platinum medals from locations"
         )

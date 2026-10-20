@@ -13,3 +13,7 @@ export function gamemodeFromData(data: any) {
     }
     return gamemode
 }
+
+export function isPlatinumMedalEnabled(configData: Record<string, unknown>) {
+    return configData.include_platinums && !configData.no_move_mode
+}

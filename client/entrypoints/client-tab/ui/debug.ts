@@ -3,6 +3,7 @@ import { GACMedal } from "@/entrypoints/common/config/medals"
 import { RoundFinishedMessage } from "@/entrypoints/common/messages"
 import { GACGameType, GeoguessrGameStatus, type GACMap, type GACResponse } from "@/entrypoints/common/models"
 import { getMedalText } from "./maps"
+import { isPlatinumMedalEnabled } from "@/entrypoints/common/utils"
 
 export function renderDebugOptions(map: GACMap) {
     let debugCell: HTMLTableCellElement = document.createElement("td")
@@ -10,7 +11,7 @@ export function renderDebugOptions(map: GACMap) {
     debugCell.appendChild(createMedalDebugButton(map, GACMedal.Bronze))
     debugCell.appendChild(createMedalDebugButton(map, GACMedal.Silver))
     debugCell.appendChild(createMedalDebugButton(map, GACMedal.Gold))
-    if (globalThis.gameState.configData.include_platinums) {
+    if (isPlatinumMedalEnabled(globalThis.gameConfigData)) {
         debugCell.appendChild(createMedalDebugButton(map, GACMedal.Platinum))
     }
 
