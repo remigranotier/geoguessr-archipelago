@@ -116,5 +116,8 @@
     },
     "goalTrackerLabel": {
         "message": "Objectif:"
+    },
+    "goalStatusWin": {
+        "message": "VICTOIRE 🎉🎉🎉"
     }
 }
