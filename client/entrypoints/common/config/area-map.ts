@@ -22,7 +22,7 @@ export enum AreaItems {
     Zoom = 3
 }
 
-type Area =
+export type Area =
     | World
     | Continent
     | Country;

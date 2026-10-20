@@ -34,10 +34,10 @@ export async function updateGameState(roundFinishedMessage?: RoundFinishedMessag
 }
 
 function updateMapState(areaMap: AreaMap, gameState: GACGameState) {
-    let mapStatus = gameState.maps.find((map) => map.id === areaMap.mapId)!
+    let mapStatus = gameState.maps.find((map) => map.areaMap.mapId === areaMap.mapId)!
 
     if (mapStatus === undefined) {
-        mapStatus = new GACMap(areaMap.mapId, areaMap.mapName)
+        mapStatus = new GACMap(areaMap)
         gameState.maps.push(mapStatus)
     }
 
@@ -201,7 +201,7 @@ function getMedalAmount(map: GACMap) {
 }
 
 export function updateMapProgression(message: RoundFinishedMessage, gameState: GACGameState) {
-    let map: GACMap = gameState.maps.find((m) => m.id == message.mapId)!
+    let map: GACMap = gameState.maps.find((m) => m.areaMap.mapId == message.mapId)!
     if (message.totalScore > map.progression.bestScore) {
         console.debug("Best score beaten:", message.totalScore, "vs", map.progression.bestScore, "before")
         map.progression.bestScore = message.totalScore

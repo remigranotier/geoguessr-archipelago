@@ -63,6 +63,23 @@ function renderMapsTable() {
     for (const map of globalThis.gameState.maps) {
         const row = renderMapRow(map)
         if (row !== null) {
+            if (map.areaMap.area.kind == "continent") {
+                const breakLine = document.createElement("tr")
+                const breakLineContent = document.createElement("th")
+                breakLineContent.colSpan = 6
+                const breakLineDiv = document.createElement("div")
+                breakLineDiv.style.display = "flex"
+                breakLineDiv.style.gap = "1em"
+                breakLineDiv.appendChild(document.createElement("hr"))
+                const zoneName = document.createElement("div")
+                zoneName.textContent = map.areaMap.areaName
+                zoneName.style.whiteSpace = "nowrap"
+                breakLineDiv.appendChild(zoneName)
+                breakLineDiv.appendChild(document.createElement("hr"))
+                breakLineContent.appendChild(breakLineDiv)
+                breakLine.appendChild(breakLineContent)
+                tbody?.appendChild(breakLine)
+            }
             tbody?.appendChild(row)
         }
     }
@@ -84,14 +101,14 @@ function renderMapRow(map: GACMap): HTMLTableRowElement | null {
 
     const currentGamemode: GACGamemode = map.gamemode;
 
-    const currentAreaMap = mapsConfig.values().find((areaMap) => areaMap.mapId === map.id)
-    const areaName = currentAreaMap?.areaName ?? map.name
+    const currentAreaMap = mapsConfig.values().find((areaMap) => areaMap.mapId === map.areaMap.mapId)
+    const areaName = currentAreaMap?.areaName ?? map.areaMap.areaName
     mapNameCell.textContent = areaName + ((map.unlocked && !map.playable) ? " (continent locked)" : "");
-    mapNameCell.title = map.name;
+    mapNameCell.title = map.areaMap.areaName;
     if (map.playable && !isMapFinished(map)) {
         mapNameCell.classList.add("activeLink")
         mapNameCell.onclick = (_: PointerEvent) => {
-            const generateGameMessage = new GenerateGameMessage(map.id)
+            const generateGameMessage = new GenerateGameMessage(map.areaMap.mapId)
             void browser.runtime.sendMessage(generateGameMessage).then((response) => {
                 if (!response.success) {
                     console.error("Error while generating game:", response.error)
