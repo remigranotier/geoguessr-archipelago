@@ -63,6 +63,14 @@ function renderMapsTable() {
     for (const map of globalThis.gameState.maps) {
         const row = renderMapRow(map)
         if (row !== null) {
+            if (map.area.kind == "continent") {
+                const breakLine = document.createElement("tr")
+                const breakLineContent = document.createElement("th")
+                breakLineContent.colSpan = 6
+                breakLine.appendChild(breakLineContent)
+                breakLineContent.appendChild(document.createElement("hr"))
+                tbody?.appendChild(breakLine)
+            }
             tbody?.appendChild(row)
         }
     }
