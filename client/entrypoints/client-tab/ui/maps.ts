@@ -2,7 +2,7 @@ import { GACMedal } from "../../common/config/medals";
 import { mapsConfig } from "../../common/config/maps";
 import { GenerateGameMessage } from "../../common/messages";
 import { GACGamemode, GACGameType, GACMap } from "../../common/models";
-import { AreaLocations } from "@/entrypoints/common/config/area-map";
+import { AreaLocations, PERFECT_SCORE } from "@/entrypoints/common/config/area-map";
 import { WinCondition } from "@/entrypoints/common/config/win-condition";
 
 const DEFAULT_COLOR = "rgb(36, 36, 36)"
@@ -90,13 +90,16 @@ function renderMapRow(map: GACMap): HTMLTableRowElement | null {
     }
 
     moveCell.textContent = currentGamemode & GACGamemode.Move ? "✔️" : "❌"
+    moveCell.style.cursor = "default"
     panCell.textContent = currentGamemode & GACGamemode.Pan ? "✔️" : "❌"
+    panCell.style.cursor = "default"
     zoomCell.textContent = currentGamemode & GACGamemode.Zoom ? "✔️" : "❌"
+    zoomCell.style.cursor = "default"
 
     const gameTypeInLink = map.progression.gameType == GACGameType.Challenge ? "results" : "game"
     achievementsCell.innerHTML = map.progression.bestSeed != "" ?
         `<a target="_blank" style="text-decoration: none;" href="https://geoguessr.com/${gameTypeInLink}/${map.progression.bestSeed}">${getAchievementsText(map)}</a>` :
-        getAchievementsText(map)
+        `<span style="cursor: default">${getAchievementsText(map)}</span>`
 
     locationsRemainingCell.innerHTML = getRemainingLocations(map)
 
