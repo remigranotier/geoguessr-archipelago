@@ -2,6 +2,10 @@ import { SoundEffectType } from "../../common/models";
 import endSoundUrl from '~/assets/papayou.mp3';
 import itemReceivedSoundUrl from '~/assets/notif.mp3';
 import locationsCheckedSoundUrl from '~/assets/success.mp3';
+import emptyUrl from '~/assets/empty.mp3';
+
+const sound = new Audio(emptyUrl)
+void sound.play()
 
 export function initVolumeBar() {
     let volumeIcon = document.getElementById('volume-bar-icon') as HTMLLabelElement;
@@ -9,7 +13,7 @@ export function initVolumeBar() {
     chooseVolumeIcon()
     volumeIcon.removeEventListener("click", volumeIconClickHandler)
     volumeIcon.addEventListener("click", volumeIconClickHandler)
-    volumeBar.addEventListener("change", function(e) {
+    volumeBar.addEventListener("change", function (e) {
         chooseVolumeIcon()
     })
 }
@@ -50,12 +54,11 @@ export function playSoundEffect(type: SoundEffectType) {
         return;
     }
 
-    const sound = new Audio()
     let volumeBar = document.getElementById('volume-bar') as HTMLInputElement;
     if (volumeBar !== null) {
         sound.volume = volumeBar.valueAsNumber / 100
     }
-    volumeBar.addEventListener("change", function(e) {
+    volumeBar.addEventListener("change", function (e) {
         sound.volume = (e.currentTarget as HTMLInputElement).valueAsNumber / 100;
     })
     switch (type) {
@@ -72,5 +75,7 @@ export function playSoundEffect(type: SoundEffectType) {
             console.error("Unknown sound effect to play", type)
     }
 
-    void sound.play()
+    sound.play().then(() => console.log("Playback started")).catch((error) => {
+        console.error("Audio playback failed:", error.name, error.message);
+    });
 }
