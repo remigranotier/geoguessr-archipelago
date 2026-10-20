@@ -245,7 +245,7 @@ function getColorFromDifficulty(map: GACMap): string {
         case map.progression.bestScore < map.medalThresholds[GACMedal.Bronze]:
             return POSSIBLE_COLOR
         case map.progression.bestScore < map.medalThresholds[GACMedal.Silver]:
-            if (hasMove || hasPan) {
+            if (hasMove || hasPan || map.areaMap.area.kind != "country") {
                 return POSSIBLE_COLOR
             } else {
                 return TRICKY_COLOR
