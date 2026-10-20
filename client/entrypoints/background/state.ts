@@ -8,7 +8,7 @@ import type { Continent, Country } from "../common/config/countries"
 import { GACMedal } from "../common/config/medals"
 import { WinCondition } from "../common/config/win-condition"
 
-export async function updateGameState(roundFinishedMessage?: RoundFinishedMessage) {
+export async function updateGameState(roundFinishedMessage?: RoundFinishedMessage, checkWinCon = false) {
     console.debug("Items unlocked are:", apClient.items.received)
     console.debug("Locations available are:", apClient.room.missingLocations)
     console.debug("Locations checked are:", apClient.room.checkedLocations)
@@ -22,7 +22,9 @@ export async function updateGameState(roundFinishedMessage?: RoundFinishedMessag
         updateMapState(areaMap, gameState)
     }
 
-    checkWinCondition(gameState)
+    if (checkWinCon) {
+        checkWinCondition(gameState)
+    }
 
     await setGameState(gameState)
 }
