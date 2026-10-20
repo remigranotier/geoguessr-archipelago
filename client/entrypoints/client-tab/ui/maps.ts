@@ -63,11 +63,12 @@ function renderMapsTable() {
     for (const map of globalThis.gameState.maps) {
         const row = renderMapRow(map)
         if (row !== null) {
-            if (map.area.kind == "continent") {
+            if (map.areaMap.area.kind == "continent") {
                 const breakLine = document.createElement("tr")
                 const breakLineContent = document.createElement("th")
                 breakLineContent.colSpan = 6
                 breakLine.appendChild(breakLineContent)
+                breakLineContent.textContent = map.areaMap.areaName
                 breakLineContent.appendChild(document.createElement("hr"))
                 tbody?.appendChild(breakLine)
             }
@@ -92,14 +93,14 @@ function renderMapRow(map: GACMap): HTMLTableRowElement | null {
 
     const currentGamemode: GACGamemode = map.gamemode;
 
-    const currentAreaMap = mapsConfig.values().find((areaMap) => areaMap.mapId === map.id)
-    const areaName = currentAreaMap?.areaName ?? map.name
+    const currentAreaMap = mapsConfig.values().find((areaMap) => areaMap.mapId === map.areaMap.mapId)
+    const areaName = currentAreaMap?.areaName ?? map.areaMap.areaName
     mapNameCell.textContent = areaName + ((map.unlocked && !map.playable) ? " (continent locked)" : "");
-    mapNameCell.title = map.name;
+    mapNameCell.title = map.areaMap.areaName;
     if (map.playable && !isMapFinished(map)) {
         mapNameCell.classList.add("activeLink")
         mapNameCell.onclick = (_: PointerEvent) => {
-            const generateGameMessage = new GenerateGameMessage(map.id)
+            const generateGameMessage = new GenerateGameMessage(map.areaMap.mapId)
             void browser.runtime.sendMessage(generateGameMessage).then((response) => {
                 if (!response.success) {
                     console.error("Error while generating game:", response.error)

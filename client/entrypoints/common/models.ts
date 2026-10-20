@@ -1,4 +1,4 @@
-import type { Area, AreaLocations } from "./config/area-map";
+import { AreaMap, type AreaLocations } from "./config/area-map";
 import { defaultMedalThresholds, GACMedal } from "./config/medals";
 import { apClient } from "../background";
 import { WorldNumber } from "./config/countries";
@@ -31,9 +31,7 @@ export class GACProgression {
 
 export class GACMap {
     constructor(
-        public id: string = "defaultId",
-        public name: string = "defaultName",
-        public area: Area = { kind: "world", worldNumber: WorldNumber.World },
+        public areaMap: AreaMap = new AreaMap({ kind: "world", worldNumber: WorldNumber.World }, "World", "defaultId", "defaultName"),
         public progression: GACProgression = new GACProgression(),
         public unlocked: boolean = false,
         public gamemode: GACGamemode = GACGamemode.None,

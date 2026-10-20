@@ -50,12 +50,12 @@ export async function generateGame(mapId: string, gamemode: GACGamemode): Promis
 export async function handleGenerateGameMessage(message: GenerateGameMessage) {
     console.debug("Received GenerateGameMessage:", message)
     const gameState = await getGameState()
-    const map = gameState.maps.find((m: GACMap) => m.id === message.mapId)
+    const map = gameState.maps.find((m: GACMap) => m.areaMap.mapId === message.mapId)
     if (map === undefined) {
         throw new Error(`No map with id ${message.mapId} found`)
     }
 
-    const gameId = await generateGame(map.id, map.gamemode)
+    const gameId = await generateGame(map.areaMap.mapId, map.gamemode)
     const _newTab = await browser.tabs.create({
         url: `https://www.geoguessr.com/game/${gameId}`
     })
