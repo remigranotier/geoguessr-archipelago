@@ -20,6 +20,7 @@
 - Add a small goal tracker (#27)
 - Add debug buttons (#28)
 - Add missing docs for tests (#29)
+- Only embed useful maps in save data (#30)
 
 ## Bugfixes
 - Added error log on game generation failure (#6)
