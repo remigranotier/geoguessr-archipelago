@@ -113,5 +113,11 @@
                 "example": "wss://archipelago.gg:33333"
             }
         }
+    },
+    "goalTrackerLabel": {
+        "message": "Goal:"
+    },
+    "goalStatusWin": {
+        "message": "YOU WIN 🎉🎉🎉"
     }
 }

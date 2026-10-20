@@ -6,6 +6,7 @@ import { AreaItems, AreaLocations, AreaMap, PERFECT_SCORE } from "../common/conf
 import { mapsConfig } from "../common/config/maps"
 import type { Continent, Country } from "../common/config/countries"
 import { GACMedal } from "../common/config/medals"
+import { WinCondition } from "../common/config/win-condition"
 
 export async function updateGameState(roundFinishedMessage?: RoundFinishedMessage) {
     console.debug("Items unlocked are:", apClient.items.received)
@@ -129,8 +130,8 @@ function checkWinCondition(gameState: GACGameState) {
 
     let hasWon = false
 
-    switch (globalThis.gameConfigData.victory_condition) {
-        case 0: //medal count
+    switch (globalThis.gameConfigData.victory_condition as WinCondition) {
+        case WinCondition.MedalCount:
             {
                 const medalCount = gameState.maps.reduce(
                     (count, map) => count + getMedalAmount(map),
@@ -141,7 +142,7 @@ function checkWinCondition(gameState: GACGameState) {
                 break
             }
 
-        case 1: //platinum count
+        case WinCondition.PlatinumCount:
             {
                 const platAmount = gameState.maps
                     .filter(map => map.progression.bestScore >= map.medalThresholds[GACMedal.Platinum])

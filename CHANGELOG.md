@@ -16,6 +16,8 @@
 - Add a manual submission of game/challenge form (#21)
 - Add checks for continent unlock before unlocking a map (#22)
 - Add a difficulty option affecting country drawing (#25)
+- Store game state in local storage and unsync locations/scores (#26)
+- Add a small goal tracker (#27)
 
 ## Bugfixes
 - Added error log on game generation failure (#6)
