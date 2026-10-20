@@ -97,7 +97,7 @@ function getGamemode(areaMap: AreaMap) {
     return result
 }
 
-function getLocationsMissing(areaMap: AreaMap): Set<AreaLocations> {
+function getLocationsMissing(areaMap: AreaMap): AreaLocations[] {
     const resultSet = new Set([
         AreaLocations.Bronze,
         AreaLocations.Silver,
@@ -122,7 +122,7 @@ function getLocationsMissing(areaMap: AreaMap): Set<AreaLocations> {
     if (apClient.room.checkedLocations.includes(areaMap.baseLocationId + AreaLocations.FiveK)) {
         resultSet.delete(AreaLocations.FiveK)
     }
-    return resultSet
+    return Array.from(resultSet.values())
 }
 
 function checkWinCondition(gameState: GACGameState) {

@@ -37,7 +37,7 @@ export class GACMap {
         public gamemode: GACGamemode = GACGamemode.None,
         public visible: boolean = false,
         public playable: boolean = false,
-        public locationsMissing: Set<AreaLocations> = new Set(),
+        public locationsMissing: AreaLocations[] = [],
         public medalThresholds: Record<GACMedal, number> = defaultMedalThresholds
     ) { }
 }
