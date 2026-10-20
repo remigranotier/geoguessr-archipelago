@@ -37,7 +37,7 @@ function updateMapState(areaMap: AreaMap, gameState: GACGameState) {
     let mapStatus = gameState.maps.find((map) => map.id === areaMap.mapId)!
 
     if (mapStatus === undefined) {
-        mapStatus = new GACMap(areaMap.mapId, areaMap.mapName)
+        mapStatus = new GACMap(areaMap.mapId, areaMap.mapName, areaMap.area)
         gameState.maps.push(mapStatus)
     }
 

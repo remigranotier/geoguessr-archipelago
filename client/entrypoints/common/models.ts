@@ -1,6 +1,7 @@
-import type { AreaLocations } from "./config/area-map";
+import type { Area, AreaLocations } from "./config/area-map";
 import { defaultMedalThresholds, GACMedal } from "./config/medals";
 import { apClient } from "../background";
+import { WorldNumber } from "./config/countries";
 
 export enum GACGamemode {
     None = 0,
@@ -32,6 +33,7 @@ export class GACMap {
     constructor(
         public id: string = "defaultId",
         public name: string = "defaultName",
+        public area: Area = { kind: "world", worldNumber: WorldNumber.World },
         public progression: GACProgression = new GACProgression(),
         public unlocked: boolean = false,
         public gamemode: GACGamemode = GACGamemode.None,
