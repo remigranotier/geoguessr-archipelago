@@ -34,6 +34,7 @@ function renderGoalTracker() {
             return acc + (getBestMedal(map) as number)
         }, 0)
         goalStatusContent.innerHTML = `🥉🥈🥇🎯 - ${totalMedalCount}/${globalThis.gameState.configData.medal_count}`
+        goalStatus.style.backgroundColor = DEFAULT_COLOR
         if (totalMedalCount >= (globalThis.gameState.configData.medal_count as number)) {
             goalStatusContent.innerHTML += ` - <strong>${browser.i18n.getMessage("goalStatusWin")}</strong>`
             goalStatus.style.backgroundColor = DONE_COLOR
@@ -41,6 +42,7 @@ function renderGoalTracker() {
     } else {
         const totalPlatinumCount = globalThis.gameState.maps.filter((map) => getBestMedal(map) == GACMedal.Platinum).length
         goalStatusContent.innerHTML = `🎯 - ${totalPlatinumCount}/${globalThis.gameState.configData.plat_count}`
+        goalStatus.style.backgroundColor = DEFAULT_COLOR
         if (totalPlatinumCount >= (globalThis.gameState.configData.plat_count as number)) {
             goalStatusContent.innerHTML += ` - <strong>${browser.i18n.getMessage("goalStatusWin")}</strong>`
             goalStatus.style.backgroundColor = DONE_COLOR

@@ -2,7 +2,7 @@ import { clientStatuses, Item, type ClientStatus } from "archipelago.js"
 import { apClient } from "."
 import { DataConflictMessage, RoundFinishedMessage, SendSoundEffectMessage } from "../common/messages"
 import { GACConnectionStatus, GACGamemode, GACGameState, GACMap, SoundEffectType } from "../common/models"
-import { AreaItems, AreaLocations, AreaMap, PERFECT_SCORE } from "../common/config/area-map"
+import { AreaItems, AreaLocations, AreaMap, LOCATIONS_PER_MAP, PERFECT_SCORE } from "../common/config/area-map"
 import { mapsConfig } from "../common/config/maps"
 import type { Continent, Country } from "../common/config/countries"
 import { GACMedal } from "../common/config/medals"
@@ -18,8 +18,12 @@ export async function updateGameState(roundFinishedMessage?: RoundFinishedMessag
         updateMapProgression(roundFinishedMessage, gameState)
     }
 
-    for (let areaMap of mapsConfig.values()) {
-        updateMapState(areaMap, gameState)
+    const baseLocationIds: number[] = getGameBaseLocationIds()
+    for (let baseLocationId of baseLocationIds) {
+        if (mapsConfig.get(baseLocationId) === undefined) {
+            console.error("baseLocationId is", baseLocationId)
+        }
+        updateMapState(mapsConfig.get(baseLocationId)!, gameState)
     }
 
     if (checkWinCon) {
@@ -51,6 +55,21 @@ function updateMapState(areaMap: AreaMap, gameState: GACGameState) {
     mapStatus.visible = isMapVisible(areaMap, isSomethingUnlocked)
 
     mapStatus.playable = isMapPlayable(areaMap, isUnlocked)
+}
+
+function getGameBaseLocationIds() {
+    const allLocationIds = apClient.room.allLocations
+    const gameBaseLocationIds = new Set<number>()
+    for (const locationId of allLocationIds) {
+        if (locationId <= LOCATIONS_PER_MAP) { // For the World map, which is offset
+            gameBaseLocationIds.add(1)
+            continue
+        }
+        let baseLocationId = Math.floor(locationId / LOCATIONS_PER_MAP) * LOCATIONS_PER_MAP
+        gameBaseLocationIds.add(baseLocationId)
+    }
+
+    return Array.from(gameBaseLocationIds)
 }
 
 function isContinentMapUnlocked(area: Country) {
@@ -200,7 +219,7 @@ export async function getGameState(): Promise<GACGameState> {
     const maybeGameState = await storage.getItem<GACGameState>(`local:${apClient.room.seedName}-${apClient.name}`)
     if (maybeGameState === null) {
         console.debug(`No game state in storage for key local:${apClient.room.seedName}-${apClient.name}. initializing`)
-        return new GACGameState(Array.from(mapsConfig.values()).map((areaMap) => new GACMap(areaMap.mapId, areaMap.mapName)))
+        return new GACGameState()
     }
     return maybeGameState
 }
@@ -217,7 +236,7 @@ export async function handleDataConflict(message: DataConflictMessage) {
     console.debug("Replacing URL with new server")
     if (message.clearPreviousData) {
         console.debug("Resetting maps content")
-        gameState = new GACGameState(Array.from(mapsConfig.values()).map((areaMap) => new GACMap(areaMap.mapId, areaMap.mapName)))
+        gameState = new GACGameState()
     } else {
         gameState.url = serverConnection.server
     }

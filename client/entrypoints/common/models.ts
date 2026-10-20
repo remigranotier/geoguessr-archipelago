@@ -48,7 +48,7 @@ export class GACGameState {
     gameFinished: boolean;
     configData: Record<string, unknown>;
 
-    constructor(maps: GACMap[]) {
+    constructor(maps: GACMap[] = []) {
         this.maps = maps
         this.url = apClient.socket.url
         this.gameFinished = false;
