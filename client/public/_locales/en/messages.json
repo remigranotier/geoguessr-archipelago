@@ -119,5 +119,74 @@
     },
     "goalStatusWin": {
         "message": "YOU WIN 🎉🎉🎉"
+    },
+    "neverPlayedAPGameSectionTitle": {
+        "message": "Never played an Archipelago game?"
+    },
+    "neverPlayedAPGameContent": {
+        "message": "You can read Archipelago's FAQ or get more information on <a href='https://archipelago.gg'>their website</a>."
+    },
+    "setupSectionTitle": {
+        "message": "Setup"
+    },
+    "setupContent": {
+        "message": "To first join your new Archipelago server, enter your player information in the connection section on the Geoguessr Archipelago extension tab.\n<br><br>\nThe server URL is of the form <strong>archipelago.gg:XXXXX</strong> with XXXXX being the port of your game. \nIt is written on the archipelago server's page.\n<br><br>\nThe \"Slot name\" is the name of the slot you'll be filling as a player; basically, your player name. \nIt's the same name you used to generate your game's YAML file.\n<br><br>\nYour connection status is displayed at all times at the top-left corner of the screen.\n<br><br>\nOnce connected, you should now see the game section, with the map table and only the <strong>World</strong> map available.\nYou should be good to start! At every moment, if you need to come back to the game tab, you can click the extension icon; \nit will warp you to your game tab no watter on what tab or window you are, or open a new tab if it was closed."
+    },
+    "basicsSectionTitle": {
+        "message": "Basics"
+    },
+    "goalSectionTitle": {
+        "message": "The goal"
+    },
+    "goalContent": {
+        "message": "Your goal, depending of how you setup your game in your YAML file, is either to get a certain number of medals, or a certain number of platinum medals (25k).\n<br><br>\nTo reach this goal, you'll have to advance through your game by unlocking what Archipelago calls <strong>locations</strong>. \nIn our case, locations are medals unlocked by performing good enough on a specific map. \nA location unlocks an <strong>item</strong> somewhere in your Archipelago session, be it in your own game or on another's.\nWhen someone unlocks an item for you, it will get automatically added to your game tab, with a small \"pop\" sound notifying you.\n<br><br>\nThe items that can be sent in Geoguessr are:\n<ul>\n<li>\nA <strong>map</strong>: this unlocks access to a map, with all the already unlocked gamemodes.\n</li>\n<li>\nA <strong>gamemode</strong> for a map: Move, Pan, or Zoom\n</li>\n</ul>\n\nOnce your goal is reached, your game will be considered as finished, and all locations not yet collected will be considered as such. Congrats!"
+    },
+    "gettingStartedSectionTitle": {
+        "message": "Getting started"
+    },
+    "gettingStartedContent": {
+        "message": "To play a map, click on its name. This will create a Geoguessr game with the gamemodes you already unlocked.\nReaching a score high enough on this game will automatically collect different medals depending on the score reached.\nThe default values are the same are Geoguessr's explorer mode:\n<ul>\n<li>Bronze medal: 7500 pts</li>\n<li>Silver medal: 15000 pts</li>\n<li>Gold medal: 22500 pts</li>\n<li>Platinum medal: 25000 pts</li>\n</ul>\nYou can check the remaining medals' thresholds by hovering the medals in the \"Remaining locations\" column.<br><br>There is also a special location to unlock on each map: getting a 5k will collect this location!<br><br>Collecting any medal will play a small \"ding\" sound. You're of course free to reset a seed, stop a seed in the middle of rounds, or come back to it later. The only events are triggered when finishing a round, and it depends on the score you reached, so you can pause and come back there is no timer anyway."
+    },
+    "seeGameLogsSectionTitle": {
+        "message": "See game logs"
+    },
+    "seeGameLogsContent": {
+        "message": "You can check all logs of your Archipelago game in the game tab, in the \"Recent messages\" text area that you can extend.\nIf you prefer, and if you have the Archipelago launcher installed, you can also launch the \"Text Client\" to connect to your server in another window.\nThis can be especially practical if you have another monitor to put the logs on, instead of switching tabs every time."
+    },
+    "manualSubmitSectionTitle": {
+        "message": "Manual game submission"
+    },
+    "manualSubmitContent": {
+        "message": "You should <strong>NOT</strong> need to ever do this if everything goes well, including after disconnections or various errors.\nBut if for any reason you need to submit a geoguessr game as a game you just finished, you can do so by pasting the game or challenge ID in the associated text box and send it.\nIf it goes well, a checkmark will appear and confirm it to you.\n<br><br>\nThis can also be used to play without a Pro account; but you'd need someone to generate each challenge for you with the proper gamemodes for it to work properly."
+    },
+    "cheatingHelpingSectionTitle": {
+        "message": "Cheating/Helping"
+    },
+    "cheatingHelpingContent": {
+        "message": "Archipelago sessions are to be played for fun, even though they can be competitive to your liking. What is to be allowed or not is clearly up to you.\nYou could for example totally find how to hack this game implementation to send fake scores manually or anything, but that's not the spirit of it.\nThis implementation is willingly not checking against cheats because respecting your own rules is what matters.\n<br><br>\nFor example, while playing as testers, we totally helped each other for scanning if needed, or gave whatever info we had to the other player in need.\nYou could also use whatever cheatsheets or google or anything. Or you can forbid everything to play with more restrictions.\nAfter all, you'll be the judges of what's fun, so make your own rules, this implementation is there to provide a support for playing the game, that's all."
+    },
+    "troubleshootingSectionTitle": {
+        "message": "Troubleshooting"
+    },
+    "troubleshootingGeneralContent": {
+        "message": "If whatever does not seem to work at first sight, try checking your developer's console for additional info.\nEnsure you're properly connected on this browser on your Geoguessr Pro account, and ensure you're properly connected to the Archipelago server.\nIf you're still stuck, send a message on our discord for help."
+    },
+    "gameNotCreatedSectionTitle": {
+        "message": "Game cannot be created"
+    },
+    "gameNotCreatedContent": {
+        "message": "If clicking on a map's title does not do anything when it's unlocked, open a new tab on the same browser and go on Geoguessr's website. \nEnsure you're connected to your Pro account. If it is the case, try checking your developer's console (F12) to see if you can guess the issue."
+    },
+    "creditsSectionTitle": {
+        "message": "Credits"
+    },
+    "creditsContent": {
+        "message": "LeRemiii & Evandar for game design and development.\n<br><br>\nPastèqueHachée and La Ligue Geoguessr for the various Geoguessr maps used."
+    },
+    "whatToPlaySectionTitle": {
+        "message": "What map to play?"
+    },
+    "whatToPlayContent": {
+        "message": "At every given moment, the game tab will hint you what map you're more likely to collect locations from: the maps in <strong>green</strong> are those in which you're \"logically expected\" to succeed, meaning that you have unlocked the map and enough gamemodes to unlock the next available medal.<br><br>A <strong>yellow</strong> map is supposed to be a bit harder but still doable. A <strong>red</strong> map means it's not expected at all that you could unlock a medal here.<br><br>Of course those are just suggestions; as long as a map is unlocked you're free to try how many times you like anyway."
     }
 }
