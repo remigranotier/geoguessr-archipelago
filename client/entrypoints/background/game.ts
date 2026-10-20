@@ -130,5 +130,5 @@ export function handleRoundFinishedMessage(message: RoundFinishedMessage) {
         void browser.runtime.sendMessage(new SendSoundEffectMessage(SoundEffectType.LocationChecked))
     }
 
-    void updateGameState(message)
+    void updateGameState(message, true)
 }

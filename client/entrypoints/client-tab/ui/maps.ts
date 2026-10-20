@@ -4,6 +4,7 @@ import { GenerateGameMessage } from "../../common/messages";
 import { GACGamemode, GACGameType, GACMap } from "../../common/models";
 import { AreaLocations, PERFECT_SCORE } from "@/entrypoints/common/config/area-map";
 import { WinCondition } from "@/entrypoints/common/config/win-condition";
+import { renderDebugOptions } from "./debug";
 
 const DEFAULT_COLOR = "rgb(36, 36, 36)"
 const POSSIBLE_COLOR = "rgba(0, 255, 0, 0.2)"
@@ -120,6 +121,11 @@ function renderMapRow(map: GACMap): HTMLTableRowElement | null {
     row.appendChild(progressionCell)
     row.appendChild(locationsRemainingCell)
 
+    if (import.meta.env.MODE == "development") {
+        const debugCell = renderDebugOptions(map)
+        row.appendChild(debugCell)
+    }
+
     row.style.backgroundColor = getColorFromDifficulty(map)
 
     return row
@@ -192,7 +198,7 @@ function getBestMedal(map: GACMap) {
     }
 }
 
-function getMedalText(medal: GACMedal) {
+export function getMedalText(medal: GACMedal) {
     switch (medal) {
         case GACMedal.None:
             return "❌"

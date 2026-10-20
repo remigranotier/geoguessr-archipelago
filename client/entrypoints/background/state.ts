@@ -8,7 +8,7 @@ import type { Continent, Country } from "../common/config/countries"
 import { GACMedal } from "../common/config/medals"
 import { WinCondition } from "../common/config/win-condition"
 
-export async function updateGameState(roundFinishedMessage?: RoundFinishedMessage) {
+export async function updateGameState(roundFinishedMessage?: RoundFinishedMessage, checkWinCon = false) {
     console.debug("Items unlocked are:", apClient.items.received)
     console.debug("Locations available are:", apClient.room.missingLocations)
     console.debug("Locations checked are:", apClient.room.checkedLocations)
@@ -22,7 +22,9 @@ export async function updateGameState(roundFinishedMessage?: RoundFinishedMessag
         updateMapState(areaMap, gameState)
     }
 
-    checkWinCondition(gameState)
+    if (checkWinCon) {
+        checkWinCondition(gameState)
+    }
 
     await setGameState(gameState)
 }
@@ -97,7 +99,7 @@ function getGamemode(areaMap: AreaMap) {
     return result
 }
 
-function getLocationsMissing(areaMap: AreaMap): Set<AreaLocations> {
+function getLocationsMissing(areaMap: AreaMap): AreaLocations[] {
     const resultSet = new Set([
         AreaLocations.Bronze,
         AreaLocations.Silver,
@@ -122,7 +124,7 @@ function getLocationsMissing(areaMap: AreaMap): Set<AreaLocations> {
     if (apClient.room.checkedLocations.includes(areaMap.baseLocationId + AreaLocations.FiveK)) {
         resultSet.delete(AreaLocations.FiveK)
     }
-    return resultSet
+    return Array.from(resultSet.values())
 }
 
 function checkWinCondition(gameState: GACGameState) {
