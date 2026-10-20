@@ -34,7 +34,6 @@ export function sendQuestionableTip() {
 }
 
 function sendNotification(title: string, message: string) {
-    console.debug(Notification.permission)
     if (browser.notifications == undefined) {
         console.warn("This browser does not support desktop notifications")
     } else if (Notification.permission == "granted") {

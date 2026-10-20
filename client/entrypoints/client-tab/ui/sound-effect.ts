@@ -4,8 +4,10 @@ import itemReceivedSoundUrl from '~/assets/notif.mp3';
 import locationsCheckedSoundUrl from '~/assets/success.mp3';
 import emptyUrl from '~/assets/empty.mp3';
 
-const sound = new Audio(emptyUrl)
-void sound.play()
+const emptySound = new Audio(emptyUrl)
+void emptySound.play()
+
+const endSound = new Audio(endSoundUrl)
 
 export function initVolumeBar() {
     let volumeIcon = document.getElementById('volume-bar-icon') as HTMLLabelElement;
@@ -54,13 +56,8 @@ export function playSoundEffect(type: SoundEffectType) {
         return;
     }
 
-    let volumeBar = document.getElementById('volume-bar') as HTMLInputElement;
-    if (volumeBar !== null) {
-        sound.volume = volumeBar.valueAsNumber / 100
-    }
-    volumeBar.addEventListener("change", function (e) {
-        sound.volume = (e.currentTarget as HTMLInputElement).valueAsNumber / 100;
-    })
+    let sound = new Audio()
+
     switch (type) {
         case SoundEffectType.ItemReceived:
             sound.src = itemReceivedSoundUrl
@@ -69,13 +66,20 @@ export function playSoundEffect(type: SoundEffectType) {
             sound.src = locationsCheckedSoundUrl
             break;
         case SoundEffectType.GoalReached:
-            sound.src = endSoundUrl
+            sound = endSound
             break;
         default:
             console.error("Unknown sound effect to play", type)
     }
+    let volumeBar = document.getElementById('volume-bar') as HTMLInputElement;
+    if (volumeBar !== null) {
+        sound.volume = volumeBar.valueAsNumber / 100
+    }
+    volumeBar.addEventListener("change", function (e) {
+        sound.volume = (e.currentTarget as HTMLInputElement).valueAsNumber / 100;
+    })
 
-    sound.play().then(() => console.log("Playback started")).catch((error) => {
+    void sound.play().catch((error) => {
         console.error("Audio playback failed:", error.name, error.message);
     });
 }
