@@ -67,9 +67,17 @@ function renderMapsTable() {
                 const breakLine = document.createElement("tr")
                 const breakLineContent = document.createElement("th")
                 breakLineContent.colSpan = 6
+                const breakLineDiv = document.createElement("div")
+                breakLineDiv.style.display = "flex"
+                breakLineDiv.style.gap = "1em"
+                breakLineDiv.appendChild(document.createElement("hr"))
+                const zoneName = document.createElement("div")
+                zoneName.textContent = map.areaMap.areaName
+                zoneName.style.whiteSpace = "nowrap"
+                breakLineDiv.appendChild(zoneName)
+                breakLineDiv.appendChild(document.createElement("hr"))
+                breakLineContent.appendChild(breakLineDiv)
                 breakLine.appendChild(breakLineContent)
-                breakLineContent.textContent = map.areaMap.areaName
-                breakLineContent.appendChild(document.createElement("hr"))
                 tbody?.appendChild(breakLine)
             }
             tbody?.appendChild(row)
