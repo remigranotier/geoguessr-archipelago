@@ -141,5 +141,9 @@ allMaps.push(
     new AreaMap({ kind: "country", continentNumber: ContinentNumber.Oceania, countryNumber: OceaniaCountryNumber.Northern_Mariana_Islands }, "Northern Mariana Islands", "661682eced5d1147573fb788", "Coupe de la Ligue - Northern Mariana Islands"),
 )
 
+let config: Map<number, AreaMap> = new Map()
+for (const areaMap of allMaps) {
+    config.set(areaMap.baseLocationId, areaMap)
+}
 
-export const mapsConfig: AreaMap[] = allMaps
+export const mapsConfig: Map<number, AreaMap> = config

@@ -28,7 +28,7 @@ export async function updateConnectionStatus(connectionStatus: GACConnectionStat
 
     if (connectionStatus.authenticated) {
         storage.watch<GACGameState>(`local:${connectionStatus.seed}-${connectionStatus.player}`, (newGameState, _oldGameState) => {
-            globalThis.gameState = newGameState ?? new GACGameState([])
+            globalThis.gameState = newGameState ?? new GACGameState()
             renderGameSection()
         })
         const gameState = await getGameState()

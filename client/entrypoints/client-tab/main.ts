@@ -16,7 +16,7 @@ declare global {
   var gameState: GACGameState
   var connectionStatus: GACConnectionStatus
 }
-globalThis.gameState = new GACGameState([])
+globalThis.gameState = new GACGameState()
 globalThis.connectionStatus = DEFAULT_CONNECTION_STATUS
 
 function clientTabMessageListener(message: GACMessage, sender: Browser.runtime.MessageSender, sendResponse: (response: GACResponse) => void) {
