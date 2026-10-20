@@ -3,6 +3,7 @@ import { mapsConfig } from "../../common/config/maps";
 import { GenerateGameMessage } from "../../common/messages";
 import { GACGamemode, GACGameType, GACMap } from "../../common/models";
 import { AreaLocations } from "@/entrypoints/common/config/area-map";
+import { WinCondition } from "@/entrypoints/common/config/win-condition";
 
 const DEFAULT_COLOR = "rgb(36, 36, 36)"
 const POSSIBLE_COLOR = "rgba(0, 255, 0, 0.2)"
@@ -13,7 +14,29 @@ const DONE_COLOR = "rgba(0, 255, 255, 0.3)"
 export function renderGameSection() {
     const manualSubmitSection = document.getElementById("manual-game-submit-section");
     manualSubmitSection!.style.display = globalThis.connectionStatus.authenticated ? "flex" : "none"
+    renderGoalTracker()
     renderMapsTable()
+}
+
+function renderGoalTracker() {
+    const goalStatus = document.getElementById('goal-tracker')!;
+    if (globalThis.connectionStatus.authenticated) {
+        goalStatus.style.display = "flex"
+    } else {
+        goalStatus.style.display = "none"
+        return
+    }
+
+    const goalStatusContent = goalStatus.querySelector("#goal-tracker-content")!
+    if (globalThis.gameState.configData.victory_condition as WinCondition == WinCondition.MedalCount) {
+        const totalMedalCount = globalThis.gameState.maps.reduce<number>((acc, map, _index, _maps) => {
+            return acc + (getBestMedal(map) as number)
+        }, 0)
+        goalStatusContent.innerHTML = `🥉🥈🥇🎯 - ${totalMedalCount}/${globalThis.gameState.configData.medal_count}`
+    } else {
+        const totalPlatinumCount = globalThis.gameState.maps.filter((map) => getBestMedal(map) == GACMedal.Platinum).length
+        goalStatusContent.innerHTML = `🎯 - ${totalPlatinumCount}/${globalThis.gameState.configData.plat_count}`
+    }
 }
 
 function renderMapsTable() {
