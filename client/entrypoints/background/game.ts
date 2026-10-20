@@ -95,7 +95,7 @@ function checkRoundFinishedMessage(message: RoundFinishedMessage, areaMap: AreaM
 }
 
 export function handleRoundFinishedMessage(message: RoundFinishedMessage) {
-    let areaMap = mapsConfig.find((map) => map.mapId === message.mapId)
+    let areaMap = mapsConfig.values().find((map) => map.mapId === message.mapId)
     if (areaMap === undefined) {
         throw new Error("Map does not exist in Geoguessr Archipelago")
     }

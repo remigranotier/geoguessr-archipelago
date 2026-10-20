@@ -18,7 +18,7 @@ export async function updateGameState(roundFinishedMessage?: RoundFinishedMessag
         updateMapProgression(roundFinishedMessage, gameState)
     }
 
-    for (let areaMap of mapsConfig) {
+    for (let areaMap of mapsConfig.values()) {
         updateMapState(areaMap, gameState)
     }
 
@@ -55,13 +55,13 @@ function updateMapState(areaMap: AreaMap, gameState: GACGameState) {
 
 function isContinentMapUnlocked(area: Country) {
     const continentNumber = area.continentNumber
-    const continentAreaMap = mapsConfig.find((map: AreaMap) => map.area.kind == "continent" && map.area.continentNumber == continentNumber)!
+    const continentAreaMap = mapsConfig.values().find((map: AreaMap) => map.area.kind == "continent" && map.area.continentNumber == continentNumber)!
     return isMapUnlocked(continentAreaMap)
 }
 
 function isSomeCountryMapVisible(area: Continent) {
     const continentNumber = area.continentNumber
-    const childrenCountryMaps = mapsConfig.filter((map: AreaMap) => map.area.kind == "country" && map.area.continentNumber == continentNumber)!
+    const childrenCountryMaps = mapsConfig.values().filter((map: AreaMap) => map.area.kind == "country" && map.area.continentNumber == continentNumber)!
     return childrenCountryMaps.some((countryMap: AreaMap) => isMapUnlocked(countryMap) || getGamemode(countryMap) != GACGamemode.None)
 }
 
@@ -200,7 +200,7 @@ export async function getGameState(): Promise<GACGameState> {
     const maybeGameState = await storage.getItem<GACGameState>(`local:${apClient.room.seedName}-${apClient.name}`)
     if (maybeGameState === null) {
         console.debug(`No game state in storage for key local:${apClient.room.seedName}-${apClient.name}. initializing`)
-        return new GACGameState(mapsConfig.map((areaMap) => new GACMap(areaMap.mapId, areaMap.mapName)))
+        return new GACGameState(Array.from(mapsConfig.values()).map((areaMap) => new GACMap(areaMap.mapId, areaMap.mapName)))
     }
     return maybeGameState
 }
@@ -217,7 +217,7 @@ export async function handleDataConflict(message: DataConflictMessage) {
     console.debug("Replacing URL with new server")
     if (message.clearPreviousData) {
         console.debug("Resetting maps content")
-        gameState = new GACGameState(mapsConfig.map((areaMap) => new GACMap(areaMap.mapId, areaMap.mapName)))
+        gameState = new GACGameState(Array.from(mapsConfig.values()).map((areaMap) => new GACMap(areaMap.mapId, areaMap.mapName)))
     } else {
         gameState.url = serverConnection.server
     }

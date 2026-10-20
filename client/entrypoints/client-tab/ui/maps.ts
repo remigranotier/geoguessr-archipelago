@@ -82,7 +82,7 @@ function renderMapRow(map: GACMap): HTMLTableRowElement | null {
 
     const currentGamemode: GACGamemode = map.gamemode;
 
-    const currentAreaMap = mapsConfig.find((areaMap) => areaMap.mapId === map.id)
+    const currentAreaMap = mapsConfig.values().find((areaMap) => areaMap.mapId === map.id)
     const areaName = currentAreaMap?.areaName ?? map.name
     mapNameCell.textContent = areaName + ((map.unlocked && !map.playable) ? " (continent locked)" : "");
     mapNameCell.title = map.name;
