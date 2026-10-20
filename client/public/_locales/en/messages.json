@@ -63,11 +63,11 @@
     "gamemodesColumn": {
         "message": "Gamemodes"
     },
-    "bestMedalColumn": {
-        "message": "Best medal"
+    "progressionColumn": {
+        "message": "Progression"
     },
-    "fivekDoneColumn": {
-        "message": "5k done"
+    "locationsRemainingColumn": {
+        "message": "Locations remaining"
     },
     "gamemodeMove": {
         "message": "Move"
@@ -104,5 +104,14 @@
     },
     "errorManualSubmit": {
         "message": "Error during manual submit"
+    },
+    "clearPreviousDataPopupMessage": {
+        "message": "Game save has been found with the same Archipelago seed and player, but with a different server url ($PREVIOUS_URL$). Clear this previous save data?",
+        "placeholders": {
+            "previous_url": {
+                "content": "$1",
+                "example": "wss://archipelago.gg:33333"
+            }
+        }
     }
 }

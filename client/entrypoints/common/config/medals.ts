@@ -1,6 +1,12 @@
-import { GACMedal } from "../models";
+export enum GACMedal {
+    None = 0,
+    Bronze = 1,
+    Silver = 2,
+    Gold = 3,
+    Platinum = 4
+}
 
-export const medalThresholds: Record<GACMedal, number> = {
+export const defaultMedalThresholds: Record<GACMedal, number> = {
     [GACMedal.None]: 0,
     [GACMedal.Bronze]: 7500,
     [GACMedal.Silver]: 15000,

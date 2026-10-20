@@ -3,31 +3,24 @@ import './style.css';
 import { GACConnectionStatus, GACGameState, type GACResponse } from '../common/models.ts'
 import { sendConnectionOptions, sendDisconnectCommand, setCredentialsFromLastSend } from './connection-form.ts';
 import { getConnectionStatus, renderStatusComponent } from './ui/status.ts';
-import { getGameState, handleSendGameStateMessage } from './game-state.ts';
-import { MessageType, SendGameStateMessage, SendNewLogMessage, SendSoundEffectMessage, type GACMessage } from '../common/messages.ts';
+import { KeepAliveMessage, MessageType, SendNewLogMessage, SendSoundEffectMessage, type GACMessage } from '../common/messages.ts';
 import { handleNewLogMessage, initLogs } from './ui/message-log.ts';
 import { initVolumeBar, playSoundEffect } from './ui/sound-effect.ts';
 import { resolveI18n } from '../common/i18n.ts';
 import { initManualSubmitSection } from './ui/manual-id-submit.ts';
 
-export const DEFAULT_CONNECTION_STATUS = { authenticated: false, player: "", server: "" }
+export const DEFAULT_CONNECTION_STATUS = { authenticated: false, player: "", server: "", seed: "" }
 
 // Initialize global variables
 declare global {
   var gameState: GACGameState
   var connectionStatus: GACConnectionStatus
 }
-globalThis.gameState = { maps: [] }
+globalThis.gameState = new GACGameState([])
 globalThis.connectionStatus = DEFAULT_CONNECTION_STATUS
 
 function clientTabMessageListener(message: GACMessage, sender: Browser.runtime.MessageSender, sendResponse: (response: GACResponse) => void) {
   switch (message.type) {
-    case MessageType.SendGameState:
-      {
-        const sendGameStateMessage = message as SendGameStateMessage;
-        handleSendGameStateMessage(sendGameStateMessage)
-        return false;
-      }
     case MessageType.SendNewLog:
       {
         const newLogMessage = message as SendNewLogMessage;
@@ -48,10 +41,9 @@ function clientTabMessageListener(message: GACMessage, sender: Browser.runtime.M
 
 
 // Render tab
-void getGameState()
 renderStatusComponent()
-void getConnectionStatus()
 setCredentialsFromLastSend()
+void getConnectionStatus()
 void initLogs()
 initVolumeBar()
 void Notification.requestPermission()
@@ -63,5 +55,5 @@ document.addEventListener("DOMContentLoaded", resolveI18n);
 
 // Keep service worker alive as long as client-tab is open
 setInterval(() => {
-  void getConnectionStatus()
+  void browser.runtime.sendMessage(new KeepAliveMessage())
 }, 20000)
