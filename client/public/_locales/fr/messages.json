@@ -119,5 +119,74 @@
     },
     "goalStatusWin": {
         "message": "VICTOIRE 🎉🎉🎉"
+    },
+    "neverPlayedAPGameSectionTitle": {
+        "message": "Jamais joué une partie d'Archipelago?"
+    },
+    "neverPlayedAPGameContent": {
+        "message": "Tu peux lire la FAQ d'archipelago sur <a href='https://archipelago.gg'>leur site web</a>."
+    },
+    "setupSectionTitle": {
+        "message": "Mise en place"
+    },
+    "setupContent": {
+        "message": "D'abord, pour rejoindre ton nouveau serveur Archipelago, entre tes infos sur la section Connexion sur l'onglet de l'extension.<br><br>L'URL du serveur est de la forme <strong>archipelago.gg:XXXXX</strong>, où XXXXX est le port de ta partie. Le port est écrit sur la page web du serveur Archipelago. <br><br>Le \"nom du slot\" est le nom de l'emplacement que tu rempliras en tant que joueur; en gros, c'est ton nom de joueur. C'est celui que tu as utilisé pour générer ta configuration YAML. <br><br>A tout moment, ton statut de connexion est affiché en haut à gauche de l'onglet de l'extension.<br><br>Une fois connecté, tu devrais voir apparaître la section de jeu, avec le tableau des zones débloquées et uniquement la map <strong>World</strong> disponible. Avec ceci, tu devrais pouvoir commencer! A tout moment, si tu as besoin de revenir sur l'onglet de jeu, tu peux cliquer sur l'icône de l'extension; cela t'emmènera directement sur l'onglet de jeu peu importe sur quel onglet ou fenêtre tu étais, et cela ouvrira un nouvel onglet s'il n'en existe pas déjà un."
+    },
+    "basicsSectionTitle": {
+        "message": "Les bases"
+    },
+    "goalSectionTitle": {
+        "message": "L'objectif"
+    },
+    "goalContent": {
+        "message": "Ton objectif, en fonction de la configuration de ta partie dans ton YAML, est soit d'obetnir un certain nombre de médailles, ou bien un certain nombre de médailles Platine (25k).<br><br>Pour atteindre cet objectif, tu devras avancer dans ta partir en débloquand ce qu'Archipelago appelle des <strong>locations</strong> en anglais, ou \"envois\" en français ici. Dans notre cas, les locations sont des médailles débloquées en effectuant un assez bon score sur une map particulière. Une location débloque un <strong>item</strong> quelque part dans ta session Archipelago, dans ton jeu ou celui d'un autre joueur. Quand quelqu'un débloque un item pour toi, il sera automatiquement ajouré à ton onglet de jeu, avec un son \"pop\" pour te notifier.<br><br>Les items que l'on peut t'envoyer sont:<ul>\n<li>\nUne <strong>carte</strong>: cela débloque l'accès à la carte, avec tous les modes de jeu déjà débloqués dessus. Attention: pour les cartes de pays, il faut avoir débloqué le continent associé pour y avoir accès!\n</li>\n<li>\nUn <strong>mode de jeu</strong> pour une carte: Move, Pan, ou Zoom\n</li><li>Une petite info utile (ou non) de notre création</li>\n</ul>une fois ton objectif atteint, ta partie sera considérée comme terminée, et toutes les locations pas encore obtenues seront considérées comme atteintes. Félicitations!"
+    },
+    "gettingStartedSectionTitle": {
+        "message": "Pour commencer"
+    },
+    "gettingStartedContent": {
+        "message": "Pour jouer sur une carte, clique sur son nom. Cela créera une partie Geoguessr avec les modes de jeu que tu as déja débloqués.\nAtteindre un score assez élevé sur cette partie collectera automatiquement les médailles associées, en fonction du score atteint.\nLes seuils de score par défaut sont les seuils du mode Explorer du jeu de base:\n<ul>\n<li>Bronze: 7500 pts</li>\n<li>SArgent: 15000 pts</li>\n<li>Or: 22500 pts</li>\n<li>Platine: 25000 pts</li>\n</ul>\nTu peux regarder les seuils des médailles qu'il te reste à débloquer en passant la souris dessus dans la colonne \"Envois restants\".<br><br>Il y a aussi une location spéciale à débloquer pour chaque carte : effectuer un 5k la débloquera !<br><br>Obtenir n'importe quelle location jouera un petit son \"ding\". Bien sûr, tu es libre de redémarrer un essai, arrêter un essai en plein milieu, et/ou revenir dessus plus tard. Les seuls évènements que l'extension écoute sont les fins de round, et dépendent uniquement du score atteint, tu peux donc mettre une partie en pause et revenir plus tard, il n'y a pas de chronomètre."
+    },
+    "seeGameLogsSectionTitle": {
+        "message": "Voir les évènements liés à la partie"
+    },
+    "seeGameLogsContent": {
+        "message": "Tu peux voir tous les évènements liés à ta partie Archipelago dans l'onglet de jeu, dans la section \"Messages récents\".\nSi tu préfères et que tu as le Launcher Archipelago installé, tu peux aussi lancer le \"Text Client\" et te connecter sur ton serveur dans une autre fenêtre.\nCela peut être notamment pratique si tu as un autre écran sur lequel mettre le client textuel, au lieu de changer d'onglet à chaque fois."
+    },
+    "manualSubmitSectionTitle": {
+        "message": "Envoyer une partie manuellement"
+    },
+    "manualSubmitContent": {
+        "message": "Attention : tu ne devrais <strong>PAS</strong> avoir besoin de faire ceci si tout se passe bien, même après une déconnexion ou diverse erreur.\nMais si pour toute raison particulère tu as besoin d'envoyer une partie geoguessr qui n'aurait pas été prise en compte, tu peux coller son ID dans la boîte de texte associée et l'envoyer.\nSi cela s'est bien passé, un message apparaîtra pour te le confirmer.\n<br><br>\nBien que ce soit pénible, cela peut aussi être utilisé pour jouer sans compte Pro; mais tu auras besoin de quelqu'un pour te générer les challenges avec les bons modes de jeu."
+    },
+    "cheatingHelpingSectionTitle": {
+        "message": "Triche/Aide"
+    },
+    "cheatingHelpingContent": {
+        "message": "Les sessions Archipelago sont faites pour être fun, bien qu'elles peuvent être aussi compétitives que tu le souhaites. Ce qui doit ou non être autorisé est à ta préférence.\nTu pourrais probablement trouver comment tricher sur cette extension, mais ce n'est pas l'esprit.\nCette implémentation ne vérifie pas la triche justement pour permettre aux joueurs de jouer selon leurs propres règles.\n<br><br>\nPar exemple, en testant, on s'aidait totalement en donnant à l'autre les infos que l'on avait sur le jeu, ou en aidant à chercher des points difficiles.\nSi tu préfères tu pourrais avoir envie d'utiliser Google ou des fiches d'aide. Ou bien tu pourrais avoir envie de tout interdire pour plus de challenge.\nAprès tout, tu seras le juge de ce qui est sympa à jouer, donc fais tes propres règles, cette extension est simplement un support de jeu."
+    },
+    "troubleshootingSectionTitle": {
+        "message": "En cas de problème"
+    },
+    "troubleshootingGeneralContent": {
+        "message": "Si quelque chose semble ne pas fonctionner au premier abord, essaie de regarder ta console développeur pour voir d'éventuels indices.\nAssure-toi d'être bien connecté à ton compte Geoguessr Pro sur le même navigateur, et que tu es bien connecté au serveur Archipelago.\nSi tu es toujours bloqué, envoie nous un message sur notre discord."
+    },
+    "gameNotCreatedSectionTitle": {
+        "message": "La partie ne se crée pas"
+    },
+    "gameNotCreatedContent": {
+        "message": "Si cliquer sur le nom d'une carte ne fait rien alors que celle-ci est jouable, ouvre un nouvel onglet et va sur le site de Geoguessr. \nAssure-toi d'être connecté à un compte Pro. Si c'est bien le cas, essaie de regarder les logs dans la console développeur (F12) pour voir si tu peux deviner d'où cela pourrait venir."
+    },
+    "creditsSectionTitle": {
+        "message": "Crédits"
+    },
+    "creditsContent": {
+        "message": "LeRemiii & Evandar pour le développement et le game design.\n<br><br>\nPastèqueHachée et La Ligue Geoguessr pour les différentes maps utilisées."
+    },
+    "whatToPlaySectionTitle": {
+        "message": "Quelle map devrais-je jouer ?"
+    },
+    "whatToPlayContent": {
+        "message": "A tout moment, l'onglet de jeu donnera des conseils sur quelle map permettrait de collecter une médaille le plus facilement: une carte en <strong>vert</strong> correpsond à une carte où tu serais \"logiquement attendu\" de réussir: cela signifie que tu as débloqué la carte et assez de modes de jeu pour devoir normalement pouvoir réussir à débloquer la prochaine médaille.<br><br>Une carte en <strong>jaune</strong> devrait poser un peu plus de problèmes, mais peut-être être jouable. Une carte en <strong>rouge</strong> signifie qu'il n'est pas attendu que tu puisse débloquer une médaille sans plus de modes de jeux débloqués.<br><br>Bien sûr, ce ne sont que des conseils : tant qu'une map est débloquée elle est jouable et tu es libre d'essayer autant que tu le veux."
     }
 }
