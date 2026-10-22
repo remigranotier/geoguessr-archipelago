@@ -263,5 +263,32 @@
     },
     "loadLastButtonLabel": {
         "message": "Load last values"
+    },
+    "yamlProgressionBalancingTooltip": {
+        "message": "<p>A system that can move progression earlier, to try and prevent the player from getting stuck and bored early.</p><p>A lower setting means more getting stuck. A higher setting means less getting stuck.</p>"
+    },
+    "yamlAccessibilityTooltip": {
+        "message": "<p>Set rules for reachability of your items/locations.</p><p><strong>Full:</strong> ensure everything can be reached and acquired.</p><p><strong>Minimal:</strong> ensure what is needed to reach your goal can be acquired.</p>"
+    },
+    "yamlVictoryConditionTooltip": {
+        "message": "<p>Choose your goal for this game. \"Number of platinum medals\" is not recommended for beginners.</p><p><strong>Number of total medals:</strong> reach a certain amount of medals collected among all maps.</p><p><strong>Number of platinum medals:</strong> reach a certain amount of platinum medals (25k) on different maps.</p>"
+    },
+    "yamlMedalCountTooltip": {
+        "message": "<p>Choose the amount of medals to collect to win the game.</p><p>This has to be lower or equal to the number of medals available on the game (3 or 4 medals per map, depending on platinum medals activation)</p>"
+    },
+    "yamlPlatCountTooltip": {
+        "message": "<p>Choose the amount of platinum medals (25k) to collect to win the game.</p><p>This has to be lower or equal to the number of maps available on the game (Number of accessible countries + Number of continents (max 6) + World map)</p>"
+    },
+    "yamlAccessibleCountriesCountTooltip": {
+        "message": "<p>Choose the amount of countries that will be randomly drawn during generation, and thus will be avaible in the game to unlock.</p><p>There are 22 micro countries in the game, so be careful if you set the micro country limit to a lower value than 22: you will not be able to put the maximum amount of countries possible in this case.</p>"
+    },
+    "yamlMaxMicroCountriesTooltip": {
+        "message": "<p>Choose the maximum amount of micro-countries that can be drawn during generation.</p><p>Micro-countries are defined as micro-states (San Marino, Monaco...), or countries that have minimal geoguessr coverage (Laos, Uganda...)</p>"
+    },
+    "yamlCountryMaxDiffTooltip": {
+        "message": "<p>Choose the maximum difficulty of randomly drawn countries. Difficulty is mainly considered for moving and pinpointing, i.e. info density, general remoteness, map quality, non-latin alphabets...</p><p><strong>Easy:</strong> Germany, Chile, Ghana...</p><strong>Medium:</strong> Georgia, Botswana, Ukraine...</p><strong>Hard:</strong> Cambodia, Kenya, India...</p>"
+    },
+    "yamlIncludePlatinumsTooltip": {
+        "message": "<p>Choose to include or not platinum medals in the game. This creates extra medals in the game but they are pretty long to collect, so activating it may \"hide\" important items in the logic behing a long check. We advise to activate it only if you're used to pinpointing.</p>"
     }
 }

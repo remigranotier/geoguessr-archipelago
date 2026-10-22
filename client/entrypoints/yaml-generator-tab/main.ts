@@ -1,6 +1,7 @@
 import { stringify } from 'yaml';
 import { resolveI18n } from '../common/i18n';
 import './style.css';
+import './tooltip.css';
 import { mapsConfig } from '../common/config/maps';
 
 const NUMBER_OF_MAPS = Array.from(mapsConfig.values()).length

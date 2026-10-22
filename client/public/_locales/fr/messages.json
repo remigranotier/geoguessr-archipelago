@@ -263,5 +263,32 @@
     },
     "loadLastButtonLabel": {
         "message": "Charger la dernière configuration"
+    },
+    "yamlProgressionBalancingTooltip": {
+        "message": "<p>Un système qui permet de bouger la progression plus tôt dans la partie, pour essayer de ne pas bloquer et ennuyer le joueur.</p><p>Diminuer la valeur signifie être plus bloqué. Augmenter la valeur signifie être moins bloqué.</p>"
+    },
+    "yamlAccessibilityTooltip": {
+        "message": "<p>Indiquer les règles d'atteignabilité de vos items et locations.</p><p><strong>Complète:</strong> s'assure que tout est atteignable et obtenable.</p><p><strong>Minimale:</strong> s'assure que tout ce qui est nécessaire à l'atteinte de l'objectif peut être récupéré.</p>"
+    },
+    "yamlVictoryConditionTooltip": {
+        "message": "<p>Choisis ton objectif de la partie. \"Nombre de médailles Platine\" n'est pas recommandé pour les débutants.</p><p><strong>Nombre total de médailles :</strong> collecte un certain nombre de médailles à travers toutes les cartes.</p><p><strong>Nombre de médailles Platine :</strong> atteins un certain nombre de médailles Platine (25k) sur des cartes différentes.</p>"
+    },
+    "yamlMedalCountTooltip": {
+        "message": "<p>Choisis le nombre de médailles à récupérer pour gagner la partie.</p><p>Ce nombre doit être inférieur ou égal au nombre de médailles total disponible dans la partie (3 ou 4 médailles par carte, en fonction de l'activation ou non des médailles Platine)</p>"
+    },
+    "yamlPlatCountTooltip": {
+        "message": "<p>Choisis le nombre de médailles Platine (25k) à récupérer pour gagner la partie.</p><p>Ce nombre doit être inférieur ou égal au nombre de cartes disponibles dans la partie (Nombre de pays accessibles + Nombre de continents (max 6) + carte World)</p>"
+    },
+    "yamlAccessibleCountriesCountTooltip": {
+        "message": "<p>Choisis le nombre de pays qui seront tirés au sort et donc disponibles dans la partie.</p><p>Il y a 22 micro pays dans le jeu, donc attention si tu mets le nombre de micro pays à une valeur plus faible que 22: tu ne pourras pas générer une game avec le nombre maximal de pays dans ce cas.</p>"
+    },
+    "yamlMaxMicroCountriesTooltip": {
+        "message": "<p>Choisis le nombre maximum de micro pays qui peuvent être tirés au sort pendant la génération.</p><p>Les micro pays sont définis comme les micro-états (San Marino, Monaco...), ou les pays possédant une couverture Street View minimale (Laos, Ouganda...)</p>"
+    },
+    "yamlCountryMaxDiffTooltip": {
+        "message": "<p>Choisis la difficulté maximum des pays tirés au sort. La difficulté est avant-tout définie par le Move et le pinpoint, c'est à dire la densité desinformations, la ruralité générale du pays, la qualité du mapping google, la présence d'alphabets non-latins...</p><p><strong>Facile:</strong> Allemagne, Chili, Ghana...</p><strong>Moyen:</strong> Géorgie, Botswana, Ukraine...</p><strong>Difficile:</strong> Cambodge, Kenya, Inde...</p>"
+    },
+    "yamlIncludePlatinumsTooltip": {
+        "message": "<p>Choisis d'inclure ou non les médailles Platine (25k) dans la partie. Cela créera des médailles en plus dans la partie mais elles sont longues à récupérer, donc les activer peut \"cacher\" des items important dans la logique Archipelago derrière des tâches longues. On vous recommande de l'activer uniquement si vous êtes habitués au pinpoint.</p>"
     }
 }
