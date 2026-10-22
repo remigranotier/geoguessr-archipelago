@@ -260,5 +260,8 @@
     },
     "yamlIncludePlatinumsSetting": {
         "message": "Include platinum medals:"
+    },
+    "loadLastButtonLabel": {
+        "message": "Load last values"
     }
 }

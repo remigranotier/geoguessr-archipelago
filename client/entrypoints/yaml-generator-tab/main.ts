@@ -33,6 +33,7 @@ function main() {
     }
 
     document.querySelector("#generate-yaml-button")!.addEventListener("click", generateFile)
+    document.querySelector("#load-last-yaml-button")!.addEventListener("click", loadLastYaml)
 }
 
 class PlayerOptions {
@@ -67,6 +68,7 @@ function generateFile() {
         Geoguessr: playerOptions
     }
 
+    void storage.setItem("local:last-yaml-generation", data)
     const yamlData = stringify(data)
 
     const blob = new Blob([yamlData], { type: "application/x-yaml" })
@@ -76,6 +78,39 @@ function generateFile() {
     a.download = `${playerName}.yaml`
     a.click()
     URL.revokeObjectURL(url)
+}
+
+async function loadLastYaml() {
+    const lastYaml: any = await storage.getItem("local:last-yaml-generation")
+    const playerName = lastYaml.name
+    const playerOptions: PlayerOptions = lastYaml.Geoguessr
+
+    document.querySelector<HTMLInputElement>("#player-name")!.value = playerName
+    document.querySelector<HTMLInputElement>(`#progression-balancing`)!.valueAsNumber = playerOptions.progression_balancing
+    document.querySelector<HTMLInputElement>(`#accessibility`)!.value = playerOptions.accessibility
+    document.querySelector<HTMLInputElement>(`#victory-condition`)!.value = playerOptions.victory_condition
+    document.querySelector<HTMLInputElement>(`#medal-count`)!.valueAsNumber = playerOptions.medal_count
+    document.querySelector<HTMLInputElement>(`#plat-count`)!.valueAsNumber = playerOptions.plat_count
+    document.querySelector<HTMLInputElement>(`#accessible-countries-count`)!.valueAsNumber = playerOptions.accessible_countries_count
+    document.querySelector<HTMLInputElement>(`#max-micro-countries-count`)!.valueAsNumber = playerOptions.max_micro_countries_count
+    document.querySelector<HTMLInputElement>(`#country-max-diff`)!.value = playerOptions.countries_max_difficulty
+    document.querySelector<HTMLInputElement>(`#include-platinums`)!.checked = playerOptions.include_platinums
+
+    const inputEvent = new Event('input', {
+        'bubbles': true,
+        'cancelable': true
+    });
+
+    document.querySelector<HTMLInputElement>("#player-name")!.dispatchEvent(inputEvent)
+    document.querySelector<HTMLInputElement>(`#progression-balancing`)!.dispatchEvent(inputEvent)
+    document.querySelector<HTMLInputElement>(`#accessibility`)!.dispatchEvent(inputEvent)
+    document.querySelector<HTMLInputElement>(`#victory-condition`)!.dispatchEvent(inputEvent)
+    document.querySelector<HTMLInputElement>(`#medal-count`)!.dispatchEvent(inputEvent)
+    document.querySelector<HTMLInputElement>(`#plat-count`)!.dispatchEvent(inputEvent)
+    document.querySelector<HTMLInputElement>(`#accessible-countries-count`)!.dispatchEvent(inputEvent)
+    document.querySelector<HTMLInputElement>(`#max-micro-countries-count`)!.dispatchEvent(inputEvent)
+    document.querySelector<HTMLInputElement>(`#country-max-diff`)!.dispatchEvent(inputEvent)
+    document.querySelector<HTMLInputElement>(`#include-platinums`)!.dispatchEvent(inputEvent)
 }
 
 function getPlayerOptions() {

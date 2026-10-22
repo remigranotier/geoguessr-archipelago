@@ -260,5 +260,8 @@
     },
     "yamlIncludePlatinumsSetting": {
         "message": "Inclure les médailles Platine :"
+    },
+    "loadLastButtonLabel": {
+        "message": "Charger la dernière configuration"
     }
 }

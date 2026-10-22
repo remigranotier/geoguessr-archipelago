@@ -34,14 +34,14 @@ fieldset {
     gap: 0.5em;
 }
 
-.setting {
+.setting-container {
     display: flex;
     flex-direction: row;
-    align-items: center;
     gap: 1em;
 }
 
-#generate-yaml-button {
+#generate-yaml-button,
+#load-last-yaml-button {
     width: fit-content;
     align-self: center;
 }
