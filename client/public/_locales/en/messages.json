@@ -188,5 +188,77 @@
     },
     "whatToPlayContent": {
         "message": "At every given moment, the game tab will hint you what map you're more likely to collect locations from: the maps in <strong>green</strong> are those in which you're \"logically expected\" to succeed, meaning that you have unlocked the map and enough gamemodes to unlock the next available medal.<br><br>A <strong>yellow</strong> map is supposed to be a bit harder but still doable. A <strong>red</strong> map means it's not expected at all that you could unlock a medal here.<br><br>Of course those are just suggestions; as long as a map is unlocked you're free to try how many times you like anyway."
+    },
+    "generateAYaml": {
+        "message": "Generate a YAML"
+    },
+    "yamlGeneratorTitle": {
+        "message": "YAML Generator"
+    },
+    "yamlArchipelagoSettings": {
+        "message": "General Archipelago settings"
+    },
+    "generateYamlButtonLabel": {
+        "message": "Generate YAML"
+    },
+    "yamlProgressionBalancingSetting": {
+        "message": "Progression balancing:"
+    },
+    "yamlAccessibilitySetting": {
+        "message": "Accessibility:"
+    },
+    "yamlAccessibilityFull": {
+        "message": "Full"
+    },
+    "yamlAccessibilityMinimal": {
+        "message": "Minimal"
+    },
+    "yamlGeoguessrSettings": {
+        "message": "Geoguessr settings"
+    },
+    "yamlVictoryConditionSetting": {
+        "message": "Victory condition:"
+    },
+    "yamlVictoryConditionPlatCount": {
+        "message": "Number of platinum medals"
+    },
+    "yamlVictoryConditionMedalsCount": {
+        "message": "Number of total medals"
+    },
+    "yamlPlayerSettings": {
+        "message": "Player settings"
+    },
+    "yamlPlayerNameSetting": {
+        "message": "Player name:"
+    },
+    "yamlPlayerNamePlaceholder": {
+        "message": "Player"
+    },
+    "yamlMedalCountSetting": {
+        "message": "Number of medals:"
+    },
+    "yamlPlatCountSetting": {
+        "message": "Number of platinum medals:"
+    },
+    "yamlAccessibleCountriesCountSetting": {
+        "message": "Number of accessible countries:"
+    },
+    "yamlMaxMicroCountriesCountSetting": {
+        "message": "Max number of micro-countries:"
+    },
+    "yamlCountryMaxDiffSetting": {
+        "message": "Country max difficulty:"
+    },
+    "yamlCountryMaxDiffEasy": {
+        "message": "Easy"
+    },
+    "yamlCountryMaxDiffMedium": {
+        "message": "Medium"
+    },
+    "yamlCountryMaxDiffHard": {
+        "message": "Hard"
+    },
+    "yamlIncludePlatinumsSetting": {
+        "message": "Include platinum medals:"
     }
 }

@@ -188,5 +188,77 @@
     },
     "whatToPlayContent": {
         "message": "A tout moment, l'onglet de jeu donnera des conseils sur quelle map permettrait de collecter une médaille le plus facilement: une carte en <strong>vert</strong> correpsond à une carte où tu serais \"logiquement attendu\" de réussir: cela signifie que tu as débloqué la carte et assez de modes de jeu pour devoir normalement pouvoir réussir à débloquer la prochaine médaille.<br><br>Une carte en <strong>jaune</strong> devrait poser un peu plus de problèmes, mais peut-être être jouable. Une carte en <strong>rouge</strong> signifie qu'il n'est pas attendu que tu puisse débloquer une médaille sans plus de modes de jeux débloqués.<br><br>Bien sûr, ce ne sont que des conseils : tant qu'une map est débloquée elle est jouable et tu es libre d'essayer autant que tu le veux."
+    },
+    "generateAYaml": {
+        "message": "Générer un YAML"
+    },
+    "yamlGeneratorTitle": {
+        "message": "Générateur de YAML"
+    },
+    "yamlArchipelagoSettings": {
+        "message": "Paramètres Archipelago généraux"
+    },
+    "generateYamlButtonLabel": {
+        "message": "Générer un YAML"
+    },
+    "yamlProgressionBalancingSetting": {
+        "message": "Équilibrage de progression:"
+    },
+    "yamlAccessibilitySetting": {
+        "message": "Accessibilité:"
+    },
+    "yamlAccessibilityFull": {
+        "message": "Complète"
+    },
+    "yamlAccessibilityMinimal": {
+        "message": "Minimale"
+    },
+    "yamlGeoguessrSettings": {
+        "message": "Paramètres Geoguessr"
+    },
+    "yamlVictoryConditionSetting": {
+        "message": "Condition de victoire :"
+    },
+    "yamlVictoryConditionPlatCount": {
+        "message": "Nombre de médailles Platine"
+    },
+    "yamlVictoryConditionMedalsCount": {
+        "message": "Nombre total de médailles"
+    },
+    "yamlPlayerSettings": {
+        "message": "Paramètres de joueur"
+    },
+    "yamlPlayerNameSetting": {
+        "message": "Nom du joueur:"
+    },
+    "yamlPlayerNamePlaceholder": {
+        "message": "Joueur"
+    },
+    "yamlMedalCountSetting": {
+        "message": "Nombre de médailles :"
+    },
+    "yamlPlatCountSetting": {
+        "message": "Nombre de médailles Platine :"
+    },
+    "yamlAccessibleCountriesCountSetting": {
+        "message": "Nombre de pays accessibles :"
+    },
+    "yamlMaxMicroCountriesCountSetting": {
+        "message": "Nombre maximum de micro-pays :"
+    },
+    "yamlCountryMaxDiffSetting": {
+        "message": "Difficulté maximum des pays :"
+    },
+    "yamlCountryMaxDiffEasy": {
+        "message": "Facile"
+    },
+    "yamlCountryMaxDiffMedium": {
+        "message": "Moyen"
+    },
+    "yamlCountryMaxDiffHard": {
+        "message": "Difficile"
+    },
+    "yamlIncludePlatinumsSetting": {
+        "message": "Inclure les médailles Platine :"
     }
 }
