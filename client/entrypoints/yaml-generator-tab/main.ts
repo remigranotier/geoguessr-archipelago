@@ -7,19 +7,32 @@ const NUMBER_OF_MAPS = Array.from(mapsConfig.values()).length
 const NUMBER_OF_COUNTRIES = Array.from(mapsConfig.values().filter((map) => map.area.kind == "country")).length
 
 function main() {
-    document.addEventListener("DOMContentLoaded", resolveI18n);
+    document.addEventListener("DOMContentLoaded", resolveI18n)
 
-    document.querySelector("#generate-yaml-button")!.addEventListener("click", generateFile)
-
-    document.getElementById("progression-balancing")!.addEventListener("input", (e: InputEvent) => {
-        document.querySelector('output[for="progression-balancing"]')!.textContent = (e.target! as HTMLInputElement).value
-    })
+    document.querySelector<HTMLFormElement>("form")!.reset()
 
     setupBigNumberSlider("progression-balancing")
     setupBigNumberSlider("medal-count", 4 * NUMBER_OF_MAPS)
     setupBigNumberSlider("plat-count", NUMBER_OF_MAPS)
     setupBigNumberSlider("accessible-countries-count", NUMBER_OF_COUNTRIES)
     setupBigNumberSlider("max-micro-countries-count")
+
+    document.querySelector<HTMLInputElement>("#victory-condition")!.oninput = (e: InputEvent) => {
+        const newValue = (e.target! as HTMLInputElement).value as "plat_count" | "medals_count"
+        if (newValue == "medals_count") {
+            document.getElementById("plat-count-container")!.style.display = "none"
+            document.getElementById("medal-count-container")!.style.display = "flex"
+            document.getElementById("include-platinums-container")!.style.display = "flex"
+        } else {
+            document.getElementById("plat-count-container")!.style.display = "flex"
+            document.getElementById("medal-count-container")!.style.display = "none"
+            console.log("pouet")
+            document.getElementById("include-platinums-container")!.style.display = "none"
+            document.querySelector<HTMLInputElement>("#include-platinums")!.checked = true
+        }
+    }
+
+    document.querySelector("#generate-yaml-button")!.addEventListener("click", generateFile)
 }
 
 class PlayerOptions {
