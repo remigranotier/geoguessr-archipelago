@@ -250,7 +250,7 @@ function getColorFromDifficulty(map: GACMap): string {
             } else {
                 return TRICKY_COLOR
             }
-        case map.progression.bestScore < map.medalThresholds[GACMedal.Gold]:
+        case map.progression.bestScore < map.medalThresholds[GACMedal.Gold] || !map.progression.fivekDone:
             if (hasMove && hasPan) {
                 return POSSIBLE_COLOR
             } else if (hasMove) {
@@ -258,13 +258,11 @@ function getColorFromDifficulty(map: GACMap): string {
             } else {
                 return IMPOSSIBLE_COLOR
             }
-        case map.progression.bestScore < map.medalThresholds[GACMedal.Platinum]:
+        case map.progression.bestScore < map.medalThresholds[GACMedal.Platinum] && globalThis.gameState.configData.include_platinums:
             if (hasMove && hasPan && hasZoom) {
                 return POSSIBLE_COLOR
             } else if (hasMove && hasPan) {
-                return map.progression.fivekDone ? TRICKY_COLOR : POSSIBLE_COLOR
-            } else if (hasMove) {
-                return map.progression.fivekDone ? IMPOSSIBLE_COLOR : TRICKY_COLOR
+                return TRICKY_COLOR
             } else {
                 return IMPOSSIBLE_COLOR
             }
