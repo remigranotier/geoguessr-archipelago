@@ -188,5 +188,107 @@
     },
     "whatToPlayContent": {
         "message": "At every given moment, the game tab will hint you what map you're more likely to collect locations from: the maps in <strong>green</strong> are those in which you're \"logically expected\" to succeed, meaning that you have unlocked the map and enough gamemodes to unlock the next available medal.<br><br>A <strong>yellow</strong> map is supposed to be a bit harder but still doable. A <strong>red</strong> map means it's not expected at all that you could unlock a medal here.<br><br>Of course those are just suggestions; as long as a map is unlocked you're free to try how many times you like anyway."
+    },
+    "generateAYaml": {
+        "message": "Generate a YAML"
+    },
+    "yamlGeneratorTitle": {
+        "message": "YAML Generator"
+    },
+    "yamlArchipelagoSettings": {
+        "message": "General Archipelago settings"
+    },
+    "generateYamlButtonLabel": {
+        "message": "Generate YAML"
+    },
+    "yamlProgressionBalancingSetting": {
+        "message": "Progression balancing:"
+    },
+    "yamlAccessibilitySetting": {
+        "message": "Accessibility:"
+    },
+    "yamlAccessibilityFull": {
+        "message": "Full"
+    },
+    "yamlAccessibilityMinimal": {
+        "message": "Minimal"
+    },
+    "yamlGeoguessrSettings": {
+        "message": "Geoguessr settings"
+    },
+    "yamlVictoryConditionSetting": {
+        "message": "Victory condition:"
+    },
+    "yamlVictoryConditionPlatCount": {
+        "message": "Number of platinum medals"
+    },
+    "yamlVictoryConditionMedalsCount": {
+        "message": "Number of total medals"
+    },
+    "yamlPlayerSettings": {
+        "message": "Player settings"
+    },
+    "yamlPlayerNameSetting": {
+        "message": "Player name:"
+    },
+    "yamlPlayerNamePlaceholder": {
+        "message": "Player"
+    },
+    "yamlMedalCountSetting": {
+        "message": "Number of medals:"
+    },
+    "yamlPlatCountSetting": {
+        "message": "Number of platinum medals:"
+    },
+    "yamlAccessibleCountriesCountSetting": {
+        "message": "Number of accessible countries:"
+    },
+    "yamlMaxMicroCountriesCountSetting": {
+        "message": "Max number of micro-countries:"
+    },
+    "yamlCountryMaxDiffSetting": {
+        "message": "Country max difficulty:"
+    },
+    "yamlCountryMaxDiffEasy": {
+        "message": "Easy"
+    },
+    "yamlCountryMaxDiffMedium": {
+        "message": "Medium"
+    },
+    "yamlCountryMaxDiffHard": {
+        "message": "Hard"
+    },
+    "yamlIncludePlatinumsSetting": {
+        "message": "Include platinum medals:"
+    },
+    "loadLastButtonLabel": {
+        "message": "Load last values"
+    },
+    "yamlProgressionBalancingTooltip": {
+        "message": "<p>A system that can move progression earlier, to try and prevent the player from getting stuck and bored early.</p><p>A lower setting means more getting stuck. A higher setting means less getting stuck.</p>"
+    },
+    "yamlAccessibilityTooltip": {
+        "message": "<p>Set rules for reachability of your items/locations.</p><p><strong>Full:</strong> ensure everything can be reached and acquired.</p><p><strong>Minimal:</strong> ensure what is needed to reach your goal can be acquired.</p>"
+    },
+    "yamlVictoryConditionTooltip": {
+        "message": "<p>Choose your goal for this game. \"Number of platinum medals\" is not recommended for beginners.</p><p><strong>Number of total medals:</strong> reach a certain amount of medals collected among all maps.</p><p><strong>Number of platinum medals:</strong> reach a certain amount of platinum medals (25k) on different maps.</p>"
+    },
+    "yamlMedalCountTooltip": {
+        "message": "<p>Choose the amount of medals to collect to win the game.</p><p>This has to be lower or equal to the number of medals available on the game (3 or 4 medals per map, depending on platinum medals activation)</p>"
+    },
+    "yamlPlatCountTooltip": {
+        "message": "<p>Choose the amount of platinum medals (25k) to collect to win the game.</p><p>This has to be lower or equal to the number of maps available on the game (Number of accessible countries + Number of continents (max 6) + World map)</p>"
+    },
+    "yamlAccessibleCountriesCountTooltip": {
+        "message": "<p>Choose the amount of countries that will be randomly drawn during generation, and thus will be avaible in the game to unlock.</p><p>There are 22 micro countries in the game, so be careful if you set the micro country limit to a lower value than 22: you will not be able to put the maximum amount of countries possible in this case.</p>"
+    },
+    "yamlMaxMicroCountriesTooltip": {
+        "message": "<p>Choose the maximum amount of micro-countries that can be drawn during generation.</p><p>Micro-countries are defined as micro-states (San Marino, Monaco...), or countries that have minimal geoguessr coverage (Laos, Uganda...)</p>"
+    },
+    "yamlCountryMaxDiffTooltip": {
+        "message": "<p>Choose the maximum difficulty of randomly drawn countries. Difficulty is mainly considered for moving and pinpointing, i.e. info density, general remoteness, map quality, non-latin alphabets...</p><p><strong>Easy:</strong> Germany, Chile, Ghana...</p><strong>Medium:</strong> Georgia, Botswana, Ukraine...</p><strong>Hard:</strong> Cambodia, Kenya, India...</p>"
+    },
+    "yamlIncludePlatinumsTooltip": {
+        "message": "<p>Choose to include or not platinum medals in the game. This creates extra medals in the game but they are pretty long to collect, so activating it may \"hide\" important items in the logic behing a long check. We advise to activate it only if you're used to pinpointing.</p>"
     }
 }

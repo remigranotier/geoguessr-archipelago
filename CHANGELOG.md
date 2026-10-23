@@ -23,6 +23,7 @@
 - Only embed useful maps in save data (#30)
 - Separate maps by continent (#31)
 - Add a How to Play tab (#32)
+- Add a YAML generation page (#33)
 
 ## Bugfixes
 - Added error log on game generation failure (#6)

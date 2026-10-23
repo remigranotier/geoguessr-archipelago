@@ -87,8 +87,9 @@ With this, you'll eventually see (maybe after a refresh) a link to your Archipel
 Archipelago describes how YAML files work [here](https://archipelago.gg/tutorial/Archipelago/advanced_settings_en).
 
 You can either:
+- **(recommended)** Use our YAML generator by clicking on **Generate a YAML** on the web extension game tab's footer.
 - Use Archipelago Launcher's "Options Creator" by searching for it in the Archipelago Launcher. Select Geoguessr and crawl through the options to choose what you prefer.
-- Edit the base template with at least your slot name (the "Slot name" is the name of the slot you'll use when connecting to the Archipelago server, so it's  basically your player name).
+- Edit the base template with at least your slot name (the "Slot name" is the name of the slot you'll use when connecting to the Archipelago server, so it's basically your player name).
 
 We tried to put default settings as fun as we could, but some tweaking can be done on your side depending on your level and how you felt playing your last games of Archipelago on Geoguessr.
 

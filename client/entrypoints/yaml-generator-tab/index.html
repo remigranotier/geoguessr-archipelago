@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/icon/128.png" />
+    <title data-i18n="yamlGeneratorTitle"></title>
+</head>
+
+<body>
+    <h1 id="page-title" data-i18n="yamlGeneratorTitle"></h1>
+    <form>
+        <button id="load-last-yaml-button" type="button" data-i18n="loadLastButtonLabel"></button>
+        <fieldset>
+            <legend id="player-settings" data-i18n="yamlPlayerSettings"></legend>
+            <div class="setting-container">
+                <label for="player-name" data-i18n="yamlPlayerNameSetting"></label>
+                <input id="player-name" type="text" data-i18n-placeholder="yamlPlayerNamePlaceholder">
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend id="archipelago-settings" data-i18n="yamlArchipelagoSettings"></legend>
+            <div class="setting-container" id="progression-balancing-container">
+                <div class="tooltip">ℹ️<span class="tooltiptext" data-i18n="yamlProgressionBalancingTooltip"></span>
+                </div>
+                <label for="progression-balancing" data-i18n="yamlProgressionBalancingSetting"></label>
+                <input type="number" id="progression-balancing-textbox" min="0" max="99" value="50">
+                <input type="range" id="progression-balancing" min="0" max="99" value="50">
+            </div>
+
+            <div class="setting-container" id="accessibility-container">
+                <div class="tooltip">ℹ️<span class="tooltiptext" data-i18n="yamlAccessibilityTooltip"></span>
+                </div>
+                <label for="accessibility" data-i18n="yamlAccessibilitySetting"></label>
+                <select id="accessibility" name="accessibility">
+                    <option value="full" selected data-i18n="yamlAccessibilityFull"></option>
+                    <option value="minimal" data-i18n="yamlAccessibilityMinimal"></option>
+                </select>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend id="geoguessr-settings" data-i18n="yamlGeoguessrSettings"></legend>
+            <div class="setting-container">
+                <div class="tooltip">ℹ️<span class="tooltiptext" data-i18n="yamlVictoryConditionTooltip"></span>
+                </div>
+                <label for="victory-condition" data-i18n="yamlVictoryConditionSetting"></label>
+                <select id="victory-condition" name="victory-condition">
+                    <option value="medals_count" selected data-i18n="yamlVictoryConditionMedalsCount"></option>
+                    <option value="plat_count" data-i18n="yamlVictoryConditionPlatCount"></option>
+                </select>
+            </div>
+
+            <div class="setting-container" id="medal-count-container">
+                <div class="tooltip">ℹ️<span class="tooltiptext" data-i18n="yamlMedalCountTooltip"></span>
+                </div>
+                <label for="medal-count" data-i18n="yamlMedalCountSetting"></label>
+                <input type="number" id="medal-count-textbox" min="1" value="20">
+                <input type="range" id="medal-count" min="1" value="20">
+            </div>
+
+            <div class="setting-container" id="plat-count-container" style="display:none">
+                <div class="tooltip">ℹ️<span class="tooltiptext" data-i18n="yamlPlatCountTooltip"></span>
+                </div>
+                <label for="plat-count" data-i18n="yamlPlatCountSetting"></label>
+                <input type="number" id="plat-count-textbox" min="1" value="5">
+                <input type="range" id="plat-count" min="1" value="5">
+            </div>
+
+            <div class="setting-container" id="accessible-countries-count-container">
+                <div class="tooltip">ℹ️<span class="tooltiptext" data-i18n="yamlAccessibleCountriesCountTooltip"></span>
+                </div>
+                <label for="accessible-countries-count" data-i18n="yamlAccessibleCountriesCountSetting"></label>
+                <input type="number" id="accessible-countries-count-textbox" min="1" value="10">
+                <input type="range" id="accessible-countries-count" min="1" value="10">
+            </div>
+
+            <div class="setting-container" id="max-micro-countries-count-container">
+                <div class="tooltip">ℹ️<span class="tooltiptext" data-i18n="yamlMaxMicroCountriesTooltip"></span>
+                </div>
+                <label for="max-micro-countries-count" data-i18n="yamlMaxMicroCountriesCountSetting"></label>
+                <input type="number" id="max-micro-countries-count-textbox" min="0" max="22" value="3">
+                <input type="range" id="max-micro-countries-count" min="0" max="22" value="3">
+            </div>
+
+            <div class="setting-container" id="country-max-diff-container">
+                <div class="tooltip">ℹ️<span class="tooltiptext" data-i18n="yamlCountryMaxDiffTooltip"></span>
+                </div>
+                <label for="country-max-diff" data-i18n="yamlCountryMaxDiffSetting"></label>
+                <select id="country-max-diff" name="country-max-diff">
+                    <option value="easy" data-i18n="yamlCountryMaxDiffEasy"></option>
+                    <option value="medium" data-i18n="yamlCountryMaxDiffMedium"></option>
+                    <option value="hard" data-i18n="yamlCountryMaxDiffHard" selected></option>
+                </select>
+            </div>
+
+            <div class="setting-container" id="include-platinums-container">
+                <div class="tooltip">ℹ️<span class="tooltiptext" data-i18n="yamlIncludePlatinumsTooltip"></span>
+                </div>
+                <label for="include-platinums" data-i18n="yamlIncludePlatinumsSetting"></label>
+                <input type="checkbox" id="include-platinums" checked>
+            </div>
+        </fieldset>
+        <button id="generate-yaml-button" type="button" data-i18n="generateYamlButtonLabel"></button>
+    </form>
+    <script type="module" src="./main.ts"></script>
+</body>
+
+</html>

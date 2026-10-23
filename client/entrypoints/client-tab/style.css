@@ -203,8 +203,14 @@ footer {
   position: fixed;
   bottom: 0;
   width: 100%;
-  text-align: center;
   background: #111;
   color: white;
   padding: 20px;
+  box-sizing: border-box;
+}
+
+#footer-content {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
 }

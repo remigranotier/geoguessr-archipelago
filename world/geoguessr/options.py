@@ -23,7 +23,7 @@ class VictoryCondition(Choice):
     option_plat_count = 1
 
     # Choice options must define an explicit default value.
-    default = option_plat_count
+    default = option_medals_count
 
 
 class MedalCount(Range):
@@ -35,7 +35,7 @@ class MedalCount(Range):
 
     range_start = 1
     range_end = get_map_amount() * 4
-    default = get_map_amount() * 3
+    default = 20
 
 
 class PlatCount(Range):
