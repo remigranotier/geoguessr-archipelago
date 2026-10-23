@@ -34,3 +34,4 @@
 - Fixed service worker going off after a while (#17)
 - Fixed HTML placeholders still present on client tab (#23)
 - Fixed light mode by removing it (#24)
+- Fixed color conditions with 5k and include_platinums options (#34)
