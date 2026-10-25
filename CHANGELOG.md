@@ -24,6 +24,7 @@
 - Separate maps by continent (#31)
 - Add a How to Play tab (#32)
 - Add a YAML generation page (#33)
+- Display the next medal to get on geoguessr tab when playing (#34)
 
 ## Bugfixes
 - Added error log on game generation failure (#6)
