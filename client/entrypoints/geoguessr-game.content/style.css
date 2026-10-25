@@ -1,0 +1,11 @@
+#geoguessr-archipelago-threshold {
+    display: flex;
+}
+
+#geoguessr-archipelago-threshold-text {
+    text-align: center;
+    border-top: .0625rem solid var(--ds-color-purple-80);
+    height: 2.5rem;
+    line-height: 2.5rem;
+    flex-grow: 1;
+}
