@@ -1,7 +1,7 @@
 import { getMedalText } from "../client-tab/ui/maps";
 import { GACMedal } from "../common/config/medals";
 import { RetrieveConnectionStatusMessage, RoundFinishedMessage, type GeoguessrRoundFinishedMessage } from "../common/messages";
-import { GACConnectionStatus, GACGameState, GACGameType, GACMap, type GACResponse } from "../common/models";
+import { GACGameState, GACGameType, GACMap, type GACResponse } from "../common/models";
 import './style.css'
 
 const THRESHOLD_DIV_ID = "geoguessr-archipelago-threshold"
@@ -14,16 +14,30 @@ export default defineContentScript({
     main() {
         window.addEventListener('message', handleGeoguessrGameFinishedMessage);
 
-        const observer = new MutationObserver((_mutationsList, observer) => {
+        const appearanceObserver = new MutationObserver((_mutationsList, observer) => {
             const roundStatusPanel = document.querySelector("[class^=rounds-status_panel__]");
             console.debug("Checking for round status panel appearance")
             if (roundStatusPanel !== null) {
-                console.debug("Round status panel detected");
+                console.debug("Appearance OK");
                 displayThresholds(roundStatusPanel);
                 observer.disconnect();
+                disappearanceObserver.observe(roundStatusPanel.parentElement!, { childList: true });
             }
         });
-        observer.observe(document.body, { subtree: true, childList: true });
+
+        const disappearanceObserver = new MutationObserver((_mutationsList, observer) => {
+            const roundStatusPanel = document.querySelector("[class^=rounds-status_panel__]");
+            console.debug("Checking for round status panel disappearance")
+            if (roundStatusPanel === null) {
+                console.debug("Disppearance OK");
+                observer.disconnect();
+                const inGameLayout = document.querySelector("[class^=in-game_layout__]")!;
+                appearanceObserver.observe(inGameLayout, { childList: true });
+            }
+        });
+
+
+        appearanceObserver.observe(document.body, { subtree: true, childList: true });
     }
 });
 
@@ -55,7 +69,6 @@ async function displayThresholds(roundStatusPanel: Element) {
     let thresholdDiv = getOrCreateThresholdDiv(roundStatusPanel)
 
     const getConnectionStatusResponse: GACResponse = await browser.runtime.sendMessage(new RetrieveConnectionStatusMessage())
-    console.debug(getConnectionStatusResponse)
     if (!getConnectionStatusResponse.success) {
         console.error("Failed to send message to extension from content script")
         thresholdDiv.replaceChildren()
