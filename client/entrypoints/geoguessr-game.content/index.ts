@@ -81,6 +81,7 @@ async function displayThresholds(roundStatusPanel: Element) {
         return
     }
 
+    storage.unwatch()
     storage.watch<GACGameState>(`local:${connectionStatus.seed}-${connectionStatus.player}`, (newGameState, _oldGameState) => {
         gamestate = newGameState ?? new GACGameState()
         renderThresholdDivText(roundStatusPanel)
