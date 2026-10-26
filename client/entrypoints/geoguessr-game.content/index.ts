@@ -19,7 +19,7 @@ export default defineContentScript({
             console.debug("Checking for round status panel appearance")
             if (roundStatusPanel !== null) {
                 console.debug("Appearance OK");
-                displayThresholds(roundStatusPanel);
+                void displayThresholds(roundStatusPanel);
                 observer.disconnect();
                 disappearanceObserver.observe(roundStatusPanel.parentElement!, { childList: true });
             }
@@ -107,6 +107,10 @@ function getOrCreateThresholdDivText(thresholdDiv: HTMLDivElement) {
         thresholdTextDiv = document.createElement("div")
         thresholdTextDiv.id = `${THRESHOLD_DIV_ID}-text`
         thresholdDiv.replaceChildren()
+        let thresholdLogoDiv = document.createElement("img")
+        thresholdLogoDiv.id = `${THRESHOLD_DIV_ID}-logo`
+        thresholdLogoDiv.src = browser.runtime.getURL('/icon/128.png')
+        thresholdDiv.appendChild(thresholdLogoDiv)
         thresholdDiv.appendChild(thresholdTextDiv)
     }
     return thresholdTextDiv
