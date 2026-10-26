@@ -35,17 +35,15 @@ export class AreaMap {
     mapId: string
     mapName: string
     medalThresholds: Record<GACMedal, number>
-    hasThresholdBalancing: boolean
 
-    constructor(area: Area, areaName: string, mapId: string, mapName: string, thresholdScaling?: number) {
+    constructor(area: Area, areaName: string, mapId: string, mapName: string) {
         this.area = area
         this.areaName = areaName
         this.baseLocationId = this.getBaseLocationId(this.area)
         this.baseItemId = this.getBaseItemId(this.area)
         this.mapId = mapId
         this.mapName = mapName
-        this.medalThresholds = thresholdScaling !== undefined ? getScaledThresholds(areaName) : defaultMedalThresholds
-        this.hasThresholdBalancing = thresholdScaling !== undefined
+        this.medalThresholds = getScaledThresholds(areaName)
     }
 
     getBaseLocationId(area: Area): number {
