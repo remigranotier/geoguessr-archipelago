@@ -22,7 +22,7 @@ export const CountriesThresholdsScales: Record<string, number> = {
     "Sweden": 0.8,
     "Ukraine": 0.6,
     "Cambodia": 2/3,
-    "Nepal": 1,
+    "Nepal": 0.8,
     "Qatar": 0.8,
     "South Korea": 0.8,
     "Sri Lanka": 0.6,
