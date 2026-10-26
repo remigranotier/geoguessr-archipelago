@@ -1,3 +1,5 @@
+import { CountriesThresholdsScales } from "./thresholds"
+
 export enum GACMedal {
     None = 0,
     Bronze = 1,
@@ -14,12 +16,13 @@ export const defaultMedalThresholds: Record<GACMedal, number> = {
     [GACMedal.Platinum]: 25000,
 }
 
-export function getScaledThresholds(scale: number): Record<GACMedal, number> {
+export function getScaledThresholds(areaName: string): Record<GACMedal, number> {
+    const scale = CountriesThresholdsScales[areaName]
     return {
         [GACMedal.None]: 0,
-        [GACMedal.Bronze]: 7500 * scale,
-        [GACMedal.Silver]: 15000 * scale,
-        [GACMedal.Gold]: 22500 * scale,
+        [GACMedal.Bronze]: 7500 * (scale ?? 1),
+        [GACMedal.Silver]: 15000 * (scale ?? 1),
+        [GACMedal.Gold]: 22500,
         [GACMedal.Platinum]: 25000,
     }
 }

@@ -44,7 +44,7 @@ export class AreaMap {
         this.baseItemId = this.getBaseItemId(this.area)
         this.mapId = mapId
         this.mapName = mapName
-        this.medalThresholds = thresholdScaling !== undefined ? getScaledThresholds(thresholdScaling) : defaultMedalThresholds
+        this.medalThresholds = thresholdScaling !== undefined ? getScaledThresholds(areaName) : defaultMedalThresholds
         this.hasThresholdBalancing = thresholdScaling !== undefined
     }
 
