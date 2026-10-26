@@ -18,6 +18,9 @@ export default defineConfig({
         action: {},
         default_locale: "en",
         name: "__MSG_extName__",
-        description: "__MSG_extDescription__"
+        description: "__MSG_extDescription__",
+        web_accessible_resources: [
+            { matches: ["*://*.geoguessr.com/game/*"], resources: ["/icon/128.png"] }
+        ]
     }
 });
