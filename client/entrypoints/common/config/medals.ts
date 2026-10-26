@@ -13,3 +13,13 @@ export const defaultMedalThresholds: Record<GACMedal, number> = {
     [GACMedal.Gold]: 22500,
     [GACMedal.Platinum]: 25000,
 }
+
+export function getScaledThresholds(scale: number): Record<GACMedal, number> {
+    return {
+        [GACMedal.None]: 0,
+        [GACMedal.Bronze]: 7500 * scale,
+        [GACMedal.Silver]: 15000 * scale,
+        [GACMedal.Gold]: 22500 * scale,
+        [GACMedal.Platinum]: 25000,
+    }
+}
