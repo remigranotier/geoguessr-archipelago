@@ -1,6 +1,6 @@
 import type { GACMedal } from "./medals";
 import type { Continent, Country, World } from "./countries";
-import { defaultMedalThresholds } from "./medals";
+import { defaultMedalThresholds, getScaledThresholds } from "./medals";
 
 export const LOCATIONS_PER_MAP = 5 // Bronze, Silver, Gold, Platinum, 5k
 export const ITEMS_PER_MAP = 4 // Unlock, Pan, Move, Zoom
@@ -36,14 +36,14 @@ export class AreaMap {
     mapName: string
     medalThresholds: Record<GACMedal, number>
 
-    constructor(area: Area, areaName: string, mapId: string, mapName: string, medalThresholds?: Record<GACMedal, number>) {
+    constructor(area: Area, areaName: string, mapId: string, mapName: string) {
         this.area = area
         this.areaName = areaName
         this.baseLocationId = this.getBaseLocationId(this.area)
         this.baseItemId = this.getBaseItemId(this.area)
         this.mapId = mapId
         this.mapName = mapName
-        this.medalThresholds = medalThresholds ?? defaultMedalThresholds
+        this.medalThresholds = getScaledThresholds(areaName)
     }
 
     getBaseLocationId(area: Area): number {

@@ -20,7 +20,7 @@ allMaps.push(
     new AreaMap({ kind: "country", continentNumber: ContinentNumber.Europe, countryNumber: EuropeCountryNumber.Czech_Republic }, "Czechia", "66167e09962c0880ae03e5a5", "Coupe de la Ligue - Czechia"),
     new AreaMap({ kind: "country", continentNumber: ContinentNumber.Europe, countryNumber: EuropeCountryNumber.Denmark }, "Denmark", "6616562e9d295bf4901bfdf2", "Coupe de la Ligue - Denmark"),
     new AreaMap({ kind: "country", continentNumber: ContinentNumber.Europe, countryNumber: EuropeCountryNumber.Estonia }, "Estonia", "66165933f31375669b01a04f", "Coupe de la Ligue - Estonia"),
-    new AreaMap({ kind: "country", continentNumber: ContinentNumber.Europe, countryNumber: EuropeCountryNumber.Faroe_Islands }, "Faroe Islands", "66165ea09d295bf4901c09e4", "Coupe de la Ligue - Faroe Islands"),
+    new AreaMap({ kind: "country", continentNumber: ContinentNumber.Europe, countryNumber: EuropeCountryNumber.Faroe_Islands }, "Faroe Islands", "faroe-islands", "Faroe Islands"),
     new AreaMap({ kind: "country", continentNumber: ContinentNumber.Europe, countryNumber: EuropeCountryNumber.Finland }, "Finland", "6616599cd61e067ae096c946", "Coupe de la Ligue - Finland"),
     new AreaMap({ kind: "country", continentNumber: ContinentNumber.Europe, countryNumber: EuropeCountryNumber.France }, "France", "661659f9a81e8da8b71965b4", "Coupe de la Ligue - France"),
     new AreaMap({ kind: "country", continentNumber: ContinentNumber.Europe, countryNumber: EuropeCountryNumber.Germany }, "Germany", "661652dbed5d1147573f5e63", "Coupe de la Ligue - Germany"),

@@ -25,6 +25,7 @@
 - Add a How to Play tab (#32)
 - Add a YAML generation page (#33)
 - Display the next medal to get on geoguessr tab when playing (#34)
+- Add threshold balancing for several countries (#36)
 
 ## Bugfixes
 - Added error log on game generation failure (#6)
