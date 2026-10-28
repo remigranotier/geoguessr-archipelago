@@ -7,6 +7,7 @@ This is the repository for an Archipelago Client & APWorld for Geoguessr.
 For information on Archipelago, you may visit [their official website](https://archipelago.gg) or [their FAQ](https://archipelago.gg/faq/en/).
 
 ## Objective
+
 This randomizer comes with a browser extension that creates a gamemode specially made for Archipelago. The player will have to play World/Continent/Country maps and achieve score objectives on them. For each map, the player can collect up to four medals (Bronze, Silver, Gold, Platinum).<br>
 There are two types of goals :
 - Obtain a predefined amount of medals
@@ -27,20 +28,30 @@ Without further item unlocks, each map starts in No Pan, No Move, No Zoom mode. 
 The special and questionable tips are filler items (not necessary) and might help or not help you improve your geography skills 👀
 
 ## Interface
+
 The browser extension offers an interface for the player to track their progress towards the goal, the items they have unlocked, the locations left to check and the checks performed by the other players. We also provide a color code showing what locations the player is expected to be able to check with their current unlocks.
 
 Here is a preview of what it looks like during a game session :
-![alt text](resources/UIforREADME.png)
+![A screenshot of the UI of the client tab](resources/UIforREADME.png)
 
 # Get Started
 
 You can check the setup guide [here](world/geoguessr/docs/setup_en.md) to start playing !
 
+Quick shortcut to our browser extension links:
+- Chrome and derived:
+- Firefox: 
+
+You can also join [our discord server](https://discord.gg/SdSbcqd3VY)!
+
 # AI disclosure
+
 - No AI was used to generate any part of the code contained in this repository.
 - No AI was used to create the geoguessr archipelago logo.
 - AI tools were sometimes used to perform research during development.
 
 # Credits
 
-This client and world have been made by LeRemiii & Evandar
+This client and world have been made by LeRemiii & Evandar.
+
+Thanks to [La Ligue Geoguessr](https://linktr.ee/liguegeoguessr) and Pastèque Hachée for the maps used for default implementation.
