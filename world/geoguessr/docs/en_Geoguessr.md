@@ -27,7 +27,7 @@ For example, you can unlock ``Europe``, ``Monaco``, ``Move (Europe)``, ``Pan (Mo
 ## What does another world's item look like in Geoguessr?
 There are no visual sprites of items; collecting locations (visible on the client tab) will collect the associated items.
 
-Collecting a locations will play a *ding* sound effect.
+Collecting a location will play a *ding* sound effect.
 
 ## When the player receives an item, what happens?
 When you receive an item, a *pop* sound effect will play. The associated map or gamemode unlocked will immediately be available to you.
