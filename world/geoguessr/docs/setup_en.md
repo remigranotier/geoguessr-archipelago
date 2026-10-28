@@ -80,7 +80,7 @@ Once you have your `.zip` file ready, go on [Archipelago's official website](htt
 3. Upload your `.zip` file.
 4. Click on `Create new room`.
 
-With this, you'll eventually see (maybe after a refresh) a link to your Archipelago session (something like `archipelago.gg:3333`). Use this link in the `Geoguessr Archipelago` extension to connect to this session!
+With this, you'll eventually see (maybe after a refresh) a link to your Archipelago session (something like `archipelago.gg:33333`). Use this link in the `Geoguessr Archipelago` extension to connect to this session!
 
 ## Generating a YAML file
 
