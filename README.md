@@ -30,6 +30,7 @@ The special and questionable tips are filler items (not necessary) and might hel
 The browser extension offers an interface for the player to track their progress towards the goal, the items they have unlocked, the locations left to check and the checks performed by the other players. We also provide a color code showing what locations the player is expected to be able to check with their current unlocks.
 
 Here is a preview of what it looks like during a game session :
+![alt text](resources/UIforREADME.png)
 
 # Get Started
 
