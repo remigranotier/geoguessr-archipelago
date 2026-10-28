@@ -1,24 +1,22 @@
 import { SendNewLogMessage } from "../common/messages"
-
-const QUESTIONABLE_TIPS: string[] = [
-    '"Vende" is a Brazilian town in the state of Sergipe. It is known for having fans all over the country.',
-    '"Sehir Merkezi" is a Turkish football player that played a long time for Galatasaray.',
-    '"Selamat Datang" is a neighboorhood in East Jakarta that loves displaying their town signs.',
-]
-
-const SPECIAL_TIPS: string[] = [
-    "The area code for San Luis Potosi city in Mexico is (444).",
-    "Brick houses in France are mainly found in the very northern part of the country.",
-    "A big part of Ukraine is covered using a red car with a long antenna.",
-    "The northern third of Chile is covered by the Atacama desert, the driest place on Earth.",
-]
+import { QUESTIONABLE_TIPS_EN, QUESTIONABLE_TIPS_FR, SPECIAL_TIPS_EN, SPECIAL_TIPS_FR } from "../common/config/tips-list"
 
 function getRandomQuestionableTip(): string {
-    return QUESTIONABLE_TIPS[Math.floor(Math.random() * QUESTIONABLE_TIPS.length)]!
+    const lang = browser.i18n.getUILanguage();
+    if(lang.includes("fr")) {
+        return QUESTIONABLE_TIPS_FR[Math.floor(Math.random() * QUESTIONABLE_TIPS_FR.length)]!
+    } else {
+        return QUESTIONABLE_TIPS_EN[Math.floor(Math.random() * QUESTIONABLE_TIPS_EN.length)]!
+    }
 }
 
 function getRandomSpecialTip(): string {
-    return SPECIAL_TIPS[Math.floor(Math.random() * SPECIAL_TIPS.length)]!
+    const lang = browser.i18n.getUILanguage();
+    if(lang.includes("fr")) {
+        return SPECIAL_TIPS_FR[Math.floor(Math.random() * SPECIAL_TIPS_FR.length)]!
+    } else {
+        return SPECIAL_TIPS_EN[Math.floor(Math.random() * SPECIAL_TIPS_EN.length)]!
+    }
 }
 
 export function sendSpecialTip() {
