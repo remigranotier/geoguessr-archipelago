@@ -38,3 +38,4 @@
 - Fixed HTML placeholders still present on client tab (#23)
 - Fixed light mode by removing it (#24)
 - Fixed color conditions with 5k and include_platinums options (#34)
+- Fixed chrome not accepting certain patterns in web_accessible_resources (#37)

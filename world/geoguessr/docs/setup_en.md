@@ -19,25 +19,25 @@
 
 To play an Archipelago session on Geoguessr, you need access to a **Geoguessr Pro subscription** (to generate solo games).
 
-Eventually, we plan to add the possibility to submit challenges manually and to retrieve scores of a free account on them to allow playing if you're not the one generating the game.
+It is possible to submit challenges manually and to retrieve scores of a free account on them to allow playing if you're not the one generating the game. But this can be tedious, as you will need someone with a pro subscription to generate the challenges along the way.
 
 # Setup
 
-Here will be the installation steps for players. For the person hosting see the special steps [here](#for-hosts-only).
+Here are the installation steps for players. For the person hosting see the special steps [here](#for-hosts-only).
 
 ## For players of a session
 
-You only have **two things to do**: 
+You only have **two things to do**:
 
-- First, you'll have to generate your game's **configuration file** (aka **YAML file**) which will setup your own settings for the game. See [here](#generating-a-yaml-file) for instructions. Send that file to your host for the multi-game generation.
-
-- Then, install the **client extension** using one of the following links, depending of your browser
-    - Firefox: 
+- First, install the **client extension** using one of the following links, depending of your browser
+    - Firefox:
     - Chrome (and variants):
 
-Once installed, click on the **extension icon** to open the *Geoguessr Archipelago* tab. 
+- Then, you'll have to generate your game's **configuration file** (aka **YAML file**) which will setup your own settings for the game. See [here](#generating-a-yaml-file) for instructions. Send that file to your host for the multi-game generation.
 
-This tab be your main hub for playing an Archipelago game on Geoguessr.
+Once installed, click on the **extension icon** to open the *Geoguessr Archipelago* tab.
+
+This tab will be your main hub for playing an Archipelago game on Geoguessr.
 
 We advise you to also put the extension's icon *pinned* into your toolbar.
 
@@ -51,7 +51,7 @@ Go on https://github.com/ArchipelagoMW/Archipelago/releases/latest and download 
 
 Launch the setup program to install the Archipelago Launcher.
 
-### Install Geoguessr's `.apworld` 
+### Install Geoguessr's `.apworld`
 
 Go on https://github.com/remigranotier/geoguessr-archipelago/releases/latest and download our latest release's `.apworld` file.
 
@@ -65,7 +65,7 @@ Archipelago expects **one YAML file per player**. This is the configuration Arch
 
 1. Open the Archipelago Launcher.
 2. Search for `Browse Files` and select it. This will open a File Explorer to your Archipelago directory.
-3. Open the Players directory.
+3. Open the ``Players`` directory.
 4. Move or copy all your players' YAML files into this folder
 5. Go back to the Archipelago Launcher, search for `Generate` and click it.
 
@@ -86,14 +86,26 @@ With this, you'll eventually see (maybe after a refresh) a link to your Archipel
 
 Archipelago describes how YAML files work [here](https://archipelago.gg/tutorial/Archipelago/advanced_settings_en).
 
-You can either:
+You have several options :
 - **(recommended)** Use our YAML generator by clicking on **Generate a YAML** on the web extension game tab's footer.
+
+The two following methods require you to install both the Archipelago Launcher and Geoguessr's apworld (see [here](#install-archipelago-launcher)) :
 - Use Archipelago Launcher's "Options Creator" by searching for it in the Archipelago Launcher. Select Geoguessr and crawl through the options to choose what you prefer.
-- Edit the base template with at least your slot name (the "Slot name" is the name of the slot you'll use when connecting to the Archipelago server, so it's basically your player name).
+- Generate the base template using the launcher's "Generate Template Options" functionality. You can then edit this template with at least your slot name (the "Slot name" is the name of the slot you'll use when connecting to the Archipelago server, so it's basically your player name).
 
 We tried to put default settings as fun as we could, but some tweaking can be done on your side depending on your level and how you felt playing your last games of Archipelago on Geoguessr.
 
+You will also find option presets to quickly setup different session types. These presets are explained more in detail in the browser extension's YAML generator.
+
 ## Troubleshooting
+
+### The generation of a multiworld does not work
+
+Make sure to read the error message that shows up when you click on the Generate option in the launcher. It is most likely that your settings are contradictory or too limiting for a generation to be possible.
+
+### I got disconnected while playing and my locations weren't validated
+
+If your game results are not taken into account, you can paste the id of the seed you played (or are still playing) in the extension page. Any medal/5k that wasn't validated will be double-checked.
 
 ### Connexion isn't working after a while on the same server
 

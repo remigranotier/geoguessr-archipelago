@@ -27,11 +27,3 @@ Run the dev server using
 ```
 npm run dev:firefox
 ```
-
-## Basic functioning of the client
-
-The background script `background/index.ts` is the service-worker and is the "center" of the client. It communicates both with the `popup`, a small webpage which is rendered every time it is clicked on (but might not be rendered *all the time*), and with the `content` scripts, that are ran on the associated URLs set up.
-
-The `geoguessr-game` content script is responsible of listening to events and stuff to "know" when a game is finished and the score set.
-
-The `popup` allows the player to configure their connection. The connection to the archipelago servers is performed and kept in the `background` script.

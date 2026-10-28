@@ -20,7 +20,7 @@ export default defineConfig({
         name: "__MSG_extName__",
         description: "__MSG_extDescription__",
         web_accessible_resources: [
-            { matches: ["*://*.geoguessr.com/game/*"], resources: ["/icon/128.png"] }
+            { matches: ["*://*.geoguessr.com/*"], resources: ["/icon/128.png"] }
         ]
     }
 });
