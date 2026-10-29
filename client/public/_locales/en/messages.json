@@ -262,7 +262,7 @@
         "message": "Include platinum medals:"
     },
     "loadLastButtonLabel": {
-        "message": "Load last values"
+        "message": "Load last generated values"
     },
     "yamlProgressionBalancingTooltip": {
         "message": "<p>A system that can move progression earlier, to try and prevent the player from getting stuck and bored early.</p><p>A lower setting means more getting stuck. A higher setting means less getting stuck.</p>"

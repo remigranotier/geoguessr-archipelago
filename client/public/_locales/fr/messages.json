@@ -262,7 +262,7 @@
         "message": "Inclure les médailles Platine :"
     },
     "loadLastButtonLabel": {
-        "message": "Charger la dernière configuration"
+        "message": "Charger la dernière configuration générée"
     },
     "yamlProgressionBalancingTooltip": {
         "message": "<p>Un système qui permet de bouger la progression plus tôt dans la partie, pour essayer de ne pas bloquer et ennuyer la joueur-euse.</p><p>Diminuer la valeur signifie être plus bloqué-e. Augmenter la valeur signifie être moins bloqué-e.</p>"
