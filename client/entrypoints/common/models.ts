@@ -1,5 +1,5 @@
 import { AreaMap, type AreaLocations } from "./config/area-map";
-import { defaultMedalThresholds, GACMedal } from "./config/medals";
+import { GACMedal } from "./config/medals";
 import { apClient } from "../background";
 import { WorldNumber } from "./config/countries";
 
@@ -37,8 +37,7 @@ export class GACMap {
         public gamemode: GACGamemode = GACGamemode.None,
         public visible: boolean = false,
         public playable: boolean = false,
-        public locationsMissing: AreaLocations[] = [],
-        public medalThresholds: Record<GACMedal, number> = defaultMedalThresholds
+        public locationsMissing: AreaLocations[] = []
     ) { }
 }
 

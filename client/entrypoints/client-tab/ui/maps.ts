@@ -183,13 +183,13 @@ function getAreaLocationThreshold(map: GACMap, currentLocation: AreaLocations) {
         case AreaLocations.FiveK:
             return PERFECT_SCORE
         case AreaLocations.Bronze:
-            return map.medalThresholds[GACMedal.Bronze]
+            return map.areaMap.medalThresholds[GACMedal.Bronze]
         case AreaLocations.Silver:
-            return map.medalThresholds[GACMedal.Silver]
+            return map.areaMap.medalThresholds[GACMedal.Silver]
         case AreaLocations.Gold:
-            return map.medalThresholds[GACMedal.Gold]
+            return map.areaMap.medalThresholds[GACMedal.Gold]
         case AreaLocations.Platinum:
-            return map.medalThresholds[GACMedal.Platinum]
+            return map.areaMap.medalThresholds[GACMedal.Platinum]
     }
 }
 
@@ -204,13 +204,13 @@ function getProgressionText(map: GACMap) {
 function getBestMedal(map: GACMap) {
     const score = map.progression.bestScore
     switch (true) {
-        case score < map.medalThresholds[GACMedal.Bronze]:
+        case score < map.areaMap.medalThresholds[GACMedal.Bronze]:
             return GACMedal.None
-        case score < map.medalThresholds[GACMedal.Silver]:
+        case score < map.areaMap.medalThresholds[GACMedal.Silver]:
             return GACMedal.Bronze
-        case score < map.medalThresholds[GACMedal.Gold]:
+        case score < map.areaMap.medalThresholds[GACMedal.Gold]:
             return GACMedal.Silver
-        case !globalThis.gameState.configData.include_platinums || score < map.medalThresholds[GACMedal.Platinum]:
+        case !globalThis.gameState.configData.include_platinums || score < map.areaMap.medalThresholds[GACMedal.Platinum]:
             return GACMedal.Gold
         default:
             return GACMedal.Platinum
@@ -242,15 +242,15 @@ function getColorFromDifficulty(map: GACMap): string {
     }
 
     switch (true) {
-        case map.progression.bestScore < map.medalThresholds[GACMedal.Bronze]:
+        case map.progression.bestScore < map.areaMap.medalThresholds[GACMedal.Bronze]:
             return POSSIBLE_COLOR
-        case map.progression.bestScore < map.medalThresholds[GACMedal.Silver]:
+        case map.progression.bestScore < map.areaMap.medalThresholds[GACMedal.Silver]:
             if (hasMove || hasPan || map.areaMap.area.kind != "country") {
                 return POSSIBLE_COLOR
             } else {
                 return TRICKY_COLOR
             }
-        case map.progression.bestScore < map.medalThresholds[GACMedal.Gold] || !map.progression.fivekDone:
+        case map.progression.bestScore < map.areaMap.medalThresholds[GACMedal.Gold] || !map.progression.fivekDone:
             if (hasMove && hasPan) {
                 return POSSIBLE_COLOR
             } else if (hasMove) {
@@ -258,7 +258,7 @@ function getColorFromDifficulty(map: GACMap): string {
             } else {
                 return IMPOSSIBLE_COLOR
             }
-        case map.progression.bestScore < map.medalThresholds[GACMedal.Platinum] && globalThis.gameState.configData.include_platinums:
+        case map.progression.bestScore < map.areaMap.medalThresholds[GACMedal.Platinum] && globalThis.gameState.configData.include_platinums:
             if (hasMove && hasPan && hasZoom) {
                 return POSSIBLE_COLOR
             } else if (hasMove && hasPan) {
@@ -273,8 +273,8 @@ function getColorFromDifficulty(map: GACMap): string {
 
 function isMapFinished(map: GACMap) {
     if (globalThis.gameState.configData.include_platinums) {
-        return map.progression.bestScore >= map.medalThresholds[GACMedal.Platinum] && map.progression.fivekDone
+        return map.progression.bestScore >= map.areaMap.medalThresholds[GACMedal.Platinum] && map.progression.fivekDone
     } else {
-        return map.progression.bestScore >= map.medalThresholds[GACMedal.Gold] && map.progression.fivekDone
+        return map.progression.bestScore >= map.areaMap.medalThresholds[GACMedal.Gold] && map.progression.fivekDone
     }
 }

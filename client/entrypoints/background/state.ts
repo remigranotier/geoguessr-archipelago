@@ -42,7 +42,6 @@ function updateMapState(areaMap: AreaMap, gameState: GACGameState) {
     }
 
     mapStatus.locationsMissing = getLocationsMissing(areaMap)
-    mapStatus.medalThresholds = areaMap.medalThresholds
 
     const isUnlocked: boolean = isMapUnlocked(areaMap)
     mapStatus.unlocked = isUnlocked
@@ -166,7 +165,7 @@ function checkWinCondition(gameState: GACGameState) {
         case WinCondition.PlatinumCount:
             {
                 const platAmount = gameState.maps
-                    .filter(map => map.progression.bestScore >= map.medalThresholds[GACMedal.Platinum])
+                    .filter(map => map.progression.bestScore >= map.areaMap.medalThresholds[GACMedal.Platinum])
                     .length;
                 hasWon = platAmount >= (globalThis.gameConfigData.plat_count as number)
                 console.debug("plat amount : ", platAmount)
@@ -195,7 +194,7 @@ function checkWinCondition(gameState: GACGameState) {
 }
 
 function getMedalAmount(map: GACMap) {
-    return Object.entries(map.medalThresholds)
+    return Object.entries(map.areaMap.medalThresholds)
         .filter(([medal, threshold]) => medal != GACMedal.None.toString() && map.progression.bestScore >= threshold)
         .length
 }

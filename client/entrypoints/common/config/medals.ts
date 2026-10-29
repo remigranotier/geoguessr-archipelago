@@ -8,21 +8,14 @@ export enum GACMedal {
     Platinum = 4
 }
 
-export const defaultMedalThresholds: Record<GACMedal, number> = {
-    [GACMedal.None]: 0,
-    [GACMedal.Bronze]: 7500,
-    [GACMedal.Silver]: 15000,
-    [GACMedal.Gold]: 22500,
-    [GACMedal.Platinum]: 25000,
-}
-
 export function getScaledThresholds(areaName: string): Record<GACMedal, number> {
-    const scale = CountriesThresholdsScales[areaName]
+    const custom_scale = globalThis.gameState.configData.custom_scaling as number;
+    const scale = (CountriesThresholdsScales[areaName] ?? 1) * custom_scale
     return {
         [GACMedal.None]: 0,
-        [GACMedal.Bronze]: Math.round((7500 * (scale ?? 1)) / 500) * 500,
-        [GACMedal.Silver]: Math.round((15000 * (scale ?? 1)) / 500) * 500,
-        [GACMedal.Gold]: 22500,
+        [GACMedal.Bronze]: Math.round((7500 * scale) / 500) * 500,
+        [GACMedal.Silver]: Math.round((15000 * scale) / 500) * 500,
+        [GACMedal.Gold]: Math.round((22500 * custom_scale)/500) * 500,
         [GACMedal.Platinum]: 25000,
     }
 }

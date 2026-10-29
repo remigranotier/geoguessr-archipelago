@@ -147,13 +147,13 @@ function renderThresholdDivText(roundStatusPanel: Element) {
 function getNextMedal(map: GACMap) {
     const score = map.progression.bestScore
     switch (true) {
-        case score < map.medalThresholds[GACMedal.Bronze]:
+        case score < map.areaMap.medalThresholds[GACMedal.Bronze]:
             return GACMedal.Bronze
-        case score < map.medalThresholds[GACMedal.Silver]:
+        case score < map.areaMap.medalThresholds[GACMedal.Silver]:
             return GACMedal.Silver
-        case score < map.medalThresholds[GACMedal.Gold]:
+        case score < map.areaMap.medalThresholds[GACMedal.Gold]:
             return GACMedal.Gold
-        case gamestate.configData.include_platinums && score < map.medalThresholds[GACMedal.Platinum]:
+        case gamestate.configData.include_platinums && score < map.areaMap.medalThresholds[GACMedal.Platinum]:
             return GACMedal.Platinum
         default:
             return GACMedal.None
@@ -164,5 +164,5 @@ function getScoreText(map: GACMap, medal: GACMedal) {
     if (medal == GACMedal.None) {
         return "No more medals to collect"
     }
-    return map.medalThresholds[medal].toString()
+    return map.areaMap.medalThresholds[medal].toString()
 }

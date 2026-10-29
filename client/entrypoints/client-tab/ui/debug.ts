@@ -32,7 +32,7 @@ function createMedalDebugButton(map: GACMap, medalLevel: GACMedal) {
             map.areaMap.mapName,
             0,
             NUMBER_OF_ROUNDS,
-            map.medalThresholds[medalLevel],
+            map.areaMap.medalThresholds[medalLevel],
         )
         const roundFinishedResponse: GACResponse = await browser.runtime.sendMessage(roundFinishedMessage)
         console.debug("[DEBUG] RoundFinishedMessage correctly sent")
