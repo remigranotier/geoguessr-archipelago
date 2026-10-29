@@ -262,7 +262,7 @@
         "message": "Include platinum medals:"
     },
     "loadLastButtonLabel": {
-        "message": "Load last values"
+        "message": "Load last generated values"
     },
     "yamlProgressionBalancingTooltip": {
         "message": "<p>A system that can move progression earlier, to try and prevent the player from getting stuck and bored early.</p><p>A lower setting means more getting stuck. A higher setting means less getting stuck.</p>"
@@ -290,5 +290,29 @@
     },
     "yamlIncludePlatinumsTooltip": {
         "message": "<p>Choose to include or not platinum medals in the game. This creates extra medals in the game but they are pretty long to collect, so activating it may \"hide\" important items in the logic behing a long check. We advise to activate it only if you're used to pinpointing.</p>"
+    },
+    "loadPresetButtonLabel": {
+        "message": "Load preset"
+    },
+    "beginnerPresetOptionLabel": {
+        "message": "Beginner"
+    },
+    "pinpointerPresetOptionLabel": {
+        "message": "Pinpointer"
+    },
+    "nmPlayerPresetOptionLabel": {
+        "message": "NM Player"
+    },
+    "blinkyPresetOptionLabel": {
+        "message": "I'm Blinky"
+    },
+    "mkPresetOptionLabel": {
+        "message": "I'm MK"
+    },
+    "fullExplorerPresetOptionLabel": {
+        "message": "I miss Explorer mode"
+    },
+    "defaultPresetOptionLabel": {
+        "message": "Default"
     }
 }

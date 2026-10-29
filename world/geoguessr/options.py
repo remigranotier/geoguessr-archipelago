@@ -114,6 +114,58 @@ class GeoguessrOptions(PerGameCommonOptions):
     include_platinums: IncludesPlatinums
 
 
+option_presets = {
+    "Beginner": {
+        "victory_condition": VictoryCondition.option_medals_count,
+        "medal_count": 15,
+        "accessible_countries_count": 10,
+        "max_micro_countries_count": 3,
+        "countries_max_difficulty": CountriesDifficultyLevel.option_easy,
+        "include_platinums": False,
+    },
+    "Pinpointer": {
+        "victory_condition": VictoryCondition.option_plat_count,
+        "plat_count": 5,
+        "accessible_countries_count": 10,
+        "max_micro_countries_count": 3,
+        "countries_max_difficulty": CountriesDifficultyLevel.option_medium,
+        "include_platinums": True,
+    },
+    "NM Player": {
+        "victory_condition": VictoryCondition.option_medals_count,
+        "medal_count": 30,
+        "accessible_countries_count": 15,
+        "max_micro_countries_count": 3,
+        "countries_max_difficulty": CountriesDifficultyLevel.option_medium,
+        "include_platinums": False,
+    },
+    "I'm Blinky": {
+        "victory_condition": VictoryCondition.option_plat_count,
+        "medal_count": 10,
+        "accessible_countries_count": 20,
+        "max_micro_countries_count": 3,
+        "countries_max_difficulty": CountriesDifficultyLevel.option_hard,
+        "include_platinums": True,
+    },
+    "I'm MK": {
+        "victory_condition": VictoryCondition.option_medals_count,
+        "medal_count": 40,
+        "accessible_countries_count": 20,
+        "max_micro_countries_count": 3,
+        "countries_max_difficulty": CountriesDifficultyLevel.option_hard,
+        "include_platinums": False,
+    },
+    "I miss Explorer mode": {
+        "victory_condition": VictoryCondition.option_plat_count,
+        "medal_count": 119,
+        "accessible_countries_count": 112,
+        "max_micro_countries_count": 22,
+        "countries_max_difficulty": CountriesDifficultyLevel.option_hard,
+        "include_platinums": True,
+    },
+}
+
+
 def check_options(world):
 
     if (
