@@ -9,7 +9,7 @@ export enum GACMedal {
 }
 
 export function getScaledThresholds(areaName: string): Record<GACMedal, number> {
-    const custom_scale = globalThis.gameState.configData.custom_scaling as number;
+    const custom_scale = (globalThis.gameState.configData.custom_scaling_percentage as number) / 100;
     const scale = (CountriesThresholdsScales[areaName] ?? 1) * custom_scale
     return {
         [GACMedal.None]: 0,

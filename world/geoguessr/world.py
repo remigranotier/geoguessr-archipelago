@@ -57,5 +57,5 @@ class GeoguessrWorld(World):
             "accessible_countries_count",
             "max_micro_countries_count",
             "include_platinums",
-            "custom_scaling",
+            "custom_scaling_percentage",
         )

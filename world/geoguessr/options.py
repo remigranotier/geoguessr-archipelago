@@ -105,14 +105,14 @@ class IncludesPlatinums(Toggle):
 
 class CustomScaling(Range):
     """
-    A custom scaling to be applied to thresholds. It will be applied to Bronze, Silver and Gold medal thresholds.
+    A custom scaling percentage to be applied to thresholds. It will be applied to Bronze, Silver and Gold medal thresholds.
     """
 
-    display_name = "Threshold scaling for Bronze, Silver and Gold medals"
+    display_name = "Threshold scaling percentage for Bronze, Silver and Gold medals"
 
-    range_start = 0.5
-    range_end = 1
-    default = 1
+    range_start = 50
+    range_end = 100
+    default = 100
 
 
 @dataclass
@@ -124,7 +124,7 @@ class GeoguessrOptions(PerGameCommonOptions):
     max_micro_countries_count: MaxMicroCountriesCount
     countries_max_difficulty: CountriesDifficultyLevel
     include_platinums: IncludesPlatinums
-    custom_scaling: CustomScaling
+    custom_scaling_percentage: CustomScaling
 
 
 def check_options(world):
