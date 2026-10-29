@@ -1,6 +1,17 @@
 import { PlayerOptions } from "./main";
 
 export const presetMap: Map<string, PlayerOptions> = new Map()
+presetMap.set("default", new PlayerOptions(
+    50,
+    "full",
+    "medals_count",
+    20,
+    1,
+    10,
+    3,
+    "hard",
+    true
+))
 presetMap.set("beginner", new PlayerOptions(
     50,
     "full",

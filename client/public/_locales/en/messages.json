@@ -311,5 +311,8 @@
     },
     "fullExplorerPresetOptionLabel": {
         "message": "I miss Explorer mode"
+    },
+    "defaultPresetOptionLabel": {
+        "message": "Default"
     }
 }

@@ -311,5 +311,8 @@
     },
     "fullExplorerPresetOptionLabel": {
         "message": "L'Explorer mode me manque"
+    },
+    "defaultPresetOptionLabel": {
+        "message": "Par défaut"
     }
 }
