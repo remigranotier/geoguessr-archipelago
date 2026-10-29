@@ -290,5 +290,26 @@
     },
     "yamlIncludePlatinumsTooltip": {
         "message": "<p>Inclure ou non les médailles Platine (25k) dans la partie. Cela créera des médailles en plus dans la partie mais elles sont longues à récupérer, donc les activer peut \"cacher\" des items importants dans la logique Archipelago derrière des tâches longues. On te recommande de l'activer uniquement si tu es habitué-e au pinpoint.</p>"
+    },
+    "loadPresetButtonLabel": {
+        "message": "Charger la préconfiguration"
+    },
+    "beginnerPresetOptionLabel": {
+        "message": "Débutant"
+    },
+    "pinpointerPresetOptionLabel": {
+        "message": "Pinpointeur"
+    },
+    "nmPlayerPresetOptionLabel": {
+        "message": "Joueur NM"
+    },
+    "blinkyPresetOptionLabel": {
+        "message": "Je suis Blinky"
+    },
+    "mkPresetOptionLabel": {
+        "message": "Je suis MK"
+    },
+    "fullExplorerPresetOptionLabel": {
+        "message": "L'Explorer mode me manque"
     }
 }

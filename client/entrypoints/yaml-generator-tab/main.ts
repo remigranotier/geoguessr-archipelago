@@ -3,6 +3,7 @@ import { resolveI18n } from '../common/i18n';
 import './style.css';
 import './tooltip.css';
 import { mapsConfig } from '../common/config/maps';
+import { presetMap } from './presets';
 
 const NUMBER_OF_MAPS = Array.from(mapsConfig.values()).length
 const NUMBER_OF_COUNTRIES = Array.from(mapsConfig.values().filter((map) => map.area.kind == "country")).length
@@ -35,9 +36,10 @@ function main() {
 
     document.querySelector("#generate-yaml-button")!.addEventListener("click", generateFile)
     document.querySelector("#load-last-yaml-button")!.addEventListener("click", loadLastYaml)
+    document.querySelector("#load-preset-button")!.addEventListener("click", loadPreset)
 }
 
-class PlayerOptions {
+export class PlayerOptions {
     constructor(
         public progression_balancing: number = 50,
         public accessibility: "full" | "minimal" = "full",
@@ -81,12 +83,7 @@ function generateFile() {
     URL.revokeObjectURL(url)
 }
 
-async function loadLastYaml() {
-    const lastYaml: any = await storage.getItem("local:last-yaml-generation")
-    const playerName = lastYaml.name
-    const playerOptions: PlayerOptions = lastYaml.Geoguessr
-
-    document.querySelector<HTMLInputElement>("#player-name")!.value = playerName
+function loadPlayerOptions(playerOptions: PlayerOptions) {
     document.querySelector<HTMLInputElement>(`#progression-balancing`)!.valueAsNumber = playerOptions.progression_balancing
     document.querySelector<HTMLInputElement>(`#accessibility`)!.value = playerOptions.accessibility
     document.querySelector<HTMLInputElement>(`#victory-condition`)!.value = playerOptions.victory_condition
@@ -102,7 +99,6 @@ async function loadLastYaml() {
         'cancelable': true
     });
 
-    document.querySelector<HTMLInputElement>("#player-name")!.dispatchEvent(inputEvent)
     document.querySelector<HTMLInputElement>(`#progression-balancing`)!.dispatchEvent(inputEvent)
     document.querySelector<HTMLInputElement>(`#accessibility`)!.dispatchEvent(inputEvent)
     document.querySelector<HTMLInputElement>(`#victory-condition`)!.dispatchEvent(inputEvent)
@@ -112,6 +108,35 @@ async function loadLastYaml() {
     document.querySelector<HTMLInputElement>(`#max-micro-countries-count`)!.dispatchEvent(inputEvent)
     document.querySelector<HTMLInputElement>(`#country-max-diff`)!.dispatchEvent(inputEvent)
     document.querySelector<HTMLInputElement>(`#include-platinums`)!.dispatchEvent(inputEvent)
+}
+
+async function loadLastYaml() {
+    const lastYaml: any = await storage.getItem("local:last-yaml-generation")
+    const playerName = lastYaml.name
+    const playerOptions: PlayerOptions = lastYaml.Geoguessr
+
+    document.querySelector<HTMLInputElement>("#player-name")!.value = playerName
+
+    const inputEvent = new Event('input', {
+        'bubbles': true,
+        'cancelable': true
+    });
+
+    document.querySelector<HTMLInputElement>("#player-name")!.dispatchEvent(inputEvent)
+
+    loadPlayerOptions(playerOptions)
+}
+
+function loadPreset() {
+    const presetToLoad = document.querySelector<HTMLSelectElement>("#selected-preset")!.value
+
+    const playerOptionsToLoad = presetMap.get(presetToLoad)
+    if (playerOptionsToLoad === undefined) {
+        console.error(`Unknown preset ${presetToLoad}, ignoring.`)
+        return
+    }
+
+    loadPlayerOptions(playerOptionsToLoad)
 }
 
 function getPlayerOptions() {
