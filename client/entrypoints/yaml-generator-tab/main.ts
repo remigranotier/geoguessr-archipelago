@@ -3,13 +3,36 @@ import { resolveI18n } from '../common/i18n';
 import './style.css';
 import './tooltip.css';
 import { mapsConfig } from '../common/config/maps';
-import { presetMap } from './presets';
+import { initPresets, presetMap } from './presets';
 
 const NUMBER_OF_MAPS = Array.from(mapsConfig.values()).length
 const NUMBER_OF_COUNTRIES = Array.from(mapsConfig.values().filter((map) => map.area.kind == "country")).length
 
+export class PlayerOptions {
+    constructor(
+        public progression_balancing: number = 50,
+        public accessibility: "full" | "minimal" = "full",
+        public victory_condition: "plat_count" | "medals_count" = "plat_count",
+        public medal_count: number = 20,
+        public plat_count: number = 5,
+        public accessible_countries_count: number = 10,
+        public max_micro_countries_count: number = 3,
+        public countries_max_difficulty: "hard" | "medium" | "easy" = "hard",
+        public include_platinums: boolean = true,
+        public local_items = [],
+        public non_local_items = [],
+        public start_inventory = [],
+        public start_hints = [],
+        public start_location_hints = [],
+        public exclude_locations = [],
+        public priority_locations = [],
+    ) { }
+}
+
 function main() {
     document.addEventListener("DOMContentLoaded", resolveI18n)
+
+    initPresets()
 
     document.querySelector<HTMLFormElement>("form")!.reset()
 
@@ -37,27 +60,6 @@ function main() {
     document.querySelector("#generate-yaml-button")!.addEventListener("click", generateFile)
     document.querySelector("#load-last-yaml-button")!.addEventListener("click", loadLastYaml)
     document.querySelector("#load-preset-button")!.addEventListener("click", loadPreset)
-}
-
-export class PlayerOptions {
-    constructor(
-        public progression_balancing: number = 50,
-        public accessibility: "full" | "minimal" = "full",
-        public victory_condition: "plat_count" | "medals_count" = "plat_count",
-        public medal_count: number = 20,
-        public plat_count: number = 5,
-        public accessible_countries_count: number = 10,
-        public max_micro_countries_count: number = 3,
-        public countries_max_difficulty: "hard" | "medium" | "easy" = "hard",
-        public include_platinums: boolean = true,
-        public local_items = [],
-        public non_local_items = [],
-        public start_inventory = [],
-        public start_hints = [],
-        public start_location_hints = [],
-        public exclude_locations = [],
-        public priority_locations = [],
-    ) { }
 }
 
 function generateFile() {
