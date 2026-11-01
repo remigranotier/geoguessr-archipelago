@@ -45,3 +45,13 @@ fieldset {
     width: fit-content;
     align-self: center;
 }
+
+#load-section {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+#preset-section {
+    margin-left: auto;
+}

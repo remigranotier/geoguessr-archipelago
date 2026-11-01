@@ -31,6 +31,7 @@ This release includes:
 - Display the next medal to get on geoguessr tab when playing (#34)
 - Add threshold balancing for several countries (#36)
 - Add a decently sized list of tips in english and french (#38)
+- Add some presets (#39)
 
 ## Bugfixes
 - Added error log on game generation failure (#6)
