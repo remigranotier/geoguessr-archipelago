@@ -94,33 +94,34 @@ function checkRoundFinishedMessage(message: RoundFinishedMessage, areaMap: AreaM
     }
 }
 
-export function handleRoundFinishedMessage(message: RoundFinishedMessage) {
-    let areaMap = mapsConfig.values().find((map) => map.mapId === message.mapId)
-    if (areaMap === undefined) {
-        throw new Error("Map does not exist in Geoguessr Archipelago")
+export async function handleRoundFinishedMessage(message: RoundFinishedMessage) {
+    const gameState = await getGameState()
+    let map = gameState.maps.find((map) => map.areaMap.mapId === message.mapId)
+    if (map === undefined) {
+        throw new Error("Map does not exist in this Geoguessr Archipelago game")
     }
-    checkRoundFinishedMessage(message, areaMap)
+    checkRoundFinishedMessage(message, map.areaMap)
 
     let locationsToCheck: number[] = []
 
     // Here we know the map is available to check locations
     if (message.roundScore == PERFECT_SCORE) {
         console.log(`Player got a 5k on map ${message.mapName}`)
-        console.debug("Checking location:", areaMap.baseLocationId + AreaLocations.FiveK)
-        locationsToCheck.push(areaMap.baseLocationId + AreaLocations.FiveK)
+        console.debug("Checking location:", map.areaMap.baseLocationId + AreaLocations.FiveK)
+        locationsToCheck.push(map.areaMap.baseLocationId + AreaLocations.FiveK)
     }
 
-    if (message.totalScore >= areaMap.medalThresholds[GACMedal.Bronze]) {
-        locationsToCheck.push(areaMap.baseLocationId + AreaLocations.Bronze)
+    if (message.totalScore >= map.medalThresholds[GACMedal.Bronze]) {
+        locationsToCheck.push(map.areaMap.baseLocationId + AreaLocations.Bronze)
     }
-    if (message.totalScore >= areaMap.medalThresholds[GACMedal.Silver]) {
-        locationsToCheck.push(areaMap.baseLocationId + AreaLocations.Silver)
+    if (message.totalScore >= map.medalThresholds[GACMedal.Silver]) {
+        locationsToCheck.push(map.areaMap.baseLocationId + AreaLocations.Silver)
     }
-    if (message.totalScore >= areaMap.medalThresholds[GACMedal.Gold]) {
-        locationsToCheck.push(areaMap.baseLocationId + AreaLocations.Gold)
+    if (message.totalScore >= map.medalThresholds[GACMedal.Gold]) {
+        locationsToCheck.push(map.areaMap.baseLocationId + AreaLocations.Gold)
     }
-    if (message.totalScore >= areaMap.medalThresholds[GACMedal.Platinum] && globalThis.gameConfigData.include_platinums) {
-        locationsToCheck.push(areaMap.baseLocationId + AreaLocations.Platinum)
+    if (message.totalScore >= map.medalThresholds[GACMedal.Platinum] && globalThis.gameConfigData.include_platinums) {
+        locationsToCheck.push(map.areaMap.baseLocationId + AreaLocations.Platinum)
     }
 
     locationsToCheck = locationsToCheck.filter((location) => !apClient.room.checkedLocations.includes(location))

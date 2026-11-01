@@ -31,7 +31,7 @@ export async function handleSubmitManualId(message: SubmitManualIdMessage) {
             data["roundCount"],
             data["player"]["totalScoreInPoints"]
         )
-        handleRoundFinishedMessage(roundFinishedMessage)
+        await handleRoundFinishedMessage(roundFinishedMessage)
         return
     }
 
@@ -57,7 +57,7 @@ export async function handleSubmitManualId(message: SubmitManualIdMessage) {
             game["roundCount"],
             game["player"]["totalScoreInPoints"]
         )
-        handleRoundFinishedMessage(roundFinishedMessage)
+        await handleRoundFinishedMessage(roundFinishedMessage)
         return
     }
 
