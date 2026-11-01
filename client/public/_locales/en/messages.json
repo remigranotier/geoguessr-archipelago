@@ -320,5 +320,11 @@
     },
     "defaultPresetOptionLabel": {
         "message": "Default"
+    },
+    "disableExtensionSectionTitle": {
+        "message": "Disable the extension"
+    },
+    "disableExtensionContent": {
+        "message": "If you have finished your game or just need to play Geoguessr without the extension being connected to the Archipelago server, the easiest way is to disconnect from the Archipelago server from the extension tab by using the Disconnect button. This will ensure your Geoguessr games won't be altered by the Archipelago game and vice-versa.<br><br>Otherwise, disabling the extension on your browser itself also works."
     }
 }
