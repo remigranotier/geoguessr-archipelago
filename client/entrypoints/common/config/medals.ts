@@ -17,12 +17,12 @@ export const defaultMedalThresholds: Record<GACMedal, number> = {
 }
 
 export function getScaledThresholds(areaName: string): Record<GACMedal, number> {
-    const scale = CountriesThresholdsScales[areaName]
+    const scale = CountriesThresholdsScales[areaName] ?? 1
     return {
-        [GACMedal.None]: 0,
-        [GACMedal.Bronze]: Math.round((7500 * (scale ?? 1)) / 500) * 500,
-        [GACMedal.Silver]: Math.round((15000 * (scale ?? 1)) / 500) * 500,
-        [GACMedal.Gold]: 22500,
-        [GACMedal.Platinum]: 25000,
+        [GACMedal.None]: defaultMedalThresholds[GACMedal.None],
+        [GACMedal.Bronze]: defaultMedalThresholds[GACMedal.Bronze] * scale,
+        [GACMedal.Silver]: defaultMedalThresholds[GACMedal.Silver] * scale,
+        [GACMedal.Gold]: defaultMedalThresholds[GACMedal.Gold],
+        [GACMedal.Platinum]: defaultMedalThresholds[GACMedal.Platinum],
     }
 }
