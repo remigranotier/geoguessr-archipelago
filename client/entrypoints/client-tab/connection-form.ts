@@ -1,16 +1,12 @@
 import {
     GACConnectionStatus,
     StatusSpecialMode,
+    type ConnectionCredentials,
     type GACResponse
 } from "../common/models";
 import { storage } from '@wxt-dev/storage';
 import { renderStatusComponent, updateConnectionStatus } from "./ui/status";
 import { ServerConnectMessage, ServerDisconnectMessage } from "../common/messages";
-
-type ConnectionCredentials = {
-    server: string,
-    slotName: string,
-}
 
 export function setCredentialsFromLastSend() {
     void storage.getItem<ConnectionCredentials>("sync:connection").then((previousCredentials) => {
@@ -19,9 +15,11 @@ export function setCredentialsFromLastSend() {
             return
         }
         const serverField = document.querySelector<HTMLInputElement>("#server")!
-        serverField.value = previousCredentials.server
+        serverField.value = previousCredentials.server ?? ""
         const slotNameField = document.querySelector<HTMLInputElement>("#slot-name")!
-        slotNameField.value = previousCredentials.slotName
+        slotNameField.value = previousCredentials.slotName ?? ""
+        const passwordField = document.querySelector<HTMLInputElement>("#password")!
+        passwordField.value = previousCredentials.password ?? ""
     })
 }
 
@@ -32,6 +30,7 @@ export async function sendConnectionOptions(e: Event) {
     void storage.setItem("sync:connection", {
         server: server,
         slotName: slotName,
+        password: password
     })
 
     const connectMessage: ServerConnectMessage = new ServerConnectMessage(server, slotName, password)
@@ -53,6 +52,7 @@ export async function sendDisconnectCommand(e: Event) {
     void storage.setItem("sync:connection", {
         server: "",
         slotName: "",
+        password: ""
     })
 
     const disconnectMessage: ServerDisconnectMessage = new ServerDisconnectMessage()

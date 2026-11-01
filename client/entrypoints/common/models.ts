@@ -70,6 +70,12 @@ export class GACConnectionStatus {
     }
 }
 
+export type ConnectionCredentials = {
+    server: string,
+    slotName: string,
+    password: string
+}
+
 export enum GeoguessrGameStatus {
     STARTED = "started",
     FINISHED = "finished"

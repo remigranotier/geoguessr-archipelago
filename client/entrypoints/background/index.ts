@@ -5,7 +5,7 @@ import {
   SoundEffectType,
   type GACResponse,
 } from "../common/models";
-import { getServerConnection, handleServerConnectMessage, handleServerDisconnectMessage } from "./connect";
+import { getServerConnection, handleServerConnectMessage, handleServerDisconnectMessage, tryReconnection } from "./connect";
 import { handleRoundFinishedMessage, handleGenerateGameMessage } from "./game";
 import { DataConflictMessage, GenerateGameMessage, MessageType, RoundFinishedMessage, SendNewLogMessage, SendSoundEffectMessage, SubmitManualIdMessage, type GACMessage, type ServerConnectMessage } from "../common/messages";
 import { handleRetrieveLogsMessage, renderNodes } from "./ap-logs";
@@ -171,6 +171,8 @@ async function actionListener() {
 }
 
 export default defineBackground(() => {
+  void tryReconnection()
+
   browser.runtime.onMessage.addListener(messageListener)
 
   browser.action.onClicked.addListener(actionListener);
