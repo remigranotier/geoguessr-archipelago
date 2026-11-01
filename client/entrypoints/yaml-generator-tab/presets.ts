@@ -12,7 +12,8 @@ export function initPresets() {
         10,
         3,
         "hard",
-        true
+        true,
+        100
     ))
     presetMap.set("beginner", new PlayerOptions(
         50,
@@ -23,7 +24,8 @@ export function initPresets() {
         10,
         3,
         "easy",
-        false
+        false,
+        75
     ))
     presetMap.set("pinpointer", new PlayerOptions(
         50,
@@ -34,7 +36,8 @@ export function initPresets() {
         10,
         3,
         "medium",
-        true
+        true,
+        100
     ))
     presetMap.set("nm_player", new PlayerOptions(
         50,
@@ -45,7 +48,8 @@ export function initPresets() {
         15,
         3,
         "medium",
-        false
+        false,
+        100
     ))
     presetMap.set("blinky", new PlayerOptions(
         50,
@@ -56,7 +60,8 @@ export function initPresets() {
         20,
         3,
         "hard",
-        true
+        true,
+        100
     ))
     presetMap.set("mk", new PlayerOptions(
         50,
@@ -67,7 +72,8 @@ export function initPresets() {
         20,
         3,
         "hard",
-        false
+        false,
+        100
     ))
     presetMap.set("full_explorer", new PlayerOptions(
         50,
@@ -78,6 +84,7 @@ export function initPresets() {
         112,
         22,
         "hard",
-        true
+        true,
+        100
     ))
 }

@@ -19,6 +19,7 @@ export class PlayerOptions {
         public max_micro_countries_count: number = 3,
         public countries_max_difficulty: "hard" | "medium" | "easy" = "hard",
         public include_platinums: boolean = true,
+        public custom_scaling_percentage: number = 100,
         public local_items = [],
         public non_local_items = [],
         public start_inventory = [],
@@ -41,6 +42,7 @@ function main() {
     setupBigNumberSlider("plat-count", NUMBER_OF_MAPS)
     setupBigNumberSlider("accessible-countries-count", NUMBER_OF_COUNTRIES)
     setupBigNumberSlider("max-micro-countries-count")
+    setupBigNumberSlider("scaling-percentage")
 
     document.querySelector<HTMLInputElement>("#victory-condition")!.oninput = (e: InputEvent) => {
         const newValue = (e.target! as HTMLInputElement).value as "plat_count" | "medals_count"
@@ -51,7 +53,6 @@ function main() {
         } else {
             document.getElementById("plat-count-container")!.style.display = "flex"
             document.getElementById("medal-count-container")!.style.display = "none"
-            console.log("pouet")
             document.getElementById("include-platinums-container")!.style.display = "none"
             document.querySelector<HTMLInputElement>("#include-platinums")!.checked = true
         }
@@ -95,6 +96,7 @@ function loadPlayerOptions(playerOptions: PlayerOptions) {
     document.querySelector<HTMLInputElement>(`#max-micro-countries-count`)!.valueAsNumber = playerOptions.max_micro_countries_count
     document.querySelector<HTMLInputElement>(`#country-max-diff`)!.value = playerOptions.countries_max_difficulty
     document.querySelector<HTMLInputElement>(`#include-platinums`)!.checked = playerOptions.include_platinums
+    document.querySelector<HTMLInputElement>(`#scaling-percentage`)!.valueAsNumber = playerOptions.custom_scaling_percentage
 
     const inputEvent = new Event('input', {
         'bubbles': true,
@@ -110,6 +112,7 @@ function loadPlayerOptions(playerOptions: PlayerOptions) {
     document.querySelector<HTMLInputElement>(`#max-micro-countries-count`)!.dispatchEvent(inputEvent)
     document.querySelector<HTMLInputElement>(`#country-max-diff`)!.dispatchEvent(inputEvent)
     document.querySelector<HTMLInputElement>(`#include-platinums`)!.dispatchEvent(inputEvent)
+    document.querySelector<HTMLInputElement>(`#scaling-percentage`)!.dispatchEvent(inputEvent)
 }
 
 async function loadLastYaml() {
@@ -151,7 +154,8 @@ function getPlayerOptions() {
         document.querySelector<HTMLInputElement>(`#accessible-countries-count`)!.valueAsNumber,
         document.querySelector<HTMLInputElement>(`#max-micro-countries-count`)!.valueAsNumber,
         document.querySelector<HTMLInputElement>(`#country-max-diff`)!.value as "easy" | "medium" | "hard",
-        document.querySelector<HTMLInputElement>(`#include-platinums`)!.checked
+        document.querySelector<HTMLInputElement>(`#include-platinums`)!.checked,
+        document.querySelector<HTMLInputElement>(`#scaling-percentage`)!.valueAsNumber
     )
 }
 

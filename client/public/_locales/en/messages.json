@@ -261,6 +261,9 @@
     "yamlIncludePlatinumsSetting": {
         "message": "Include platinum medals:"
     },
+    "yamlScalingPercentageSetting": {
+        "message": "Medal threshold scaling:"
+    },
     "loadLastButtonLabel": {
         "message": "Load last generated values"
     },
@@ -290,6 +293,9 @@
     },
     "yamlIncludePlatinumsTooltip": {
         "message": "<p>Choose to include or not platinum medals in the game. This creates extra medals in the game but they are pretty long to collect, so activating it may \"hide\" important items in the logic behing a long check. We advise to activate it only if you're used to pinpointing.</p>"
+    },
+    "yamlScalingPercentageTooltip": {
+        "message": "<p>Choose to scale the medal objective thresholds, in percentage. For example, 50% will lower the thresholds to half their original value. 100% will keep everything as is. </p>"
     },
     "loadPresetButtonLabel": {
         "message": "Load preset"

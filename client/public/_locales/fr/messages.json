@@ -261,6 +261,9 @@
     "yamlIncludePlatinumsSetting": {
         "message": "Inclure les médailles Platine :"
     },
+    "yamlScalingPercentageSetting": {
+        "message": "Mise à l'échelle des scores objectifs :"
+    },
     "loadLastButtonLabel": {
         "message": "Charger la dernière configuration générée"
     },
@@ -290,6 +293,9 @@
     },
     "yamlIncludePlatinumsTooltip": {
         "message": "<p>Inclure ou non les médailles Platine (25k) dans la partie. Cela créera des médailles en plus dans la partie mais elles sont longues à récupérer, donc les activer peut \"cacher\" des items importants dans la logique Archipelago derrière des tâches longues. On te recommande de l'activer uniquement si tu es habitué-e au pinpoint.</p>"
+    },
+    "yamlScalingPercentageTooltip": {
+        "message": "<p>Le pourcentage des scores de médailles à atteindre. Par exemple, 50% réduira l'objectif de score de chaque médaille de moitié. 100% gardera tous les objectifs tel quels.</p>"
     },
     "loadPresetButtonLabel": {
         "message": "Charger la préconfiguration"
