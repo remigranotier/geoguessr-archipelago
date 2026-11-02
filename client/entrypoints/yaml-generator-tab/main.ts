@@ -81,7 +81,7 @@ function generateFile() {
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = `${playerName}.yaml`
+    a.download = `${playerName.length > 0 ? playerName : "Player"}.yaml`
     a.click()
     URL.revokeObjectURL(url)
 }
