@@ -170,7 +170,18 @@ async function actionListener() {
   });
 }
 
+function setupClientDebugMessages() {
+  apClient.socket.on("connected", (_packet) => {
+    console.debug(`CLIENT - CONNECTED}`)
+  })
+
+  apClient.socket.on("disconnected", () => {
+    console.debug(`CLIENT - DISCONNECTED`)
+  })
+}
+
 export default defineBackground(() => {
+  setupClientDebugMessages()
   void tryReconnection()
 
   browser.runtime.onMessage.addListener(messageListener)

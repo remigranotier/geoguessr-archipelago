@@ -1,6 +1,6 @@
 import type { GACMedal } from "./medals";
 import type { Continent, Country, World } from "./countries";
-import { defaultMedalThresholds, getScaledThresholds } from "./medals";
+import { getScaledThresholds } from "./medals";
 
 export const LOCATIONS_PER_MAP = 5 // Bronze, Silver, Gold, Platinum, 5k
 export const ITEMS_PER_MAP = 4 // Unlock, Pan, Move, Zoom
