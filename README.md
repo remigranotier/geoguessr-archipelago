@@ -6,6 +6,16 @@ This is the repository for an Archipelago Client & APWorld for Geoguessr.
 
 For information on Archipelago, you may visit [their official website](https://archipelago.gg) or [their FAQ](https://archipelago.gg/faq/en/).
 
+# Get Started
+
+You can check the setup guide [here](world/geoguessr/docs/setup_en.md) to start playing !
+
+Quick shortcut to our browser extension links:
+- Chrome and derived:
+- Firefox: 
+
+You can also join [our discord server](https://discord.gg/SdSbcqd3VY)!
+
 ## Objective
 
 This randomizer comes with a browser extension that creates a gamemode specially made for Archipelago. The player will have to play World/Continent/Country maps and achieve score objectives on them. For each map, the player can collect up to four medals (Bronze, Silver, Gold, Platinum).<br>
@@ -33,16 +43,6 @@ The browser extension offers an interface for the player to track their progress
 
 Here is a preview of what it looks like during a game session :
 ![A screenshot of the UI of the client tab](resources/UIforREADME.png)
-
-# Get Started
-
-You can check the setup guide [here](world/geoguessr/docs/setup_en.md) to start playing !
-
-Quick shortcut to our browser extension links:
-- Chrome and derived:
-- Firefox: 
-
-You can also join [our discord server](https://discord.gg/SdSbcqd3VY)!
 
 # AI disclosure
 
