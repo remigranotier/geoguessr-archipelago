@@ -56,4 +56,4 @@ document.addEventListener("DOMContentLoaded", resolveI18n);
 // Keep service worker alive as long as client-tab is open
 setInterval(() => {
   void browser.runtime.sendMessage(new KeepAliveMessage())
-}, 20000)
+}, 5000)
