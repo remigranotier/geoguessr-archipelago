@@ -258,7 +258,7 @@ function getColorFromDifficulty(map: GACMap): string {
             } else {
                 return IMPOSSIBLE_COLOR
             }
-        case map.progression.bestScore < map.medalThresholds[GACMedal.Platinum] && globalThis.gameState.configData.include_platinums:
+        case (map.progression.bestScore < map.medalThresholds[GACMedal.Platinum]) && globalThis.gameState.configData.include_platinums == 1:
             if (hasMove && hasPan && hasZoom) {
                 return POSSIBLE_COLOR
             } else if (hasMove && hasPan) {

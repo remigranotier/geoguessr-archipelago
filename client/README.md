@@ -20,10 +20,17 @@ Install dependencies
 npm install
 ```
 
-##  Run the development server
+## Run the development server
 
 Run the dev server using
 
 ```
 npm run dev:firefox
+```
+
+## Build a release
+
+```
+npm run zip
+npm run zip:firefox
 ```

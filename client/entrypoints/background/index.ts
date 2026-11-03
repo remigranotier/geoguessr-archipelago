@@ -5,7 +5,7 @@ import {
   SoundEffectType,
   type GACResponse,
 } from "../common/models";
-import { getServerConnection, handleServerConnectMessage, handleServerDisconnectMessage } from "./connect";
+import { getServerConnection, handleServerConnectMessage, handleServerDisconnectMessage, tryReconnection } from "./connect";
 import { handleRoundFinishedMessage, handleGenerateGameMessage } from "./game";
 import { DataConflictMessage, GenerateGameMessage, MessageType, RoundFinishedMessage, SendNewLogMessage, SendSoundEffectMessage, SubmitManualIdMessage, type GACMessage, type ServerConnectMessage } from "../common/messages";
 import { handleRetrieveLogsMessage, renderNodes } from "./ap-logs";
@@ -170,7 +170,20 @@ async function actionListener() {
   });
 }
 
+function setupClientDebugMessages() {
+  apClient.socket.on("connected", (_packet) => {
+    console.debug(`CLIENT - CONNECTED`)
+  })
+
+  apClient.socket.on("disconnected", () => {
+    console.debug(`CLIENT - DISCONNECTED`)
+  })
+}
+
 export default defineBackground(() => {
+  setupClientDebugMessages()
+  void tryReconnection()
+
   browser.runtime.onMessage.addListener(messageListener)
 
   browser.action.onClicked.addListener(actionListener);
@@ -207,4 +220,11 @@ export default defineBackground(() => {
   apClient.messages.on("message", (_text, nodes) => {
     void browser.runtime.sendMessage(new SendNewLogMessage(renderNodes(nodes)));
   })
+
+  // Keep service worker alive
+  setInterval(() => {
+    if (apClient.authenticated) {
+      apClient.socket.send({ cmd: "Get", keys: [] })
+    }
+  }, 20000)
 });

@@ -45,3 +45,4 @@ This release includes:
 - Fixed light mode by removing it (#24)
 - Fixed color conditions with 5k and include_platinums options (#34)
 - Fixed chrome not accepting certain patterns in web_accessible_resources (#37)
+- Fixed some minor issues and reconnect on service-worker restart (#40)
