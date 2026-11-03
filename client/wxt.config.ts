@@ -12,7 +12,10 @@ export default defineConfig({
         ],
         browser_specific_settings: {
             gecko: {
-                id: "{057c1530-0caf-4f22-8d70-f651697364e9}"
+                id: "{057c1530-0caf-4f22-8d70-f651697364e9}",
+                data_collection_permissions: {
+                    required: ['websiteContent']
+                }
             }
         },
         action: {},
