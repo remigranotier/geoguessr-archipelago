@@ -220,4 +220,11 @@ export default defineBackground(() => {
   apClient.messages.on("message", (_text, nodes) => {
     void browser.runtime.sendMessage(new SendNewLogMessage(renderNodes(nodes)));
   })
+
+  // Keep service worker alive
+  setInterval(() => {
+    if (apClient.authenticated) {
+      apClient.socket.send({ cmd: "Get", keys: [] })
+    }
+  }, 20000)
 });

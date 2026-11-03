@@ -53,7 +53,3 @@ initManualSubmitSection()
 browser.runtime.onMessage.addListener(clientTabMessageListener)
 document.addEventListener("DOMContentLoaded", resolveI18n);
 
-// Keep service worker alive as long as client-tab is open
-setInterval(() => {
-  void browser.runtime.sendMessage(new KeepAliveMessage())
-}, 5000)
