@@ -32,6 +32,7 @@ This release includes:
 - Add threshold balancing for several countries (#36)
 - Add a decently sized list of tips in english and french (#38)
 - Add some presets (#39)
+- Add option to customize the scaling of thresholds (#41)
 
 ## Bugfixes
 - Added error log on game generation failure (#6)

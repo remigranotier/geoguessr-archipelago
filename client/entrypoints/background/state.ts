@@ -8,6 +8,8 @@ import type { Continent, Country } from "../common/config/countries"
 import { GACMedal } from "../common/config/medals"
 import { WinCondition } from "../common/config/win-condition"
 
+const ROUNDING_FACTOR = 500;
+
 export async function updateGameState(roundFinishedMessage?: RoundFinishedMessage, checkWinCon = false) {
     console.debug("Items unlocked are:", apClient.items.received)
     console.debug("Locations available are:", apClient.room.missingLocations)
@@ -42,7 +44,7 @@ function updateMapState(areaMap: AreaMap, gameState: GACGameState) {
     }
 
     mapStatus.locationsMissing = getLocationsMissing(areaMap)
-    mapStatus.medalThresholds = areaMap.medalThresholds
+    mapStatus.medalThresholds = applyThresholdScaling(areaMap)
 
     const isUnlocked: boolean = isMapUnlocked(areaMap)
     mapStatus.unlocked = isUnlocked
@@ -144,6 +146,19 @@ function getLocationsMissing(areaMap: AreaMap): AreaLocations[] {
         resultSet.delete(AreaLocations.FiveK)
     }
     return Array.from(resultSet.values())
+}
+
+function applyThresholdScaling(areaMap: AreaMap) {
+    const baseThresholds = areaMap.baseMedalThresholds
+    const scaleFactor = (globalThis.gameConfigData.custom_scaling_percentage as number) / 100
+
+    return {
+        [GACMedal.None]: baseThresholds[GACMedal.None],
+        [GACMedal.Bronze]: Math.round((baseThresholds[GACMedal.Bronze] * scaleFactor) / ROUNDING_FACTOR) * ROUNDING_FACTOR,
+        [GACMedal.Silver]: Math.round((baseThresholds[GACMedal.Silver] * scaleFactor) / ROUNDING_FACTOR) * ROUNDING_FACTOR,
+        [GACMedal.Gold]: Math.round((baseThresholds[GACMedal.Gold] * scaleFactor) / ROUNDING_FACTOR) * ROUNDING_FACTOR,
+        [GACMedal.Platinum]: baseThresholds[GACMedal.Platinum],
+    }
 }
 
 function checkWinCondition(gameState: GACGameState) {

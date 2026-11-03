@@ -49,7 +49,7 @@ fieldset {
 #load-section {
     display: flex;
     flex-direction: row;
-    gap: 5px;
+    gap: 30px;
 }
 
 #preset-section {

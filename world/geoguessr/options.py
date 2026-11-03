@@ -103,6 +103,18 @@ class IncludesPlatinums(Toggle):
     default = 1
 
 
+class CustomScaling(Range):
+    """
+    A custom scaling percentage to be applied to thresholds. It will be applied to Bronze, Silver and Gold medal thresholds.
+    """
+
+    display_name = "Threshold scaling percentage for Bronze, Silver and Gold medals"
+
+    range_start = 50
+    range_end = 100
+    default = 100
+
+
 @dataclass
 class GeoguessrOptions(PerGameCommonOptions):
     victory_condition: VictoryCondition
@@ -112,6 +124,7 @@ class GeoguessrOptions(PerGameCommonOptions):
     max_micro_countries_count: MaxMicroCountriesCount
     countries_max_difficulty: CountriesDifficultyLevel
     include_platinums: IncludesPlatinums
+    custom_scaling_percentage: CustomScaling
 
 
 option_presets = {
@@ -122,6 +135,7 @@ option_presets = {
         "max_micro_countries_count": 3,
         "countries_max_difficulty": CountriesDifficultyLevel.option_easy,
         "include_platinums": False,
+        "custom_scaling_percentage": 75,
     },
     "Pinpointer": {
         "victory_condition": VictoryCondition.option_plat_count,
@@ -130,6 +144,7 @@ option_presets = {
         "max_micro_countries_count": 3,
         "countries_max_difficulty": CountriesDifficultyLevel.option_medium,
         "include_platinums": True,
+        "custom_scaling_percentage": 100,
     },
     "NM Player": {
         "victory_condition": VictoryCondition.option_medals_count,
@@ -138,6 +153,7 @@ option_presets = {
         "max_micro_countries_count": 3,
         "countries_max_difficulty": CountriesDifficultyLevel.option_medium,
         "include_platinums": False,
+        "custom_scaling_percentage": 100,
     },
     "I'm Blinky": {
         "victory_condition": VictoryCondition.option_plat_count,
@@ -146,6 +162,7 @@ option_presets = {
         "max_micro_countries_count": 3,
         "countries_max_difficulty": CountriesDifficultyLevel.option_hard,
         "include_platinums": True,
+        "custom_scaling_percentage": 100,
     },
     "I'm MK": {
         "victory_condition": VictoryCondition.option_medals_count,
@@ -154,6 +171,7 @@ option_presets = {
         "max_micro_countries_count": 3,
         "countries_max_difficulty": CountriesDifficultyLevel.option_hard,
         "include_platinums": False,
+        "custom_scaling_percentage": 100,
     },
     "I miss Explorer mode": {
         "victory_condition": VictoryCondition.option_plat_count,
@@ -162,6 +180,7 @@ option_presets = {
         "max_micro_countries_count": 22,
         "countries_max_difficulty": CountriesDifficultyLevel.option_hard,
         "include_platinums": True,
+        "custom_scaling_percentage": 100,
     },
 }
 

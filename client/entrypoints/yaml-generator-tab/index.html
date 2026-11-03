@@ -116,6 +116,14 @@
                 <label for="include-platinums" data-i18n="yamlIncludePlatinumsSetting"></label>
                 <input type="checkbox" id="include-platinums" checked>
             </div>
+
+            <div class="setting-container" id="scaling-percentage-container">
+                <div class="tooltip">ℹ️<span class="tooltiptext" data-i18n="yamlScalingPercentageTooltip"></span>
+                </div>
+                <label for="scaling-percentage" data-i18n="yamlScalingPercentageSetting"></label>
+                <input type="number" id="scaling-percentage-textbox" min="50" value="100">
+                <input type="range" id="scaling-percentage" min="50" value="100">
+            </div>
         </fieldset>
         <button id="generate-yaml-button" type="button" data-i18n="generateYamlButtonLabel"></button>
     </form>

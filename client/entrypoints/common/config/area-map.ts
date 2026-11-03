@@ -34,7 +34,7 @@ export class AreaMap {
     baseItemId: number
     mapId: string
     mapName: string
-    medalThresholds: Record<GACMedal, number>
+    baseMedalThresholds: Record<GACMedal, number>
 
     constructor(area: Area, areaName: string, mapId: string, mapName: string) {
         this.area = area
@@ -43,7 +43,7 @@ export class AreaMap {
         this.baseItemId = this.getBaseItemId(this.area)
         this.mapId = mapId
         this.mapName = mapName
-        this.medalThresholds = getScaledThresholds(areaName)
+        this.baseMedalThresholds = getScaledThresholds(areaName)
     }
 
     getBaseLocationId(area: Area): number {

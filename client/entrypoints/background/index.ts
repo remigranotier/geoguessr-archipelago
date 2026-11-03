@@ -84,20 +84,19 @@ function messageListener(message: GACMessage, sender: Browser.runtime.MessageSen
     case MessageType.RoundFinished:
       {
         const roundFinishedMessage = message as RoundFinishedMessage;
-        console.debug("Received RoundFinishedMessage:", message)
-        try {
-          const result = handleRoundFinishedMessage(roundFinishedMessage)
+        console.debug("Received RoundFinishedMessage:", message);
+        handleRoundFinishedMessage(roundFinishedMessage).then(result => {
           sendResponse({
             success: true,
             data: result
           })
-        } catch (e) {
+        }).catch(e => {
           sendResponse({
             success: false,
             error: (e as Error).message
           })
-        }
-        return false;
+        })
+        return true;
       }
 
     case MessageType.RetrieveLogs:
