@@ -172,7 +172,7 @@ async function actionListener() {
 
 function setupClientDebugMessages() {
   apClient.socket.on("connected", (_packet) => {
-    console.debug(`CLIENT - CONNECTED}`)
+    console.debug(`CLIENT - CONNECTED`)
   })
 
   apClient.socket.on("disconnected", () => {
