@@ -13,8 +13,6 @@ export async function handleServerConnectMessage(message: ServerConnectMessage) 
 
     globalThis.gameConfigData = slotData
     void updateGameState()
-
-    return slotData
 }
 
 export function getServerConnection(): GACConnectionStatus {

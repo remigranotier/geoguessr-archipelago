@@ -10,6 +10,7 @@ This release includes:
 
 ## Bugfixes
 - Fixed Turkiye map overlay not working (#42)
+- Fixed connection display issues (#42)
 
 # 0.1.0
 

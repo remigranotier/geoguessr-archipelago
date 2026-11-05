@@ -1,13 +1,14 @@
-import { DataConflictMessage, RetrieveConnectionStatusMessage } from "../../common/messages";
+import { DataConflictMessage, RetrieveConnectionStatusMessage } from "../common/messages";
 import {
     GACConnectionStatus,
     GACGameState,
-    StatusSpecialMode,
     type GACResponse
-} from "../../common/models"
-import { getGameState } from "../game-state";
-import { DEFAULT_CONNECTION_STATUS } from "../main";
-import { renderGameSection } from "./maps";
+} from "../common/models"
+import { getGameState } from "./game-state";
+import { DEFAULT_CONNECTION_STATUS } from "./main";
+import { renderGameSection } from "./ui/maps";
+import { renderStatusComponent } from "./ui/status-display";
+
 
 export async function getConnectionStatus() {
     const retrieveConnectionStatusMessage = new RetrieveConnectionStatusMessage()
@@ -23,6 +24,14 @@ export async function getConnectionStatus() {
 }
 
 export async function updateConnectionStatus(connectionStatus: GACConnectionStatus) {
+    if (globalThis.connectionStatus.authenticated == connectionStatus?.authenticated &&
+        globalThis.connectionStatus.player == connectionStatus?.player &&
+        globalThis.connectionStatus.seed == connectionStatus?.seed &&
+        globalThis.connectionStatus.server == connectionStatus?.server) {
+        // console.debug("No need to update connection status, nothing changed")
+        return
+    }
+
     storage.unwatch()
     globalThis.connectionStatus = connectionStatus
 
@@ -39,35 +48,10 @@ export async function updateConnectionStatus(connectionStatus: GACConnectionStat
         }
     }
 
-
     renderStatusComponent()
 }
 
-function resetConnectionStatus() {
+export function resetConnectionStatus() {
     globalThis.connectionStatus = DEFAULT_CONNECTION_STATUS
     storage.unwatch()
-}
-
-export function renderStatusComponent(specialMode?: StatusSpecialMode) {
-    const statusComponent = document.querySelector("#status")!
-    if (specialMode !== undefined) {
-        switch (specialMode) {
-            case StatusSpecialMode.Loading:
-                statusComponent.innerHTML = `⌛ ${browser.i18n.getMessage("connectingStatus")}...`
-                break;
-            case StatusSpecialMode.Failed:
-                statusComponent.innerHTML = `⚠️ ${browser.i18n.getMessage("failedConnectionStatus")}`
-                resetConnectionStatus()
-                break;
-            default:
-                console.error("Unknown special mode while rendering status component")
-                break;
-        }
-    } else if (globalThis.connectionStatus.authenticated) {
-        statusComponent.innerHTML = `✅ ${browser.i18n.getMessage("connectedStatus", [globalThis.connectionStatus.server, globalThis.connectionStatus.player])}`
-    } else {
-        statusComponent.innerHTML = `❌ ${browser.i18n.getMessage("notConnectedStatus")}`
-    }
-
-    renderGameSection()
 }
