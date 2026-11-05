@@ -52,7 +52,7 @@ allMaps.push(
     new AreaMap({ kind: "country", continentNumber: ContinentNumber.Europe, countryNumber: EuropeCountryNumber.Spain }, "Spain", "6616578eab257b1970742ebb", "Coupe de la Ligue - Spain"),
     new AreaMap({ kind: "country", continentNumber: ContinentNumber.Europe, countryNumber: EuropeCountryNumber.Sweden }, "Sweden", "66167b21ed5d1147573fa760", "Coupe de la Ligue - Sweden"),
     new AreaMap({ kind: "country", continentNumber: ContinentNumber.Europe, countryNumber: EuropeCountryNumber.Switzerland }, "Switzerland", "66167ce9a81e8da8b719a373", "Coupe de la Ligue - Switzerland"),
-    new AreaMap({ kind: "country", continentNumber: ContinentNumber.Europe, countryNumber: EuropeCountryNumber.Turkiye }, "Türkiye", "661641a0ed5d1147573f3aa2", "Coupe de la Ligue - Turkiye"),
+    new AreaMap({ kind: "country", continentNumber: ContinentNumber.Europe, countryNumber: EuropeCountryNumber.Turkiye }, "Türkiye", "661641a0ed5d1147573f3aa2", "Coupe de la Ligue - Türkiye"),
     new AreaMap({ kind: "country", continentNumber: ContinentNumber.Europe, countryNumber: EuropeCountryNumber.Ukraine }, "Ukraine", "66167f194e2a0b9d8db9f8a5", "Coupe de la Ligue - Ukraine"),
     new AreaMap({ kind: "country", continentNumber: ContinentNumber.Europe, countryNumber: EuropeCountryNumber.United_Kingdom }, "United Kingdom", "6616779de248f096ec9bb2af", "Coupe de la Ligue - United Kingdom"),
 
