@@ -11,7 +11,10 @@ def get_map_amount() -> int:
 
 class VictoryCondition(Choice):
     """
-    The condition that must be met to win the run.
+    The condition that must be met to win the run. Available medals are: Bronze, Silver, Gold, Platinum (if enabled).
+
+    Medals count: obtain a certain amount of medals (all types included)
+    Platinum count: obtain a certain amount of Platinum medals (perfect score)
     """
 
     display_name = "Victory Condition"
@@ -53,6 +56,8 @@ class PlatCount(Range):
 class AccessibleCountriesCount(Range):
     """
     The number of randomly drawn country maps the player can unlock, on all continents combined.
+
+    There are 22 micro countries in the game, so be careful if you set the micro country limit to a lower value than 22: you will not be able to put the maximum amount of countries possible in this case.
     """
 
     display_name = "Number of accessible countries"
@@ -83,7 +88,9 @@ class MaxMicroCountriesCount(Range):
 
 class CountriesDifficultyLevel(Choice):
     """
-    A setting determining the maximum difficulty a drawn country can have
+    A setting determining the maximum difficulty a drawn country can have.
+
+    This can restrict generation if the number of accessible countries parametered is too high to fill the game with enough countries of an acceptable difficulty.
     """
 
     display_name = "Countries max difficulty level"
@@ -106,6 +113,8 @@ class IncludesPlatinums(Toggle):
 class CustomScaling(Range):
     """
     A custom scaling percentage to be applied to thresholds. It will be applied to Bronze, Silver and Gold medal thresholds.
+    Default thresholds are Explorer mode values (Bronze 7500, Silver 15000, Gold 22500) but some countries are balanced to have a doable score.
+    This custom scaling is applied after that original balancing.
     """
 
     display_name = "Threshold scaling percentage for Bronze, Silver and Gold medals"
