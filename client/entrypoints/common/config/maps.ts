@@ -61,7 +61,7 @@ allMaps.push(
     new AreaMap({ kind: "country", continentNumber: ContinentNumber.Asia, countryNumber: AsiaCountryNumber.Bangladesh }, "Bangladesh", "66163019ed5d1147573f2256", "Coupe de la Ligue - Bangladesh"),
     new AreaMap({ kind: "country", continentNumber: ContinentNumber.Asia, countryNumber: AsiaCountryNumber.Bhutan }, "Bhutan", "6616308b9d295bf4901bbc3e", "Coupe de la Ligue - Bhutan"),
     new AreaMap({ kind: "country", continentNumber: ContinentNumber.Asia, countryNumber: AsiaCountryNumber.Cambodia }, "Cambodia", "661630d6d61e067ae0967f05", "Coupe de la Ligue - Cambodia"),
-    new AreaMap({ kind: "country", continentNumber: ContinentNumber.Asia, countryNumber: AsiaCountryNumber.Christmas_Island }, "Christmas & Cocos Island", "661682be3b6ff9c413d9b88a", "Coupe de la Ligue - Christmas & Cocos Island"),
+    new AreaMap({ kind: "country", continentNumber: ContinentNumber.Asia, countryNumber: AsiaCountryNumber.Christmas_Island }, "Christmas & Cocos Island", "661682be3b6ff9c413d9b88a", "Coupe de la Ligue - Christmas and Cocos Islands"),
     new AreaMap({ kind: "country", continentNumber: ContinentNumber.Asia, countryNumber: AsiaCountryNumber.Cyprus }, "Cyprus", "6909d478125332b237188b75", "Coupe de la Ligue - Cyprus"),
     new AreaMap({ kind: "country", continentNumber: ContinentNumber.Asia, countryNumber: AsiaCountryNumber.Georgia }, "Georgia", "6a6de76aee36e8e7c7e95afb", "Coupe de la Ligue - Georgia"),
     new AreaMap({ kind: "country", continentNumber: ContinentNumber.Asia, countryNumber: AsiaCountryNumber.Hong_Kong }, "Hong Kong", "661632d2f31375669b015990", "Coupe de la Ligue - Hong Kong"),
