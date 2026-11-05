@@ -109,7 +109,7 @@ allMaps.push(
     new AreaMap({ kind: "continent", continentNumber: ContinentNumber.North_America }, "North America", "69367baba92b1c6d29fda74f", "Coupe de la Ligue - North America"),
     new AreaMap({ kind: "country", continentNumber: ContinentNumber.North_America, countryNumber: NorthAmericaCountryNumber.Canada }, "Canada", "66153975b615e1179ac2c953", "Coupe de la Ligue - Canada"),
     new AreaMap({ kind: "country", continentNumber: ContinentNumber.North_America, countryNumber: NorthAmericaCountryNumber.Costa_Rica }, "Costa Rica", "690c54193a5a909e429c4920", "Coupe de la Ligue - Costa Rica"),
-    new AreaMap({ kind: "country", continentNumber: ContinentNumber.North_America, countryNumber: NorthAmericaCountryNumber.Curacao }, "Curacao", "66153a741319bdc2faef7351", "Coupe de la Ligue - Curacao"),
+    new AreaMap({ kind: "country", continentNumber: ContinentNumber.North_America, countryNumber: NorthAmericaCountryNumber.Curacao }, "Curacao", "66153a741319bdc2faef7351", "Coupe de la Ligue - Curaçao"),
     new AreaMap({ kind: "country", continentNumber: ContinentNumber.North_America, countryNumber: NorthAmericaCountryNumber.Dominican_Republic }, "Dominican Republic", "66153e28817f5c424932ce5a", "Coupe de la Ligue - Dominican Republic"),
     new AreaMap({ kind: "country", continentNumber: ContinentNumber.North_America, countryNumber: NorthAmericaCountryNumber.Guatemala }, "Guatemala", "66153b4d9540c2647745d377", "Coupe de la Ligue - Guatemala"),
     new AreaMap({ kind: "country", continentNumber: ContinentNumber.North_America, countryNumber: NorthAmericaCountryNumber.Mexico }, "Mexico", "66153c82b63d5c03c1edb560", "Coupe de la Ligue - Mexico"),
