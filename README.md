@@ -11,7 +11,7 @@ For information on Archipelago, you may visit [their official website](https://a
 You can check the setup guide [here](world/geoguessr/docs/setup_en.md) to start playing !
 
 Quick shortcut to our browser extension links:
-- Chrome and derived:
+- Chrome and derived: https://chromewebstore.google.com/detail/geoguessr-archipelago-cli/hemokppgpfdnfbjkjgifogekkbphkhgg
 - Firefox: 
 
 You can also join [our discord server](https://discord.gg/SdSbcqd3VY)!
