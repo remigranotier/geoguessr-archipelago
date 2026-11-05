@@ -20,13 +20,6 @@ export class PlayerOptions {
         public countries_max_difficulty: "hard" | "medium" | "easy" = "hard",
         public include_platinums: boolean = true,
         public custom_scaling_percentage: number = 100,
-        public local_items = [],
-        public non_local_items = [],
-        public start_inventory = [],
-        public start_hints = [],
-        public start_location_hints = [],
-        public exclude_locations = [],
-        public priority_locations = [],
     ) { }
 }
 
