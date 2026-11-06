@@ -12,7 +12,7 @@ You can check the setup guide [here](world/geoguessr/docs/setup_en.md) to start 
 
 Quick shortcut to our browser extension links:
 - Chrome and derived: https://chromewebstore.google.com/detail/geoguessr-archipelago-cli/hemokppgpfdnfbjkjgifogekkbphkhgg
-- Firefox: 
+- Firefox: https://addons.mozilla.org/fr/firefox/addon/geoguessr-archipelago-client/
 
 You can also join [our discord server](https://discord.gg/SdSbcqd3VY)!
 
