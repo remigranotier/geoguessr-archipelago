@@ -1,13 +1,12 @@
 import { Client } from "archipelago.js";
 import {
   FillerItemId,
-  GACConnectionStatus,
   SoundEffectType,
   type GACResponse,
 } from "../common/models";
 import { getServerConnection, handleServerConnectMessage, handleServerDisconnectMessage, tryReconnection } from "./connect";
 import { handleRoundFinishedMessage, handleGenerateGameMessage } from "./game";
-import { DataConflictMessage, GenerateGameMessage, MessageType, RoundFinishedMessage, SendNewLogMessage, SendSoundEffectMessage, SubmitManualIdMessage, type GACMessage, type ServerConnectMessage } from "../common/messages";
+import { DataConflictMessage, GenerateGameMessage, MessageType, RoundFinishedMessage, SendConnectionStatusMessage, SendNewLogMessage, SendSoundEffectMessage, SubmitManualIdMessage, type GACMessage, type ServerConnectMessage } from "../common/messages";
 import { handleRetrieveLogsMessage, renderNodes } from "./ap-logs";
 import { sendQuestionableTip, sendSpecialTip } from "./tips";
 import { handleSubmitManualId } from "./manual-submit";
@@ -20,23 +19,22 @@ declare global {
 
 function messageListener(message: GACMessage, sender: Browser.runtime.MessageSender, sendResponse: (response: GACResponse) => void) {
   switch (message.type) {
-    case MessageType.KeepAlive:
+    case MessageType.Heartbeat:
       {
         sendResponse({
           success: true,
-          data: {}
+          data: getServerConnection()
         })
         return false;
       }
     case MessageType.ServerConnect:
       {
         const serverConnectMessage = message as ServerConnectMessage;
-        handleServerConnectMessage(serverConnectMessage).then(result => {
+        handleServerConnectMessage(serverConnectMessage).then(() => {
           sendResponse({
             success: true,
             data: {
-              slotData: result,
-              connectionStatus: new GACConnectionStatus(),
+              connectionStatus: getServerConnection(),
             }
           })
         }).catch(error => {
@@ -173,10 +171,12 @@ async function actionListener() {
 function setupClientDebugMessages() {
   apClient.socket.on("connected", (_packet) => {
     console.debug(`CLIENT - CONNECTED`)
+    void browser.runtime.sendMessage(new SendConnectionStatusMessage(getServerConnection()))
   })
 
   apClient.socket.on("disconnected", () => {
     console.debug(`CLIENT - DISCONNECTED`)
+    void browser.runtime.sendMessage(new SendConnectionStatusMessage(getServerConnection()))
   })
 }
 

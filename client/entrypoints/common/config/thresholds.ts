@@ -1,6 +1,7 @@
 export const CountriesThresholdsScales: Record<string, number> = {
     "Albania": 0.66,
     "Belgium": 0.66,
+    "Bhutan": 0.66,
     "Bosnia & Herzegovina": 0.66,
     "Bulgaria": 0.66,
     "Czechia": 0.6,

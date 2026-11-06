@@ -14,7 +14,6 @@ import {
 
 import { apClient } from './index.ts'
 import { SendSoundEffectMessage, type GenerateGameMessage, type RoundFinishedMessage } from '../common/messages.ts'
-import { mapsConfig } from '../common/config/maps.ts'
 import { getGameState, isMapPlayable, updateGameState } from './state.ts'
 import type { Item } from 'archipelago.js'
 import { GACMedal } from '../common/config/medals.ts'

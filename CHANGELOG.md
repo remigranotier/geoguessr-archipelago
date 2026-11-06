@@ -1,3 +1,17 @@
+# 0.1.1
+
+This release includes:
+- geoguessr-archipelago extension v0.1.1
+- Geoguessr apworld v0.1.1
+
+## Features
+- Added Chrome extension links (#42)
+- Added some better documentation on options (#42)
+
+## Bugfixes
+- Fixed Turkiye map overlay not working (#42)
+- Fixed connection display issues (#42)
+
 # 0.1.0
 
 This release includes:

@@ -3,10 +3,11 @@ import {
     StatusSpecialMode,
     type ConnectionCredentials,
     type GACResponse
-} from "../common/models";
+} from "../../common/models";
 import { storage } from '@wxt-dev/storage';
-import { renderStatusComponent, updateConnectionStatus } from "./ui/status";
-import { ServerConnectMessage, ServerDisconnectMessage } from "../common/messages";
+import { renderStatusComponent } from "./status-display";
+import { ServerConnectMessage, ServerDisconnectMessage } from "../../common/messages";
+import { updateConnectionStatus } from "../status";
 
 export function setCredentialsFromLastSend() {
     void storage.getItem<ConnectionCredentials>("sync:connection").then((previousCredentials) => {
@@ -38,8 +39,7 @@ export async function sendConnectionOptions(e: Event) {
     const connectionResponse: GACResponse = await browser.runtime.sendMessage(connectMessage);
     if (connectionResponse.success) {
         console.log("Connection success")
-        let { slotData, connectionStatus }: { slotData: any, connectionStatus: GACConnectionStatus } = connectionResponse.data
-        console.debug("Slot data received is:", slotData)
+        let { connectionStatus }: { connectionStatus: GACConnectionStatus } = connectionResponse.data
         console.debug("Connection status received is:", connectionStatus)
         void updateConnectionStatus(connectionStatus)
     } else {
