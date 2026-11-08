@@ -10,7 +10,7 @@ let gamestate = new GACGameState()
 let connectionStatus = DEFAULT_CONNECTION_STATUS
 
 export default defineContentScript({
-    matches: ['*://*.geoguessr.com/*game/*'],
+    matches: ['*://*.geoguessr.com/game/*', '*://*.geoguessr.com/*/game/*'],
     main() {
         window.addEventListener('message', handleGeoguessrGameFinishedMessage);
 
@@ -35,7 +35,6 @@ export default defineContentScript({
                 appearanceObserver.observe(inGameLayout, { childList: true });
             }
         });
-
 
         appearanceObserver.observe(document.body, { subtree: true, childList: true });
     }
