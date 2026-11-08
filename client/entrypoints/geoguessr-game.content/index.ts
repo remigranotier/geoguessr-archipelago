@@ -2,6 +2,7 @@ import { getMedalText } from "../client-tab/ui/maps";
 import { GACMedal } from "../common/config/medals";
 import { RetrieveConnectionStatusMessage, RoundFinishedMessage, type GeoguessrRoundFinishedMessage } from "../common/messages";
 import { GACGameState, GACGameType, GACMap, type GACResponse } from "../common/models";
+import { setupDeathLink } from "./death-link";
 import './style.css'
 
 const THRESHOLD_DIV_ID = "geoguessr-archipelago-threshold"
@@ -37,6 +38,8 @@ export default defineContentScript({
         });
 
         appearanceObserver.observe(document.body, { subtree: true, childList: true });
+
+        setupDeathLink()
     }
 });
 
@@ -80,7 +83,6 @@ async function displayThresholds(roundStatusPanel: Element) {
         return
     }
 
-    storage.unwatch()
     storage.watch<GACGameState>(`local:${connectionStatus.seed}-${connectionStatus.player}`, (newGameState, _oldGameState) => {
         gamestate = newGameState ?? new GACGameState()
         renderThresholdDivText(roundStatusPanel)
