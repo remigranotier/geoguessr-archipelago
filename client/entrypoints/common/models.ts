@@ -101,5 +101,6 @@ export enum SoundEffectType {
     None,
     LocationChecked,
     ItemReceived,
-    GoalReached
+    GoalReached,
+    DeathReceived,
 }

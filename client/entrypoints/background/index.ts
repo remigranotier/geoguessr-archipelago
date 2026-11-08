@@ -221,6 +221,18 @@ export default defineBackground(() => {
     void browser.runtime.sendMessage(new SendNewLogMessage(renderNodes(nodes)));
   })
 
+  apClient.deathLink.on("deathReceived", (_source, _time, _cause) => {
+    if (!apClient.deathLink.enabled) {
+      return
+    }
+
+    void browser.runtime.sendMessage(new SendSoundEffectMessage(SoundEffectType.DeathReceived))
+    void storage.setItem<boolean>("local:death-link", true)
+    setTimeout(() => {
+      void storage.setItem("local:death-link", null)
+    }, 1000)
+  })
+
   // Keep service worker alive
   setInterval(() => {
     if (apClient.authenticated) {
