@@ -107,6 +107,8 @@ class IncludesPlatinums(Toggle):
     A setting to allow the player to remove platinum medals locations
     """
 
+    display_name = "Include platinum medals"
+
     default = 1
 
 
@@ -124,6 +126,19 @@ class CustomScaling(Range):
     default = 100
 
 
+class DeathLinkEnabled(Toggle):
+    """
+    A setting to enable DeathLink: whenever a DeathLink-tagged game sends a death to the server,
+    having this enabled will send an Antarctica guess on all opened games of Geoguessr.
+
+    There are no conditions that send deaths from Geoguessr, for now.
+    """
+
+    display_name = "Enable DeathLink"
+
+    default = 0
+
+
 @dataclass
 class GeoguessrOptions(PerGameCommonOptions):
     victory_condition: VictoryCondition
@@ -134,6 +149,7 @@ class GeoguessrOptions(PerGameCommonOptions):
     countries_max_difficulty: CountriesDifficultyLevel
     include_platinums: IncludesPlatinums
     custom_scaling_percentage: CustomScaling
+    deathlink_enabled: DeathLinkEnabled
 
 
 option_presets = {
@@ -145,6 +161,7 @@ option_presets = {
         "countries_max_difficulty": CountriesDifficultyLevel.option_easy,
         "include_platinums": False,
         "custom_scaling_percentage": 75,
+        "deathlink_enabled": 0,
     },
     "Pinpointer": {
         "victory_condition": VictoryCondition.option_plat_count,
@@ -154,6 +171,7 @@ option_presets = {
         "countries_max_difficulty": CountriesDifficultyLevel.option_medium,
         "include_platinums": True,
         "custom_scaling_percentage": 100,
+        "deathlink_enabled": 0,
     },
     "NM Player": {
         "victory_condition": VictoryCondition.option_medals_count,
@@ -163,6 +181,7 @@ option_presets = {
         "countries_max_difficulty": CountriesDifficultyLevel.option_medium,
         "include_platinums": False,
         "custom_scaling_percentage": 100,
+        "deathlink_enabled": 0,
     },
     "I'm Blinky": {
         "victory_condition": VictoryCondition.option_plat_count,
@@ -172,6 +191,7 @@ option_presets = {
         "countries_max_difficulty": CountriesDifficultyLevel.option_hard,
         "include_platinums": True,
         "custom_scaling_percentage": 100,
+        "deathlink_enabled": 0,
     },
     "I'm MK": {
         "victory_condition": VictoryCondition.option_medals_count,
@@ -181,6 +201,7 @@ option_presets = {
         "countries_max_difficulty": CountriesDifficultyLevel.option_hard,
         "include_platinums": False,
         "custom_scaling_percentage": 100,
+        "deathlink_enabled": 0,
     },
     "I miss Explorer mode": {
         "victory_condition": VictoryCondition.option_plat_count,
@@ -190,12 +211,12 @@ option_presets = {
         "countries_max_difficulty": CountriesDifficultyLevel.option_hard,
         "include_platinums": True,
         "custom_scaling_percentage": 100,
+        "deathlink_enabled": 0,
     },
 }
 
 
 def check_options(world):
-
     if (
         not world.options.include_platinums.value
         and world.options.victory_condition.value == 1
