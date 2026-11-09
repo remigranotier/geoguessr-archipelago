@@ -10,6 +10,7 @@ This release includes:
 ## Bugfixes
 - Fixed status display component overwriting statuses not voluntarily (#43)
 - Fixed Firefox extension statuses (#43)
+- Fixed default presets accessible countries number too high for balance (#45)
 
 # 0.1.1
 
