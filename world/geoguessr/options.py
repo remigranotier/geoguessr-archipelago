@@ -57,7 +57,11 @@ class AccessibleCountriesCount(Range):
     """
     The number of randomly drawn country maps the player can unlock, on all continents combined.
 
-    There are 22 micro countries in the game, so be careful if you set the micro country limit to a lower value than 22: you will not be able to put the maximum amount of countries possible in this case.
+    There are 22 micro countries in the game, so be careful if you set the micro country limit to a lower value than 22:
+    you will not be able to put the maximum amount of countries possible in this case.
+
+    We advise you NOT to put many more accessible countries than necessary to reach the goal: doing so would lower the
+    percentage of locations to collect to reach the goal.
     """
 
     display_name = "Number of accessible countries"

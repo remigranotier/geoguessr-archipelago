@@ -286,7 +286,7 @@
         "message": "<p>Le nombre de médailles Platine (25k) à récupérer pour gagner la partie.</p><p>Ce nombre doit être inférieur ou égal au nombre de cartes disponibles dans la partie (Nombre de pays accessibles + Nombre de continents (max 6) + carte World)</p>"
     },
     "yamlAccessibleCountriesCountTooltip": {
-        "message": "<p>Le nombre de pays qui seront tirés au sort et donc disponibles dans la partie.</p><p>Il y a 22 micro pays dans le jeu, donc attention si tu mets le nombre de micro pays à une valeur plus faible que 22: tu ne pourras pas générer une game avec le nombre maximal de pays dans ce cas.</p>"
+        "message": "<p>Le nombre de pays qui seront tirés au sort et donc disponibles dans la partie.</p><p>Il y a 22 micro pays dans le jeu, donc attention si tu mets le nombre de micro pays à une valeur plus faible que 22: tu ne pourras pas générer une game avec le nombre maximal de pays dans ce cas.</p><p>On te conseille ne de pas mettre plus de pays accessibles que nécessaire pour atteindre l'objectif de la partie : s'il y a trop de pays, le pourcentage des médailles nécessaires pour atteindre le but sera faible, et pourra bloquer d'autres joueurs du multi-monde jusqu'à ce que l'objectif soit atteint.</p>"
     },
     "yamlMaxMicroCountriesTooltip": {
         "message": "<p>Le nombre maximum de micro pays qui peuvent être tirés au sort pendant la génération.</p><p>Les micro pays sont définis comme les micro-états (San Marino, Monaco...), ou les pays possédant une couverture Street View minimale (Laos, Ouganda...)</p>"
