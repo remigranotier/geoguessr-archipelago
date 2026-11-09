@@ -9,6 +9,7 @@ import { handleRoundFinishedMessage, handleGenerateGameMessage } from "./game";
 import { DataConflictMessage, GenerateGameMessage, MessageType, RoundFinishedMessage, SendConnectionStatusMessage, SendNewLogMessage, SendSoundEffectMessage, SubmitManualIdMessage, type GACMessage, type ServerConnectMessage } from "../common/messages";
 import { handleRetrieveLogsMessage, renderNodes } from "./ap-logs";
 import { sendQuestionableTip, sendSpecialTip } from "./tips";
+import { retrieveHint } from "./hints";
 import { handleSubmitManualId } from "./manual-submit";
 import { handleDataConflict, updateGameState } from "./state";
 
@@ -200,6 +201,9 @@ export default defineBackground(() => {
         }
         if (item.id == FillerItemId.QuestionableTip) {
           sendQuestionableTip()
+        }
+        if (item.id == FillerItemId.Hint) {
+          void retrieveHint()
         }
       }
     }

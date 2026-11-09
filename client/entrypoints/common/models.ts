@@ -18,6 +18,7 @@ export enum GACGameType {
 export enum FillerItemId {
     SpecialTip = 10000,
     QuestionableTip = 10001,
+    Hint = 10002,
 }
 
 export class GACProgression {
