@@ -64,7 +64,7 @@ class AccessibleCountriesCount(Range):
 
     range_start = 1
     range_end = len(common.COUNTRIES)
-    default = 10
+    default = 5
 
 
 class MaxMicroCountriesCount(Range):
@@ -83,7 +83,7 @@ class MaxMicroCountriesCount(Range):
             if country.difficulty == common.Difficulty.MicroCountry
         ]
     )
-    default = 3
+    default = 1
 
 
 class CountriesDifficultyLevel(Choice):
@@ -156,8 +156,8 @@ option_presets = {
     "Beginner": {
         "victory_condition": VictoryCondition.option_medals_count,
         "medal_count": 15,
-        "accessible_countries_count": 10,
-        "max_micro_countries_count": 3,
+        "accessible_countries_count": 5,
+        "max_micro_countries_count": 2,
         "countries_max_difficulty": CountriesDifficultyLevel.option_easy,
         "include_platinums": False,
         "custom_scaling_percentage": 75,
@@ -166,8 +166,8 @@ option_presets = {
     "Pinpointer": {
         "victory_condition": VictoryCondition.option_plat_count,
         "plat_count": 5,
-        "accessible_countries_count": 10,
-        "max_micro_countries_count": 3,
+        "accessible_countries_count": 5,
+        "max_micro_countries_count": 1,
         "countries_max_difficulty": CountriesDifficultyLevel.option_medium,
         "include_platinums": True,
         "custom_scaling_percentage": 100,
@@ -176,8 +176,8 @@ option_presets = {
     "NM Player": {
         "victory_condition": VictoryCondition.option_medals_count,
         "medal_count": 30,
-        "accessible_countries_count": 15,
-        "max_micro_countries_count": 3,
+        "accessible_countries_count": 10,
+        "max_micro_countries_count": 2,
         "countries_max_difficulty": CountriesDifficultyLevel.option_medium,
         "include_platinums": False,
         "custom_scaling_percentage": 100,
@@ -186,8 +186,8 @@ option_presets = {
     "I'm Blinky": {
         "victory_condition": VictoryCondition.option_plat_count,
         "medal_count": 10,
-        "accessible_countries_count": 20,
-        "max_micro_countries_count": 3,
+        "accessible_countries_count": 10,
+        "max_micro_countries_count": 1,
         "countries_max_difficulty": CountriesDifficultyLevel.option_hard,
         "include_platinums": True,
         "custom_scaling_percentage": 100,
@@ -196,8 +196,8 @@ option_presets = {
     "I'm MK": {
         "victory_condition": VictoryCondition.option_medals_count,
         "medal_count": 40,
-        "accessible_countries_count": 20,
-        "max_micro_countries_count": 3,
+        "accessible_countries_count": 13,
+        "max_micro_countries_count": 1,
         "countries_max_difficulty": CountriesDifficultyLevel.option_hard,
         "include_platinums": False,
         "custom_scaling_percentage": 100,
