@@ -6,6 +6,7 @@ This release includes:
 
 ## Features
 - Added DeathLink enabled parameter (#44)
+- Added a Retry button in-game (#46)
 
 ## Bugfixes
 - Fixed status display component overwriting statuses not voluntarily (#43)
