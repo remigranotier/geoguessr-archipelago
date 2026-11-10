@@ -1,7 +1,7 @@
 import { apClient, hintedLocations } from ".";
 
 export async function retrieveHint() {
-    const locationToHint = getUndiscoveredLocation()
+    const locationToHint = await getUndiscoveredLocation()
     if(locationToHint !== undefined) {
         await apClient.scout([locationToHint], 1)
     } else {
@@ -9,7 +9,7 @@ export async function retrieveHint() {
     }
 }
 
-function getUndiscoveredLocation() {
+async function getUndiscoveredLocation() {
     let remainingLocations = apClient.room.missingLocations
     remainingLocations = remainingLocations.filter(element => !hintedLocations.includes(element));
 
@@ -18,7 +18,32 @@ function getUndiscoveredLocation() {
         return
     }
 
-    const pickedLocation = remainingLocations[Math.floor(Math.random() * remainingLocations.length)] as number;
-    hintedLocations.push(pickedLocation)
-    return pickedLocation
+    // Look for a progression item
+    let locationsIterProgression = [...remainingLocations];
+
+    while(locationsIterProgression.length > 0) {
+        let pickedLocation = remainingLocations[Math.floor(Math.random() * remainingLocations.length)] as number
+        let item = (await apClient.scout([pickedLocation], 0))[0]
+
+        if(item?.progression) {
+            hintedLocations.push(pickedLocation)
+            return pickedLocation
+        }
+    }
+
+    // No progression : look for usefuls
+    let locationsIterUseful = [...remainingLocations];
+
+    while(locationsIterUseful.length > 0) {
+        let pickedLocation = remainingLocations[Math.floor(Math.random() * remainingLocations.length)] as number
+        let item = (await apClient.scout([pickedLocation], 0))[0]
+
+        if(item?.useful) {
+            hintedLocations.push(pickedLocation)
+            return pickedLocation
+        }
+    }
+
+    // No progression or useful : return filler
+    return remainingLocations[Math.floor(Math.random() * remainingLocations.length)] as number
 }
