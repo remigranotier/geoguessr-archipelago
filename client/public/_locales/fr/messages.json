@@ -213,8 +213,11 @@
     "yamlAccessibilityMinimal": {
         "message": "Minimale"
     },
-    "yamlGeoguessrSettings": {
-        "message": "Paramètres Geoguessr"
+    "yamlGameLengthSettings": {
+        "message": "Paramètres de durée de partie"
+    },
+    "yamlDifficultySettings": {
+        "message": "Paramètres de difficulté"
     },
     "yamlVictoryConditionSetting": {
         "message": "Condition de victoire :"

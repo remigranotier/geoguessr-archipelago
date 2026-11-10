@@ -1,6 +1,13 @@
 from dataclasses import dataclass
 
-from Options import Choice, OptionError, PerGameCommonOptions, Range, Toggle
+from Options import (
+    Choice,
+    OptionError,
+    PerGameCommonOptions,
+    Range,
+    Toggle,
+    OptionGroup,
+)
 
 from . import common
 
@@ -155,6 +162,23 @@ class GeoguessrOptions(PerGameCommonOptions):
     custom_scaling_percentage: CustomScaling
     deathlink_enabled: DeathLinkEnabled
 
+
+option_groups = [
+    OptionGroup(
+        "Game Length Options",
+        [
+            VictoryCondition,
+            MedalCount,
+            PlatCount,
+            AccessibleCountriesCount,
+            MaxMicroCountriesCount,
+        ],
+    ),
+    OptionGroup(
+        "Difficulty Options",
+        [CountriesDifficultyLevel, IncludesPlatinums, CustomScaling, DeathLinkEnabled],
+    ),
+]
 
 option_presets = {
     "Beginner": {
