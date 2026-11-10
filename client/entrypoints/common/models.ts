@@ -43,19 +43,29 @@ export class GACMap {
     ) { }
 }
 
+export class GACHint {
+    constructor(
+        public locationName: string,
+        public locationId: number,
+        public itemName: string,
+        public itemId: number,
+        public found: boolean = false
+    ) {}
+}
+
 export class GACGameState {
     maps: GACMap[];
     url: string;
     gameFinished: boolean;
     configData: Record<string, unknown>;
-    hintedLocations: number[]
+    hintedLocations: number[] = []
+    hints: GACHint[] = []
 
     constructor(maps: GACMap[] = []) {
         this.maps = maps
         this.url = apClient.socket.url
         this.gameFinished = false;
         this.configData = globalThis.gameConfigData
-        this.hintedLocations = []
     }
 }
 

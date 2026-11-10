@@ -13,3 +13,7 @@ export function gamemodeFromData(data: any) {
     }
     return gamemode
 }
+
+export function getLocationName(id: number) {
+    return "test"
+}
