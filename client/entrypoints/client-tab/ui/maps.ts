@@ -1,7 +1,7 @@
 import { GACMedal } from "../../common/config/medals";
 import { mapsConfig } from "../../common/config/maps";
 import { GenerateGameMessage } from "../../common/messages";
-import { GACGamemode, GACGameType, GACMap } from "../../common/models";
+import { GACGamemode, GACGameType, GACMap, type GACResponse } from "../../common/models";
 import { AreaLocations, PERFECT_SCORE } from "@/entrypoints/common/config/area-map";
 import { WinCondition } from "@/entrypoints/common/config/win-condition";
 import { renderDebugOptions } from "./debug";
@@ -107,12 +107,16 @@ function renderMapRow(map: GACMap): HTMLTableRowElement | null {
     mapNameCell.title = map.areaMap.areaName;
     if (map.playable && !isMapFinished(map)) {
         mapNameCell.classList.add("activeLink")
-        mapNameCell.onclick = (_: PointerEvent) => {
+        mapNameCell.onclick = async (_: PointerEvent) => {
             const generateGameMessage = new GenerateGameMessage(map.areaMap.mapId)
-            void browser.runtime.sendMessage(generateGameMessage).then((response) => {
-                if (!response.success) {
-                    console.error("Error while generating game:", response.error)
-                }
+            const generateGameResponse: GACResponse = await browser.runtime.sendMessage(generateGameMessage)
+            if (!generateGameResponse.success) {
+                console.error("Error while generating game:", generateGameResponse.error)
+                return
+            }
+            const gameId: string = generateGameResponse.data
+            const _newTab = await browser.tabs.create({
+                url: `https://www.geoguessr.com/game/${gameId}`
             })
         }
     } else if (!map.unlocked) {

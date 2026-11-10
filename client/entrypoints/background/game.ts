@@ -55,9 +55,7 @@ export async function handleGenerateGameMessage(message: GenerateGameMessage) {
     }
 
     const gameId = await generateGame(map.areaMap.mapId, map.gamemode)
-    const _newTab = await browser.tabs.create({
-        url: `https://www.geoguessr.com/game/${gameId}`
-    })
+    return gameId
 }
 
 function hasForbiddenGamemode(areaMap: AreaMap, message: RoundFinishedMessage) {

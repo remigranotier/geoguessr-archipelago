@@ -332,5 +332,8 @@
     },
     "disableExtensionContent": {
         "message": "Si tu as terminé ta partie ou que tu as juste besoin de jouer à Geoguessr sans l'extension connectée au serveur Archipelago, le plus simple est de se déconncter du serveur depuis l'onglet de l'extension, en cliquant sur Déconnexion. Cela fera en sorte que tes parties de Geoguessr n'impacteront pas le serveur Archipelago et vice-versa.<br><br>Sinon, désactiver l'extension dans ton navigateur fonctionne également."
+    },
+    "resetSeedButtonTitle": {
+        "message": "Réessayer cette carte"
     }
 }
