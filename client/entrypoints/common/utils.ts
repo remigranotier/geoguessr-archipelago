@@ -62,6 +62,8 @@ export function getLocationName(id: number) {
         }
     }
 
+    mapName = mapName.replaceAll("_", " ")
+
     fullName = mapName + " " + locName
 
     return fullName
