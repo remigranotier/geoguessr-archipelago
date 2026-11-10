@@ -1,4 +1,5 @@
-import { apClient, hintedLocations } from ".";
+import { apClient } from ".";
+import { getGameState } from "./state";
 
 export async function retrieveHint() {
     const locationToHint = await getUndiscoveredLocation()
@@ -11,7 +12,8 @@ export async function retrieveHint() {
 
 async function getUndiscoveredLocation() {
     let remainingLocations = apClient.room.missingLocations
-    remainingLocations = remainingLocations.filter(element => !hintedLocations.includes(element));
+    const gameState = await getGameState()
+    remainingLocations = remainingLocations.filter(element => !gameState.hintedLocations.includes(element));
 
     // Case where there are no more locations to hint
     if (remainingLocations.length == 0) {
@@ -26,7 +28,7 @@ async function getUndiscoveredLocation() {
         let item = (await apClient.scout([pickedLocation], 0))[0]
 
         if(item?.progression) {
-            hintedLocations.push(pickedLocation)
+            gameState.hintedLocations.push(pickedLocation)
             return pickedLocation
         }
     }
@@ -39,7 +41,7 @@ async function getUndiscoveredLocation() {
         let item = (await apClient.scout([pickedLocation], 0))[0]
 
         if(item?.useful) {
-            hintedLocations.push(pickedLocation)
+            gameState.hintedLocations.push(pickedLocation)
             return pickedLocation
         }
     }
