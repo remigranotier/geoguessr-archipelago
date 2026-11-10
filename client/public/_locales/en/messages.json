@@ -286,7 +286,7 @@
         "message": "<p>The amount of platinum medals (25k) to collect to win the game.</p><p>This has to be lower or equal to the number of maps available on the game (Number of accessible countries + Number of continents (max 6) + World map)</p>"
     },
     "yamlAccessibleCountriesCountTooltip": {
-        "message": "<p>The amount of countries that will be randomly drawn during generation, and thus will be avaible in the game to unlock.</p><p>There are 22 micro countries in the game, so be careful if you set the micro country limit to a lower value than 22: you will not be able to put the maximum amount of countries possible in this case.</p>"
+        "message": "<p>The amount of countries that will be randomly drawn during generation, and thus will be avaible in the game to unlock.</p><p>There are 22 micro countries in the game, so be careful if you set the micro country limit to a lower value than 22: you will not be able to put the maximum amount of countries possible in this case.</p><p>We advise you NOT to put many more accessible countries than necessary to reach the goal: doing so would lower the percentage of locations to collect to reach the goal, thus potentially blocking other players of the multi-world until goal is reached.</p>"
     },
     "yamlMaxMicroCountriesTooltip": {
         "message": "<p>The maximum amount of micro-countries that can be drawn during generation.</p><p>Micro-countries are defined as micro-states (San Marino, Monaco...), or countries that have minimal geoguessr coverage (Laos, Uganda...)</p>"
