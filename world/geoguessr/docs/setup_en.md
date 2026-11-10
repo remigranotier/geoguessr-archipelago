@@ -30,7 +30,7 @@ Here are the installation steps for players. For the person hosting see the spec
 You only have **two things to do**:
 
 - First, install the **client extension** using one of the following links, depending of your browser
-    - Firefox: https://addons.mozilla.org/fr/firefox/addon/geoguessr-archipelago-client/
+    - Firefox: https://addons.mozilla.org/firefox/addon/geoguessr-archipelago-client/
     - Chrome (and variants): https://chromewebstore.google.com/detail/geoguessr-archipelago-cli/hemokppgpfdnfbjkjgifogekkbphkhgg
 
 - Then, you'll have to generate your game's **configuration file** (aka **YAML file**) which will setup your own settings for the game. See [here](#generating-a-yaml-file) for instructions. Send that file to your host for the multi-game generation.

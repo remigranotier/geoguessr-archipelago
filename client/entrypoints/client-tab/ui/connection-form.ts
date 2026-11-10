@@ -5,7 +5,7 @@ import {
     type GACResponse
 } from "../../common/models";
 import { storage } from '@wxt-dev/storage';
-import { renderStatusComponent } from "./status-display";
+import { clearLoadingState, renderStatusComponent } from "./status-display";
 import { ServerConnectMessage, ServerDisconnectMessage } from "../../common/messages";
 import { updateConnectionStatus } from "../status";
 
@@ -37,6 +37,7 @@ export async function sendConnectionOptions(e: Event) {
     const connectMessage: ServerConnectMessage = new ServerConnectMessage(server, slotName, password)
     renderStatusComponent(StatusSpecialMode.Loading)
     const connectionResponse: GACResponse = await browser.runtime.sendMessage(connectMessage);
+    clearLoadingState()
     if (connectionResponse.success) {
         console.log("Connection success")
         let { connectionStatus }: { connectionStatus: GACConnectionStatus } = connectionResponse.data
@@ -58,6 +59,7 @@ export async function sendDisconnectCommand(e: Event) {
     const disconnectMessage: ServerDisconnectMessage = new ServerDisconnectMessage()
     renderStatusComponent(StatusSpecialMode.Loading)
     const disconnectResponse: GACResponse = await browser.runtime.sendMessage(disconnectMessage);
+    clearLoadingState()
     if (disconnectResponse.success) {
         let connectionStatus: GACConnectionStatus = disconnectResponse.data
         console.debug("Connection status received is:", connectionStatus)

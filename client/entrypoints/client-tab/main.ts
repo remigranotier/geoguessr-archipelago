@@ -66,7 +66,12 @@ setInterval(async () => {
   if (connectionResponse.success) {
     let connectionStatus: GACConnectionStatus = connectionResponse.data
     // console.debug("HEARTBEAT - Connection status received is:", connectionStatus)
-    void updateConnectionStatus(connectionStatus)
+
+    // Only update connection status if tab thinks client is authenticated.
+    // If tab thinks it's not authenticated player can manually reconnect anyway.
+    if (globalThis.connectionStatus.authenticated) {
+      void updateConnectionStatus(connectionStatus)
+    }
   } else {
     console.error("Error while sending heartbeat message:", connectionResponse.error)
   }

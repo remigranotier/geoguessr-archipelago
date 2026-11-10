@@ -2,12 +2,22 @@ import { StatusSpecialMode } from "../../common/models"
 import { resetConnectionStatus } from "../status";
 import { renderGameSection } from "./maps";
 
+function getStatusComponent() {
+    return document.querySelector("#status")!
+}
+
 export function renderStatusComponent(specialMode?: StatusSpecialMode) {
-    const statusComponent = document.querySelector("#status")!
+    const statusComponent = getStatusComponent()
+
+    if (statusComponent.getAttribute("loading") == "true") {
+        // The special mode should be cleared before allowing change of status
+        return
+    }
     if (specialMode !== undefined) {
         switch (specialMode) {
             case StatusSpecialMode.Loading:
                 statusComponent.innerHTML = `⌛ ${browser.i18n.getMessage("connectingStatus")}...`
+                statusComponent.setAttribute("loading", "true")
                 break;
             case StatusSpecialMode.Failed:
                 statusComponent.innerHTML = `⚠️ ${browser.i18n.getMessage("failedConnectionStatus")}`
@@ -24,4 +34,11 @@ export function renderStatusComponent(specialMode?: StatusSpecialMode) {
     }
 
     renderGameSection()
+}
+
+export function clearLoadingState() {
+    const statusComponent = getStatusComponent()
+    if (statusComponent.hasAttribute("loading")) {
+        statusComponent.removeAttribute("loading")
+    }
 }

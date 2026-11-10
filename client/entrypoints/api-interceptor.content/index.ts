@@ -1,7 +1,7 @@
 import { GeoguessrRoundFinishedMessage } from "../common/messages";
 
 export default defineContentScript({
-    matches: ['*://*.geoguessr.com/*game/*'],
+    matches: ['*://*.geoguessr.com/game/*', '*://*.geoguessr.com/*/game/*'],
     world: 'MAIN',
     runAt: 'document_start',
     main() {

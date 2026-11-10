@@ -1,3 +1,13 @@
+# 0.1.2
+
+This release includes:
+- geoguessr-archipelago extension v0.1.2
+- Geoguessr apworld v0.1.1
+
+## Bugfixes
+- Fixed status display component overwriting statuses not voluntarily (#43)
+- Fixed Firefox extension statuses (#43)
+
 # 0.1.1
 
 This release includes:
