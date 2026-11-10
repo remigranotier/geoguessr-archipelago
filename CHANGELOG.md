@@ -1,8 +1,11 @@
-# 0.1.2
+# 0.2.0
 
 This release includes:
-- geoguessr-archipelago extension v0.1.2
-- Geoguessr apworld v0.1.1
+- geoguessr-archipelago extension v0.2.0
+- Geoguessr apworld v0.2.0
+
+## Features
+- Added DeathLink enabled parameter (#44)
 
 ## Bugfixes
 - Fixed status display component overwriting statuses not voluntarily (#43)

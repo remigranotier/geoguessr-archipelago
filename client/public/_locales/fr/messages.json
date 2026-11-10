@@ -264,6 +264,9 @@
     "yamlScalingPercentageSetting": {
         "message": "Mise à l'échelle des scores objectifs :"
     },
+    "yamlDeathLinkEnabledSetting": {
+        "message": "Activer DeathLink:"
+    },
     "loadLastButtonLabel": {
         "message": "Charger la dernière configuration générée"
     },
@@ -296,6 +299,9 @@
     },
     "yamlScalingPercentageTooltip": {
         "message": "<p>Le pourcentage des scores de médailles à atteindre. Par exemple, 50% réduira l'objectif de score de chaque médaille de moitié. 100% gardera tous les objectifs tel quels.</p>"
+    },
+    "yamlDeathLinkEnabledTooltip": {
+        "message": "<p>Activer ou non DeathLink: quand un jeu avec DeathLink activé envoie une mort au serveur, si le paramètre est activé, tous les onglets ouverts feront un guess en Antarctique</p><p>Pour l'instant, il n'y a aucun évènement qui envoie des morts depuis Geoguessr.</p>"
     },
     "loadPresetButtonLabel": {
         "message": "Charger la préconfiguration"

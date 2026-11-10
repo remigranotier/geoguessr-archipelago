@@ -58,4 +58,5 @@ class GeoguessrWorld(World):
             "max_micro_countries_count",
             "include_platinums",
             "custom_scaling_percentage",
+            "deathlink_enabled",
         )

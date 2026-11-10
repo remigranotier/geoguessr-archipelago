@@ -1,8 +1,9 @@
-import { SoundEffectType } from "../../common/models";
-import endSoundUrl from '~/assets/papayou.mp3';
-import itemReceivedSoundUrl from '~/assets/notif.mp3';
-import locationsCheckedSoundUrl from '~/assets/success.mp3';
-import emptyUrl from '~/assets/empty.mp3';
+import { SoundEffectType } from "../../common/models"
+import endSoundUrl from '~/assets/papayou.mp3'
+import itemReceivedSoundUrl from '~/assets/notif.mp3'
+import locationsCheckedSoundUrl from '~/assets/success.mp3'
+import deathReceivedSoundUrl from '~/assets/death.mp3'
+import emptyUrl from '~/assets/empty.mp3'
 
 const emptySound = new Audio(emptyUrl)
 void emptySound.play()
@@ -10,8 +11,8 @@ void emptySound.play()
 const endSound = new Audio(endSoundUrl)
 
 export function initVolumeBar() {
-    let volumeIcon = document.getElementById('volume-bar-icon') as HTMLLabelElement;
-    let volumeBar = document.getElementById('volume-bar') as HTMLInputElement;
+    let volumeIcon = document.getElementById('volume-bar-icon') as HTMLLabelElement
+    let volumeBar = document.getElementById('volume-bar') as HTMLInputElement
     chooseVolumeIcon()
     volumeIcon.removeEventListener("click", volumeIconClickHandler)
     volumeIcon.addEventListener("click", volumeIconClickHandler)
@@ -21,7 +22,7 @@ export function initVolumeBar() {
 }
 
 function volumeIconClickHandler(e: Event) {
-    let volumeBar = document.getElementById('volume-bar') as HTMLInputElement;
+    let volumeBar = document.getElementById('volume-bar') as HTMLInputElement
     if (volumeBar.valueAsNumber > 0) {
         volumeBar.setAttribute("previousValueNotZero", volumeBar.value)
         volumeBar.value = "0"
@@ -32,8 +33,8 @@ function volumeIconClickHandler(e: Event) {
 }
 
 function chooseVolumeIcon() {
-    let volumeIcon = document.getElementById('volume-bar-icon') as HTMLLabelElement;
-    let volumeBar = document.getElementById('volume-bar') as HTMLInputElement;
+    let volumeIcon = document.getElementById('volume-bar-icon') as HTMLLabelElement
+    let volumeBar = document.getElementById('volume-bar') as HTMLInputElement
 
     const volume = volumeBar.valueAsNumber
     if (volume == 0) {
@@ -61,25 +62,28 @@ export function playSoundEffect(type: SoundEffectType) {
     switch (type) {
         case SoundEffectType.ItemReceived:
             sound.src = itemReceivedSoundUrl
-            break;
+            break
         case SoundEffectType.LocationChecked:
             sound.src = locationsCheckedSoundUrl
-            break;
+            break
         case SoundEffectType.GoalReached:
             sound = endSound
-            break;
+            break
+        case SoundEffectType.DeathReceived:
+            sound.src = deathReceivedSoundUrl
+            break
         default:
             console.error("Unknown sound effect to play", type)
     }
-    let volumeBar = document.getElementById('volume-bar') as HTMLInputElement;
+    let volumeBar = document.getElementById('volume-bar') as HTMLInputElement
     if (volumeBar !== null) {
         sound.volume = volumeBar.valueAsNumber / 100
     }
     volumeBar.addEventListener("change", function (e) {
-        sound.volume = (e.currentTarget as HTMLInputElement).valueAsNumber / 100;
+        sound.volume = (e.currentTarget as HTMLInputElement).valueAsNumber / 100
     })
 
     void sound.play().catch((error) => {
-        console.error("Audio playback failed:", error.name, error.message);
+        console.error("Audio playback failed:", error.name, error.message)
     });
 }

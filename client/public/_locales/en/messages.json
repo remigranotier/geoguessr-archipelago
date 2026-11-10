@@ -264,6 +264,9 @@
     "yamlScalingPercentageSetting": {
         "message": "Medal threshold scaling:"
     },
+    "yamlDeathLinkEnabledSetting": {
+        "message": "Enable DeathLink:"
+    },
     "loadLastButtonLabel": {
         "message": "Load last generated values"
     },
@@ -296,6 +299,9 @@
     },
     "yamlScalingPercentageTooltip": {
         "message": "<p>Scale the medal objective thresholds, in percentage. For example, 50% will lower the thresholds to half their original value. 100% will keep everything as is. </p>"
+    },
+    "yamlDeathLinkEnabledTooltip": {
+        "message": "<p>Enable or not DeathLink: whenever a DeathLink-tagged game sends a death to the server, having this enabled will send an Antarctica guess on all opened games of Geoguessr.</p><p>There are no conditions that send deaths from Geoguessr, for now.</p>"
     },
     "loadPresetButtonLabel": {
         "message": "Load preset"

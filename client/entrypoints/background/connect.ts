@@ -12,6 +12,12 @@ export async function handleServerConnectMessage(message: ServerConnectMessage) 
     console.debug("Slot data is :", slotData)
 
     globalThis.gameConfigData = slotData
+
+    if (slotData.deathlink_enabled == 1) {
+        apClient.deathLink.enableDeathLink()
+    } else {
+        apClient.deathLink.disableDeathLink()
+    }
     void updateGameState()
 }
 
