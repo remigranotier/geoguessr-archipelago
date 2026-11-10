@@ -16,3 +16,12 @@
     max-height: 2.5rem;
     padding: 5px;
 }
+
+#geoguessr-archipelago-threshold-reset {
+    position: absolute;
+    right: 0;
+    text-align: center;
+    max-height: 2.5rem;
+    padding: 5px;
+    cursor: pointer;
+}

@@ -1,9 +1,10 @@
 import { getMedalText } from "../client-tab/ui/maps";
 import { GACMedal } from "../common/config/medals";
-import { RetrieveConnectionStatusMessage, RoundFinishedMessage, type GeoguessrRoundFinishedMessage } from "../common/messages";
+import { GenerateGameMessage, RetrieveConnectionStatusMessage, RoundFinishedMessage, type GeoguessrRoundFinishedMessage } from "../common/messages";
 import { GACGameState, GACGameType, GACMap, type GACResponse } from "../common/models";
 import { setupDeathLink } from "./death-link";
 import './style.css'
+import refreshIconUrl from '~/assets/refresh.png';
 
 const THRESHOLD_DIV_ID = "geoguessr-archipelago-threshold"
 export const DEFAULT_CONNECTION_STATUS = { authenticated: false, player: "", server: "", seed: "" }
@@ -108,10 +109,12 @@ function getOrCreateThresholdDivText(thresholdDiv: HTMLDivElement) {
         thresholdTextDiv = document.createElement("div")
         thresholdTextDiv.id = `${THRESHOLD_DIV_ID}-text`
         thresholdDiv.replaceChildren()
+
         let thresholdLogoDiv = document.createElement("img")
         thresholdLogoDiv.id = `${THRESHOLD_DIV_ID}-logo`
         thresholdLogoDiv.src = browser.runtime.getURL('/icon/128.png')
         thresholdDiv.appendChild(thresholdLogoDiv)
+
         thresholdDiv.appendChild(thresholdTextDiv)
     }
     return thresholdTextDiv
@@ -142,6 +145,8 @@ function renderThresholdDivText(roundStatusPanel: Element) {
 
     let thresholdTextDiv = getOrCreateThresholdDivText(thresholdDiv)
 
+    addResetButton(thresholdDiv, map)
+
     thresholdTextDiv.textContent = `Next medal: ${medalText}`
 }
 
@@ -166,4 +171,23 @@ function getScoreText(map: GACMap, medal: GACMedal) {
         return "No more medals to collect"
     }
     return map.medalThresholds[medal].toString()
+}
+
+function addResetButton(thresholdDiv: HTMLDivElement, map: GACMap) {
+    let resetSeedDiv = document.createElement("img")
+    resetSeedDiv.id = `${THRESHOLD_DIV_ID}-reset`
+    resetSeedDiv.src = refreshIconUrl
+    resetSeedDiv.title = browser.i18n.getMessage("resetSeedButtonTitle")
+    resetSeedDiv.onclick = (e) => generateSeedAndRefresh(e, map)
+    thresholdDiv.appendChild(resetSeedDiv)
+}
+
+async function generateSeedAndRefresh(e: PointerEvent, map: GACMap) {
+    const generateGameResponse: GACResponse = await browser.runtime.sendMessage(new GenerateGameMessage(map.areaMap.mapId))
+    if (!generateGameResponse.success) {
+        console.error("Error while generating game:", generateGameResponse.error)
+        return
+    }
+    const gameId: string = generateGameResponse.data
+    window.location.href = `https://www.geoguessr.com/game/${gameId}`
 }
