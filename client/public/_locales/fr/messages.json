@@ -338,5 +338,362 @@
     },
     "resetSeedButtonTitle": {
         "message": "Réessayer cette carte"
+    },
+    "world": {
+        "message": "Monde"
+    },
+    "europe": {
+        "message": "Europe"
+    },
+    "albania": {
+        "message": "Albanie"
+    },
+    "andorra": {
+        "message": "Andorre"
+    },
+    "austria": {
+        "message": "Autriche"
+    },
+    "belgium": {
+        "message": "Belgique"
+    },
+    "bosniaHerzegovina": {
+        "message": "Bosnie Herzégovine"
+    },
+    "bulgaria": {
+        "message": "Bulgarie"
+    },
+    "croatia": {
+        "message": "Croatie"
+    },
+    "czechia": {
+        "message": "Tchéquie"
+    },
+    "denmark": {
+        "message": "Danemark"
+    },
+    "estonia": {
+        "message": "Estonie"
+    },
+    "faroeIslands": {
+        "message": "Îles Féroé"
+    },
+    "finland": {
+        "message": "Finlande"
+    },
+    "france": {
+        "message": "France"
+    },
+    "germany": {
+        "message": "Allemagne"
+    },
+    "gibraltar": {
+        "message": "Gibraltar"
+    },
+    "greece": {
+        "message": "Grèce"
+    },
+    "hungary": {
+        "message": "Hongrie"
+    },
+    "iceland": {
+        "message": "Islande"
+    },
+    "ireland": {
+        "message": "Irlande"
+    },
+    "isleOfMan": {
+        "message": "Île de Man"
+    },
+    "italy": {
+        "message": "Italie"
+    },
+    "jersey": {
+        "message": "Jersey"
+    },
+    "latvia": {
+        "message": "Lettonie"
+    },
+    "liechtenstein": {
+        "message": "Lichtenstein"
+    },
+    "lithuania": {
+        "message": "Lituanie"
+    },
+    "luxembourg": {
+        "message": "Luxembourg"
+    },
+    "malta": {
+        "message": "Malte"
+    },
+    "monaco": {
+        "message": "Monaco"
+    },
+    "montenegro": {
+        "message": "Monténégro"
+    },
+    "netherlands": {
+        "message": "Pays-Bas"
+    },
+    "northMacedonia": {
+        "message": "Macédoine du Nord"
+    },
+    "norway": {
+        "message": "Norvège"
+    },
+    "poland": {
+        "message": "Pologne"
+    },
+    "portugal": {
+        "message": "Portugal"
+    },
+    "romania": {
+        "message": "Roumanie"
+    },
+    "sanMarino": {
+        "message": "Saint-Marin"
+    },
+    "serbia": {
+        "message": "Serbie"
+    },
+    "slovakia": {
+        "message": "Slovaquie"
+    },
+    "slovenia": {
+        "message": "Slovénie"
+    },
+    "spain": {
+        "message": "Espagne"
+    },
+    "sweden": {
+        "message": "Suède"
+    },
+    "switzerland": {
+        "message": "Suisse"
+    },
+    "turkiye": {
+        "message": "Turquie"
+    },
+    "ukraine": {
+        "message": "Ukraine"
+    },
+    "unitedKingdom": {
+        "message": "Royaume-Uni"
+    },
+    "asia": {
+        "message": "Asie"
+    },
+    "bangladesh": {
+        "message": "Bangladesh"
+    },
+    "bhutan": {
+        "message": "Bhoutan"
+    },
+    "cambodia": {
+        "message": "Cambodge"
+    },
+    "christmasCocosIslands": {
+        "message": "Îles Christmas & Cocos"
+    },
+    "cyprus": {
+        "message": "Chypre"
+    },
+    "georgia": {
+        "message": "Géorgie"
+    },
+    "hongKong": {
+        "message": "Hong Kong"
+    },
+    "india": {
+        "message": "Inde"
+    },
+    "indonesia": {
+        "message": "Indonésie"
+    },
+    "palestineIsrael": {
+        "message": "Palestine & Israël"
+    },
+    "japan": {
+        "message": "Japon"
+    },
+    "jordan": {
+        "message": "Jordanie"
+    },
+    "kazakhstan": {
+        "message": "Kazakhstan"
+    },
+    "kyrgyzstan": {
+        "message": "Kirghizistan"
+    },
+    "laos": {
+        "message": "Laos"
+    },
+    "macau": {
+        "message": "Macao"
+    },
+    "malaysia": {
+        "message": "Malaisie"
+    },
+    "mongolia": {
+        "message": "Mongolie"
+    },
+    "nepal": {
+        "message": "Népal"
+    },
+    "oman": {
+        "message": "Oman"
+    },
+    "philippines": {
+        "message": "Philippines"
+    },
+    "qatar": {
+        "message": "Qatar"
+    },
+    "russia": {
+        "message": "Russie"
+    },
+    "singapore": {
+        "message": "Singapour"
+    },
+    "southKorea": {
+        "message": "Corée du Sud"
+    },
+    "sriLanka": {
+        "message": "Sri Lanka"
+    },
+    "taiwan": {
+        "message": "Taïwan"
+    },
+    "thailand": {
+        "message": "Thaïlande"
+    },
+    "unitedArabEmirates": {
+        "message": "Émirats Arabes Unis"
+    },
+    "vietnam": {
+        "message": "Vietnam"
+    },
+    "africa": {
+        "message": "Afrique"
+    },
+    "botswana": {
+        "message": "Botswana"
+    },
+    "eswatini": {
+        "message": "Eswatini"
+    },
+    "ghana": {
+        "message": "Ghana"
+    },
+    "kenya": {
+        "message": "Kenya"
+    },
+    "lesotho": {
+        "message": "Lesotho"
+    },
+    "namibia": {
+        "message": "Namibie"
+    },
+    "nigeria": {
+        "message": "Nigeria"
+    },
+    "rwanda": {
+        "message": "Rwanda"
+    },
+    "saoTomeAndPrincipe": {
+        "message": "São Tomé & Principe"
+    },
+    "senegal": {
+        "message": "Sénégal"
+    },
+    "southAfrica": {
+        "message": "Afrique du Sud"
+    },
+    "tunisia": {
+        "message": "Tunisie"
+    },
+    "uganda": {
+        "message": "Ouganda"
+    },
+    "northAmerica": {
+        "message": "Amérique du Nord"
+    },
+    "canada": {
+        "message": "Canada"
+    },
+    "costaRica": {
+        "message": "Costa Rica"
+    },
+    "curacao": {
+        "message": "Curaçao"
+    },
+    "dominicanRepublic": {
+        "message": "République Dominicaine"
+    },
+    "guatemala": {
+        "message": "Guatemala"
+    },
+    "mexico": {
+        "message": "Mexique"
+    },
+    "panama": {
+        "message": "Panama"
+    },
+    "puertoRico": {
+        "message": "Porto Rico"
+    },
+    "usa": {
+        "message": "États-Unis"
+    },
+    "usVirginIslands": {
+        "message": "Îles Vierges Américaines"
+    },
+    "southAmerica": {
+        "message": "Amérique du Sud"
+    },
+    "argentina": {
+        "message": "Argentine"
+    },
+    "bolivia": {
+        "message": "Bolivie"
+    },
+    "brazil": {
+        "message": "Brésil"
+    },
+    "chile": {
+        "message": "Chili"
+    },
+    "colombia": {
+        "message": "Colombie"
+    },
+    "ecuador": {
+        "message": "Équateur"
+    },
+    "paraguay": {
+        "message": "Paraguay"
+    },
+    "peru": {
+        "message": "Pérou"
+    },
+    "uruguay": {
+        "message": "Uruguay"
+    },
+    "oceania": {
+        "message": "Océanie"
+    },
+    "americanSamoa": {
+        "message": "Samoa Américaines"
+    },
+    "australia": {
+        "message": "Australie"
+    },
+    "guam": {
+        "message": "Guam"
+    },
+    "newZealand": {
+        "message": "Nouvelle-Zélande"
+    },
+    "northernMarianaIslands": {
+        "message": "Îles Mariannes du Nord"
     }
 }

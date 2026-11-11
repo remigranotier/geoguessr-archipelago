@@ -31,7 +31,7 @@ export class GACProgression {
 
 export class GACMap {
     constructor(
-        public areaMap: AreaMap = new AreaMap({ kind: "world", worldNumber: WorldNumber.World }, "World", "defaultId", "defaultName"),
+        public areaMap: AreaMap = new AreaMap({ kind: "world", worldNumber: WorldNumber.World }, "world", "defaultId", "defaultName"),
         public progression: GACProgression = new GACProgression(),
         public unlocked: boolean = false,
         public gamemode: GACGamemode = GACGamemode.None,
