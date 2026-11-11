@@ -3,10 +3,10 @@ from dataclasses import dataclass
 from Options import (
     Choice,
     OptionError,
+    OptionGroup,
     PerGameCommonOptions,
     Range,
     Toggle,
-    OptionGroup,
 )
 
 from . import common
@@ -128,6 +128,8 @@ class DisableHints(Toggle):
     A setting to allow the player to remove hints from the game
     """
 
+    display_name = "Disable hints"
+
     default = 0
 
 
@@ -185,7 +187,13 @@ option_groups = [
     ),
     OptionGroup(
         "Difficulty Options",
-        [CountriesDifficultyLevel, IncludesPlatinums, CustomScaling, DeathLinkEnabled],
+        [
+            CountriesDifficultyLevel,
+            IncludesPlatinums,
+            CustomScaling,
+            DeathLinkEnabled,
+            DisableHints,
+        ],
     ),
 ]
 
