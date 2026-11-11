@@ -16,8 +16,8 @@ export const defaultMedalThresholds: Record<GACMedal, number> = {
     [GACMedal.Platinum]: 25000,
 }
 
-export function getScaledThresholds(areaName: string): Record<GACMedal, number> {
-    const scale = CountriesThresholdsScales[areaName] ?? 1
+export function getScaledThresholds(areaNameKey: string): Record<GACMedal, number> {
+    const scale = CountriesThresholdsScales[areaNameKey] ?? 1
     return {
         [GACMedal.None]: defaultMedalThresholds[GACMedal.None],
         [GACMedal.Bronze]: defaultMedalThresholds[GACMedal.Bronze] * scale,

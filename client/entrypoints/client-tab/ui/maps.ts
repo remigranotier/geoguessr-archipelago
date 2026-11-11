@@ -72,7 +72,7 @@ function renderMapsTable() {
                 breakLineDiv.style.gap = "1em"
                 breakLineDiv.appendChild(document.createElement("hr"))
                 const zoneName = document.createElement("div")
-                zoneName.textContent = map.areaMap.areaName
+                zoneName.textContent = map.areaMap.areaNameKey
                 zoneName.style.whiteSpace = "nowrap"
                 breakLineDiv.appendChild(zoneName)
                 breakLineDiv.appendChild(document.createElement("hr"))
@@ -102,9 +102,9 @@ function renderMapRow(map: GACMap): HTMLTableRowElement | null {
     const currentGamemode: GACGamemode = map.gamemode;
 
     const currentAreaMap = mapsConfig.values().find((areaMap) => areaMap.mapId === map.areaMap.mapId)
-    const areaName = currentAreaMap?.areaName ?? map.areaMap.areaName
-    mapNameCell.textContent = areaName + ((map.unlocked && !map.playable) ? " (continent locked)" : "");
-    mapNameCell.title = map.areaMap.areaName;
+    const areaNameKey = currentAreaMap?.areaNameKey ?? map.areaMap.areaNameKey
+    mapNameCell.textContent = areaNameKey + ((map.unlocked && !map.playable) ? " (continent locked)" : "");
+    mapNameCell.title = map.areaMap.areaNameKey;
     if (map.playable && !isMapFinished(map)) {
         mapNameCell.classList.add("activeLink")
         mapNameCell.onclick = async (_: PointerEvent) => {
