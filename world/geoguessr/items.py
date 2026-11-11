@@ -34,8 +34,6 @@ class GeoguessrItem(Item):
 
 
 def get_random_filler_item_name(world: GeoguessrWorld) -> str:
-    # return HINT_ITEM_NAME
-
     if world.options.disable_hints:
         return filler_id_to_item[world.random.randint(0, 1)]
     else:
