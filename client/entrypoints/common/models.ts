@@ -49,6 +49,8 @@ export class GACHint {
         public locationId: number,
         public itemName: string,
         public itemId: number,
+        public sender: string,
+        public receiver: string,
         public found: boolean = false
     ) {}
 }

@@ -1,7 +1,7 @@
-import { clientStatuses, Item, type ClientStatus } from "archipelago.js"
+import { clientStatuses, Item, Hint, type ClientStatus } from "archipelago.js"
 import { apClient } from "."
 import { DataConflictMessage, RoundFinishedMessage, SendSoundEffectMessage } from "../common/messages"
-import { GACConnectionStatus, GACGamemode, GACGameState, GACMap, SoundEffectType } from "../common/models"
+import { GACConnectionStatus, GACGamemode, GACGameState, GACHint, GACMap, SoundEffectType } from "../common/models"
 import { AreaItems, AreaLocations, AreaMap, LOCATIONS_PER_MAP, PERFECT_SCORE } from "../common/config/area-map"
 import { mapsConfig } from "../common/config/maps"
 import type { Continent, Country } from "../common/config/countries"
@@ -258,4 +258,32 @@ export async function handleDataConflict(message: DataConflictMessage) {
 
     await setGameState(gameState)
     void updateGameState()
+}
+
+export async function addHint(hint: Hint) {
+    let gameState = await getGameState()
+    const newHint = new GACHint(
+        hint.item.locationName,
+        hint.item.locationId,
+        hint.item.name,
+        hint.item.id,
+        hint.item.sender.alias,
+        hint.item.receiver.alias,
+        hint.found)
+
+    gameState.hints.push(newHint)
+
+    void setGameState(gameState)
+}
+
+export async function updateHints(newLocations: number[]) {
+    let gameState = await getGameState()
+
+    for(let hint of gameState.hints) {
+        if(newLocations.includes(hint.locationId)) {
+            hint.found = true
+        }
+    }
+
+    void setGameState(gameState)
 }

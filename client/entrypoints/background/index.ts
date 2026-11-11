@@ -11,7 +11,7 @@ import { handleRetrieveLogsMessage, renderNodes } from "./ap-logs";
 import { sendQuestionableTip, sendSpecialTip } from "./tips";
 import { retrieveHint } from "./hints";
 import { handleSubmitManualId } from "./manual-submit";
-import { handleDataConflict, updateGameState } from "./state";
+import { handleDataConflict, updateGameState, addHint } from "./state";
 
 export const apClient = new Client();
 declare global {
@@ -214,6 +214,16 @@ export default defineBackground(() => {
     if (items.some((item) => item.sender.name != apClient.players.self.name) && startingIndex > 0) {
       console.debug("Sending message SendSoundEffectMessage to client tab with type ItemReceived")
       void browser.runtime.sendMessage(new SendSoundEffectMessage(SoundEffectType.ItemReceived))
+    }
+  })
+
+  apClient.items.on("hintReceived", (_hint) => {
+    void addHint(_hint)
+  })
+
+  apClient.items.on("hintsInitialized", (_hints) => {
+    for(let hint of _hints) {
+      void addHint(hint)
     }
   })
 
