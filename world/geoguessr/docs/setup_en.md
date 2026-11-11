@@ -1,4 +1,4 @@
-# Geoguessr setup
+# Geoguessr Archipelago setup
 
 ## Table of contents
 
@@ -13,6 +13,8 @@
         - [Host the Archipelago session](#host-the-archipelago-session)
     - [Generating a YAML file](#generating-a-yaml-file)
 - [Troubleshooting](#troubleshooting)
+    - [The generation of a multiworld does not work](#the-generation-of-a-multiworld-does-not-work)
+    - [I got disconnected while playing and my locations weren't validated](#i-got-disconnected-while-playing-and-my-locations-werent-validated)
     - [Connexion isn't working after a while on the same server](#connexion-isnt-working-after-a-while-on-the-same-server)
 
 # Requirements
@@ -23,11 +25,11 @@ It is possible to submit challenges manually and to retrieve scores of a free ac
 
 # Setup
 
-Here are the installation steps for players. For the person hosting see the special steps [here](#for-hosts-only).
+Here are the installation steps for players. For the person hosting (the one which will create the game), see the special steps [here](#for-hosts-only).
 
 ## For players of a session
 
-You only have **two things to do**:
+You only have **two things to do** if you are not the host:
 
 - First, install the **client extension** using one of the following links, depending of your browser
     - Firefox: https://addons.mozilla.org/firefox/addon/geoguessr-archipelago-client/
@@ -47,7 +49,7 @@ You may read the **`How to play`** section at the bottom of the tab to see the b
 
 ### Install Archipelago Launcher
 
-Go on https://github.com/ArchipelagoMW/Archipelago/releases/latest and download your OS's installation files (.exe for Windows) at the bottom of the page.
+Go on https://github.com/ArchipelagoMW/Archipelago/releases/latest and download your OS's installation files (.exe for Windows) **at the bottom of the page**.
 
 Launch the setup program to install the Archipelago Launcher.
 
@@ -63,11 +65,11 @@ Archipelago expects **one YAML file per player**. This is the configuration Arch
 
 ### Generate the Archipelago session
 
-1. Open the Archipelago Launcher.
-2. Search for `Browse Files` and select it. This will open a File Explorer to your Archipelago directory.
+1. Open the Archipelago Launcher. (on Windows, in the Start menu)
+2. Search for `Browse Files` and click on `Open`. This will open a File Explorer to your Archipelago directory.
 3. Open the ``Players`` directory.
 4. Move or copy all your players' YAML files into this folder
-5. Go back to the Archipelago Launcher, search for `Generate` and click it.
+5. Go back to the Archipelago Launcher, search for `Generate` and click on `Open`.
 
 If everything went well, you can go back to your Archipelago directory, go to `output` and see a brand new `.zip` file. This is the file you will need to create the game: it contains all the hidden logic of your session.
 
@@ -86,12 +88,10 @@ With this, you'll eventually see (maybe after a refresh) a link to your Archipel
 
 Archipelago describes how YAML files work [here](https://archipelago.gg/tutorial/Archipelago/advanced_settings_en).
 
-You have several options :
+You have several options:
 - **(recommended)** Use our YAML generator by clicking on **Generate a YAML** on the web extension game tab's footer.
-
-The two following methods require you to install both the Archipelago Launcher and Geoguessr's apworld (see [here](#install-archipelago-launcher)) :
-- Use Archipelago Launcher's "Options Creator" by searching for it in the Archipelago Launcher. Select Geoguessr and crawl through the options to choose what you prefer.
-- Generate the base template using the launcher's "Generate Template Options" functionality. You can then edit this template with at least your slot name (the "Slot name" is the name of the slot you'll use when connecting to the Archipelago server, so it's basically your player name).
+- (requires [Archipelago Launcher](#install-archipelago-launcher)) Use Archipelago Launcher's "Options Creator" by searching for it in the Archipelago Launcher. Select Geoguessr and crawl through the options to choose what you prefer.
+- (requires [Archipelago Launcher](#install-archipelago-launcher)) Generate the base template using the launcher's "Generate Template Options" functionality. You can then edit this template with at least your slot name (the "Slot name" is the name of the slot you'll use when connecting to the Archipelago server, so it's basically your player name).
 
 We tried to put default settings as fun as we could, but some tweaking can be done on your side depending on your level and how you felt playing your last games of Archipelago on Geoguessr.
 
