@@ -1,12 +1,14 @@
 import { clientStatuses, Item, Hint, type ClientStatus } from "archipelago.js"
 import { apClient } from "."
 import { DataConflictMessage, RoundFinishedMessage, SendSoundEffectMessage } from "../common/messages"
-import { GACConnectionStatus, GACGamemode, GACGameState, GACMap, SoundEffectType, GACHint } from "../common/models"
+import { GACConnectionStatus, GACGamemode, GACGameState, GACMap, SoundEffectType, GACHint, FillerItemId } from "../common/models"
 import { AreaItems, AreaLocations, AreaMap, LOCATIONS_PER_MAP, PERFECT_SCORE } from "../common/config/area-map"
 import { mapsConfig } from "../common/config/maps"
 import type { Continent, Country } from "../common/config/countries"
 import { GACMedal } from "../common/config/medals"
 import { WinCondition } from "../common/config/win-condition"
+import { sendQuestionableTip, sendSpecialTip } from "./tips"
+import { retrieveHint } from "./hints"
 
 const ROUNDING_FACTOR = 500;
 
@@ -283,19 +285,30 @@ export async function addHint(hint: Hint) {
 
 export async function updateHints(newLocations: number[]) {
     let gameState = await getGameState()
-    console.log("====")
-
-    for(let loc of newLocations) {
-        console.log(`loc ${loc}`)
-    }
 
     for(let hint of gameState.hints) {
-        console.log(`checking loc ${hint.locationId}`)
-        if(newLocations.includes(hint.locationId)) {
-            console.log("found new completed hint")
+        if(newLocations.includes(hint.locationId) && hint.sender === apClient.players.self.alias) {
             hint.found = true
         }
     }
 
     void setGameState(gameState)
+}
+
+export async function addItem(newItem: Item) {
+    let gameState = await getGameState()
+
+    if (gameState.receivedItems.includes(newItem.id)) {
+        return
+    }
+
+    if (newItem.id == FillerItemId.SpecialTip) {
+        sendSpecialTip()
+    }
+    if (newItem.id == FillerItemId.QuestionableTip) {
+        sendQuestionableTip()
+    }
+    if (newItem.id == FillerItemId.Hint) {
+        void retrieveHint()
+    }
 }

@@ -62,6 +62,7 @@ export class GACGameState {
     configData: Record<string, unknown>;
     hintedLocations: number[] = []
     hints: GACHint[] = []
+    receivedItems: number[] = []
 
     constructor(maps: GACMap[] = []) {
         this.maps = maps
