@@ -60,7 +60,10 @@ export const QUESTIONABLE_TIPS_EN: string[] = [
     `The Red Sea isn't actually red.`,
     `"Hamburger" means "ham burger", a specialty from the capital of the Netherlands.`,
     `Northeastern Romania and south-central Ukraine are very similar to the Moldovan coverage.`,
-    `On average, Flemish country homes have more windows than Walloon ones; this is due to a former tax on doors and windows. The Flemish, who were wealthier at the time, used them to showcase their wealth, while the Walloons sought to pay less tax.`
+    `On average, Flemish country homes have more windows than Walloon ones; this is due to a former tax on doors and windows. The Flemish, who were wealthier at the time, used them to showcase their wealth, while the Walloons sought to pay less tax.`,
+    `In Indonesia, you will often find cardinal points in provinces and district names. Timur = South, Tengah = North, Barat = West, Utara = East, Selatan = Centre, Tenggara = No One Cares.`,
+    `"Jaya" is the Indonesian name of Java island.`,
+    `It is impossible to regionguess Albania.`,
 ]
 
 export const SPECIAL_TIPS_EN: string[] = [
@@ -190,7 +193,10 @@ export const QUESTIONABLE_TIPS_FR: string[] = [
     `La mer rouge n'est pas réellement rouge.`,
     `"Hamburger" veut dire burger au jambon qui vient de la capitale des Pays-Bas.`,
     `Le Nord-est de la Roumanie et le centre-sud de l'Ukraine ressemblent beaucoup au coverage moldave.`,
-    `En moyenne, les maisons rurales flamandes ont plus de fenêtres que les maisons wallonnes, cela est dû à un ancien impôt sur les portes et fenêtres. Les flamands, alors plus riches, s'en servaient pour affirmer leur patrimoine tandis que les wallons cherchaient à payer moins d'impôts.`
+    `En moyenne, les maisons rurales flamandes ont plus de fenêtres que les maisons wallonnes, cela est dû à un ancien impôt sur les portes et fenêtres. Les flamands, alors plus riches, s'en servaient pour affirmer leur patrimoine tandis que les wallons cherchaient à payer moins d'impôts.`,
+    `En Indonésie, vous trouverez souvent des points cardinaux dans les noms de province ou district. Timur = Sud, Tengah = Nord, Barat = Ouest, Utara = Est, Selatan = Centre, Tenggara = Osef.`,
+    `"Jaya" est le nom indonésien de l'île de Java.`,
+    `Il n'est pas possible de regionguess l'Albanie.`,
 ]
 
 export const SPECIAL_TIPS_FR: string[] = [

@@ -2,8 +2,7 @@
 
 ## Where is the options page?
 
-The player options page for this game contains all the options you need to configure and export a config file. Player
-options page link: [Geoguessr Player Options Page](../player-options).
+For now, the best way to check the options available is to download the extension (see [setup guide](./setup_en.md)) and use the YAML Generator (available at the bottom of the extension tab, in the footer).
 
 ## What does randomization do to this game?
 At game generation, a certain amount of countries are randomly drawn across the Geoguessr-covered areas.
@@ -15,7 +14,7 @@ Locations are collected by collecting medals on all of those maps. There are fou
 Each map will have possibly different medal score thresholds for each medal.
 
 ## What is the goal of Geoguessr when randomized?
-The goal can be one of the following, depending on what the player chose :
+The goal can be one of the following, depending on what the player chose:
 - Obtain a certain amount of medals
 - Obtain a certain amount of platinum medals
 

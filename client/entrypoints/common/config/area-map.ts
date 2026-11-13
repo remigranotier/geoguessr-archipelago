@@ -29,21 +29,21 @@ export type Area =
 
 export class AreaMap {
     area: Area
-    areaName: string
+    areaNameKey: string
     baseLocationId: number
     baseItemId: number
     mapId: string
     mapName: string
     baseMedalThresholds: Record<GACMedal, number>
 
-    constructor(area: Area, areaName: string, mapId: string, mapName: string) {
+    constructor(area: Area, areaNameKey: string, mapId: string, mapName: string) {
         this.area = area
-        this.areaName = areaName
+        this.areaNameKey = areaNameKey
         this.baseLocationId = this.getBaseLocationId(this.area)
         this.baseItemId = this.getBaseItemId(this.area)
         this.mapId = mapId
         this.mapName = mapName
-        this.baseMedalThresholds = getScaledThresholds(areaName)
+        this.baseMedalThresholds = getScaledThresholds(areaNameKey)
     }
 
     getBaseLocationId(area: Area): number {
