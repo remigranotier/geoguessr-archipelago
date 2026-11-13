@@ -8,7 +8,7 @@ For information on Archipelago, you may visit [their official website](https://a
 
 # Get Started
 
-You can check the setup guide [here](world/geoguessr/docs/setup_en.md) to start playing !
+TO START PLAYING, FOLLOW THE [SETUP GUIDE](world/geoguessr/docs/setup_en.md)
 
 Quick shortcut to our browser extension links:
 - Chrome and derived: https://chromewebstore.google.com/detail/geoguessr-archipelago-cli/hemokppgpfdnfbjkjgifogekkbphkhgg
@@ -19,7 +19,7 @@ You can also join [our discord server](https://discord.gg/SdSbcqd3VY)!
 ## Objective
 
 This randomizer comes with a browser extension that creates a gamemode specially made for Archipelago. The player will have to play World/Continent/Country maps and achieve score objectives on them. For each map, the player can collect up to four medals (Bronze, Silver, Gold, Platinum).<br>
-There are two types of goals :
+There are two types of goals:
 - Obtain a predefined amount of medals
 - Obtain a predefined amount of Platinum medals (perfect scores)
 
@@ -27,7 +27,7 @@ There are two types of goals :
 
 The **locations** correspond to the medals achieved by the player, with an additional one for the first 5k (perfect round score) achieved for each map.
 
-The **items** are either :
+The **items** are either:
 - Map unlocks
 - Mode unlocks specific to a map
 - Special/Questionable geography tips (filler)
@@ -41,7 +41,7 @@ The special and questionable tips are filler items (not necessary) and might hel
 
 The browser extension offers an interface for the player to track their progress towards the goal, the items they have unlocked, the locations left to check and the checks performed by the other players. We also provide a color code showing what locations the player is expected to be able to check with their current unlocks.
 
-Here is a preview of what it looks like during a game session :
+Here is a preview of what it looks like during a game session:
 ![A screenshot of the UI of the client tab](resources/UIforREADME.png)
 
 # AI disclosure
