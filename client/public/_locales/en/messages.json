@@ -78,6 +78,15 @@
     "gamemodeZoom": {
         "message": "Zoom"
     },
+    "hintSectionTitle": {
+        "message": "Hints"
+    },
+    "hintTextColumn": {
+        "message": "Hint"
+    },
+    "hintFoundColumn": {
+        "message": "Found"
+    },
     "howToPlay": {
         "message": "How to play"
     },
@@ -344,5 +353,22 @@
     },
     "resetSeedButtonTitle": {
         "message": "Retry this map"
+    },
+    "hintText": {
+        "message": "$receiver$ 's $itemName$  is at $locationName$  in $sender$ 's world",
+        "placeholders": {
+            "receiver": {
+                "content": "$1$"
+            },
+            "itemName": {
+                "content": "$2$"
+            },
+            "locationName": {
+                "content": "$3$"
+            },
+            "sender": {
+                "content": "$4$"
+            }
+        }
     }
 }

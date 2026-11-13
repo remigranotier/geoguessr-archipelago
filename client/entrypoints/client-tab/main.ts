@@ -9,6 +9,7 @@ import { initVolumeBar, playSoundEffect } from './ui/sound-effect.ts';
 import { resolveI18n } from '../common/i18n.ts';
 import { initManualSubmitSection } from './ui/manual-id-submit.ts';
 import { getConnectionStatus, updateConnectionStatus } from './status.ts';
+import { renderHintTable } from './ui/hints-display.ts';
 
 export const DEFAULT_CONNECTION_STATUS = { authenticated: false, player: "", server: "", seed: "" }
 
@@ -38,6 +39,12 @@ function clientTabMessageListener(message: GACMessage, sender: Browser.runtime.M
       {
         const newConnectionStatus = message as SendConnectionStatusMessage;
         void updateConnectionStatus(newConnectionStatus.connectionStatus)
+        return false;
+      }
+    case MessageType.HintsUpdated:
+      {
+        console.log("==Hints updated==")
+        void renderHintTable()
         return false;
       }
     default:

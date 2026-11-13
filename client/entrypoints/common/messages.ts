@@ -14,7 +14,8 @@ export enum MessageType {
     SendSoundEffect = "SendSoundEffect",
     SendConnectionStatus = "SendConnectionInfo",
     SubmitManualId = "SubmitManualId",
-    DataConflict = "DataConflict"
+    DataConflict = "DataConflict",
+    HintsUpdated = "HintsUpdated"
 }
 
 export class HeartbeatMessage {
@@ -131,6 +132,9 @@ export class DataConflictMessage {
     constructor(public clearPreviousData: boolean) { }
 }
 
+export class HintsUpdatedMessage {
+    type: MessageType = MessageType.HintsUpdated;
+}
 
 export interface GACMessage {
     type: MessageType;

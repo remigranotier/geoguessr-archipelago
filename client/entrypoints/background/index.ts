@@ -6,12 +6,25 @@ import {
 } from "../common/models";
 import { getServerConnection, handleServerConnectMessage, handleServerDisconnectMessage, tryReconnection } from "./connect";
 import { handleRoundFinishedMessage, handleGenerateGameMessage } from "./game";
-import { DataConflictMessage, GenerateGameMessage, MessageType, RoundFinishedMessage, SendConnectionStatusMessage, SendNewLogMessage, SendSoundEffectMessage, SubmitManualIdMessage, type GACMessage, type ServerConnectMessage } from "../common/messages";
+import {
+  DataConflictMessage,
+  GenerateGameMessage,
+  MessageType,
+  RoundFinishedMessage,
+  SendConnectionStatusMessage,
+  SendNewLogMessage,
+  SendSoundEffectMessage,
+  SubmitManualIdMessage,
+  HintsUpdatedMessage,
+  type GACMessage,
+  type ServerConnectMessage
+} from "../common/messages";
+
 import { handleRetrieveLogsMessage, renderNodes } from "./ap-logs";
 import { sendQuestionableTip, sendSpecialTip } from "./tips";
 import { retrieveHint } from "./hints";
 import { handleSubmitManualId } from "./manual-submit";
-import { handleDataConflict, updateGameState, addHint } from "./state";
+import { addHint, handleDataConflict, updateGameState } from "./state";
 
 export const apClient = new Client();
 declare global {
@@ -218,13 +231,17 @@ export default defineBackground(() => {
   })
 
   apClient.items.on("hintReceived", (_hint) => {
+    console.log("hint received")
     void addHint(_hint)
+    void browser.runtime.sendMessage(new HintsUpdatedMessage())
   })
 
   apClient.items.on("hintsInitialized", (_hints) => {
+    console.log("hints init")
     for(let hint of _hints) {
       void addHint(hint)
     }
+    void browser.runtime.sendMessage(new HintsUpdatedMessage())
   })
 
   apClient.room.on("locationsChecked", (_locations) => {
