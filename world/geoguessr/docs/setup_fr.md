@@ -91,7 +91,7 @@ Archipelago décrit le fonctionnement des fichiers YAML [ici](https://archipelag
 Vous avez plusieurs options pour la génération :
 - **(recommandé)** Utiliser notre Générateur YAML en cliquant sur **Générer un YAML** en bas de l'onglet de l'extension.
 - (nécessite le [Launcher Archipelago](#installer-le-launcher-archipelago)) Utiliser la fonction "Options Creator" du Launcher Archipelago. Sélectionnez Geoguessr et faites un tour des options pour choisir ce que vous préférez.
-- (nécessite le [Launcher Archipelago](#installer-le-launcher-archipelago)) Générer le template de base en utilisant la fonction "Generate Template Options" du Launcher Archipelago. Vous pouvez modifiée ce template avec au moins votre "Slot name". (le "Slot name" est le nom de l'emplacement que vous utiliserez en vous connectant au serveur Archipelago : en gros, c'est votre nom de joueur).
+- (nécessite le [Launcher Archipelago](#installer-le-launcher-archipelago)) Générer le template de base en utilisant la fonction "Generate Template Options" du Launcher Archipelago. Vous pouvez modifier ce template avec au moins votre "Slot name". (le "Slot name" est le nom de l'emplacement que vous utiliserez en vous connectant au serveur Archipelago : en gros, c'est votre nom de joueur).
 
 Nous avons essayé de préparer des paramètres par défaut aussi équilibrés que possible, mais des modifications peuvent être faites de votre côté en fonction de votre niveau de jeu et de vos sessions passées sur Archipelago précédemment.
 

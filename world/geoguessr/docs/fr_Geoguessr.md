@@ -27,7 +27,7 @@ Par exemple, des items déblocables sont `Europe`, `Monaco`, `Move (Europe)`, `P
 
 ## A quoi ressemble un item d'un autre jeu dans Geoguessr ?
 
-Il n'y a pas de texture particulière pour les items dans Geoguessr. Récupérer les locations (visibles sur l'onglet de jeu) collectera les différents items.
+Il n'y a pas de logo particulier pour les items dans Geoguessr. Récupérer les locations (visibles sur l'onglet de jeu) collectera les différents items.
 
 Récupérer une location jouera un son *ding*.
 
