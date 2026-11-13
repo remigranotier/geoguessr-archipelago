@@ -5,6 +5,7 @@ import { GACGamemode, GACGameType, GACMap, type GACResponse } from "../../common
 import { AreaLocations, PERFECT_SCORE } from "@/entrypoints/common/config/area-map";
 import { WinCondition } from "@/entrypoints/common/config/win-condition";
 import { renderDebugOptions } from "./debug";
+import { renderHintTable } from "./hints-display";
 
 const DEFAULT_COLOR = "rgb(36, 36, 36)"
 const POSSIBLE_COLOR = "rgba(0, 255, 0, 0.2)"
@@ -17,6 +18,7 @@ export function renderGameSection() {
     manualSubmitSection!.style.display = globalThis.connectionStatus.authenticated ? "flex" : "none"
     renderGoalTracker()
     renderMapsTable()
+    void renderHintTable()
 }
 
 function renderGoalTracker() {
