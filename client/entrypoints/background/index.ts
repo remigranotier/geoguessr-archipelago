@@ -1,9 +1,5 @@
 import { Client } from "archipelago.js";
-import {
-  FillerItemId,
-  SoundEffectType,
-  type GACResponse,
-} from "../common/models";
+import { SoundEffectType, type GACResponse } from "../common/models";
 import { getServerConnection, handleServerConnectMessage, handleServerDisconnectMessage, tryReconnection } from "./connect";
 import { handleRoundFinishedMessage, handleGenerateGameMessage } from "./game";
 import {
@@ -21,10 +17,8 @@ import {
 } from "../common/messages";
 
 import { handleRetrieveLogsMessage, renderNodes } from "./ap-logs";
-import { sendQuestionableTip, sendSpecialTip } from "./tips";
-import { retrieveHint } from "./hints";
 import { handleSubmitManualId } from "./manual-submit";
-import { addHint, handleDataConflict, updateGameState } from "./state";
+import { addHint, addItem, handleDataConflict, updateGameState } from "./state";
 
 export const apClient = new Client();
 declare global {
@@ -202,23 +196,12 @@ export default defineBackground(() => {
 
   browser.action.onClicked.addListener(actionListener);
 
-  apClient.items.on("itemsReceived", (items, startingIndex) => {
+  apClient.items.on("itemsReceived", async (items, startingIndex) => {
     console.debug("Starting item index is", startingIndex)
 
-    // If startingIndex is 0 it means that it's a new connection and the server sends the whole inventory
-    if (startingIndex > 0) {
-      for (let item of items) {
-        console.debug(`New item received : ${item.name}`)
-        if (item.id == FillerItemId.SpecialTip) {
-          sendSpecialTip()
-        }
-        if (item.id == FillerItemId.QuestionableTip) {
-          sendQuestionableTip()
-        }
-        if (item.id == FillerItemId.Hint) {
-          void retrieveHint()
-        }
-      }
+    for (let item of items) {
+      console.debug(`New item received : ${item.name}`)
+	  await addItem(item)
     }
 
     void updateGameState()
