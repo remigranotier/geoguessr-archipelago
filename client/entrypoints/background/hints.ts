@@ -8,7 +8,7 @@ export async function retrieveHint() {
         const hintedItem = (await apClient.scout([locationToHint], 1))[0]
 
         if(!hintedItem) {
-            console.log("No item at the scouted location : " + locationToHint)
+            console.log(`No item at the scouted location : ${locationToHint}`)
             return
         }
 
