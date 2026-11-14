@@ -14,6 +14,8 @@ export async function updateGameState(roundFinishedMessage?: RoundFinishedMessag
     console.debug("Items unlocked are:", apClient.items.received)
     console.debug("Locations available are:", apClient.room.missingLocations)
     console.debug("Locations checked are:", apClient.room.checkedLocations)
+
+    await globalThis.gameStateMutex.acquire()
     let gameState = await getGameState()
 
     if (roundFinishedMessage !== undefined) {
@@ -33,6 +35,7 @@ export async function updateGameState(roundFinishedMessage?: RoundFinishedMessag
     }
 
     await setGameState(gameState)
+    globalThis.gameStateMutex.release()
 }
 
 function updateMapState(areaMap: AreaMap, gameState: GACGameState) {

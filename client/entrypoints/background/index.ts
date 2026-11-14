@@ -1,9 +1,6 @@
 import { Client } from "archipelago.js";
-import {
-  FillerItemId,
-  SoundEffectType,
-  type GACResponse,
-} from "../common/models";
+import { Mutex } from 'async-mutex';
+import { SoundEffectType, type GACResponse } from "../common/models";
 import { getServerConnection, handleServerConnectMessage, handleServerDisconnectMessage, tryReconnection } from "./connect";
 import { handleRoundFinishedMessage, handleGenerateGameMessage } from "./game";
 import { DataConflictMessage, GenerateGameMessage, MessageType, RoundFinishedMessage, SendConnectionStatusMessage, SendNewLogMessage, SendSoundEffectMessage, SubmitManualIdMessage, type GACMessage, type ServerConnectMessage } from "../common/messages";
@@ -15,6 +12,7 @@ import { handleDataConflict, updateGameState } from "./state";
 export const apClient = new Client();
 declare global {
   var gameConfigData: Record<string, unknown>
+  var gameStateMutex: Mutex
 }
 
 function messageListener(message: GACMessage, sender: Browser.runtime.MessageSender, sendResponse: (response: GACResponse) => void) {
@@ -181,6 +179,8 @@ function setupClientDebugMessages() {
 }
 
 export default defineBackground(() => {
+  globalThis.gameStateMutex = new Mutex()
+
   setupClientDebugMessages()
   void tryReconnection()
 
