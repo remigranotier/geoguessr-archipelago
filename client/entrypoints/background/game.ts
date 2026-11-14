@@ -13,7 +13,12 @@ import {
 } from '../common/config/area-map.ts'
 
 import { apClient } from './index.ts'
-import { SendSoundEffectMessage, type GenerateGameMessage, type RoundFinishedMessage } from '../common/messages.ts'
+import {
+    SendSoundEffectMessage,
+    type GenerateGameMessage,
+    type RoundFinishedMessage
+} from '../common/messages.ts'
+
 import { getGameState, isMapPlayable, updateGameState } from './state.ts'
 import type { Item } from 'archipelago.js'
 import { GACMedal } from '../common/config/medals.ts'
@@ -122,6 +127,7 @@ export async function handleRoundFinishedMessage(message: RoundFinishedMessage) 
     }
 
     locationsToCheck = locationsToCheck.filter((location) => !apClient.room.checkedLocations.includes(location))
+
     if (locationsToCheck.length > 0) {
         console.debug("Checking locations:", locationsToCheck)
         apClient.check(...locationsToCheck)
