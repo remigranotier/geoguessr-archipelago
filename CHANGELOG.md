@@ -9,6 +9,7 @@ This release includes:
 - Added a Retry button in-game (#46)
 - Added option groups for clarity in YAML generation (#47)
 - Added new translations and tips (#48)
+- Added new hint filler item and hint table (#49)
 
 ## Bugfixes
 - Fixed status display component overwriting statuses not voluntarily (#43)
