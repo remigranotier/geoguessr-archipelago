@@ -1,11 +1,22 @@
-import { Client } from "archipelago.js";
+import { Client, Hint } from "archipelago.js";
 import { Mutex } from 'async-mutex';
 import { SoundEffectType, type GACResponse } from "../common/models";
 import { getServerConnection, handleServerConnectMessage, handleServerDisconnectMessage, tryReconnection } from "./connect";
 import { handleRoundFinishedMessage, handleGenerateGameMessage } from "./game";
-import { DataConflictMessage, GenerateGameMessage, MessageType, RoundFinishedMessage, SendConnectionStatusMessage, SendNewLogMessage, SendSoundEffectMessage, SubmitManualIdMessage, type GACMessage, type ServerConnectMessage } from "../common/messages";
+import {
+  DataConflictMessage,
+  GenerateGameMessage,
+  MessageType,
+  RoundFinishedMessage,
+  SendConnectionStatusMessage,
+  SendNewLogMessage,
+  SendSoundEffectMessage,
+  SubmitManualIdMessage,
+  type GACMessage,
+  type ServerConnectMessage
+} from "../common/messages";
+
 import { handleRetrieveLogsMessage, renderNodes } from "./ap-logs";
-import { sendQuestionableTip, sendSpecialTip } from "./tips";
 import { handleSubmitManualId } from "./manual-submit";
 import { handleDataConflict, updateGameState } from "./state";
 
@@ -189,21 +200,6 @@ export default defineBackground(() => {
   browser.action.onClicked.addListener(actionListener);
 
   apClient.items.on("itemsReceived", (items, startingIndex) => {
-    console.debug("Starting item index is", startingIndex)
-
-    // If startingIndex is 0 it means that it's a new connection and the server sends the whole inventory
-    if (startingIndex > 0) {
-      for (let item of items) {
-        console.debug(`New item received : ${item.name}`)
-        if (item.id == FillerItemId.SpecialTip) {
-          sendSpecialTip()
-        }
-        if (item.id == FillerItemId.QuestionableTip) {
-          sendQuestionableTip()
-        }
-      }
-    }
-
     void updateGameState()
 
     // Send a sound effect only on an item coming from another player and not on connection
@@ -213,7 +209,24 @@ export default defineBackground(() => {
     }
   })
 
+  apClient.items.on("hintReceived", (_hint: Hint) => {
+    console.debug("on hintReceived called")
+    void updateGameState()
+  })
+
+  apClient.items.on("hintFound", (_hint: Hint) => {
+    console.debug("on hintFound called")
+    void updateGameState()
+  })
+
+  apClient.items.on("hintsInitialized", (_hints: Hint[]) => {
+    console.debug("on hintsInitialized called")
+    void updateGameState()
+  })
+
+
   apClient.room.on("locationsChecked", (_locations) => {
+    console.debug("on locationsChecked called")
     void updateGameState()
   })
 
