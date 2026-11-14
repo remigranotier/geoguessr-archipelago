@@ -78,6 +78,15 @@
     "gamemodeZoom": {
         "message": "Zoom"
     },
+    "hintSectionTitle": {
+        "message": "Indices"
+    },
+    "hintTextColumn": {
+        "message": "Indice"
+    },
+    "hintFoundColumn": {
+        "message": "Trouvé"
+    },
     "howToPlay": {
         "message": "Comment jouer"
     },
@@ -701,5 +710,22 @@
     },
     "northernMarianaIslands": {
         "message": "Îles Mariannes du Nord"
+    },
+    "hintText": {
+        "message": "L'item $itemName$  de $receiver$  est à $locationName$  dans le monde de $sender$ .",
+        "placeholders": {
+            "receiver": {
+                "content": "$1$"
+            },
+            "itemName": {
+                "content": "$2$"
+            },
+            "locationName": {
+                "content": "$3$"
+            },
+            "sender": {
+                "content": "$4$"
+            }
+        }
     }
 }
