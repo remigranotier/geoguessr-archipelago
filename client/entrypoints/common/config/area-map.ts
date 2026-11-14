@@ -6,6 +6,7 @@ export const LOCATIONS_PER_MAP = 5 // Bronze, Silver, Gold, Platinum, 5k
 export const ITEMS_PER_MAP = 4 // Unlock, Pan, Move, Zoom
 export const NUMBER_OF_ROUNDS = 5
 export const PERFECT_SCORE = 5000
+export const CONTINENT_ID_OFFSET = 1000
 
 export enum AreaLocations {
     Bronze = 0,
@@ -13,6 +14,14 @@ export enum AreaLocations {
     Gold = 2,
     Platinum = 3,
     FiveK = 4,
+}
+
+export const LocationsNames: Record<AreaLocations, string> = {
+    [AreaLocations.Bronze]: "Bronze medal",
+    [AreaLocations.Silver]: "Silver medal",
+    [AreaLocations.Gold]: "Gold medal",
+    [AreaLocations.Platinum]: "Platinum medal",
+    [AreaLocations.FiveK]: "5k",
 }
 
 export enum AreaItems {
