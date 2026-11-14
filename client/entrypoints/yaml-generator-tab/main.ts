@@ -19,6 +19,7 @@ export class PlayerOptions {
         public max_micro_countries_count: number = 3,
         public countries_max_difficulty: "hard" | "medium" | "easy" = "hard",
         public include_platinums: boolean = true,
+        public disable_hints: boolean = false,
         public custom_scaling_percentage: number = 100,
         public deathlink_enabled: boolean = false,
     ) { }
@@ -90,6 +91,7 @@ function loadPlayerOptions(playerOptions: PlayerOptions) {
     document.querySelector<HTMLInputElement>(`#max-micro-countries-count`)!.valueAsNumber = playerOptions.max_micro_countries_count
     document.querySelector<HTMLInputElement>(`#country-max-diff`)!.value = playerOptions.countries_max_difficulty
     document.querySelector<HTMLInputElement>(`#include-platinums`)!.checked = playerOptions.include_platinums
+    document.querySelector<HTMLInputElement>(`#disable-hints`)!.checked = playerOptions.disable_hints
     document.querySelector<HTMLInputElement>(`#scaling-percentage`)!.valueAsNumber = playerOptions.custom_scaling_percentage
     document.querySelector<HTMLInputElement>(`#deathlink-enabled`)!.checked = playerOptions.deathlink_enabled
 
@@ -107,6 +109,7 @@ function loadPlayerOptions(playerOptions: PlayerOptions) {
     document.querySelector<HTMLInputElement>(`#max-micro-countries-count`)!.dispatchEvent(inputEvent)
     document.querySelector<HTMLInputElement>(`#country-max-diff`)!.dispatchEvent(inputEvent)
     document.querySelector<HTMLInputElement>(`#include-platinums`)!.dispatchEvent(inputEvent)
+    document.querySelector<HTMLInputElement>(`#disable-hints`)!.dispatchEvent(inputEvent)
     document.querySelector<HTMLInputElement>(`#scaling-percentage`)!.dispatchEvent(inputEvent)
     document.querySelector<HTMLInputElement>(`#deathlink-enabled`)!.dispatchEvent(inputEvent)
 }
@@ -151,6 +154,7 @@ function getPlayerOptions() {
         document.querySelector<HTMLInputElement>(`#max-micro-countries-count`)!.valueAsNumber,
         document.querySelector<HTMLInputElement>(`#country-max-diff`)!.value as "easy" | "medium" | "hard",
         document.querySelector<HTMLInputElement>(`#include-platinums`)!.checked,
+        document.querySelector<HTMLInputElement>(`#disable-hints`)!.checked,
         document.querySelector<HTMLInputElement>(`#scaling-percentage`)!.valueAsNumber,
         document.querySelector<HTMLInputElement>(`#deathlink-enabled`)!.checked,
     )
