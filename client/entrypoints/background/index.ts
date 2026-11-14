@@ -1,4 +1,5 @@
 import { Client } from "archipelago.js";
+import { Mutex } from 'async-mutex';
 import { SoundEffectType, type GACResponse } from "../common/models";
 import { getServerConnection, handleServerConnectMessage, handleServerDisconnectMessage, tryReconnection } from "./connect";
 import { handleRoundFinishedMessage, handleGenerateGameMessage } from "./game";
@@ -18,11 +19,12 @@ import {
 
 import { handleRetrieveLogsMessage, renderNodes } from "./ap-logs";
 import { handleSubmitManualId } from "./manual-submit";
-import { addHint, addItem, handleDataConflict, updateGameState } from "./state";
+import { addHint, addItems, findHint, handleDataConflict, updateGameState } from "./state";
 
 export const apClient = new Client();
 declare global {
   var gameConfigData: Record<string, unknown>
+  var gameStateMutex: Mutex
 }
 
 function messageListener(message: GACMessage, sender: Browser.runtime.MessageSender, sendResponse: (response: GACResponse) => void) {
@@ -189,6 +191,8 @@ function setupClientDebugMessages() {
 }
 
 export default defineBackground(() => {
+  globalThis.gameStateMutex = new Mutex()
+
   setupClientDebugMessages()
   void tryReconnection()
 
@@ -196,13 +200,9 @@ export default defineBackground(() => {
 
   browser.action.onClicked.addListener(actionListener);
 
-  apClient.items.on("itemsReceived", async (items, startingIndex) => {
-    console.debug("Starting item index is", startingIndex)
+  apClient.items.on("itemsReceived", (items, startingIndex) => {
 
-    for (let item of items) {
-      console.debug(`New item received : ${item.name}`)
-	  await addItem(item)
-    }
+	void addItems(items)
 
     void updateGameState()
 
@@ -216,6 +216,12 @@ export default defineBackground(() => {
   apClient.items.on("hintReceived", (_hint) => {
     console.log("hint received")
     void addHint(_hint)
+    void browser.runtime.sendMessage(new HintsUpdatedMessage())
+  })
+
+  apClient.items.on("hintFound", (_hint) => {
+	console.log("hint found")
+	void findHint(_hint)
     void browser.runtime.sendMessage(new HintsUpdatedMessage())
   })
 

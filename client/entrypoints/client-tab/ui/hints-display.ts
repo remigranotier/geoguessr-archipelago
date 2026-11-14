@@ -1,4 +1,3 @@
-import type { Hint } from "archipelago.js"
 import { getGameState } from "../game-state"
 import type { GACHint } from "@/entrypoints/common/models"
 
@@ -6,6 +5,7 @@ const DEFAULT_COLOR = "rgb(36, 36, 36)"
 const DONE_COLOR = "rgba(0, 255, 255, 0.3)"
 
 export async function renderHintTable() {
+    console.log("render hints !!!")
     let gameState = await getGameState()
     const hints = gameState.hints
 

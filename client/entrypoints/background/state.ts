@@ -16,6 +16,8 @@ export async function updateGameState(roundFinishedMessage?: RoundFinishedMessag
     console.debug("Items unlocked are:", apClient.items.received)
     console.debug("Locations available are:", apClient.room.missingLocations)
     console.debug("Locations checked are:", apClient.room.checkedLocations)
+
+    await globalThis.gameStateMutex.acquire()
     let gameState = await getGameState()
 
     if (roundFinishedMessage !== undefined) {
@@ -35,6 +37,7 @@ export async function updateGameState(roundFinishedMessage?: RoundFinishedMessag
     }
 
     await setGameState(gameState)
+    globalThis.gameStateMutex.release()
 }
 
 function updateMapState(areaMap: AreaMap, gameState: GACGameState) {
@@ -262,10 +265,48 @@ export async function handleDataConflict(message: DataConflictMessage) {
     void updateGameState()
 }
 
+export async function addItems(newItems: Item[]) {
+    for(let item of newItems) {
+        console.log("new item : ", item.name)
+    }
+    await globalThis.gameStateMutex.acquire()
+    let gameState = await getGameState()
+
+    const totalReceivedHints = newItems.filter(item => item.id === FillerItemId.Hint).length;
+    const totalReceivedSpecTip = newItems.filter(item => item.id === FillerItemId.SpecialTip).length;
+    const totalReceivedQuesTip = newItems.filter(item => item.id === FillerItemId.QuestionableTip).length;
+
+    console.log(`hints : ${totalReceivedHints}, specs : ${totalReceivedSpecTip}, ques : ${totalReceivedQuesTip}`)
+    console.log(gameState.receivedItems[FillerItemId.Hint])
+
+    for(let i = gameState.receivedItems[FillerItemId.Hint]!; i < totalReceivedHints; ++i) {
+        console.log("Trigger hint")
+        await retrieveHint(gameState)
+        gameState.receivedItems[FillerItemId.Hint]! +=1
+    }
+
+    for(let i = gameState.receivedItems[FillerItemId.SpecialTip]!; i < totalReceivedSpecTip; ++i) {
+        sendSpecialTip()
+        gameState.receivedItems[FillerItemId.SpecialTip]! +=1
+    }
+
+    for(let i = gameState.receivedItems[FillerItemId.QuestionableTip]!; i < totalReceivedQuesTip; ++i) {
+        sendQuestionableTip()
+        gameState.receivedItems[FillerItemId.QuestionableTip]! +=1
+    }
+
+    console.log("finished")
+
+    await setGameState(gameState)
+    globalThis.gameStateMutex.release()
+}
+
 export async function addHint(hint: Hint) {
+    await globalThis.gameStateMutex.acquire()
     let gameState = await getGameState()
 
     if (gameState.hints.some(savedHint => savedHint.locationId === hint.item.locationId && savedHint.sender === hint.item.sender.alias)) {
+        globalThis.gameStateMutex.release()
         return;
     }
 
@@ -280,35 +321,20 @@ export async function addHint(hint: Hint) {
 
     gameState.hints.push(newHint)
 
-    void setGameState(gameState)
+    await setGameState(gameState)
+    globalThis.gameStateMutex.release()
 }
 
-export async function updateHints(newLocations: number[]) {
+export async function findHint(foundHint: Hint) {
+    await globalThis.gameStateMutex.acquire()
     let gameState = await getGameState()
 
     for(let hint of gameState.hints) {
-        if(newLocations.includes(hint.locationId) && hint.sender === apClient.players.self.alias) {
+        if(hint.locationId == foundHint.item.locationId) {
             hint.found = true
         }
     }
 
-    void setGameState(gameState)
-}
-
-export async function addItem(newItem: Item) {
-    let gameState = await getGameState()
-
-    if (gameState.receivedItems.includes(newItem.id)) {
-        return
-    }
-
-    if (newItem.id == FillerItemId.SpecialTip) {
-        sendSpecialTip()
-    }
-    if (newItem.id == FillerItemId.QuestionableTip) {
-        sendQuestionableTip()
-    }
-    if (newItem.id == FillerItemId.Hint) {
-        void retrieveHint()
-    }
+    await setGameState(gameState)
+    globalThis.gameStateMutex.release()
 }
