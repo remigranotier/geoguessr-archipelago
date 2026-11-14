@@ -255,6 +255,7 @@ export async function setGameState(gameState: GACGameState) {
 }
 
 export async function handleDataConflict(message: DataConflictMessage) {
+    await globalThis.gameStateMutex.acquire()
     let gameState = await getGameState()
 
     let serverConnection = new GACConnectionStatus()
@@ -268,6 +269,7 @@ export async function handleDataConflict(message: DataConflictMessage) {
     }
 
     await setGameState(gameState)
+    globalThis.gameStateMutex.release()
     void updateGameState()
 }
 
