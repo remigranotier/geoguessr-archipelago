@@ -43,7 +43,6 @@ function clientTabMessageListener(message: GACMessage, sender: Browser.runtime.M
       }
     case MessageType.HintsUpdated:
       {
-        console.log("==Hints updated==")
         void renderHintTable()
         return false;
       }

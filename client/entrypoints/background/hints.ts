@@ -1,8 +1,8 @@
 import { apClient } from ".";
-import { getGameState } from "./state";
+import type { GACGameState } from "../common/models";
 
-export async function retrieveHint() {
-    const locationToHint = await getUndiscoveredLocation()
+export async function retrieveHint(gamestate: GACGameState) {
+    const locationToHint = await getUndiscoveredLocation(gamestate)
 
     if(locationToHint !== undefined) {
         const hintedItem = (await apClient.scout([locationToHint], 1))[0]
@@ -17,10 +17,9 @@ export async function retrieveHint() {
     }
 }
 
-async function getUndiscoveredLocation() {
-    let gameState = await getGameState()
+async function getUndiscoveredLocation(gamestate: GACGameState) {
     let remainingLocations = apClient.room.missingLocations
-    remainingLocations = remainingLocations.filter(element => !gameState.hintedLocations.includes(element));
+    remainingLocations = remainingLocations.filter(element => !gamestate.hintedLocations.includes(element));
 
     // Case where there are no more locations to hint
     if (remainingLocations.length == 0) {

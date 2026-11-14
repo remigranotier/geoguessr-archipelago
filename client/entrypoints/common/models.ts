@@ -62,13 +62,16 @@ export class GACGameState {
     configData: Record<string, unknown>;
     hintedLocations: number[] = []
     hints: GACHint[] = []
-    receivedItems: number[] = []
+    receivedItems: Record<number, number> = {}
 
     constructor(maps: GACMap[] = []) {
         this.maps = maps
         this.url = apClient.socket.url
         this.gameFinished = false;
         this.configData = globalThis.gameConfigData
+        this.receivedItems[FillerItemId.SpecialTip] = 0
+        this.receivedItems[FillerItemId.QuestionableTip] = 0
+        this.receivedItems[FillerItemId.Hint] = 0
     }
 }
 
