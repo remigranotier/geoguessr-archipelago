@@ -14,6 +14,7 @@ import { handleSubmitManualId } from "./manual-submit";
 import { handleDataConflict, updateGameState } from "./state";
 
 export const apClient = new Client();
+export const hintedLocations: number[] = [];
 declare global {
   var gameConfigData: Record<string, unknown>
 }
