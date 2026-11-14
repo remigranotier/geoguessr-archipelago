@@ -3,10 +3,10 @@ from dataclasses import dataclass
 from Options import (
     Choice,
     OptionError,
+    OptionGroup,
     PerGameCommonOptions,
     Range,
     Toggle,
-    OptionGroup,
 )
 
 from . import common
@@ -123,6 +123,16 @@ class IncludesPlatinums(Toggle):
     default = 1
 
 
+class DisableHints(Toggle):
+    """
+    A setting to allow the player to remove hints from the game
+    """
+
+    display_name = "Disable hints"
+
+    default = 0
+
+
 class CustomScaling(Range):
     """
     A custom scaling percentage to be applied to thresholds. It will be applied to Bronze, Silver and Gold medal thresholds.
@@ -159,6 +169,7 @@ class GeoguessrOptions(PerGameCommonOptions):
     max_micro_countries_count: MaxMicroCountriesCount
     countries_max_difficulty: CountriesDifficultyLevel
     include_platinums: IncludesPlatinums
+    disable_hints: DisableHints
     custom_scaling_percentage: CustomScaling
     deathlink_enabled: DeathLinkEnabled
 
@@ -176,7 +187,13 @@ option_groups = [
     ),
     OptionGroup(
         "Difficulty Options",
-        [CountriesDifficultyLevel, IncludesPlatinums, CustomScaling, DeathLinkEnabled],
+        [
+            CountriesDifficultyLevel,
+            IncludesPlatinums,
+            CustomScaling,
+            DeathLinkEnabled,
+            DisableHints,
+        ],
     ),
 ]
 
@@ -188,6 +205,7 @@ option_presets = {
         "max_micro_countries_count": 2,
         "countries_max_difficulty": CountriesDifficultyLevel.option_easy,
         "include_platinums": False,
+        "disable_hints": False,
         "custom_scaling_percentage": 75,
         "deathlink_enabled": 0,
     },
@@ -198,6 +216,7 @@ option_presets = {
         "max_micro_countries_count": 1,
         "countries_max_difficulty": CountriesDifficultyLevel.option_medium,
         "include_platinums": True,
+        "disable_hints": False,
         "custom_scaling_percentage": 100,
         "deathlink_enabled": 0,
     },
@@ -208,6 +227,7 @@ option_presets = {
         "max_micro_countries_count": 2,
         "countries_max_difficulty": CountriesDifficultyLevel.option_medium,
         "include_platinums": False,
+        "disable_hints": False,
         "custom_scaling_percentage": 100,
         "deathlink_enabled": 0,
     },
@@ -218,6 +238,7 @@ option_presets = {
         "max_micro_countries_count": 1,
         "countries_max_difficulty": CountriesDifficultyLevel.option_hard,
         "include_platinums": True,
+        "disable_hints": False,
         "custom_scaling_percentage": 100,
         "deathlink_enabled": 0,
     },
@@ -228,6 +249,7 @@ option_presets = {
         "max_micro_countries_count": 1,
         "countries_max_difficulty": CountriesDifficultyLevel.option_hard,
         "include_platinums": False,
+        "disable_hints": False,
         "custom_scaling_percentage": 100,
         "deathlink_enabled": 0,
     },
@@ -238,6 +260,7 @@ option_presets = {
         "max_micro_countries_count": 22,
         "countries_max_difficulty": CountriesDifficultyLevel.option_hard,
         "include_platinums": True,
+        "disable_hints": False,
         "custom_scaling_percentage": 100,
         "deathlink_enabled": 0,
     },
