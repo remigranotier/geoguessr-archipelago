@@ -13,6 +13,7 @@ export function initPresets() {
         1,
         "hard",
         true,
+        false,
         100,
         false,
     ))
@@ -25,6 +26,7 @@ export function initPresets() {
         5,
         2,
         "easy",
+        false,
         false,
         75,
         false,
@@ -39,6 +41,7 @@ export function initPresets() {
         1,
         "medium",
         true,
+        false,
         100,
         false,
     ))
@@ -51,6 +54,7 @@ export function initPresets() {
         10,
         2,
         "medium",
+        false,
         false,
         100,
         false,
@@ -65,6 +69,7 @@ export function initPresets() {
         1,
         "hard",
         true,
+        false,
         100,
         false,
     ))
@@ -77,6 +82,7 @@ export function initPresets() {
         13,
         1,
         "hard",
+        false,
         false,
         100,
         false,
@@ -91,6 +97,7 @@ export function initPresets() {
         22,
         "hard",
         true,
+        false,
         100,
         false,
     ))
