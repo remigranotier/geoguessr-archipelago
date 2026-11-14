@@ -3,16 +3,23 @@ import { getGameState } from "./state";
 
 export async function retrieveHint() {
     const locationToHint = await getUndiscoveredLocation()
+
     if(locationToHint !== undefined) {
-        await apClient.scout([locationToHint], 1)
+        const hintedItem = (await apClient.scout([locationToHint], 1))[0]
+
+        if(!hintedItem) {
+            console.log("No item at the scouted location : " + locationToHint)
+            return
+        }
+
     } else {
         console.log("Hint received but all remaining locations are hinted !")
     }
 }
 
 async function getUndiscoveredLocation() {
+    let gameState = await getGameState()
     let remainingLocations = apClient.room.missingLocations
-    const gameState = await getGameState()
     remainingLocations = remainingLocations.filter(element => !gameState.hintedLocations.includes(element));
 
     // Case where there are no more locations to hint
@@ -20,30 +27,26 @@ async function getUndiscoveredLocation() {
         return
     }
 
+    let allItems = await apClient.scout(remainingLocations, 0)
+    let usefulItemLoc = -1
     // Look for a progression item
-    let locationsIterProgression = [...remainingLocations];
 
-    while(locationsIterProgression.length > 0) {
-        let pickedLocation = remainingLocations[Math.floor(Math.random() * remainingLocations.length)] as number
-        let item = (await apClient.scout([pickedLocation], 0))[0]
+    while(remainingLocations.length > 0) {
+        const randomIndex = Math.floor(Math.random() * remainingLocations.length);
 
-        if(item?.progression) {
-            gameState.hintedLocations.push(pickedLocation)
+        const pickedLocation = remainingLocations.splice(randomIndex, 1)[0]!;
+        const pickedItem = allItems.splice(randomIndex, 1)[0]!;
+
+        if(pickedItem.progression) {
             return pickedLocation
+        } else if (pickedItem.useful) {
+            usefulItemLoc = pickedLocation
         }
     }
 
-    // No progression : look for usefuls
-    let locationsIterUseful = [...remainingLocations];
-
-    while(locationsIterUseful.length > 0) {
-        let pickedLocation = remainingLocations[Math.floor(Math.random() * remainingLocations.length)] as number
-        let item = (await apClient.scout([pickedLocation], 0))[0]
-
-        if(item?.useful) {
-            gameState.hintedLocations.push(pickedLocation)
-            return pickedLocation
-        }
+    // No progression but at least one useful
+    if (usefulItemLoc !== -1) {
+        return usefulItemLoc
     }
 
     // No progression or useful : return filler
