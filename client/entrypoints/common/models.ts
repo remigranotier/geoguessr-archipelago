@@ -48,12 +48,14 @@ export class GACGameState {
     url: string;
     gameFinished: boolean;
     configData: Record<string, unknown>;
+    hintedLocations: number[]
 
     constructor(maps: GACMap[] = []) {
         this.maps = maps
         this.url = apClient.socket.url
         this.gameFinished = false;
         this.configData = globalThis.gameConfigData
+        this.hintedLocations = []
     }
 }
 
