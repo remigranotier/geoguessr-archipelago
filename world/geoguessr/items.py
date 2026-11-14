@@ -12,16 +12,21 @@ if TYPE_CHECKING:
 
 SPECIAL_TIP_NAME = "Special tip!"
 QUESTIONABLE_TIP_NAME = "Questionable tip!"
+HINT_ITEM_NAME = "Geoguessr hint"
 
 item_name_to_id = {
     SPECIAL_TIP_NAME: 10000,
     QUESTIONABLE_TIP_NAME: 10001,
+    HINT_ITEM_NAME: 10002,
 }
 
 default_item_classifications = {
     SPECIAL_TIP_NAME: ItemClassification.filler,
     QUESTIONABLE_TIP_NAME: ItemClassification.filler,
+    HINT_ITEM_NAME: ItemClassification.filler,
 }
+
+filler_id_to_item = [SPECIAL_TIP_NAME, QUESTIONABLE_TIP_NAME, HINT_ITEM_NAME]
 
 
 class GeoguessrItem(Item):
@@ -29,11 +34,8 @@ class GeoguessrItem(Item):
 
 
 def get_random_filler_item_name(world: GeoguessrWorld) -> str:
-    random = world.random.randint(0, 1)
-    if random == 0:
-        return SPECIAL_TIP_NAME
-    else:
-        return QUESTIONABLE_TIP_NAME
+    return HINT_ITEM_NAME
+    # return filler_id_to_item[world.random.randint(0, 2)]
 
 
 def create_item_with_correct_classification(
