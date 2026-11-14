@@ -16,14 +16,6 @@ export enum AreaLocations {
     FiveK = 4,
 }
 
-export const LocationsNames: Record<AreaLocations, string> = {
-    [AreaLocations.Bronze]: "Bronze medal",
-    [AreaLocations.Silver]: "Silver medal",
-    [AreaLocations.Gold]: "Gold medal",
-    [AreaLocations.Platinum]: "Platinum medal",
-    [AreaLocations.FiveK]: "5k",
-}
-
 export enum AreaItems {
     Unlock = 0,
     Pan = 1,
