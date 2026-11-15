@@ -18,6 +18,7 @@ export enum GACGameType {
 export enum FillerItemId {
     SpecialTip = 10000,
     QuestionableTip = 10001,
+    Hint = 10002,
 }
 
 export class GACProgression {
@@ -42,17 +43,33 @@ export class GACMap {
     ) { }
 }
 
+export class GACHint {
+    constructor(
+        public locationName: string,
+        public locationId: number,
+        public itemName: string,
+        public itemId: number,
+        public sender: string,
+        public receiver: string,
+        public found: boolean = false
+    ) { }
+}
+
 export class GACGameState {
     maps: GACMap[];
     url: string;
     gameFinished: boolean;
     configData: Record<string, unknown>;
+    hints: GACHint[] = []
+    receivedItems: Record<number, number> = {}
 
     constructor(maps: GACMap[] = []) {
         this.maps = maps
         this.url = apClient.socket.url
         this.gameFinished = false;
         this.configData = globalThis.gameConfigData
+        this.receivedItems[FillerItemId.SpecialTip] = 0
+        this.receivedItems[FillerItemId.QuestionableTip] = 0
     }
 }
 

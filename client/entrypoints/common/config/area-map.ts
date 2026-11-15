@@ -6,6 +6,7 @@ export const LOCATIONS_PER_MAP = 5 // Bronze, Silver, Gold, Platinum, 5k
 export const ITEMS_PER_MAP = 4 // Unlock, Pan, Move, Zoom
 export const NUMBER_OF_ROUNDS = 5
 export const PERFECT_SCORE = 5000
+export const CONTINENT_ID_OFFSET = 1000
 
 export enum AreaLocations {
     Bronze = 0,
@@ -52,10 +53,10 @@ export class AreaMap {
                 return 1;
 
             case "continent":
-                return 1000 * area.continentNumber;
+                return CONTINENT_ID_OFFSET * area.continentNumber;
 
             case "country":
-                return 1000 * area.continentNumber + LOCATIONS_PER_MAP * area.countryNumber;
+                return CONTINENT_ID_OFFSET * area.continentNumber + LOCATIONS_PER_MAP * area.countryNumber;
         }
     }
 
@@ -65,10 +66,10 @@ export class AreaMap {
                 return 1;
 
             case "continent":
-                return 1000 * area.continentNumber;
+                return CONTINENT_ID_OFFSET * area.continentNumber;
 
             case "country":
-                return 1000 * area.continentNumber + ITEMS_PER_MAP * area.countryNumber;
+                return CONTINENT_ID_OFFSET * area.continentNumber + ITEMS_PER_MAP * area.countryNumber;
         }
     }
 }

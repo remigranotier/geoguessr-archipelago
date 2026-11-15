@@ -1,38 +1,53 @@
 import { clientStatuses, Item, type ClientStatus } from "archipelago.js"
 import { apClient } from "."
 import { DataConflictMessage, RoundFinishedMessage, SendSoundEffectMessage } from "../common/messages"
-import { GACConnectionStatus, GACGamemode, GACGameState, GACMap, SoundEffectType } from "../common/models"
+import { GACConnectionStatus, GACGamemode, GACGameState, GACMap, SoundEffectType, GACHint, FillerItemId } from "../common/models"
 import { AreaItems, AreaLocations, AreaMap, LOCATIONS_PER_MAP, PERFECT_SCORE } from "../common/config/area-map"
 import { mapsConfig } from "../common/config/maps"
 import type { Continent, Country } from "../common/config/countries"
 import { GACMedal } from "../common/config/medals"
 import { WinCondition } from "../common/config/win-condition"
+import { sendQuestionableTip, sendSpecialTip } from "./tips"
+import { retrieveNewHint, updateHints } from "./hints"
 
 const ROUNDING_FACTOR = 500;
 
 export async function updateGameState(roundFinishedMessage?: RoundFinishedMessage, checkWinCon = false) {
-    console.debug("Items unlocked are:", apClient.items.received)
-    console.debug("Locations available are:", apClient.room.missingLocations)
-    console.debug("Locations checked are:", apClient.room.checkedLocations)
-    let gameState = await getGameState()
+    await globalThis.gameStateMutex.acquire()
 
-    if (roundFinishedMessage !== undefined) {
-        updateMapProgression(roundFinishedMessage, gameState)
-    }
+    try {
+        console.trace()
+        console.debug("Items unlocked are:", apClient.items.received)
+        console.debug("Locations available are:", apClient.room.missingLocations)
+        console.debug("Locations checked are:", apClient.room.checkedLocations)
 
-    const baseLocationIds: number[] = getGameBaseLocationIds()
-    for (let baseLocationId of baseLocationIds) {
-        if (mapsConfig.get(baseLocationId) === undefined) {
-            console.error("baseLocationId is", baseLocationId)
+        let gameState = await getGameState()
+
+        await sendMissingFillerItems(gameState)
+
+        updateHints(gameState)
+
+        if (roundFinishedMessage !== undefined) {
+            updateMapProgression(roundFinishedMessage, gameState)
         }
-        updateMapState(mapsConfig.get(baseLocationId)!, gameState)
+
+        const baseLocationIds: number[] = getGameBaseLocationIds()
+        for (let baseLocationId of baseLocationIds) {
+            if (mapsConfig.get(baseLocationId) === undefined) {
+                console.error("baseLocationId is", baseLocationId)
+            }
+            updateMapState(mapsConfig.get(baseLocationId)!, gameState)
+        }
+
+        if (checkWinCon) {
+            checkWinCondition(gameState)
+        }
+
+        await setGameState(gameState)
+    } finally {
+        globalThis.gameStateMutex.release()
     }
 
-    if (checkWinCon) {
-        checkWinCondition(gameState)
-    }
-
-    await setGameState(gameState)
 }
 
 function updateMapState(areaMap: AreaMap, gameState: GACGameState) {
@@ -244,18 +259,62 @@ export async function setGameState(gameState: GACGameState) {
 }
 
 export async function handleDataConflict(message: DataConflictMessage) {
-    let gameState = await getGameState()
+    await globalThis.gameStateMutex.acquire()
 
-    let serverConnection = new GACConnectionStatus()
+    try {
+        let gameState = await getGameState()
 
-    console.debug("Replacing URL with new server")
-    if (message.clearPreviousData) {
-        console.debug("Resetting maps content")
-        gameState = new GACGameState()
+        let serverConnection = new GACConnectionStatus()
+
+        console.debug("Replacing URL with new server")
+        if (message.clearPreviousData) {
+            console.debug("Resetting maps content")
+            gameState = new GACGameState()
+        } else {
+            gameState.url = serverConnection.server
+        }
+
+        await setGameState(gameState)
+    } finally {
+        globalThis.gameStateMutex.release()
+    }
+    void updateGameState()
+}
+
+async function sendMissingFillerItems(gameState: GACGameState) {
+    const receivedHintsNumber = apClient.items.received.filter(item => item.id === FillerItemId.Hint).length;
+    const receivedSpecialTipsNumber = apClient.items.received.filter(item => item.id === FillerItemId.SpecialTip).length;
+    const receivedQuestionableTipsNumber = apClient.items.received.filter(item => item.id === FillerItemId.QuestionableTip).length;
+
+    console.log(`hints : ${receivedHintsNumber}, specs : ${receivedSpecialTipsNumber}, ques : ${receivedQuestionableTipsNumber}`)
+
+    const missingHints = receivedHintsNumber - gameState.hints.length
+    if (missingHints < 0) {
+        console.warn("More hints on save than on server. Ignoring.")
+    }
+    /* eslint-disable no-await-in-loop */
+    for (let i = 0; i < missingHints; i++) {
+        await retrieveNewHint()
+    }
+    /* eslint-enable no-await-in-loop */
+
+    const missingSpecialTips = receivedSpecialTipsNumber - gameState.receivedItems[FillerItemId.SpecialTip]!
+    if (missingSpecialTips < 0) {
+        console.warn("More special tips on save than on server. Ignoring.")
     } else {
-        gameState.url = serverConnection.server
+        gameState.receivedItems[FillerItemId.SpecialTip]! += missingSpecialTips
+    }
+    for (let i = 0; i < missingSpecialTips; i++) {
+        sendSpecialTip()
     }
 
-    await setGameState(gameState)
-    void updateGameState()
+    const missingQuestionableTips = receivedQuestionableTipsNumber - gameState.receivedItems[FillerItemId.QuestionableTip]!
+    if (missingQuestionableTips < 0) {
+        console.warn("More questionable tips on save than on server. Ignoring.")
+    } else {
+        gameState.receivedItems[FillerItemId.QuestionableTip]! += missingQuestionableTips
+    }
+    for (let i = 0; i < missingQuestionableTips; i++) {
+        sendQuestionableTip()
+    }
 }

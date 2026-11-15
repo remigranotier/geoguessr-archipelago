@@ -78,6 +78,15 @@
     "gamemodeZoom": {
         "message": "Zoom"
     },
+    "hintSectionTitle": {
+        "message": "Hints"
+    },
+    "hintTextColumn": {
+        "message": "Hint"
+    },
+    "hintFoundColumn": {
+        "message": "Found"
+    },
     "howToPlay": {
         "message": "How to play"
     },
@@ -264,6 +273,9 @@
     "yamlIncludePlatinumsSetting": {
         "message": "Include platinum medals:"
     },
+    "yamlDisableHintsSetting": {
+        "message": "Disable hints:"
+    },
     "yamlScalingPercentageSetting": {
         "message": "Medal threshold scaling:"
     },
@@ -299,6 +311,9 @@
     },
     "yamlIncludePlatinumsTooltip": {
         "message": "<p>Include or not platinum medals in the game. This creates extra medals in the game but they are pretty long to collect, so activating it may \"hide\" important items in the logic behing a long check. We advise to activate it only if you're used to pinpointing.</p>"
+    },
+    "yamlDisableHintsTooltip": {
+        "message": "<p>Disable hints in the game. Hints are random and determined when you collect them, so you might want to disable them for races.</p>"
     },
     "yamlScalingPercentageTooltip": {
         "message": "<p>Scale the medal objective thresholds, in percentage. For example, 50% will lower the thresholds to half their original value. 100% will keep everything as is. </p>"
@@ -695,5 +710,22 @@
     },
     "northernMarianaIslands": {
         "message": "Northern Mariana Islands"
+    },
+    "hintText": {
+        "message": "$RECEIVER$'s $ITEM_NAME$ is at $LOCATION_NAME$ in $SENDER$'s world",
+        "placeholders": {
+            "receiver": {
+                "content": "$1"
+            },
+            "item_name": {
+                "content": "$2"
+            },
+            "location_name": {
+                "content": "$3"
+            },
+            "sender": {
+                "content": "$4"
+            }
+        }
     }
 }
