@@ -15,35 +15,39 @@ const ROUNDING_FACTOR = 500;
 export async function updateGameState(roundFinishedMessage?: RoundFinishedMessage, checkWinCon = false) {
     await globalThis.gameStateMutex.acquire()
 
-    console.trace()
-    console.debug("Items unlocked are:", apClient.items.received)
-    console.debug("Locations available are:", apClient.room.missingLocations)
-    console.debug("Locations checked are:", apClient.room.checkedLocations)
+    try {
+        console.trace()
+        console.debug("Items unlocked are:", apClient.items.received)
+        console.debug("Locations available are:", apClient.room.missingLocations)
+        console.debug("Locations checked are:", apClient.room.checkedLocations)
 
-    let gameState = await getGameState()
+        let gameState = await getGameState()
 
-    await sendMissingFillerItems(gameState)
+        await sendMissingFillerItems(gameState)
 
-    updateHints(gameState)
+        updateHints(gameState)
 
-    if (roundFinishedMessage !== undefined) {
-        updateMapProgression(roundFinishedMessage, gameState)
-    }
-
-    const baseLocationIds: number[] = getGameBaseLocationIds()
-    for (let baseLocationId of baseLocationIds) {
-        if (mapsConfig.get(baseLocationId) === undefined) {
-            console.error("baseLocationId is", baseLocationId)
+        if (roundFinishedMessage !== undefined) {
+            updateMapProgression(roundFinishedMessage, gameState)
         }
-        updateMapState(mapsConfig.get(baseLocationId)!, gameState)
+
+        const baseLocationIds: number[] = getGameBaseLocationIds()
+        for (let baseLocationId of baseLocationIds) {
+            if (mapsConfig.get(baseLocationId) === undefined) {
+                console.error("baseLocationId is", baseLocationId)
+            }
+            updateMapState(mapsConfig.get(baseLocationId)!, gameState)
+        }
+
+        if (checkWinCon) {
+            checkWinCondition(gameState)
+        }
+
+        await setGameState(gameState)
+    } finally {
+        globalThis.gameStateMutex.release()
     }
 
-    if (checkWinCon) {
-        checkWinCondition(gameState)
-    }
-
-    await setGameState(gameState)
-    globalThis.gameStateMutex.release()
 }
 
 function updateMapState(areaMap: AreaMap, gameState: GACGameState) {
@@ -256,20 +260,24 @@ export async function setGameState(gameState: GACGameState) {
 
 export async function handleDataConflict(message: DataConflictMessage) {
     await globalThis.gameStateMutex.acquire()
-    let gameState = await getGameState()
 
-    let serverConnection = new GACConnectionStatus()
+    try {
+        let gameState = await getGameState()
 
-    console.debug("Replacing URL with new server")
-    if (message.clearPreviousData) {
-        console.debug("Resetting maps content")
-        gameState = new GACGameState()
-    } else {
-        gameState.url = serverConnection.server
+        let serverConnection = new GACConnectionStatus()
+
+        console.debug("Replacing URL with new server")
+        if (message.clearPreviousData) {
+            console.debug("Resetting maps content")
+            gameState = new GACGameState()
+        } else {
+            gameState.url = serverConnection.server
+        }
+
+        await setGameState(gameState)
+    } finally {
+        globalThis.gameStateMutex.release()
     }
-
-    await setGameState(gameState)
-    globalThis.gameStateMutex.release()
     void updateGameState()
 }
 
