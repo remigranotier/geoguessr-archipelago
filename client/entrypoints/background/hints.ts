@@ -1,3 +1,4 @@
+import { clientStatuses } from "archipelago.js";
 import { apClient } from ".";
 import { SendNewLogMessage } from "../common/messages";
 import { GACHint, type GACGameState } from "../common/models";
@@ -18,7 +19,12 @@ export async function retrieveNewHint() {
         await apClient.items.wait("hintReceived")
         console.debug("hintReceived message received")
     } else {
-        void browser.runtime.sendMessage(new SendNewLogMessage("Hint received but all remaining locations are hinted !"))
+        const currentStatus = await apClient.players.self.fetchStatus()
+        if (currentStatus != clientStatuses.goal) {
+            void browser.runtime.sendMessage(new SendNewLogMessage("Hint received but all remaining locations are hinted !"))
+        } else {
+            console.debug("Received hint after goal, ignoring")
+        }
     }
 }
 
