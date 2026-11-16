@@ -1,4 +1,4 @@
-import { GACGameState } from "../common/models";
+import { GACGameState, migrateOldFields } from "../common/models";
 
 export async function getGameState() {
     const maybeGameState = await storage.getItem<GACGameState>(`local:${globalThis.connectionStatus.seed}-${globalThis.connectionStatus.player}`)
@@ -6,5 +6,7 @@ export async function getGameState() {
         console.warn(`Could not get game state with key local:${globalThis.connectionStatus.seed}-${globalThis.connectionStatus.player}. Resetting`)
         return new GACGameState()
     }
+
+    migrateOldFields(maybeGameState)
     return maybeGameState
 }

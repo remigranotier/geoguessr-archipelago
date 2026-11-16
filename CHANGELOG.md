@@ -6,6 +6,7 @@ This release includes:
 
 ## Bugfixes
 - Fixed a missing translation for continent locked (#50)
+- Fixed a compatibility issue for games created in 0.1.1 (#51)
 
 # 0.2.0
 
