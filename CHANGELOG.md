@@ -1,3 +1,12 @@
+# 0.2.1
+
+This release includes:
+- geoguessr-archipelago extension v0.2.1
+- Geoguessr apworld v0.2.0
+
+## Bugfixes
+- Fixed a missing translation for continent locked (#50)
+
 # 0.2.0
 
 This release includes:

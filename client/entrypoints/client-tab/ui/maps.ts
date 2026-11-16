@@ -105,7 +105,7 @@ function renderMapRow(map: GACMap): HTMLTableRowElement | null {
 
     const currentAreaMap = mapsConfig.values().find((areaMap) => areaMap.mapId === map.areaMap.mapId)
     const areaNameKey = currentAreaMap?.areaNameKey ?? map.areaMap.areaNameKey
-    mapNameCell.textContent = browser.i18n.getMessage(areaNameKey as "@@extension_id") + ((map.unlocked && !map.playable) ? " (continent locked)" : "");
+    mapNameCell.textContent = browser.i18n.getMessage(areaNameKey as "@@extension_id") + ((map.unlocked && !map.playable) ? ` (${browser.i18n.getMessage("continentLocked")})` : "");
     mapNameCell.title = map.areaMap.mapName;
     if (map.playable && !isMapFinished(map)) {
         mapNameCell.classList.add("activeLink")

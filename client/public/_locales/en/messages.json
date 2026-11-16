@@ -727,5 +727,8 @@
                 "content": "$4"
             }
         }
+    },
+    "continentLocked": {
+        "message": "continent locked"
     }
 }
