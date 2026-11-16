@@ -1,7 +1,7 @@
 import { clientStatuses, Item, type ClientStatus } from "archipelago.js"
 import { apClient } from "."
 import { DataConflictMessage, RoundFinishedMessage, SendSoundEffectMessage } from "../common/messages"
-import { GACConnectionStatus, GACGamemode, GACGameState, GACMap, SoundEffectType, GACHint, FillerItemId } from "../common/models"
+import { GACConnectionStatus, GACGamemode, GACGameState, GACMap, SoundEffectType, GACHint, FillerItemId, migrateOldFields } from "../common/models"
 import { AreaItems, AreaLocations, AreaMap, LOCATIONS_PER_MAP, PERFECT_SCORE } from "../common/config/area-map"
 import { mapsConfig } from "../common/config/maps"
 import type { Continent, Country } from "../common/config/countries"
@@ -16,7 +16,6 @@ export async function updateGameState(roundFinishedMessage?: RoundFinishedMessag
     await globalThis.gameStateMutex.acquire()
 
     try {
-        console.trace()
         console.debug("Items unlocked are:", apClient.items.received)
         console.debug("Locations available are:", apClient.room.missingLocations)
         console.debug("Locations checked are:", apClient.room.checkedLocations)
@@ -251,6 +250,8 @@ export async function getGameState(): Promise<GACGameState> {
         console.debug(`No game state in storage for key local:${apClient.room.seedName}-${apClient.name}. initializing`)
         return new GACGameState()
     }
+
+    migrateOldFields(maybeGameState)
     return maybeGameState
 }
 

@@ -2,6 +2,7 @@ import { AreaMap, type AreaLocations } from "./config/area-map";
 import { defaultMedalThresholds, GACMedal } from "./config/medals";
 import { apClient } from "../background";
 import { WorldNumber } from "./config/countries";
+import { mapsConfig } from "./config/maps";
 
 export enum GACGamemode {
     None = 0,
@@ -53,6 +54,18 @@ export class GACHint {
         public receiver: string,
         public found: boolean = false
     ) { }
+}
+
+export function migrateOldFields(gamestate: GACGameState) {
+    for (const map of gamestate.maps) {
+        map.areaMap.areaNameKey ??= mapsConfig.get(map.areaMap.baseLocationId)!.areaNameKey;
+    }
+
+    gamestate.hints ??= [];
+    gamestate.receivedItems ??= {
+        [FillerItemId.SpecialTip]: 0,
+        [FillerItemId.QuestionableTip]: 0
+    };
 }
 
 export class GACGameState {
