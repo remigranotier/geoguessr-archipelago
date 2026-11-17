@@ -54,16 +54,29 @@ def create_item_with_correct_classification(
 def create_all_items(world: GeoguessrWorld) -> None:
     itempool = []
 
-    itempool += add_map_items(world, common.WORLD_REGION)
-    created_regions = set()
-    for country in world.drawn_countries:
-        if country.region not in created_regions:
-            itempool += add_map_items(world, country.region.value)
-            created_regions.add(country.region)
-        itempool += add_map_items(world, country.name)
-
     base_world_map = world.create_item(common.WORLD_REGION)
     world.push_precollected(base_world_map)
+
+    itempool += add_map_items(world, common.WORLD_REGION)
+    created_regions = set()
+    is_base_continent_chosen = False
+    is_base_country_chosen = False
+    for country in world.drawn_countries:
+        if country.region not in created_regions:
+            continent_items = add_map_items(world, country.region.value)
+            itempool += continent_items
+
+            if not is_base_continent_chosen:
+                world.push_precollected(continent_items[0])
+                is_base_continent_chosen = True
+
+            created_regions.add(country.region)
+        country_items = add_map_items(world, country.name)
+        itempool += country_items
+
+        if not is_base_country_chosen:
+            world.push_precollected(country_items[0])
+            is_base_country_chosen = True
 
     number_of_unfilled_locations = len(
         world.multiworld.get_unfilled_locations(world.player)
