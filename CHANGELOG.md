@@ -1,3 +1,15 @@
+# 0.2.2
+
+This release includes:
+- geoguessr-archipelago extension v0.2.2
+- Geoguessr apworld v0.2.1
+
+## Features
+- Added disclaimer about extension auto-updates (#52)
+
+## Bugfixes
+- Fixed default values for YAML generator (#53)
+
 # 0.2.1
 
 This release includes:
