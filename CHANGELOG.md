@@ -6,6 +6,7 @@ This release includes:
 
 ## Features
 - Added disclaimer about extension auto-updates (#52)
+- Added new maps at game start, to fix early BK (#54)
 
 ## Bugfixes
 - Fixed default values for YAML generator (#53)
