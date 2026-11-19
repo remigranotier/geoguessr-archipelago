@@ -69,6 +69,7 @@ def create_all_items(world: GeoguessrWorld) -> None:
             if not is_base_continent_chosen:
                 world.push_precollected(continent_items[0])
                 is_base_continent_chosen = True
+                itempool.pop(-len(continent_items))
 
             created_regions.add(country.region)
         country_items = add_map_items(world, country.name)
@@ -77,6 +78,7 @@ def create_all_items(world: GeoguessrWorld) -> None:
         if not is_base_country_chosen:
             world.push_precollected(country_items[0])
             is_base_country_chosen = True
+            itempool.pop(-len(country_items))
 
     number_of_unfilled_locations = len(
         world.multiworld.get_unfilled_locations(world.player)
