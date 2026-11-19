@@ -1,3 +1,12 @@
+# 0.2.3
+
+This release includes:
+- geoguessr-archipelago extension v0.2.2
+- Geoguessr apworld v0.2.2
+
+## Bugfixes
+- Fixed default maps sent during game (#55)
+
 # 0.2.2
 
 This release includes:
