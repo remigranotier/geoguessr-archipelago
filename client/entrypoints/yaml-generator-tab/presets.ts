@@ -11,7 +11,7 @@ export function initPresets() {
         1,
         5,
         1,
-        "hard",
+        "medium",
         true,
         false,
         100,
