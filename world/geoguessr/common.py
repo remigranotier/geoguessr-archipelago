@@ -117,7 +117,7 @@ class COUNTRIES(Enum):
     Hong_Kong = Country("Hong Kong", REGION.Asia, Difficulty.MicroCountry)
     India = Country("India", REGION.Asia, Difficulty.Hard)
     Indonesia = Country("Indonesia", REGION.Asia, Difficulty.Hard)
-    Israel = Country("Israel", REGION.Asia, Difficulty.Easy)
+    Israel = Country("Israel & Palestine", REGION.Asia, Difficulty.Easy)
     Japan = Country("Japan", REGION.Asia, Difficulty.Easy)
     Jordan = Country("Jordan", REGION.Asia, Difficulty.Medium)
     Kazakhstan = Country("Kazakhstan", REGION.Asia, Difficulty.Medium)
