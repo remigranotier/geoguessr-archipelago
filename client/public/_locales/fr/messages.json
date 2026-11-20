@@ -712,19 +712,19 @@
         "message": "Îles Mariannes du Nord"
     },
     "hintText": {
-        "message": "L'item $itemName$  de $receiver$  est à $locationName$  dans le monde de $sender$ .",
+        "message": "L'item $ITEM_NAME$ de $RECEIVER$ est derrière $LOCATION_NAME$ dans le monde de $SENDER$.",
         "placeholders": {
             "receiver": {
-                "content": "$1$"
+                "content": "$1"
             },
-            "itemName": {
-                "content": "$2$"
+            "item_name": {
+                "content": "$2"
             },
-            "locationName": {
-                "content": "$3$"
+            "location_name": {
+                "content": "$3"
             },
             "sender": {
-                "content": "$4$"
+                "content": "$4"
             }
         }
     },
