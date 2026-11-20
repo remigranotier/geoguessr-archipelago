@@ -106,7 +106,7 @@ class COUNTRIES(Enum):
     Sweden = Country("Sweden", REGION.Europe, Difficulty.Medium)
     Switzerland = Country("Switzerland", REGION.Europe, Difficulty.Easy)
     Turkiye = Country("Turkiye", REGION.Europe, Difficulty.Medium)
-    Ukraine = Country("Ukraine", REGION.Europe, Difficulty.Medium)
+    Ukraine = Country("Ukraine", REGION.Europe, Difficulty.Hard)
     United_Kingdom = Country("United Kingdom", REGION.Europe, Difficulty.Easy)
     Bangladesh = Country("Bangladesh", REGION.Asia, Difficulty.Hard)
     Bhutan = Country("Bhutan", REGION.Asia, Difficulty.Medium)
