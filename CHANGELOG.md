@@ -1,3 +1,14 @@
+# 0.2.3
+
+This release includes:
+- geoguessr-archipelago extension v0.2.3
+- Geoguessr apworld v0.2.2
+
+## Bugfixes
+- Fixed default maps sent during game (#55)
+- Fixed display of hints in french (#55)
+- Fixed various small balancing issues (#55)
+
 # 0.2.2
 
 This release includes:

@@ -110,7 +110,7 @@ class CountriesDifficultyLevel(Choice):
     option_medium = 1
     option_hard = 2
 
-    default = option_hard
+    default = option_medium
 
 
 class IncludesPlatinums(Toggle):
