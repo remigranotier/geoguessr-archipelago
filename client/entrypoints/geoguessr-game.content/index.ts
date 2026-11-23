@@ -17,7 +17,7 @@ export default defineContentScript({
         window.addEventListener('message', handleGeoguessrGameFinishedMessage);
 
         const appearanceObserver = new MutationObserver((_mutationsList, observer) => {
-            const roundStatusPanel = document.querySelector("[class^=rounds-status_panel__]");
+            const roundStatusPanel = document.querySelector("[class^=_panel_]");
             console.debug("Checking for round status panel appearance")
             if (roundStatusPanel !== null) {
                 console.debug("Appearance OK");
@@ -28,12 +28,12 @@ export default defineContentScript({
         });
 
         const disappearanceObserver = new MutationObserver((_mutationsList, observer) => {
-            const roundStatusPanel = document.querySelector("[class^=rounds-status_panel__]");
+            const roundStatusPanel = document.querySelector("[class^=_panel_]");
             console.debug("Checking for round status panel disappearance")
             if (roundStatusPanel === null) {
                 console.debug("Disppearance OK");
                 observer.disconnect();
-                const inGameLayout = document.querySelector("[class^=in-game_layout__]")!;
+                const inGameLayout = document.querySelector("[class^=_layout_]")!;
                 appearanceObserver.observe(inGameLayout, { childList: true });
             }
         });
@@ -122,7 +122,7 @@ function getOrCreateThresholdDivText(thresholdDiv: HTMLDivElement) {
 
 function renderThresholdDivText(roundStatusPanel: Element) {
     const thresholdDiv = getOrCreateThresholdDiv(roundStatusPanel)
-    const mapName = roundStatusPanel.querySelector("[class^=rounds-status_mapTitleText__]")?.textContent
+    const mapName = roundStatusPanel.querySelector("[class^=_mapTitleText_]")?.textContent
 
     if (mapName === undefined) {
         console.warn("Could not find map name in page")
