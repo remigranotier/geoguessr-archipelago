@@ -15,6 +15,7 @@ body {
   margin-left: 0;
   margin-right: 0;
   padding-bottom: 50px;
+  font-size: 100%;
 }
 
 hr {
@@ -57,7 +58,7 @@ th {
 }
 
 #hint-div {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 #hint-text-column {
@@ -155,6 +156,10 @@ form {
   padding: 0.5em;
 }
 
+#goal-tracker-content {
+  display: flex;
+}
+
 #goal-tracker-label {
   font-weight: bold;
 }
@@ -221,4 +226,24 @@ footer {
   display: flex;
   justify-content: center;
   gap: 50px;
+}
+
+.map-progression-with-seed {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.map-progression-without-seed {
+  cursor: default;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.locations-remaining-cell {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }

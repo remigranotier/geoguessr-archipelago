@@ -1,7 +1,7 @@
 import { stringify } from 'yaml';
 import { resolveI18n } from '../common/i18n';
 import './style.css';
-import './tooltip.css';
+import '../common/styles/tooltip.css';
 import { mapsConfig } from '../common/config/maps';
 import { initPresets, presetMap } from './presets';
 

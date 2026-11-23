@@ -1,4 +1,4 @@
-import { GACMedal } from "../../common/config/medals";
+import { GACMedal, getAreaLocationIcon, getMedalIcon } from "../../common/config/medals";
 import { mapsConfig } from "../../common/config/maps";
 import { GenerateGameMessage } from "../../common/messages";
 import { GACGamemode, GACGameType, GACMap, type GACResponse } from "../../common/models";
@@ -35,7 +35,18 @@ function renderGoalTracker() {
         const totalMedalCount = globalThis.gameState.maps.reduce<number>((acc, map, _index, _maps) => {
             return acc + (getBestMedal(map) as number)
         }, 0)
-        goalStatusContent.innerHTML = `🥉🥈🥇🎯 - ${totalMedalCount}/${globalThis.gameState.configData.medal_count}`
+        const bronzeIcon = getAreaLocationIcon(AreaLocations.Bronze)
+        const silverIcon = getAreaLocationIcon(AreaLocations.Silver)
+        const goldIcon = getAreaLocationIcon(AreaLocations.Gold)
+        const platinumIcon = getAreaLocationIcon(AreaLocations.Platinum)
+        const medalIcons = document.createElement("span")
+        medalIcons.style.display = "flex"
+        medalIcons.style.alignItems = "center"
+        medalIcons.appendChild(bronzeIcon)
+        medalIcons.appendChild(silverIcon)
+        medalIcons.appendChild(goldIcon)
+        medalIcons.appendChild(platinumIcon)
+        goalStatusContent.innerHTML = `${medalIcons.outerHTML} - ${totalMedalCount}/${globalThis.gameState.configData.medal_count}`
         goalStatus.style.backgroundColor = DEFAULT_COLOR
         if (totalMedalCount >= (globalThis.gameState.configData.medal_count as number)) {
             goalStatusContent.innerHTML += ` - <strong>${browser.i18n.getMessage("goalStatusWin")}</strong>`
@@ -43,7 +54,7 @@ function renderGoalTracker() {
         }
     } else {
         const totalPlatinumCount = globalThis.gameState.maps.filter((map) => getBestMedal(map) == GACMedal.Platinum).length
-        goalStatusContent.innerHTML = `🎯 - ${totalPlatinumCount}/${globalThis.gameState.configData.plat_count}`
+        goalStatusContent.innerHTML = `${getAreaLocationIcon(AreaLocations.Platinum).outerHTML} - ${totalPlatinumCount}/${globalThis.gameState.configData.plat_count}`
         goalStatus.style.backgroundColor = DEFAULT_COLOR
         if (totalPlatinumCount >= (globalThis.gameState.configData.plat_count as number)) {
             goalStatusContent.innerHTML += ` - <strong>${browser.i18n.getMessage("goalStatusWin")}</strong>`
@@ -72,6 +83,7 @@ function renderMapsTable() {
                 const breakLineDiv = document.createElement("div")
                 breakLineDiv.style.display = "flex"
                 breakLineDiv.style.gap = "1em"
+                breakLineDiv.style.alignItems = "center"
                 breakLineDiv.appendChild(document.createElement("hr"))
                 const zoneName = document.createElement("div")
                 zoneName.textContent = browser.i18n.getMessage(map.areaMap.areaNameKey as "@@extension_id")
@@ -132,12 +144,9 @@ function renderMapRow(map: GACMap): HTMLTableRowElement | null {
     zoomCell.textContent = currentGamemode & GACGamemode.Zoom ? "✔️" : "❌"
     zoomCell.style.cursor = "default"
 
-    const gameTypeInLink = map.progression.gameType == GACGameType.Challenge ? "results" : "game"
-    progressionCell.innerHTML = map.progression.bestSeed != "" ?
-        `<a target="_blank" style="text-decoration: none;" href="https://geoguessr.com/${gameTypeInLink}/${map.progression.bestSeed}">${getProgressionText(map)}</a>` :
-        `<span style="cursor: default">${getProgressionText(map)}</span>`
+    addProgressionInfo(progressionCell, map)
 
-    locationsRemainingCell.innerHTML = getRemainingLocations(map)
+    locationsRemainingCell.appendChild(getRemainingLocationsCell(map))
 
     row.appendChild(mapNameCell)
     row.appendChild(moveCell)
@@ -156,33 +165,55 @@ function renderMapRow(map: GACMap): HTMLTableRowElement | null {
     return row
 }
 
-function getRemainingLocations(map: GACMap): string {
-    let result = ""
-    for (const location of map.locationsMissing) {
-        const newSpan = document.createElement("span")
-        const areaLocationString = getAreaLocationString(location)
-        newSpan.textContent = areaLocationString
-        newSpan.title = getAreaLocationThreshold(map, location).toString()
-        newSpan.style.cursor = "default"
-        result += newSpan.outerHTML
+function addProgressionInfo(progressionCell: HTMLElement, map: GACMap) {
+    const gameTypeInLink = map.progression.gameType == GACGameType.Challenge ? "results" : "game"
+    const progressionContentDiv = document.createElement("div")
+    progressionContentDiv.className = "map-progression-with-seed"
+    progressionContentDiv.style.gap = "3px"
+
+    if (map.progression.bestSeed != "") {
+        const linkElement = document.createElement("a")
+        linkElement.target = "_blank"
+        linkElement.style.textDecoration = "none"
+        linkElement.href = `https://geoguessr.com/${gameTypeInLink}/${map.progression.bestSeed}`
+        const progressionDiv = getProgressionDiv(map)
+        progressionDiv.className = "map-progression-with-seed"
+        linkElement.appendChild(progressionDiv)
+        progressionContentDiv.appendChild(linkElement)
+    } else {
+        const noLinkElement = document.createElement("span")
+        noLinkElement.className = "map-progression-without-seed"
+        noLinkElement.appendChild(getProgressionDiv(map))
+        progressionContentDiv.appendChild(noLinkElement)
     }
-    return result
+
+
+    if (map.progression.fivekDone) {
+        const fivekDiv = document.createElement("div")
+        fivekDiv.appendChild(getAreaLocationIcon(AreaLocations.FiveK))
+        progressionContentDiv.appendChild(fivekDiv)
+    }
+
+    progressionCell.appendChild(progressionContentDiv)
 }
 
-function getAreaLocationString(location: AreaLocations) {
-    switch (location) {
-        case AreaLocations.Bronze:
-            return "🥉"
-        case AreaLocations.Silver:
-            return "🥈"
-        case AreaLocations.Gold:
-            return "🥇"
-        case AreaLocations.Platinum:
-            return "🎯"
-        case AreaLocations.FiveK:
-            return "[5k]"
+function getRemainingLocationsCell(map: GACMap) {
+    let remainingLocationsCell = document.createElement("div")
+    remainingLocationsCell.className = "locations-remaining-cell"
+    const locationsNotObtained = getLocationsNotObtained(map)
+    for (const location of locationsNotObtained) {
+        const areaLocationIcon = getAreaLocationIcon(location)
+        areaLocationIcon.title = getAreaLocationThreshold(map, location).toString()
+        areaLocationIcon.style.cursor = "help"
+        if (!map.locationsMissing.includes(location)) {
+            areaLocationIcon.style.filter = "grayscale(100%)"
+            areaLocationIcon.style.opacity = "50%"
+        }
+        remainingLocationsCell.appendChild(areaLocationIcon)
     }
+    return remainingLocationsCell
 }
+
 
 function getAreaLocationThreshold(map: GACMap, currentLocation: AreaLocations) {
     switch (currentLocation) {
@@ -199,12 +230,17 @@ function getAreaLocationThreshold(map: GACMap, currentLocation: AreaLocations) {
     }
 }
 
-function getProgressionText(map: GACMap) {
+function getProgressionDiv(map: GACMap) {
+    const progressionDiv = document.createElement("div")
+    const scoreSpan = document.createElement("span")
     const score = map.progression.bestScore
-    const scorePart = score > 0 ? `(${score})` : ""
-    const fivekPart = map.progression.fivekDone ? ` [5k]` : ""
+    scoreSpan.textContent = score > 0 ? `(${score})` : ""
     const bestMedal = getBestMedal(map)
-    return `${getMedalText(bestMedal)}${scorePart}${fivekPart}`
+    const medalIcon = getMedalIcon(bestMedal)
+    progressionDiv.appendChild(medalIcon)
+    progressionDiv.appendChild(scoreSpan)
+
+    return progressionDiv
 }
 
 function getBestMedal(map: GACMap) {
@@ -222,21 +258,28 @@ function getBestMedal(map: GACMap) {
             return GACMedal.Platinum
     }
 }
-
-export function getMedalText(medal: GACMedal) {
-    switch (medal) {
-        case GACMedal.None:
-            return "❌"
-        case GACMedal.Bronze:
-            return "🥉"
-        case GACMedal.Silver:
-            return "🥈"
-        case GACMedal.Gold:
-            return "🥇"
-        case GACMedal.Platinum:
-            return "🎯"
+function getLocationsNotObtained(map: GACMap) {
+    const locationsNotObtained = []
+    const score = map.progression.bestScore
+    if (score < map.medalThresholds[GACMedal.Bronze]) {
+        locationsNotObtained.push(AreaLocations.Bronze)
     }
+    if (score < map.medalThresholds[GACMedal.Silver]) {
+        locationsNotObtained.push(AreaLocations.Silver)
+    }
+    if (score < map.medalThresholds[GACMedal.Gold]) {
+        locationsNotObtained.push(AreaLocations.Gold)
+    }
+    if (globalThis.gameState.configData.include_platinums && score < map.medalThresholds[GACMedal.Platinum]) {
+        locationsNotObtained.push(AreaLocations.Platinum)
+    }
+    if (!map.progression.fivekDone) {
+        locationsNotObtained.push(AreaLocations.FiveK)
+    }
+
+    return locationsNotObtained
 }
+
 
 function getColorFromDifficulty(map: GACMap): string {
     const hasMove = map.gamemode & GACGamemode.Move
