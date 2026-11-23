@@ -8,7 +8,7 @@
   background-color: rgb(36, 36, 36);
   background-image: linear-gradient(to bottom right, #1b1f45, #653dad);
 
-  min-height:100%;
+  min-height: 100%;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
 }
@@ -269,4 +269,8 @@ footer {
   flex-direction: row;
   align-items: center;
   justify-content: center;
+}
+
+.footer-link {
+  color: #e29aff;
 }
