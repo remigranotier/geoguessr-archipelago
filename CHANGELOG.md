@@ -8,6 +8,7 @@ This release includes:
 - Fixed default maps sent during game (#55)
 - Fixed display of hints in french (#55)
 - Fixed various small balancing issues (#55)
+- Fixed class names that changed (#58)
 
 # 0.2.2
 
