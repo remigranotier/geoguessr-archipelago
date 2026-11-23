@@ -70,8 +70,10 @@ th {
   width: 3em;
 }
 
-#map-column {
-  min-width: 200px;
+#map-column,
+#progression-column,
+#locations-remaining-column {
+  width: 200px;
 }
 
 #hint-div {
