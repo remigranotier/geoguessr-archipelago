@@ -4,11 +4,15 @@ This release includes:
 - geoguessr-archipelago extension v0.2.3
 - Geoguessr apworld v0.2.2
 
+## Features
+- Added SVG icons for medals (#56)
+
 ## Bugfixes
 - Fixed default maps sent during game (#55)
 - Fixed display of hints in french (#55)
 - Fixed various small balancing issues (#55)
 - Fixed class names that changed (#58)
+- Fixed clarity of remaining locations and collected medals (#56)
 
 # 0.2.2
 
