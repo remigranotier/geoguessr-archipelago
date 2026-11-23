@@ -5,12 +5,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/png" href="/icon/128.png" />
-  <title data-i18n="extName">Geoguessr Archipelago Client</title>
+  <title data-i18n="extName"></title>
 </head>
 
 <body>
   <div id="status-component">
-    <strong><span data-i18n="status">Status</span>: </strong>
+    <strong><span data-i18n="status"></span>: </strong>
     <div id="status">
     </div>
   </div>
@@ -21,7 +21,11 @@
     <input type="range" id="volume-bar">
   </div>
   <div id="app">
-    <h1 data-i18n="pageTitle">Geoguessr Archipelago</h1>
+    <div id="page-title-container">
+      <img class="page-title-icon" src="/icon/128.png" />
+      <h1 id="page-title-text" data-i18n="pageTitle"></h1>
+      <img class="page-title-icon" src="/icon/128.png" />
+    </div>
     <hr>
     <div id="connection-section">
       <form id="connect-form">
@@ -68,9 +72,9 @@
         <thead>
           <tr>
             <th id="map-column" rowspan="2" data-i18n="mapColumn"></th>
-            <th colspan="3" data-i18n="gamemodesColumn"></th>
-            <th rowspan="2" data-i18n="progressionColumn"></th>
-            <th rowspan="2">
+            <th id="gamemodes-column" colspan="3" data-i18n="gamemodesColumn"></th>
+            <th id="progression-column" rowspan="2" data-i18n="progressionColumn"></th>
+            <th id="locations-remaining-column" rowspan="2">
               <div class="tooltip">ℹ️<span class="tooltiptext" data-i18n="locationsRemainingTooltip"></span></div>
               <span data-i18n="locationsRemainingColumn"></span>
             </th>
@@ -101,8 +105,8 @@
   </div>
   <footer>
     <div id="footer-content">
-      <a href="../tutorial-tab.html" data-i18n="howToPlay" target="_blank"></a>
-      <a href="../yaml-generator-tab.html" data-i18n="generateAYaml" target="_blank"></a>
+      <a class="footer-link" href="../tutorial-tab.html" data-i18n="howToPlay" target="_blank"></a>
+      <a class="footer-link" href="../yaml-generator-tab.html" data-i18n="generateAYaml" target="_blank"></a>
     </div>
   </footer>
   <script type="module" src="./main.ts"></script>

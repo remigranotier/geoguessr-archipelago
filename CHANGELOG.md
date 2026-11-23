@@ -6,6 +6,7 @@ This release includes:
 
 ## Features
 - Added SVG icons for medals (#56)
+- Make client tab more beautiful (#57)
 
 ## Bugfixes
 - Fixed default maps sent during game (#55)

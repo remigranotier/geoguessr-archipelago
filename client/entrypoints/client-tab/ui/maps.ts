@@ -7,10 +7,10 @@ import { WinCondition } from "@/entrypoints/common/config/win-condition";
 import { renderDebugOptions } from "./debug";
 import { renderHintTable } from "./hints-display";
 
-const DEFAULT_COLOR = "rgb(36, 36, 36)"
-const POSSIBLE_COLOR = "rgba(0, 255, 0, 0.2)"
-const TRICKY_COLOR = "rgba(255, 255, 0, 0.2)"
-const IMPOSSIBLE_COLOR = "rgba(255, 0, 0, 0.2)"
+const DEFAULT_COLOR = "rgb(0, 0, 0, 0)"
+const POSSIBLE_COLOR = "rgba(0, 255, 0, 0.3)"
+const TRICKY_COLOR = "rgba(255, 255, 0, 0.3)"
+const IMPOSSIBLE_COLOR = "rgba(255, 0, 0, 0.3)"
 const DONE_COLOR = "rgba(0, 255, 255, 0.3)"
 
 export function renderGameSection() {
@@ -47,7 +47,7 @@ function renderGoalTracker() {
         medalIcons.appendChild(goldIcon)
         medalIcons.appendChild(platinumIcon)
         goalStatusContent.innerHTML = `${medalIcons.outerHTML} - ${totalMedalCount}/${globalThis.gameState.configData.medal_count}`
-        goalStatus.style.backgroundColor = DEFAULT_COLOR
+        goalStatus.style.backgroundColor = "rgba(0, 0, 0, 0.5)"
         if (totalMedalCount >= (globalThis.gameState.configData.medal_count as number)) {
             goalStatusContent.innerHTML += ` - <strong>${browser.i18n.getMessage("goalStatusWin")}</strong>`
             goalStatus.style.backgroundColor = DONE_COLOR
@@ -55,7 +55,7 @@ function renderGoalTracker() {
     } else {
         const totalPlatinumCount = globalThis.gameState.maps.filter((map) => getBestMedal(map) == GACMedal.Platinum).length
         goalStatusContent.innerHTML = `${getAreaLocationIcon(AreaLocations.Platinum).outerHTML} - ${totalPlatinumCount}/${globalThis.gameState.configData.plat_count}`
-        goalStatus.style.backgroundColor = DEFAULT_COLOR
+        goalStatus.style.backgroundColor = "rgba(0, 0, 0, 0.5)"
         if (totalPlatinumCount >= (globalThis.gameState.configData.plat_count as number)) {
             goalStatusContent.innerHTML += ` - <strong>${browser.i18n.getMessage("goalStatusWin")}</strong>`
             goalStatus.style.backgroundColor = DONE_COLOR
@@ -137,11 +137,11 @@ function renderMapRow(map: GACMap): HTMLTableRowElement | null {
         mapNameCell.classList.add("inactiveLink")
     }
 
-    moveCell.textContent = currentGamemode & GACGamemode.Move ? "✔️" : "❌"
+    moveCell.textContent = currentGamemode & GACGamemode.Move ? "✅" : "❌"
     moveCell.style.cursor = "default"
-    panCell.textContent = currentGamemode & GACGamemode.Pan ? "✔️" : "❌"
+    panCell.textContent = currentGamemode & GACGamemode.Pan ? "✅" : "❌"
     panCell.style.cursor = "default"
-    zoomCell.textContent = currentGamemode & GACGamemode.Zoom ? "✔️" : "❌"
+    zoomCell.textContent = currentGamemode & GACGamemode.Zoom ? "✅" : "❌"
     zoomCell.style.cursor = "default"
 
     addProgressionInfo(progressionCell, map)

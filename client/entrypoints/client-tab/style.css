@@ -6,7 +6,9 @@
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: rgb(36, 36, 36);
+  background-image: linear-gradient(to bottom right, #1b1f45, #653dad);
 
+  min-height: 100%;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
 }
@@ -16,6 +18,17 @@ body {
   margin-right: 0;
   padding-bottom: 50px;
   font-size: 100%;
+}
+
+#page-title-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.page-title-icon {
+  width: 48px;
+  height: 48px;
 }
 
 hr {
@@ -40,21 +53,28 @@ table,
 th,
 td {
   border: 1px solid white;
+  border-radius: 5px;
   padding: 0.5em;
   border-collapse: collapse;
 }
 
+table {
+  background-color: rgb(0, 0, 0, 0.5);
+}
+
 th {
-  padding-bottom: 0;
-  padding-top: 0;
+  padding-bottom: 3px;
+  padding-top: 3px;
 }
 
 .mode-column {
   width: 3em;
 }
 
-#map-column {
-  min-width: 200px;
+#map-column,
+#progression-column,
+#locations-remaining-column {
+  width: 200px;
 }
 
 #hint-div {
@@ -111,6 +131,8 @@ th {
 
 fieldset {
   border-color: white;
+  border-radius: 5px;
+  background: rgb(0, 0, 0, 0.5);
   display: flex;
   flex-direction: column;
   gap: 0.5em;
@@ -153,6 +175,7 @@ form {
   margin-left: auto;
   margin-right: auto;
   border: 2px solid white;
+  border-radius: 6px;
   padding: 0.5em;
 }
 
@@ -183,7 +206,7 @@ form {
 #recent-logs details {
   border: 1px solid #ccc;
   border-radius: 6px;
-  background: black;
+  background: rgb(0, 0, 0, 0.5);
 }
 
 #recent-logs summary {
@@ -201,7 +224,7 @@ form {
   padding: 10px;
 
   border-top: 1px solid #ccc;
-  background: black;
+  background: rgb(0, 0, 0, 0.5);
 
   font-family: monospace;
   font-size: 13px;
@@ -216,7 +239,7 @@ footer {
   position: fixed;
   bottom: 0;
   width: 100%;
-  background: #111;
+  background: #1b1f45;
   color: white;
   padding: 20px;
   box-sizing: border-box;
@@ -246,4 +269,8 @@ footer {
   flex-direction: row;
   align-items: center;
   justify-content: center;
+}
+
+.footer-link {
+  color: #e29aff;
 }
