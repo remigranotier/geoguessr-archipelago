@@ -1,8 +1,7 @@
 import { NUMBER_OF_ROUNDS, PERFECT_SCORE } from "@/entrypoints/common/config/area-map"
-import { GACMedal } from "@/entrypoints/common/config/medals"
+import { GACMedal, getMedalIcon } from "@/entrypoints/common/config/medals"
 import { RoundFinishedMessage } from "@/entrypoints/common/messages"
 import { GACGameType, GeoguessrGameStatus, type GACMap, type GACResponse } from "@/entrypoints/common/models"
-import { getMedalText } from "./maps"
 
 export function renderDebugOptions(map: GACMap) {
     let debugCell: HTMLTableCellElement = document.createElement("td")
@@ -21,7 +20,8 @@ export function renderDebugOptions(map: GACMap) {
 
 function createMedalDebugButton(map: GACMap, medalLevel: GACMedal) {
     let button: HTMLButtonElement = document.createElement("button")
-    button.textContent = getMedalText(medalLevel)
+    const medalIcon = getMedalIcon(medalLevel, 20)
+    button.appendChild(medalIcon)
     button.onclick = async (_event) => {
         const roundFinishedMessage = new RoundFinishedMessage(
             GeoguessrGameStatus.FINISHED,
@@ -46,7 +46,7 @@ function createMedalDebugButton(map: GACMap, medalLevel: GACMedal) {
 
 function createFiveKDebugButton(map: GACMap) {
     let button: HTMLButtonElement = document.createElement("button")
-    button.textContent = "5k"
+    button.textContent = "5K"
     button.onclick = async (_event) => {
         const roundFinishedMessage = new RoundFinishedMessage(
             GeoguessrGameStatus.FINISHED,

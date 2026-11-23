@@ -1,5 +1,4 @@
-import { getMedalText } from "../client-tab/ui/maps";
-import { GACMedal } from "../common/config/medals";
+import { GACMedal, getMedalIcon } from "../common/config/medals";
 import { GenerateGameMessage, RetrieveConnectionStatusMessage, RoundFinishedMessage, type GeoguessrRoundFinishedMessage } from "../common/messages";
 import { GACGameState, GACGameType, GACMap, type GACResponse } from "../common/models";
 import { setupDeathLink } from "./death-link";
@@ -103,11 +102,11 @@ function getOrCreateThresholdDiv(roundStatusPanel: Element) {
     return thresholdDiv
 }
 
-function getOrCreateThresholdDivText(thresholdDiv: HTMLDivElement) {
-    let thresholdTextDiv = thresholdDiv.querySelector(`${THRESHOLD_DIV_ID}-text`)
+function getOrCreateThresholdDivTextContainer(thresholdDiv: HTMLDivElement) {
+    let thresholdTextDiv = thresholdDiv.querySelector(`${THRESHOLD_DIV_ID}-text-container`)
     if (thresholdTextDiv === null) {
         thresholdTextDiv = document.createElement("div")
-        thresholdTextDiv.id = `${THRESHOLD_DIV_ID}-text`
+        thresholdTextDiv.id = `${THRESHOLD_DIV_ID}-text-container`
         thresholdDiv.replaceChildren()
 
         let thresholdLogoDiv = document.createElement("img")
@@ -117,6 +116,19 @@ function getOrCreateThresholdDivText(thresholdDiv: HTMLDivElement) {
 
         thresholdDiv.appendChild(thresholdTextDiv)
     }
+    return thresholdTextDiv
+}
+
+function getThresholdTextDiv(nextMedal: GACMedal, map: GACMap) {
+    const thresholdTextDiv = document.createElement("div")
+    thresholdTextDiv.id = `${THRESHOLD_DIV_ID}-text`
+    const nextMedalTextSpan = document.createElement("span")
+    nextMedalTextSpan.textContent = browser.i18n.getMessage("nextMedal")
+    thresholdTextDiv.appendChild(nextMedalTextSpan)
+    thresholdTextDiv.appendChild(getMedalIcon(nextMedal))
+    const scoreTextSpan = document.createElement("span")
+    scoreTextSpan.textContent = getScoreText(map, nextMedal)
+    thresholdTextDiv.appendChild(scoreTextSpan)
     return thresholdTextDiv
 }
 
@@ -141,13 +153,12 @@ function renderThresholdDivText(roundStatusPanel: Element) {
     }
 
     const nextMedal = getNextMedal(map)
-    const medalText = getMedalText(nextMedal) + " " + getScoreText(map, nextMedal)
 
-    let thresholdTextDiv = getOrCreateThresholdDivText(thresholdDiv)
+    let thresholdTextContainerDiv = getOrCreateThresholdDivTextContainer(thresholdDiv)
+
+    thresholdTextContainerDiv.appendChild(getThresholdTextDiv(nextMedal, map))
 
     addResetButton(thresholdDiv, map)
-
-    thresholdTextDiv.textContent = `Next medal: ${medalText}`
 }
 
 function getNextMedal(map: GACMap) {
