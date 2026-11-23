@@ -1,6 +1,6 @@
 import type { GACHint } from "@/entrypoints/common/models"
 
-const DEFAULT_COLOR = "rgb(36, 36, 36)"
+const DEFAULT_COLOR = "rgb(0, 0, 0, 0)"
 const DONE_COLOR = "rgba(0, 255, 255, 0.3)"
 
 export function renderHintTable() {
@@ -30,7 +30,7 @@ function renderHintRow(hint: GACHint): HTMLTableRowElement {
     const foundCell: HTMLTableCellElement = document.createElement("td")
 
     hintTextCell.textContent = browser.i18n.getMessage("hintText", [hint.receiver, hint.itemName, hint.locationName, hint.sender])
-    foundCell.textContent = hint.found ? "✔️" : "❌"
+    foundCell.textContent = hint.found ? "✅" : "❌"
     row.style.backgroundColor = hint.found ? DONE_COLOR : DEFAULT_COLOR
 
     row.appendChild(hintTextCell)

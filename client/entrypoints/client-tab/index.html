@@ -5,12 +5,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/png" href="/icon/128.png" />
-  <title data-i18n="extName">Geoguessr Archipelago Client</title>
+  <title data-i18n="extName"></title>
 </head>
 
 <body>
   <div id="status-component">
-    <strong><span data-i18n="status">Status</span>: </strong>
+    <strong><span data-i18n="status"></span>: </strong>
     <div id="status">
     </div>
   </div>
@@ -21,7 +21,11 @@
     <input type="range" id="volume-bar">
   </div>
   <div id="app">
-    <h1 data-i18n="pageTitle">Geoguessr Archipelago</h1>
+    <div id="page-title-container">
+      <img class="page-title-icon" src="/icon/128.png" />
+      <h1 id="page-title-text" data-i18n="pageTitle"></h1>
+      <img class="page-title-icon" src="/icon/128.png" />
+    </div>
     <hr>
     <div id="connection-section">
       <form id="connect-form">
