@@ -733,5 +733,8 @@
     },
     "continentLocked": {
         "message": "continent locked"
+    },
+    "nextMedal": {
+        "message": "Next medal:"
     }
 }
