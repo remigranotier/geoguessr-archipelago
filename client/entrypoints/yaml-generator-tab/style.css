@@ -30,6 +30,7 @@ form {
 
 fieldset {
     border-color: white;
+    border-radius: 5px;
     display: flex;
     flex-direction: column;
     gap: 0.5em;
