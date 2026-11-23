@@ -321,6 +321,9 @@
     "yamlDeathLinkEnabledTooltip": {
         "message": "<p>Enable or not DeathLink: whenever a DeathLink-tagged game sends a death to the server, having this enabled will send an Antarctica guess on all opened games of Geoguessr.</p><p>There are no conditions that send deaths from Geoguessr, for now.</p>"
     },
+    "locationsRemainingTooltip": {
+        "message": "<p>The remaining locations are locations that hide items to send to other players.</p><p>If the associated item is already collected by the player (for example, if they have finished already), then the location will not appear in the remaining locations even though it has not been collected yet.</p>"
+    },
     "loadPresetButtonLabel": {
         "message": "Load preset"
     },

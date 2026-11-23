@@ -1,4 +1,5 @@
 import './style.css';
+import '../common/styles/tooltip.css';
 
 import { GACConnectionStatus, GACGameState, type GACResponse } from '../common/models.ts'
 import { sendConnectionOptions, sendDisconnectCommand, setCredentialsFromLastSend } from './ui/connection-form.ts';

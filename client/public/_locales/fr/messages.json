@@ -321,6 +321,9 @@
     "yamlDeathLinkEnabledTooltip": {
         "message": "<p>Activer ou non DeathLink: quand un jeu avec DeathLink activé envoie une mort au serveur, si le paramètre est activé, tous les onglets ouverts feront un guess en Antarctique</p><p>Pour l'instant, il n'y a aucun évènement qui envoie des morts depuis Geoguessr.</p>"
     },
+    "locationsRemainingTooltip": {
+        "message": "<p>Les envois restants sont les médailles qui donneront un item à un-e autre joueur-euse.</p><p>Si l'item associé est déja récupéré par la joueur-euse cible (par exemple s'iel a déja atteint son objectif final), alors la médaille n'apparaîtra pas dans les envois restants même si elle n'a toujours pas été obtenue.</p>"
+    },
     "loadPresetButtonLabel": {
         "message": "Charger la préconfiguration"
     },
